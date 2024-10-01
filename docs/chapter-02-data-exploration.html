@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2.2 Data Exploration | SOA Exam PA Study Manual</title>
+  <meta name="description" content="A study guide for the Society of Actuaries Predictive Analytics Exam (Exam PA), including documentation on the basics of the R programming language, data exploration and visualization, theory of predictive analytics and sample exams. The book can be exported to HTML, PDF, and e-books (e.g. EPUB)." />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2.2 Data Exploration | SOA Exam PA Study Manual" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://jeffamaxey.github.io/soa-exam-pa//images/cover.jpg" />
+  <meta property="og:description" content="A study guide for the Society of Actuaries Predictive Analytics Exam (Exam PA), including documentation on the basics of the R programming language, data exploration and visualization, theory of predictive analytics and sample exams. The book can be exported to HTML, PDF, and e-books (e.g. EPUB)." />
+  <meta name="github-repo" content="jeffamaxey/soa-exam-pa" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2.2 Data Exploration | SOA Exam PA Study Manual" />
+  
+  <meta name="twitter:description" content="A study guide for the Society of Actuaries Predictive Analytics Exam (Exam PA), including documentation on the basics of the R programming language, data exploration and visualization, theory of predictive analytics and sample exams. The book can be exported to HTML, PDF, and e-books (e.g. EPUB)." />
+  <meta name="twitter:image" content="https://jeffamaxey.github.io/soa-exam-pa//images/cover.jpg" />
+
+<meta name="author" content="Jeff A. Maxey" />
+
+
+<meta name="date" content="2024-09-30" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="chapter-02-making-ggplots.html"/>
+<link rel="next" href="linear-models.html"/>
+<script src="libs/jquery/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="css/toc.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Society of Actuaries | Exam PA</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><strong>Preface</strong></a>
+<ul>
+<li class="chapter" data-level="" data-path="structure.html"><a href="structure.html"><i class="fa fa-check"></i>Structure of Study Manual</a></li>
+<li class="chapter" data-level="" data-path="software-information-and-conventions.html"><a href="software-information-and-conventions.html"><i class="fa fa-check"></i>Software Information and Conventions</a></li>
+</ul></li>
+<li class="part"><span><b>I A Crash Course in R</b></span></li>
+<li class="chapter" data-level="1" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html"><i class="fa fa-check"></i><b>1</b> <strong>Basics of R Programming</strong></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="data-types-in-r.html"><a href="data-types-in-r.html"><i class="fa fa-check"></i><b>1.1</b> Data Types in R</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="data-types-in-r.html"><a href="data-types-in-r.html#exercise-1.2.2---calculating-least-squares-estimates-by-matrix-manipulation"><i class="fa fa-check"></i><b>1.1.1</b> Exercise 1.2.2 - Calculating least squares estimates by matrix manipulation</a></li>
+<li class="chapter" data-level="1.1.2" data-path="data-types-in-r.html"><a href="data-types-in-r.html#data-frames"><i class="fa fa-check"></i><b>1.1.2</b> Data Frames</a></li>
+<li class="chapter" data-level="1.1.3" data-path="data-types-in-r.html"><a href="data-types-in-r.html#exercise-1.2.3---listing-the-components-of-a-list"><i class="fa fa-check"></i><b>1.1.3</b> Exercise 1.2.3 - Listing the components of a list</a></li>
+<li class="chapter" data-level="1.1.4" data-path="data-types-in-r.html"><a href="data-types-in-r.html#functions"><i class="fa fa-check"></i><b>1.1.4</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="basic-data-management.html"><a href="basic-data-management.html"><i class="fa fa-check"></i><b>1.2</b> Basic Data Management</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="basic-data-management.html"><a href="basic-data-management.html#task-1-removing-unimportant-variables"><i class="fa fa-check"></i><b>1.2.1</b> Task 1: Removing Unimportant Variables</a></li>
+<li class="chapter" data-level="1.2.2" data-path="basic-data-management.html"><a href="basic-data-management.html#task-2-missing-values"><i class="fa fa-check"></i><b>1.2.2</b> Task 2: Missing Values</a></li>
+<li class="chapter" data-level="1.2.3" data-path="basic-data-management.html"><a href="basic-data-management.html#task-3-adding-new-variables"><i class="fa fa-check"></i><b>1.2.3</b> Task 3: Adding New Variables</a></li>
+<li class="chapter" data-level="1.2.4" data-path="basic-data-management.html"><a href="basic-data-management.html#task-4-using-logical-tests-to-identify-observations-with-certain-characteristics"><i class="fa fa-check"></i><b>1.2.4</b> Task 4: Using Logical Tests to Identify Observations with Certain Characteristics</a></li>
+<li class="chapter" data-level="1.2.5" data-path="basic-data-management.html"><a href="basic-data-management.html#end-of-chapter-1-practice-problems"><i class="fa fa-check"></i><b>1.2.5</b> End of Chapter 1 Practice Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html"><i class="fa fa-check"></i><b>2</b> <strong>Data Exploration and Visualization</strong></a>
+<ul>
+<li class="chapter" data-level="" data-path="chapter-02-overview.html"><a href="chapter-02-overview.html"><i class="fa fa-check"></i>Chapter Overview</a></li>
+<li class="chapter" data-level="2.1" data-path="chapter-02-making-ggplots.html"><a href="chapter-02-making-ggplots.html"><i class="fa fa-check"></i><b>2.1</b> Making <code>ggplots</code></a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="chapter-02-making-ggplots.html"><a href="chapter-02-making-ggplots.html#chapter-02-making-ggplots-basic-features"><i class="fa fa-check"></i><b>2.1.1</b> Basic Features</a></li>
+<li class="chapter" data-level="2.1.2" data-path="chapter-02-making-ggplots.html"><a href="chapter-02-making-ggplots.html#chapter-02-making-ggplots-customizing-your-plots"><i class="fa fa-check"></i><b>2.1.2</b> Customizing Your Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="chapter-02-data-exploration.html"><a href="chapter-02-data-exploration.html"><i class="fa fa-check"></i><b>2.2</b> Data Exploration</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="chapter-02-data-exploration.html"><a href="chapter-02-data-exploration.html#chapter-02-data-exploration-univariate"><i class="fa fa-check"></i><b>2.2.1</b> Univariate Data Exploration</a></li>
+<li class="chapter" data-level="2.2.2" data-path="chapter-02-data-exploration.html"><a href="chapter-02-data-exploration.html#chapter-02-data-exploration-bivariate"><i class="fa fa-check"></i><b>2.2.2</b> Bivariate Data Exploration</a></li>
+<li class="chapter" data-level="2.2.3" data-path="chapter-02-data-exploration.html"><a href="chapter-02-data-exploration.html#end-of-chapter-practice-problems"><i class="fa fa-check"></i><b>2.2.3</b> End-of-Chapter Practice Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Theory of and Case Studies in Predictive Analytics</b></span></li>
+<li class="chapter" data-level="3" data-path="linear-models.html"><a href="linear-models.html"><i class="fa fa-check"></i><b>3</b> Linear Models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="a-primer-on-predictive-analytics.html"><a href="a-primer-on-predictive-analytics.html"><i class="fa fa-check"></i><b>3.1</b> A Primer on Predictive Analytics</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="a-primer-on-predictive-analytics.html"><a href="a-primer-on-predictive-analytics.html#basic-terminology"><i class="fa fa-check"></i><b>3.1.1</b> Basic Terminology</a></li>
+<li class="chapter" data-level="3.1.2" data-path="a-primer-on-predictive-analytics.html"><a href="a-primer-on-predictive-analytics.html#the-model-building-process"><i class="fa fa-check"></i><b>3.1.2</b> The Model Building Process</a></li>
+<li class="chapter" data-level="3.1.3" data-path="a-primer-on-predictive-analytics.html"><a href="a-primer-on-predictive-analytics.html#bias-variance-trade-off"><i class="fa fa-check"></i><b>3.1.3</b> Bias-Variance Trade-Off</a></li>
+<li class="chapter" data-level="3.1.4" data-path="a-primer-on-predictive-analytics.html"><a href="a-primer-on-predictive-analytics.html#feature-generation-and-selection"><i class="fa fa-check"></i><b>3.1.4</b> Feature Generation and Selection</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="linear-models-conceptual-foundation.html"><a href="linear-models-conceptual-foundation.html"><i class="fa fa-check"></i><b>3.2</b> Linear Models: Conceptual Foundation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="linear-models-conceptual-foundation.html"><a href="linear-models-conceptual-foundation.html#model-formulation"><i class="fa fa-check"></i><b>3.2.1</b> Model Formulation</a></li>
+<li class="chapter" data-level="3.2.2" data-path="linear-models-conceptual-foundation.html"><a href="linear-models-conceptual-foundation.html#model-evaluation-and-validation"><i class="fa fa-check"></i><b>3.2.2</b> Model Evaluation and Validation</a></li>
+<li class="chapter" data-level="3.2.3" data-path="linear-models-conceptual-foundation.html"><a href="linear-models-conceptual-foundation.html#feature-generation"><i class="fa fa-check"></i><b>3.2.3</b> Feature Generation</a></li>
+<li class="chapter" data-level="3.2.4" data-path="linear-models-conceptual-foundation.html"><a href="linear-models-conceptual-foundation.html#feature-selection"><i class="fa fa-check"></i><b>3.2.4</b> Feature Selection</a></li>
+<li class="chapter" data-level="3.2.5" data-path="linear-models-conceptual-foundation.html"><a href="linear-models-conceptual-foundation.html#regularization"><i class="fa fa-check"></i><b>3.2.5</b> Regularization</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="case-study-1-fitting-linear-models-in-r.html"><a href="case-study-1-fitting-linear-models-in-r.html"><i class="fa fa-check"></i><b>3.3</b> Case Study 1: Fitting Linear Models in R</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="case-study-1-fitting-linear-models-in-r.html"><a href="case-study-1-fitting-linear-models-in-r.html#exploratory-data-analysis"><i class="fa fa-check"></i><b>3.3.1</b> Exploratory Data Analysis</a></li>
+<li class="chapter" data-level="3.3.2" data-path="case-study-1-fitting-linear-models-in-r.html"><a href="case-study-1-fitting-linear-models-in-r.html#simple-linear-regression"><i class="fa fa-check"></i><b>3.3.2</b> Simple Linear Regression</a></li>
+<li class="chapter" data-level="3.3.3" data-path="case-study-1-fitting-linear-models-in-r.html"><a href="case-study-1-fitting-linear-models-in-r.html#multiple-linear-regression"><i class="fa fa-check"></i><b>3.3.3</b> Multiple Linear Regression</a></li>
+<li class="chapter" data-level="3.3.4" data-path="case-study-1-fitting-linear-models-in-r.html"><a href="case-study-1-fitting-linear-models-in-r.html#evaluation-of-linear-models"><i class="fa fa-check"></i><b>3.3.4</b> Evaluation of Linear Models</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="case-study-2-feature-selection-and-regularization.html"><a href="case-study-2-feature-selection-and-regularization.html"><i class="fa fa-check"></i><b>3.4</b> Case Study 2: Feature Selection and Regularization</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="case-study-2-feature-selection-and-regularization.html"><a href="case-study-2-feature-selection-and-regularization.html#preparatory-work"><i class="fa fa-check"></i><b>3.4.1</b> Preparatory Work</a></li>
+<li class="chapter" data-level="3.4.2" data-path="case-study-2-feature-selection-and-regularization.html"><a href="case-study-2-feature-selection-and-regularization.html#model-construction-and-feature-selection"><i class="fa fa-check"></i><b>3.4.2</b> Model Construction and Feature Selection</a></li>
+<li class="chapter" data-level="3.4.3" data-path="case-study-2-feature-selection-and-regularization.html"><a href="case-study-2-feature-selection-and-regularization.html#model-validation"><i class="fa fa-check"></i><b>3.4.3</b> Model Validation</a></li>
+<li class="chapter" data-level="3.4.4" data-path="case-study-2-feature-selection-and-regularization.html"><a href="case-study-2-feature-selection-and-regularization.html#regularization-1"><i class="fa fa-check"></i><b>3.4.4</b> Regularization</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="conceptual-review-questions-for-chapter-3.html"><a href="conceptual-review-questions-for-chapter-3.html"><i class="fa fa-check"></i>Conceptual Review: Questions for Chapter 3</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>4</b> Generalized Linear Models</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="including-plots.html"><a href="including-plots.html"><i class="fa fa-check"></i><b>4.1</b> Including Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="tree-based-models.html"><a href="tree-based-models.html"><i class="fa fa-check"></i><b>5</b> Tree-Based Models</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="including-plots-1.html"><a href="including-plots-1.html"><i class="fa fa-check"></i><b>5.1</b> Including Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="unsupervised-learning-techniques.html"><a href="unsupervised-learning-techniques.html"><i class="fa fa-check"></i><b>6</b> Unsupervised Learning Techniques</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="including-plots-2.html"><a href="including-plots-2.html"><i class="fa fa-check"></i><b>6.1</b> Including Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="discussions-on-past-pa-exams.html"><a href="discussions-on-past-pa-exams.html"><i class="fa fa-check"></i><b>7</b> Discussions on Past PA Exams</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="including-plots-3.html"><a href="including-plots-3.html"><i class="fa fa-check"></i><b>7.1</b> Including Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="practiceexams.html"><a href="practiceexams.html"><i class="fa fa-check"></i><b>8</b> PracticeExams</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="including-plots-4.html"><a href="including-plots-4.html"><i class="fa fa-check"></i><b>8.1</b> Including Plots</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="software-tools.html"><a href="software-tools.html"><i class="fa fa-check"></i><b>A</b> Software Tools</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="r-and-r-packages.html"><a href="r-and-r-packages.html"><i class="fa fa-check"></i><b>A.1</b> R and R packages</a></li>
+<li class="chapter" data-level="A.2" data-path="pandoc.html"><a href="pandoc.html"><i class="fa fa-check"></i><b>A.2</b> Pandoc</a></li>
+<li class="chapter" data-level="A.3" data-path="latex.html"><a href="latex.html"><i class="fa fa-check"></i><b>A.3</b> LaTeX</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="software-usage.html"><a href="software-usage.html"><i class="fa fa-check"></i><b>B</b> Software Usage</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="knitr.html"><a href="knitr.html"><i class="fa fa-check"></i><b>B.1</b> knitr</a></li>
+<li class="chapter" data-level="B.2" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>B.2</b> R Markdown</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/jeffamaxey/soa-exam-pa" target="blank">Github Homepage</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">SOA Exam PA Study Manual</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chapter-02-data-exploration" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Data Exploration<a href="chapter-02-data-exploration.html#chapter-02-data-exploration" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this section, we will apply our data visualization techniques to perform <strong>Exploratory Data Analysis (EDA)</strong>, which is an indispensable part of any predictive modeling exercise.</p>
+<p>EDA is an integral part of predictive modeling because it serves two important purposes:</p>
+<ul>
+<li><p><strong>Data Validation:</strong> It allows us to perform commonsense checks and identify nonsensical data values (e.g., a negative value for age, which is impossible), which are potential data errors that may lead to unreasonable model results and should be fixed. After inappropriate data values have been removed, the data becomes ready for analysis.</p></li>
+<li><p><strong>Characteristics of Variables:</strong> EDA helps us understand the key characteristics of the variables in the data. Such an understanding may suggest useful ways to pre-process the variables to improve the predictive performance and interpreteability of the models we will construct, and, most importantly, decide on an appropriate type of predictive model that is likely to meet our business needs.</p></li>
+</ul>
+<p>Typically, EDA is accomplished by a <strong><em>combination</em></strong> of two kinds of tools:</p>
+<ul>
+<li><strong>Descriptive Statistics (Summary Statistics)</strong>
+<ul>
+<li><strong>Purpose:</strong> Quickly summarize different distributional properties of the variable(s) of interest.</li>
+<li><strong>Examples:</strong> Mean, Variance, Mode, Correlation, Table of Frequency Counts</li>
+</ul></li>
+<li><strong>Graphical Displays (Visual Displays)</strong>
+<ul>
+<li><strong>Purpose:</strong> Allows us to get a quick impression of the overall distribution of the variable(s) of interest.Graphs are often more informative than a table of summary statistics and sometimes can reveal information that would be missed otherwise, such as the presence of outliers.</li>
+<li><strong>Examples:</strong> Histograms, Box Plots, Bar Charts, and associated variants.</li>
+</ul></li>
+</ul>
+<p>In this section, we will return to the full <code>persinj</code> data (with 22,036 observations) and use it to illustrate the creation and interpretation of descriptive statistics and graphical displays.</p>
+<div id="chapter-02-data-exploration-univariate" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Univariate Data Exploration<a href="chapter-02-data-exploration.html#chapter-02-data-exploration-univariate" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s begin with <em>univariate</em> data exploration – exploration that sheds light on the distribution of only one variable at a time.</p>
+<p>The specific statistics and graphical tools will depend on whether the variables you are analyzing are numeric or categorical.</p>
+<div id="chapter-02-data-exploration-univariate-numeric" class="section level4 unnumbered hasAnchor">
+<h4>Numeric Variables<a href="chapter-02-data-exploration.html#chapter-02-data-exploration-univariate-numeric" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li><p><strong>Descriptive Statistics</strong>: Statistical summaries are mainly used to reveal two aspects of the distribution of a <strong>numeric variable</strong>:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Central Tendency:</strong> The central tendency of a numeric variable, whether it be continuous or discrete, is often quantified by its <strong>mean</strong> and <strong>median</strong>. These two metrics capture the typical “size” of the variable and can be readily produced in R by applying the <span class="math inline">\(\fbox{summary()}\)</span> function to the variable of interest.</li>
+<li><strong>Dispersion:</strong> Common measures of dispersion include <strong>variance, standard deviation and interquartile range (IQR)</strong> (defined as the difference between the 75% quantile and the 25% quantile of a variable(, all of which measure how spread out the values of the numeric variable are over its range.</li>
+</ol></li>
+<li><p><strong>Graphical Displays</strong>: To visualize the distribution of numeric variables, histograms and box-plots are convenient graphical aids.</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Histograms</strong> divide the observations into several equally spaced bins (or buckets) and provide a visual summary of the count or relative frequency in each bin, allowing us to learn about the <strong>overall</strong> <strong>shape of the distribution</strong> <strong>of a numeric variable</strong> and <strong>where most observations lie</strong>.</p></li>
+<li><p><strong>box-plots</strong> visualize the distribution of numeric variables by placing its 25% quantile, the median, and 75% quantile in a “box”, with the rest of the data points constituting the “<strong>whiskers</strong>”<strong>.</strong></p>
+<ul>
+<li><p>The amount of spacing between different parts of a boxplot reflects the degree of <strong>dispersion</strong> and <strong>skewness</strong> of the variable’s distribution.</p></li>
+<li><p><strong>“Outliers”,</strong> defined here as data points that are above or below 1.5 times the interquartile range from either edge of the box, are shown as large dotted points.</p></li>
+</ul></li>
+</ol>
+<p>While box-plots do not directly show the actual shape of the variable’s distribution, they offer a useful graphical summary of the key numeric statistics and allow for a visual comparison of the distributions of different numeric variables (e.g., the relative magnitude of their median and dispersion) or the distribution of the same numeric variable across different levels of another categorical variable.</p></li>
+</ul>
+<p><strong>Summary Statistics</strong></p>
+<p>In the <code>persinj</code> data, there are two numeric variables, <code>amt</code> and <code>op_time</code>. In the following code, we focus on the <code>amt</code> variable for the purposes of illustration and apply the <code>summary()</code> function to the <code>amt</code> variable:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="chapter-02-data-exploration.html#cb9-1" tabindex="-1"></a><span class="co"># Reload the data</span></span>
+<span id="cb9-2"><a href="chapter-02-data-exploration.html#cb9-2" tabindex="-1"></a>persinj <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/persinj.csv&quot;</span>)</span>
+<span id="cb9-3"><a href="chapter-02-data-exploration.html#cb9-3" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="chapter-02-data-exploration.html#cb9-4" tabindex="-1"></a><span class="co"># Print a summary of the `amt` variable</span></span>
+<span id="cb9-5"><a href="chapter-02-data-exploration.html#cb9-5" tabindex="-1"></a><span class="fu">summary</span>(persinj<span class="sc">$</span>amt)</span>
+<span id="cb9-6"><a href="chapter-02-data-exploration.html#cb9-6" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb9-7"><a href="chapter-02-data-exploration.html#cb9-7" tabindex="-1"></a><span class="co">#&gt;      10    6297   13854   38367   35123 4485797</span></span></code></pre></div>
+<p>When the <code>summary()</code> function is applied to a numeric variable, a six-number “summary” is produced.</p>
+<p>Based on the summary output, we make the following observations:</p>
+<ul>
+<li><p>The mean of claim amount (38,367) is way higher than its median (13,854) and the 75th percentile is much further away from the median than the 25th percentile, indicating that the distribution of claim amount is highly skewed to the right.</p></li>
+<li><p>The right skew suggests that the values to the right of the mean of claim amount tend to be further away from the mean than those to the left, so there is a heavy tail that extends to the far right.</p></li>
+<li><p>The largest claim amount, 4,485,797, is almost an astronomical figure compared with the mean or median.</p></li>
+</ul>
+<p>In the following exercise, you will calculate the summary statistics for the two groups of injuries classified by legal representation, which is a binary categorical variable. Doing so helps us understand the effect of legal representation on claim amount.</p>
+<div id="exercise-2.2.2---calculating-the-summary-statistics-for-two-groups-of-observations" class="section level5 unnumbered hasAnchor">
+<h5>Exercise 2.2.2 - Calculating the summary statistics for two groups of observations<a href="chapter-02-data-exploration.html#exercise-2.2.2---calculating-the-summary-statistics-for-two-groups-of-observations" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Write R code to calculate the summary statistics for claim amount separately for injuries with legal representation and those without legal representation. Comment on the central tendency and dispersion of claim amount of these two groups of injuries.</p>
+<p><strong><em>Solution:</em></strong> To extract the two groups of injuries, we can use the method of logical sub-setting to split the data set into two subsets.</p>
+<ol style="list-style-type: decimal">
+<li>A subset called <code>persinj.0</code> corresponding to injuries without legal representation (<code>legrep</code> = 0).</li>
+<li>A subset called <code>persinj.1</code> corresponding to injuries with legal representation (<code>legrep</code> = 1).</li>
+</ol>
+<p>Then we look at the summary statistics of the claim amount variable within the two subsets.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="chapter-02-data-exploration.html#cb10-1" tabindex="-1"></a>persinj<span class="fl">.0</span> <span class="ot">&lt;-</span> persinj[persinj<span class="sc">$</span>legrep <span class="sc">==</span> <span class="dv">0</span>, ]</span>
+<span id="cb10-2"><a href="chapter-02-data-exploration.html#cb10-2" tabindex="-1"></a>persinj<span class="fl">.1</span> <span class="ot">&lt;-</span> persinj[persinj<span class="sc">$</span>legrep <span class="sc">==</span> <span class="dv">1</span>, ] </span>
+<span id="cb10-3"><a href="chapter-02-data-exploration.html#cb10-3" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="chapter-02-data-exploration.html#cb10-4" tabindex="-1"></a><span class="fu">summary</span>(persinj<span class="fl">.0</span><span class="sc">$</span>amt)</span>
+<span id="cb10-5"><a href="chapter-02-data-exploration.html#cb10-5" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb10-6"><a href="chapter-02-data-exploration.html#cb10-6" tabindex="-1"></a><span class="co">#&gt;      10    4061   11164   32398   29641 2798362</span></span>
+<span id="cb10-7"><a href="chapter-02-data-exploration.html#cb10-7" tabindex="-1"></a><span class="fu">summary</span>(persinj<span class="fl">.1</span><span class="sc">$</span>amt)</span>
+<span id="cb10-8"><a href="chapter-02-data-exploration.html#cb10-8" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb10-9"><a href="chapter-02-data-exploration.html#cb10-9" tabindex="-1"></a><span class="co">#&gt;      20    7305   15309   41775   38761 4485797</span></span>
+<span id="cb10-10"><a href="chapter-02-data-exploration.html#cb10-10" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="chapter-02-data-exploration.html#cb10-11" tabindex="-1"></a><span class="fu">sd</span>(persinj<span class="fl">.0</span><span class="sc">$</span>amt)</span>
+<span id="cb10-12"><a href="chapter-02-data-exploration.html#cb10-12" tabindex="-1"></a><span class="co">#&gt; [1] 77820</span></span>
+<span id="cb10-13"><a href="chapter-02-data-exploration.html#cb10-13" tabindex="-1"></a><span class="fu">sd</span>(persinj<span class="fl">.1</span><span class="sc">$</span>amt)</span>
+<span id="cb10-14"><a href="chapter-02-data-exploration.html#cb10-14" tabindex="-1"></a><span class="co">#&gt; [1] 97541</span></span></code></pre></div>
+<p>The comparison is apparent: Claims with legal representation not only are larger on average, but also are more spread out. The relative variability is confirmed when the standard deviations of the two groups of claim amounts are computed by the <code>sd()</code> function.</p>
+<p><strong>Histograms</strong></p>
+<p>Now we turn to visual representations. In <code>ggplot2</code>, a histogram is constructed by the <code>geom_histogram()</code> function, which only requires the x-aesthetic capturing the numeric variable of interest.</p>
+<p>In the next set of code, we make four histograms colored in blue for the claim amount variable with different choices of the <span class="math inline">\(\fbox{bins}\)</span> parameter, which controls the number of bins in a histogram.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="chapter-02-data-exploration.html#cb11-1" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb11-2"><a href="chapter-02-data-exploration.html#cb11-2" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="chapter-02-data-exploration.html#cb11-3" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>persinj, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>amt)) <span class="sc">+</span> </span>
+<span id="cb11-4"><a href="chapter-02-data-exploration.html#cb11-4" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">10</span>, <span class="at">fill=</span><span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="chapter-02-data-exploration.html#cb11-5" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">100000</span>) <span class="sc">+</span> </span>
+<span id="cb11-6"><a href="chapter-02-data-exploration.html#cb11-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Bins = 10&quot;</span>)</span>
+<span id="cb11-7"><a href="chapter-02-data-exploration.html#cb11-7" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>persinj, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>amt)) <span class="sc">+</span> </span>
+<span id="cb11-8"><a href="chapter-02-data-exploration.html#cb11-8" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill=</span><span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-9"><a href="chapter-02-data-exploration.html#cb11-9" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">100000</span>) <span class="sc">+</span> </span>
+<span id="cb11-10"><a href="chapter-02-data-exploration.html#cb11-10" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Default Value&quot;</span>)</span>
+<span id="cb11-11"><a href="chapter-02-data-exploration.html#cb11-11" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>persinj, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>amt)) <span class="sc">+</span> </span>
+<span id="cb11-12"><a href="chapter-02-data-exploration.html#cb11-12" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">40</span>, <span class="at">fill=</span><span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-13"><a href="chapter-02-data-exploration.html#cb11-13" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">100000</span>) <span class="sc">+</span> </span>
+<span id="cb11-14"><a href="chapter-02-data-exploration.html#cb11-14" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Bins = 40&quot;</span>)</span>
+<span id="cb11-15"><a href="chapter-02-data-exploration.html#cb11-15" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>persinj, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>amt)) <span class="sc">+</span> </span>
+<span id="cb11-16"><a href="chapter-02-data-exploration.html#cb11-16" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">80</span>, <span class="at">fill=</span><span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-17"><a href="chapter-02-data-exploration.html#cb11-17" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">100000</span>) <span class="sc">+</span> </span>
+<span id="cb11-18"><a href="chapter-02-data-exploration.html#cb11-18" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Bins = 80&quot;</span>)</span>
+<span id="cb11-19"><a href="chapter-02-data-exploration.html#cb11-19" tabindex="-1"></a></span>
+<span id="cb11-20"><a href="chapter-02-data-exploration.html#cb11-20" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, p3, p4, <span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-13-1.svg" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="problems-with-skewed-data-and-possible-solutions" class="section level5 hasAnchor" number="2.2.1.0.1">
+<h5><span class="header-section-number">2.2.1.0.1</span> Problems with Skewed Data and Possible Solutions<a href="chapter-02-data-exploration.html#problems-with-skewed-data-and-possible-solutions" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>In predictive modeling, it is often undesirable to have a right-skewed target variable for two reasons:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Predictive Power</strong>
+<ul>
+<li>The objective of predictive analytics is to study the association between the target variable and predictors in the data over a wide range of variable values.</li>
+<li>If most of the observations of the target variable are concentrated in the small-value range, it will be difficult to investigate the effect of the predictors on the target variable globally, since we simply don’t know enough about the target variable in the right tail.</li>
+<li>The same idea applies to a right-skewed predictor; if a predictor exhibits a heavy right-skew, we are unable to differentiate the observations of the target variable effectively on the basis of the values of the predictor, most of which are concentrated in the small-value range.</li>
+</ul></li>
+<li><strong>Model Fitting</strong>
+<ul>
+<li>A number of predictive models (e.g., linear models, decision trees) are fitted by minimizing the sum of the squared discrepancies between the observed values and predicted values of the target variable.</li>
+<li>If the target variable is right-skewed, then the outliers, or extreme values, will contribute substantially to the sum and have a disproportionate effect (or “leverage”) on the model, which is undesirable unless the right tail is where our main concern lies.</li>
+</ul></li>
+</ol>
+
+<div class="rmdnote">
+<p>To correct for <strong>skewness</strong>, we can apply a monotone concave function to shrink the outliers relative to the smaller values and symmetrize the overall distribution.</p>
+This will dampen the effects of the extreme values on the model and tend to improve its overall goodness-of-fit than using the original right-skewed variable.
+</div>
+<p>Two commonly used transformations for dealing with right-skewed variables are:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Log Transformation</strong>
+<ul>
+<li>This transformation (typically w.r.t. base e) can be applied as long as the variable of interest is <em>strictly</em> positive. None of the variable values should be zero or negative.</li>
+</ul></li>
+<li><strong>Square Root Transformation</strong>
+<ul>
+<li>Although not discussed in the Exam PA modules, the square root transformation is in a similar spirit to the log transformation, but is applicable even to non-negative variables, some of whose values can be zero.</li>
+</ul></li>
+</ol>
+<p>To see the effects of the log and square root transformations in action, the following code produces a histogram for the log of claim amount and the square root of claim amount.</p>
+<p><img src="figures/unnamed-chunk-15-1.svg" width="100%" style="display: block; margin: auto;" /></p>
+<p>Based on the resulting histograms, we make the following observations:</p>
+<ul>
+<li><p>It is evident that the log transformation has effectively removed the right-skewness of claim amount and made the resulting distribution much more symmetric.</p></li>
+<li><p>In contrast, the square root of claim amount remains highly right-skewed.</p></li>
+<li><p>In general, the log transformation does a better job of remedying the right-skewness of a variable than the square root transformation, but it may overdo things and make the transformed variable left-skewed.</p></li>
+</ul>
+<p>Because of the extreme skewness of claim amount in the <code>persisj</code> data, the log transformation is the more appropriate transformation to use and we will adopt it in the rest of this section. We will see that the log transformation makes it much easier to discover relationships between variables.</p>
+</div>
+<div id="outliers" class="section level5 hasAnchor" number="2.2.1.0.2">
+<h5><span class="header-section-number">2.2.1.0.2</span> Outliers<a href="chapter-02-data-exploration.html#outliers" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>We mentioned outliers in our discussion of skewed data above. Let’s digress slightly and look at outliers in some greater depth, which were tested in some recent PA exams.</p>
+<p>There is no universal quantitative definition of <strong>outliers</strong>. We generally think of outliers as anomalous data points that substantially differ from the overall pattern of the data and appear to be strange (for categorical variables, observations in sparse factor levels can be considered outliers).</p>
+<p>Outliers typically arise in the following two ways:</p>
+<ul>
+<li><p><strong>Errors:</strong> Outliers can arise due to errors in the data collection process, such as data entry errors. They are observations whose values are so ridiculous that they can be safely dismissed as erroneous, such as a negative age and a current customer who was born in 1600. If an outlier is erroneous, then it is reasonable to correct the error or remove it entirely.</p></li>
+<li><p><strong>Natural:</strong> Outliers can also arise naturally. Not necessarily errors, they are simply observations whose values are far away from the rest of the data, but are possible in theory. Examples include a policyholder currently aged 140 and an actuary earning $10 million a year.</p></li>
+</ul>
+<p>Natural outliers are harder to deal with than erroneous outliers. Here are some possible options:</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Action</th>
+<th>Reasoning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Remove</strong></td>
+<td>If we know that a natural outlier is not likely to have a material effect on the final model, then it is fine to remove it.</td>
+</tr>
+<tr class="even">
+<td><strong>Keep</strong></td>
+<td>If the outliers make up only an insignificant proportion of the data and are unlikely to create bias, then it is sensible to leave them in the data.</td>
+</tr>
+<tr class="odd">
+<td><strong>Modify</strong></td>
+<td>We can also modify the outliers to make them more reasonable, like censoring the policyholder age of 140 at 100.</td>
+</tr>
+<tr class="even">
+<td><strong>Using Robust Model Forms</strong></td>
+<td>Instead of minimizing the squared error between the predicted values and the observed values, we could replace the squared error by the <strong>absolute error</strong>, which places less relative weight on the large errors and reduces the impact of outliers on the fitted model.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="density-plots" class="section level5 hasAnchor" number="2.2.1.0.3">
+<h5><span class="header-section-number">2.2.1.0.3</span> Density Plots<a href="chapter-02-data-exploration.html#density-plots" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Before moving on to the next type of graphical displays for numeric variables, let’s also mention density plots, which are smoothed and scaled versions of histograms displaying “density” rather than counts on the vertical axis.</p>
+<p>We use the <code>geom_density()</code> function to make the density plots for the log of claim amount and the square root of claim amount:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="chapter-02-data-exploration.html#cb12-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb12-2"><a href="chapter-02-data-exploration.html#cb12-2" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb12-3"><a href="chapter-02-data-exploration.html#cb12-3" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="chapter-02-data-exploration.html#cb12-4" tabindex="-1"></a>persinj <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/persinj.csv&quot;</span>)</span>
+<span id="cb12-5"><a href="chapter-02-data-exploration.html#cb12-5" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="chapter-02-data-exploration.html#cb12-6" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>persinj, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span><span class="fu">log</span>(amt))) <span class="sc">+</span></span>
+<span id="cb12-7"><a href="chapter-02-data-exploration.html#cb12-7" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span>
+<span id="cb12-8"><a href="chapter-02-data-exploration.html#cb12-8" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>persinj, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span><span class="fu">sqrt</span>(amt))) <span class="sc">+</span></span>
+<span id="cb12-9"><a href="chapter-02-data-exploration.html#cb12-9" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span>
+<span id="cb12-10"><a href="chapter-02-data-exploration.html#cb12-10" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="chapter-02-data-exploration.html#cb12-11" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-16-1.svg" width="100%" style="display: block; margin: auto;" /></p>
+<p>Comparing to the histogram, we can see that the density plots have the same shape as the histograms and can be interpreted in the same way. Do note that the vertical axis of the density plots shows the “density” rather than “count” and the area under a density curve is always 1.</p>
+</div>
+<div id="boxplots" class="section level5 hasAnchor" number="2.2.1.0.4">
+<h5><span class="header-section-number">2.2.1.0.4</span> Boxplots<a href="chapter-02-data-exploration.html#boxplots" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Besides histograms, <span class="math inline">\(\fbox{boxplots}\)</span> are also convenient graphical aids to visualize the distribution of a numeric variable.</p>
+<p>Boxplots are constructed in <code>ggplot2</code> by the <code>geom_boxplot()</code> function, which takes the y aesthetic representing the variable of interest (the x aesthetic is optional, but can be added to achieve splitting).</p>
+<p>The following code draws a boxplot for each of claim amount and the log of claim amount:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="chapter-02-data-exploration.html#cb13-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb13-2"><a href="chapter-02-data-exploration.html#cb13-2" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb13-3"><a href="chapter-02-data-exploration.html#cb13-3" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="chapter-02-data-exploration.html#cb13-4" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>persinj, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">y=</span>amt)) <span class="sc">+</span> </span>
+<span id="cb13-5"><a href="chapter-02-data-exploration.html#cb13-5" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span>
+<span id="cb13-6"><a href="chapter-02-data-exploration.html#cb13-6" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="chapter-02-data-exploration.html#cb13-7" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>persinj, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">y=</span><span class="fu">log</span>(amt))) <span class="sc">+</span> </span>
+<span id="cb13-8"><a href="chapter-02-data-exploration.html#cb13-8" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span>
+<span id="cb13-9"><a href="chapter-02-data-exploration.html#cb13-9" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="chapter-02-data-exploration.html#cb13-10" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-17-1.svg" width="100%" style="display: block; margin: auto;" /></p>
+<p>While most of the raw claim amounts are so close that the 25% percentile, median, and 75% percentile all degenerate to the same line, the log transformation corrects for the skewness and re-positions the data points for much easier visual inspection.</p>
+<p>Still there are quite a number of “outliers”, which are shown as large dotted points.</p>
+</div>
+</div>
+<div id="chapter-02-data-exploration-univariate-categorical" class="section level4 unnumbered hasAnchor">
+<h4>Categorical Variables<a href="chapter-02-data-exploration.html#chapter-02-data-exploration-univariate-categorical" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="case-1-given-raw-data-more-common-in-exam-pa" class="section level5 hasAnchor" number="2.2.1.0.5">
+<h5><span class="header-section-number">2.2.1.0.5</span> Case 1: Given Raw Data (More common in Exam PA)<a href="chapter-02-data-exploration.html#case-1-given-raw-data-more-common-in-exam-pa" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li><p><strong>Descriptive Statistics (Frequency Tables):</strong> Categorical variables, even when coded as numbers, do not always have a natural order, so statistical summaries like the mean and median may not make sense. To understand the distribution of categorical variables, we can look at the relative frequency of each of its levels through a frequency table, constructed by the <code>table()</code> function in R.</p></li>
+<li><p><strong>Graphical Displays (Bar Charts):</strong> When the number of levels of a categorical variable increases, a frequency table becomes more and more difficult to read. In most cases, the frequencies per se are not that important; what truly matters is their relative magnitude. In this regard, <strong>bar charts</strong> extract the information in a frequency of each level in the variable. Looking at a bar chart, we can easily tell which levels are the most popular and which ones have minimal observations.</p></li>
+</ul>
+<p>The <code>persinj</code> data set has two categorical variables, injury code (<code>inj</code>) and legal representation (<code>legrep</code>). Recall from Table 2.1 that <code>inj</code> has seven levels, while <code>legrep</code> is binary.</p>
+<p>In the following code, we make two frequency tables for <code>inj</code>, one showing the raw counts, and one showing the percentage counts of the seven levels of <code>inj</code>.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="chapter-02-data-exploration.html#cb14-1" tabindex="-1"></a><span class="fu">table</span>(persinj<span class="sc">$</span>inj)</span>
+<span id="cb14-2"><a href="chapter-02-data-exploration.html#cb14-2" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-3"><a href="chapter-02-data-exploration.html#cb14-3" tabindex="-1"></a><span class="co">#&gt;     1     2     3     4     5     6     9 </span></span>
+<span id="cb14-4"><a href="chapter-02-data-exploration.html#cb14-4" tabindex="-1"></a><span class="co">#&gt; 15638  3376  1133   189   188   256  1256</span></span>
+<span id="cb14-5"><a href="chapter-02-data-exploration.html#cb14-5" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="chapter-02-data-exploration.html#cb14-6" tabindex="-1"></a><span class="fu">table</span>(persinj<span class="sc">$</span>inj)<span class="sc">/</span><span class="fu">nrow</span>(persinj)</span>
+<span id="cb14-7"><a href="chapter-02-data-exploration.html#cb14-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-8"><a href="chapter-02-data-exploration.html#cb14-8" tabindex="-1"></a><span class="co">#&gt;        1        2        3        4        5        6 </span></span>
+<span id="cb14-9"><a href="chapter-02-data-exploration.html#cb14-9" tabindex="-1"></a><span class="co">#&gt; 0.709657 0.153204 0.051416 0.008577 0.008531 0.011617 </span></span>
+<span id="cb14-10"><a href="chapter-02-data-exploration.html#cb14-10" tabindex="-1"></a><span class="co">#&gt;        9 </span></span>
+<span id="cb14-11"><a href="chapter-02-data-exploration.html#cb14-11" tabindex="-1"></a><span class="co">#&gt; 0.056998</span></span></code></pre></div>
+<p>We can see that the predominant group of injuries is hose of injury code 1, followed by codes 2, 9 and 3. The other three groups have minimal observations.</p>
+<p>The numbers in a frequency table can be depicted in a bar chart created in <code>ggplot2</code> by the <span class="math inline">\(\fbox{geom_bar()}\)</span> function, which takes the x aesthetic representing the categorical variable of interest and produces a bar proportional to the number of observations for each level of the variable.</p>
+<p>The following code produces two bar charts for injury code corresponding to the two frequency tables in the last code chunk:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="chapter-02-data-exploration.html#cb15-1" tabindex="-1"></a><span class="co"># First convert inj and legrep to factors (original data type is integer)</span></span>
+<span id="cb15-2"><a href="chapter-02-data-exploration.html#cb15-2" tabindex="-1"></a>persinj<span class="sc">$</span>inj <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(persinj<span class="sc">$</span>inj)</span>
+<span id="cb15-3"><a href="chapter-02-data-exploration.html#cb15-3" tabindex="-1"></a>persinj<span class="sc">$</span>legrep <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(persinj<span class="sc">$</span>legrep)</span>
+<span id="cb15-4"><a href="chapter-02-data-exploration.html#cb15-4" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="chapter-02-data-exploration.html#cb15-5" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>persinj, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>inj)) <span class="sc">+</span> </span>
+<span id="cb15-6"><a href="chapter-02-data-exploration.html#cb15-6" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb15-7"><a href="chapter-02-data-exploration.html#cb15-7" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>persinj, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>inj)) <span class="sc">+</span> </span>
+<span id="cb15-8"><a href="chapter-02-data-exploration.html#cb15-8" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="st">&quot;blue&quot;</span>, <span class="fu">aes</span>(<span class="at">y=</span>..prop.., <span class="at">group=</span><span class="dv">1</span>))</span>
+<span id="cb15-9"><a href="chapter-02-data-exploration.html#cb15-9" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="chapter-02-data-exploration.html#cb15-10" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">top=</span><span class="st">&quot;Bar Charts of Injury Code in the `persinj` dataset.&quot;</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-19-1.svg" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="case-2-given-summarized-data" class="section level5 hasAnchor" number="2.2.1.0.6">
+<h5><span class="header-section-number">2.2.1.0.6</span> Case 2: Given Summarized Data<a href="chapter-02-data-exploration.html#case-2-given-summarized-data" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>In real applications, it is not uncommon that the data we have has been grouped, or summarized in some form in advanced, to make it more manageable.</p>
+<p>In the case of the <code>persinj</code> data set, instead of having the information for each individual claim, the data may have already been grouped by certain categorical variables, such as <code>inj</code> code.</p>
+<p>The code below produces a version of <code>persinj</code> data, called <code>persinj_by_inj</code>, that shows the number of observations for each level of <code>inj</code>. The code involves the <code>tidyverse</code> package, which was featured in some past PA exams. Instead of worrying about the somewhat convoluted code syntax, pay attention to the output, which is far more important in the new exam format.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="chapter-02-data-exploration.html#cb16-1" tabindex="-1"></a><span class="co">#install.packages(&quot;tidyverse&quot;)</span></span>
+<span id="cb16-2"><a href="chapter-02-data-exploration.html#cb16-2" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="chapter-02-data-exploration.html#cb16-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb16-4"><a href="chapter-02-data-exploration.html#cb16-4" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="chapter-02-data-exploration.html#cb16-5" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="chapter-02-data-exploration.html#cb16-6" tabindex="-1"></a>persinj_by_inj <span class="ot">&lt;-</span> persinj <span class="sc">%&gt;%</span> </span>
+<span id="cb16-7"><a href="chapter-02-data-exploration.html#cb16-7" tabindex="-1"></a>  <span class="fu">group_by</span>(inj) <span class="sc">%&gt;%</span> <span class="co"># grouped by inj</span></span>
+<span id="cb16-8"><a href="chapter-02-data-exploration.html#cb16-8" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">count=</span><span class="fu">n</span>()) <span class="co"># count the no. of obs. for each level of inj</span></span>
+<span id="cb16-9"><a href="chapter-02-data-exploration.html#cb16-9" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="chapter-02-data-exploration.html#cb16-10" tabindex="-1"></a>persinj_by_inj</span>
+<span id="cb16-11"><a href="chapter-02-data-exploration.html#cb16-11" tabindex="-1"></a><span class="co">#&gt; # A tibble: 7 × 2</span></span>
+<span id="cb16-12"><a href="chapter-02-data-exploration.html#cb16-12" tabindex="-1"></a><span class="co">#&gt;   inj   count</span></span>
+<span id="cb16-13"><a href="chapter-02-data-exploration.html#cb16-13" tabindex="-1"></a><span class="co">#&gt;   &lt;fct&gt; &lt;int&gt;</span></span>
+<span id="cb16-14"><a href="chapter-02-data-exploration.html#cb16-14" tabindex="-1"></a><span class="co">#&gt; 1 1     15638</span></span>
+<span id="cb16-15"><a href="chapter-02-data-exploration.html#cb16-15" tabindex="-1"></a><span class="co">#&gt; 2 2      3376</span></span>
+<span id="cb16-16"><a href="chapter-02-data-exploration.html#cb16-16" tabindex="-1"></a><span class="co">#&gt; 3 3      1133</span></span>
+<span id="cb16-17"><a href="chapter-02-data-exploration.html#cb16-17" tabindex="-1"></a><span class="co">#&gt; 4 4       189</span></span>
+<span id="cb16-18"><a href="chapter-02-data-exploration.html#cb16-18" tabindex="-1"></a><span class="co">#&gt; # ℹ 3 more rows</span></span></code></pre></div>
+<p>The output shows, for example, that there are 15,638 observations with an injury code of 1, consistent with the frequency table previously produced.</p>
+<p>If all we have is the <code>persinj_by_inj</code> data set (we no longer have access to the original <code>persinj</code> data set), how can we display the counts for each injury code?</p>
+<p>The <code>geom_bar()</code> function will not work well. If we map the <code>inj</code> variable to the x aesthetic of the <code>geom_bar()</code> function, then the function will keep track of how many times each distinct value of <code>inj</code> has occurred. It will treat <code>inj</code> as a variable with 7 distinct values {1, 2, 3, 4, 5, 6, and 9}, each of which appears once and only once, which is definitely not what we want.</p>
+<p>Instead, the <span class="math inline">\(\fbox{geom_col()}\)</span> function will suit our purpose. When <code>inj</code> is mapped to the x aesthetic and <code>count</code> to the y aesthetic, the function will display the counts for each value of <code>inj</code>, as the following code shows:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="chapter-02-data-exploration.html#cb17-1" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>persinj_by_inj, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>inj, <span class="at">y=</span>count)) <span class="sc">+</span> </span>
+<span id="cb17-2"><a href="chapter-02-data-exploration.html#cb17-2" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill=</span><span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb17-3"><a href="chapter-02-data-exploration.html#cb17-3" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="chapter-02-data-exploration.html#cb17-4" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, <span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-21-1.svg" width="100%" style="display: block; margin: auto;" /></p>
+<p>This bar chart is identical to the one in the left panel of Figure 2.2.6 based on the original version of the <code>persinj</code> data set.</p>
+<p>In summary:</p>
+<ul>
+<li>The <code>geom_bar()</code> function is for visualizing the distribution of a categorical variable given individual (raw) data, while the <code>geom_col()</code> function is for the same purpose, given grouped (summarized) data.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="chapter-02-data-exploration-bivariate" class="section level3 hasAnchor" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Bivariate Data Exploration<a href="chapter-02-data-exploration.html#chapter-02-data-exploration-bivariate" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Data exploration becomes even more intriguing and challenging when two or more variables are analyzed together rather than in isolation. This has the important advantage of revealing relationships, patterns, and outliers which become apparent only when variables are considered in combination with one another.</p>
+<p>This subsection therefore focuses on <em>bivariate data exploration</em>, where pairs of variables are investigated either numerically or graphically to identify potentially interesting relationships that can provide useful input for a predictive model.</p>
+<p>Of particular interest is the relationship between the target variable and each predictor variable in a given setting.</p>
+<p>There are three types of bivariate combinations, depending on the type of variables being examined:</p>
+<div id="chapter-02-data-exploration-bivariate-numeric-vs-numeric" class="section level4 unnumbered hasAnchor">
+<h4>Case 1: Numeric vs. Numeric<a href="chapter-02-data-exploration.html#chapter-02-data-exploration-bivariate-numeric-vs-numeric" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li><p><strong>Descriptive Statistics:</strong> An easy way to summarize the linear relationship between two numeric variables is through the <strong>correlation coefficient</strong>, or simply <strong>correlation</strong>,which is a unit-free metric on a scale from -1 to +1.</p>
+<ul>
+<li>Case 1: If the correlation is +1, then the two variables are perfectly positively correlated.</li>
+<li>Case 2: If the correlation is 0, then the two variables are uncorrelated.</li>
+<li>Case 3: If the correlation is -1, then the two variables are perfectly negatively correlated.</li>
+</ul>
+<p>These extreme correlation values almost never arise in real data sets, but they provide useful benchmarks for judging the size of a typical correlation. The larger the correlation in magnitude (e.g., the closer they are to +1 or -1), the stronger the degree of linear association between the two variables.</p>
+<p>In the following code, we use the <span class="math inline">\(\fbox{cor()}\)</span> function to compute the correlation between the claim amount and operational time, and between the log-transformed claim amount and operational time in the <code>persinj</code> data.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="chapter-02-data-exploration.html#cb18-1" tabindex="-1"></a><span class="fu">cor</span>(persinj<span class="sc">$</span>amt, persinj<span class="sc">$</span>op_time)</span>
+<span id="cb18-2"><a href="chapter-02-data-exploration.html#cb18-2" tabindex="-1"></a><span class="co">#&gt; [1] 0.3466</span></span>
+<span id="cb18-3"><a href="chapter-02-data-exploration.html#cb18-3" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="chapter-02-data-exploration.html#cb18-4" tabindex="-1"></a><span class="fu">cor</span>(<span class="fu">log</span>(persinj<span class="sc">$</span>amt), persinj<span class="sc">$</span>op_time)</span>
+<span id="cb18-5"><a href="chapter-02-data-exploration.html#cb18-5" tabindex="-1"></a><span class="co">#&gt; [1] 0.6071</span></span></code></pre></div>
+<p>The two variables are moderately positively correlated on the original scale, and the correlation becomes stronger when the claim amount is on the log scale.</p>
+<p>As much as correlation is a compact summary of the extent to which two numeric variables move in tandem, it can only capture <strong><em>linear</em></strong> relationships. A zero correlation only means that the two variables are not linearly related, but they may be related in more subtle ways. More complex relationships (e.g., quadratic) can be revealed more effectively by graphical displays.</p></li>
+</ul>
+<p><strong>Exercise 2.2.3 (What can you say about two variables with zero correlation?)</strong></p>
+<p>Consider the following data set with two variables:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="chapter-02-data-exploration.html#cb19-1" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb19-2"><a href="chapter-02-data-exploration.html#cb19-2" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
+<p>Determine which of the following statements about the two variables is true:</p>
+<p><strong>(A)</strong> The correlation between X and Y is positive; they are dependent. <strong>(B)</strong> The correlation between X and Y is positive; they are unrelated. <strong>(C)</strong> The correlation between X and Y is zero; they are dependent. <strong>(D)</strong> The correlation between X and Y is zero; they are unrelated. <strong>(E)</strong> The correlation between X and Y is negative; they are dependent.</p>
+<p><strong><em>Solution:</em></strong> In the the following code, we compute the (sample) correlation between X and Y.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="chapter-02-data-exploration.html#cb20-1" tabindex="-1"></a><span class="fu">cor</span>(X, Y)</span>
+<span id="cb20-2"><a href="chapter-02-data-exploration.html#cb20-2" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span></code></pre></div>
+<p>The zero correlation suggests that X and Y are linearly unrelated. However, the two variables are perfectly dependent via the quadratic relationship <span class="math inline">\(Y = X^2\)</span>. <strong>(Answer: (C))</strong></p>
+<ul>
+<li><p><strong>Graphical Displays:</strong> The relationship between numeric variables (one of which is usually the target variable) is typically visualized by a <span class="math inline">\(\fbox{scatterplot}\)</span>, where values of the two variables are graphed on a two-dimensional plane, as we saw in Section 2.1.</p>
+<p>Such a plot often gives us a good sense of the nature of the relationship (e.g., increasing, decreasing, polynomial, periodic) between the two numeric variables and sometimes yields insights that correlations alone cannot provide. This explains why scatterplots are one of the most commonly used graphical displays in data exploration.</p>
+<p>The following code makes two scatterplots, one for claim amount, and one for the log of claim amount, both against operational time (see Figure 2.2.7). We have set <code>alpha</code> to a very small value due to the large number of overlapping observations.</p>
+<p>Both plots exhibit an increasing relationship, but the scatterplot for the log of claim amount displays a much more conspicuous upward slopping trend, indicating that the log of claim amount is approximately positively linear in operational time. This is a further manifestation of the merits of the log transformation in uncovering relationships that would otherwise be obscure.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="chapter-02-data-exploration.html#cb21-1" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>persinj, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>op_time, <span class="at">y=</span>amt)) <span class="sc">+</span> </span>
+<span id="cb21-2"><a href="chapter-02-data-exploration.html#cb21-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.05</span>) <span class="sc">+</span> </span>
+<span id="cb21-3"><a href="chapter-02-data-exploration.html#cb21-3" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">se=</span><span class="cn">FALSE</span>)</span>
+<span id="cb21-4"><a href="chapter-02-data-exploration.html#cb21-4" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="chapter-02-data-exploration.html#cb21-5" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>persinj, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>op_time, <span class="at">y=</span><span class="fu">log</span>(amt))) <span class="sc">+</span> </span>
+<span id="cb21-6"><a href="chapter-02-data-exploration.html#cb21-6" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.05</span>) <span class="sc">+</span> </span>
+<span id="cb21-7"><a href="chapter-02-data-exploration.html#cb21-7" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">se=</span><span class="cn">FALSE</span>)</span>
+<span id="cb21-8"><a href="chapter-02-data-exploration.html#cb21-8" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="chapter-02-data-exploration.html#cb21-9" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">bottom=</span><span class="st">&quot;Scatterplots of claim amount (left) and the log of claim amount (right) against operational time in the `persinj` dataset.&quot;</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-25-1.svg" width="100%" style="display: block; margin: auto;" /></p>
+<p>Although a scatterplot itself is confined to depicting the relationship between only two numeric variables, the effect of a third, categorical variable can be incorporated and investigated by corating the observations by color, shape, or other visual elements according to the levels assumed by this third variable.</p>
+<p>This way, we can visually inspect the relationship between two numeric variables with the levels of the third, categorical variable. In statistical language, this phenomenon is known as <span class="math inline">\(fbox{interaction}\)</span>, which we will study in Section 3.2, and is an important modeling issue to keep in mind when constructing an effective predictive model.</p>
+<p>Now run the following code to make a scatterplot for the log of claim amount against operational time with the observations color-distinguished by legal representation (note that the <code>color</code> aesthetic is mapped to <code>legrep</code>): see Figure 2.2.8.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="chapter-02-data-exploration.html#cb22-1" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(persinj, <span class="fu">aes</span>(<span class="at">x=</span>op_time, <span class="at">y=</span><span class="fu">log</span>(amt), <span class="at">color=</span>legrep)) <span class="sc">+</span> </span>
+<span id="cb22-2"><a href="chapter-02-data-exploration.html#cb22-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.25</span>) <span class="sc">+</span> </span>
+<span id="cb22-3"><a href="chapter-02-data-exploration.html#cb22-3" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">se=</span><span class="cn">FALSE</span>)</span>
+<span id="cb22-4"><a href="chapter-02-data-exploration.html#cb22-4" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="chapter-02-data-exploration.html#cb22-5" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, <span class="at">ncol=</span><span class="dv">1</span>, <span class="at">bottom=</span><span class="st">&quot; Scatterplot of the log of claim amount against operational time colored by legal representation in the `persinj` dataset.&quot;</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-26-1.svg" width="100%" style="display: block; margin: auto;" /></p>
+<p>The scatterplot shows that the two smoothed lines corresponding to the two levels of <code>legrep</code> have markedly different slopes and intercepts (keep in mind that we are on the log scale, so a small change in the intercept and slope can matter a lot on the original scale).</p>
+<p>In other words, the linear relationship between the log of claim amount and operational time depends materially on whether legal representation is present of not. We can also roughly tell the effect of legal representation on the (log of) claim amount:</p>
+<pre><code>Injuries with legal representation (e.g., those with `legrep` = 1) tend to produce higher claim amounts, except when operational time is extraordinarily large (90 or higher), in which case legal representation does not seem to have a noticeable impact on claim amount.</code></pre>
+<p>In Section 4.2, we will formally assess the extent of interaction and construct a model that properly takes the interaction effect into account.</p></li>
+</ul>
+</div>
+<div id="chapter-02-data-exploration-bivariate-numeric-vs-categorical" class="section level4 unnumbered hasAnchor">
+<h4>Case 2: Numeric vs. Categorical<a href="chapter-02-data-exploration.html#chapter-02-data-exploration-bivariate-numeric-vs-categorical" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>To understand the interplay between a numeric and categorical variable, it is best to investigate the distribution of the former indexed (or “split”) by each possible level of the latter.</p>
+<p>In effect, we are looking at the conditional distribution of the numeric variable given different levels of the categorical variable.</p>
+<ul>
+<li><strong><em>Descriptive Statistics</em></strong>: To summarize the association between a numeric variable and a categorical variable, we can partition the data into different subsets, one subset for each level of the categorical variable, and compute the mean of the numeric variable there. These conditional means varying substantially may suggest a strong relationship between the two variables.</li>
+</ul>
+<p>In the code below, we produce a table of the mean of the log-transformed claim amount (it is also fine to use the untransformed claim amount variable) split by the different levels of <code>inj</code> and <code>legrep</code>, which are categorical.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="chapter-02-data-exploration.html#cb24-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb24-2"><a href="chapter-02-data-exploration.html#cb24-2" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="chapter-02-data-exploration.html#cb24-3" tabindex="-1"></a><span class="co"># Partitioned by `inj` code</span></span>
+<span id="cb24-4"><a href="chapter-02-data-exploration.html#cb24-4" tabindex="-1"></a>persinj <span class="sc">%&gt;%</span> </span>
+<span id="cb24-5"><a href="chapter-02-data-exploration.html#cb24-5" tabindex="-1"></a>  <span class="fu">group_by</span>(inj) <span class="sc">%&gt;%</span></span>
+<span id="cb24-6"><a href="chapter-02-data-exploration.html#cb24-6" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb24-7"><a href="chapter-02-data-exploration.html#cb24-7" tabindex="-1"></a>    <span class="at">mean=</span><span class="fu">mean</span>(<span class="fu">log</span>(amt)),</span>
+<span id="cb24-8"><a href="chapter-02-data-exploration.html#cb24-8" tabindex="-1"></a>    <span class="at">median=</span><span class="fu">median</span>(<span class="fu">log</span>(amt)),</span>
+<span id="cb24-9"><a href="chapter-02-data-exploration.html#cb24-9" tabindex="-1"></a>    <span class="at">n=</span><span class="fu">n</span>()</span>
+<span id="cb24-10"><a href="chapter-02-data-exploration.html#cb24-10" tabindex="-1"></a>  )</span>
+<span id="cb24-11"><a href="chapter-02-data-exploration.html#cb24-11" tabindex="-1"></a><span class="co">#&gt; # A tibble: 7 × 4</span></span>
+<span id="cb24-12"><a href="chapter-02-data-exploration.html#cb24-12" tabindex="-1"></a><span class="co">#&gt;   inj    mean median     n</span></span>
+<span id="cb24-13"><a href="chapter-02-data-exploration.html#cb24-13" tabindex="-1"></a><span class="co">#&gt;   &lt;fct&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;</span></span>
+<span id="cb24-14"><a href="chapter-02-data-exploration.html#cb24-14" tabindex="-1"></a><span class="co">#&gt; 1 1      9.37   9.36 15638</span></span>
+<span id="cb24-15"><a href="chapter-02-data-exploration.html#cb24-15" tabindex="-1"></a><span class="co">#&gt; 2 2     10.3   10.3   3376</span></span>
+<span id="cb24-16"><a href="chapter-02-data-exploration.html#cb24-16" tabindex="-1"></a><span class="co">#&gt; 3 3     10.7   10.9   1133</span></span>
+<span id="cb24-17"><a href="chapter-02-data-exploration.html#cb24-17" tabindex="-1"></a><span class="co">#&gt; 4 4     11.0   11.2    189</span></span>
+<span id="cb24-18"><a href="chapter-02-data-exploration.html#cb24-18" tabindex="-1"></a><span class="co">#&gt; # ℹ 3 more rows</span></span>
+<span id="cb24-19"><a href="chapter-02-data-exploration.html#cb24-19" tabindex="-1"></a></span>
+<span id="cb24-20"><a href="chapter-02-data-exploration.html#cb24-20" tabindex="-1"></a><span class="co"># Partitioned by `legrep`</span></span>
+<span id="cb24-21"><a href="chapter-02-data-exploration.html#cb24-21" tabindex="-1"></a>persinj <span class="sc">%&gt;%</span> </span>
+<span id="cb24-22"><a href="chapter-02-data-exploration.html#cb24-22" tabindex="-1"></a>  <span class="fu">group_by</span>(legrep) <span class="sc">%&gt;%</span></span>
+<span id="cb24-23"><a href="chapter-02-data-exploration.html#cb24-23" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb24-24"><a href="chapter-02-data-exploration.html#cb24-24" tabindex="-1"></a>    <span class="at">mean=</span><span class="fu">mean</span>(<span class="fu">log</span>(amt)),</span>
+<span id="cb24-25"><a href="chapter-02-data-exploration.html#cb24-25" tabindex="-1"></a>    <span class="at">median=</span><span class="fu">median</span>(<span class="fu">log</span>(amt)),</span>
+<span id="cb24-26"><a href="chapter-02-data-exploration.html#cb24-26" tabindex="-1"></a>    <span class="at">n=</span><span class="fu">n</span>()</span>
+<span id="cb24-27"><a href="chapter-02-data-exploration.html#cb24-27" tabindex="-1"></a>  )</span>
+<span id="cb24-28"><a href="chapter-02-data-exploration.html#cb24-28" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 4</span></span>
+<span id="cb24-29"><a href="chapter-02-data-exploration.html#cb24-29" tabindex="-1"></a><span class="co">#&gt;   legrep  mean median     n</span></span>
+<span id="cb24-30"><a href="chapter-02-data-exploration.html#cb24-30" tabindex="-1"></a><span class="co">#&gt;   &lt;fct&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;</span></span>
+<span id="cb24-31"><a href="chapter-02-data-exploration.html#cb24-31" tabindex="-1"></a><span class="co">#&gt; 1 0       9.18   9.32  8008</span></span>
+<span id="cb24-32"><a href="chapter-02-data-exploration.html#cb24-32" tabindex="-1"></a><span class="co">#&gt; 2 1       9.77   9.64 14028</span></span></code></pre></div>
+<p>It is clear that the claim amount on average increases from injury code 1 to injury code 4, then decreases down to injury code 9. The two means split by <code>legrep</code> are in agreement with what we observed in Figure 2.2.8, which shows that larger claim amounts are associated with the use of legal representation.</p>
+<p><strong><em>Graphical Displays</em></strong>: The conditional distribution of a numeric variable given a second, categorical variable is best visualized by <span class="math inline">\(\fbox{split boxplots}\)</span>, where a series of boxplots of the numeric variable split by the categorical variable are made.</p>
+<p>The following code constructs two split boxplots for the log of claim amount, one split by injury code and one split by legal representation (Figure 2.2.9). The categorical variable that is used to split the numeric variable simply enters the x aesthetic and a collection of boxplots of the numeric variable for each level of the categorical variable will be shown. The two boxplots further support the findings based on the summary statistics above, but turn them more powerfully into diagrams.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="chapter-02-data-exploration.html#cb25-1" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(persinj, <span class="fu">aes</span>(<span class="at">x=</span>inj, <span class="at">y=</span><span class="fu">log</span>(amt))) <span class="sc">+</span></span>
+<span id="cb25-2"><a href="chapter-02-data-exploration.html#cb25-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span>
+<span id="cb25-3"><a href="chapter-02-data-exploration.html#cb25-3" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(persinj, <span class="fu">aes</span>(<span class="at">x=</span>legrep, <span class="at">y=</span><span class="fu">log</span>(amt))) <span class="sc">+</span></span>
+<span id="cb25-4"><a href="chapter-02-data-exploration.html#cb25-4" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span>
+<span id="cb25-5"><a href="chapter-02-data-exploration.html#cb25-5" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">bottom=</span><span class="st">&quot;Two split boxplots for the log of claim amount, one split by injury code (left) and one split by legal representation (right), in the `persinj` data.&quot;</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-28-1.svg" width="100%" style="display: block; margin: auto;" /></p>
+<p>In the following code, we split the log of claim amount by injury code (the x aesthetic), followed by legal representation (the <code>fill</code> aesthetic) within each injury code, to view a <em>three-way relationship</em> (Figure 2.2.10).</p>
+<p>Now the effect of legal representation is even more pronounced: Regardless of the injury code, larger claim sizes tend to be injuries with legal representation, with the effect being the most prominent for injuries of code 5 and code 9.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="chapter-02-data-exploration.html#cb26-1" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(persinj, <span class="fu">aes</span>(<span class="at">x=</span>inj, <span class="at">y=</span><span class="fu">log</span>(amt), <span class="at">fill=</span>legrep)) <span class="sc">+</span> </span>
+<span id="cb26-2"><a href="chapter-02-data-exploration.html#cb26-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span>
+<span id="cb26-3"><a href="chapter-02-data-exploration.html#cb26-3" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, <span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-29"></span>
+<img src="figures/unnamed-chunk-29-1.svg" alt="Boxplots of the log of claim amount split by injury and legal representation in the `persinj` data." width="100%" />
+<p class="caption">
+Figure 2.1: Boxplots of the log of claim amount split by injury and legal representation in the <code>persinj</code> data.
+</p>
+</div>
+<p>Although not as effective as split boxplots (in my opinion), histograms can also be adapted to visualize the distribution of a numeric variable split by a categorical variable. They can either be histograms <strong>stacked</strong> on top of one another (using the <code>fill</code> aesthetic) to highlight the contribution of each categorical level to the overall distribution of the numeric variable, or <strong>dodged</strong> histograms with each bin placed side by side for comparison (note the argument <span class="math inline">\(\fbox{position=&quot;dodge&quot;}\)</span>).</p>
+<p>The following code produces both types of histograms for the log of claim amount split by legal representation (Figure 2.2.11). For the dodged histogram, it is necessary to specify <span class="math inline">\(\fbox{y=..density..}\)</span> so that the histogram shows the density rather than raw counts; counts are misleading because there are a lot more injuries with legal representation than those without.</p>
+<p>Both histograms suggest that larger claims (e.g., those with <code>log(amt)</code> greater than 9) tend to be those with legal representation, as expected.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="chapter-02-data-exploration.html#cb27-1" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(persinj, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">log</span>(amt), <span class="at">fill=</span>legrep)) <span class="sc">+</span> </span>
+<span id="cb27-2"><a href="chapter-02-data-exploration.html#cb27-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span>
+<span id="cb27-3"><a href="chapter-02-data-exploration.html#cb27-3" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="chapter-02-data-exploration.html#cb27-4" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(persinj, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">log</span>(amt), <span class="at">y=</span>..density.., <span class="at">fill=</span>legrep)) <span class="sc">+</span> </span>
+<span id="cb27-5"><a href="chapter-02-data-exploration.html#cb27-5" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">position=</span><span class="st">&quot;dodge&quot;</span>)</span>
+<span id="cb27-6"><a href="chapter-02-data-exploration.html#cb27-6" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="chapter-02-data-exploration.html#cb27-7" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-30"></span>
+<img src="figures/unnamed-chunk-30-1.svg" alt="Stacked (top) and dodged (bottom) histograms of the log of claim amount in the `persinj` dataset." width="100%" />
+<p class="caption">
+Figure 2.2: Stacked (top) and dodged (bottom) histograms of the log of claim amount in the <code>persinj</code> dataset.
+</p>
+</div>
+</div>
+<div id="case-3-categorical-vs.-categorical" class="section level4 hasAnchor" number="2.2.2.1">
+<h4><span class="header-section-number">2.2.2.1</span> Case 3: Categorical vs. Categorical<a href="chapter-02-data-exploration.html#case-3-categorical-vs.-categorical" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li><strong><em>Descriptive Statistics</em></strong>: When examining a pair of categorical variables, it is often useful to construct a two-way frequency table showing the number of observations for every combination of the levels of the two variables using the <span class="math inline">\(\fbox{table()}\)</span> function.</li>
+</ul>
+<p>When two arguments are supplied to the <code>table()</code> function, the first argument will correspond to the rows of the two way frequency table, while the second argument will correspond to its columns.</p>
+<p>The following code makes a two-way frequency table for the legal representation cross with injury code:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="chapter-02-data-exploration.html#cb28-1" tabindex="-1"></a><span class="fu">table</span>(persinj<span class="sc">$</span>legrep, persinj<span class="sc">$</span>inj)</span>
+<span id="cb28-2"><a href="chapter-02-data-exploration.html#cb28-2" tabindex="-1"></a><span class="co">#&gt;    </span></span>
+<span id="cb28-3"><a href="chapter-02-data-exploration.html#cb28-3" tabindex="-1"></a><span class="co">#&gt;         1     2     3     4     5     6     9</span></span>
+<span id="cb28-4"><a href="chapter-02-data-exploration.html#cb28-4" tabindex="-1"></a><span class="co">#&gt;   0  5571  1152   374    56    85   121   649</span></span>
+<span id="cb28-5"><a href="chapter-02-data-exploration.html#cb28-5" tabindex="-1"></a><span class="co">#&gt;   1 10067  2224   759   133   103   135   607</span></span></code></pre></div>
+<ul>
+<li><p><strong><em>Graphical Displays:</em></strong> The proportions in a frequency table are useful statistics, but a visual picture often expresses these statistics much more powerfully and makes for easy interpretation, especially when the two categorical variables have a lot of levels. To visualize the distribution of a categorical variable split by another categorical variable effectively, <em>split bar charts</em> can be of use. These charts come in different versions, each one being useful for a certain purpose. The following code produces three bar charts for injury code split by legal representation (see Figure 2.2.12):</p>
+<ul>
+<li><strong>Stacked:</strong> The first bar chart has counts within each injury code colored by legal representation because the <code>fill</code> aesthetic is set to <code>legrep</code>. In other words, each bar is broken down proportionally into injuries with legal representation (colored in teal) and those without legal representation (colored in red).</li>
+<li><strong>Dodged:</strong> The second bar chart has counts within each injury code separated according to legal representation and placed side by side for comparison due to the option <span class="math inline">\(\fbox{position=&quot;dodge&quot;}\)</span> in the <code>geom_bar()</code> function.</li>
+<li><strong>Filled:</strong> In the third bar chart, the relative proportions (not counts) of injuries with and without legal representation within each injury code are shown due to the option <span class="math inline">\(\fbox{position=&quot;fill&quot;}\)</span> (not to be confused with the <code>fill</code> aesthetic). This makes it easy to compare proportions across different injury codes, although we lose the ability to see the number of injuries in each code. In predictive modeling, factor levels with more observations are generally considered more reliable than sparse levels.</li>
+</ul></li>
+</ul>
+<p>Although not discussed in the PA modules, filled bar charts are usually the most useful for depicting the interplay between two categorical variables; they are used, for example, in the June 17 and 18, 2020 PA exams and the Hospital Re-admissions sample project. A cursory glance at the filled bar chart in Figure 2.2.12 shows that there is a higher proportion of injuries with legal representation for codes 1 to 4 than for codes 5, 6, and 9.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="chapter-02-data-exploration.html#cb29-1" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(persinj, <span class="fu">aes</span>(<span class="at">x=</span>inj, <span class="at">fill=</span>legrep)) <span class="sc">+</span> </span>
+<span id="cb29-2"><a href="chapter-02-data-exploration.html#cb29-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span> </span>
+<span id="cb29-3"><a href="chapter-02-data-exploration.html#cb29-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Stacked&quot;</span>)</span>
+<span id="cb29-4"><a href="chapter-02-data-exploration.html#cb29-4" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="chapter-02-data-exploration.html#cb29-5" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(persinj, <span class="fu">aes</span>(<span class="at">x=</span>inj, <span class="at">fill=</span>legrep)) <span class="sc">+</span> </span>
+<span id="cb29-6"><a href="chapter-02-data-exploration.html#cb29-6" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position=</span><span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span></span>
+<span id="cb29-7"><a href="chapter-02-data-exploration.html#cb29-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Dodged&quot;</span>)</span>
+<span id="cb29-8"><a href="chapter-02-data-exploration.html#cb29-8" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="chapter-02-data-exploration.html#cb29-9" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(persinj, <span class="fu">aes</span>(<span class="at">x=</span>inj, <span class="at">fill=</span>legrep)) <span class="sc">+</span> </span>
+<span id="cb29-10"><a href="chapter-02-data-exploration.html#cb29-10" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position=</span><span class="st">&quot;fill&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb29-11"><a href="chapter-02-data-exploration.html#cb29-11" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Filled&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Proportion&quot;</span>)</span>
+<span id="cb29-12"><a href="chapter-02-data-exploration.html#cb29-12" tabindex="-1"></a></span>
+<span id="cb29-13"><a href="chapter-02-data-exploration.html#cb29-13" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, p3, <span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-32"></span>
+<img src="figures/unnamed-chunk-32-1.svg" alt="Stacked (top left), dodged (top right), and filled (bottom left) bar charts for injury code split by legal representation in the `persinj` dataset." width="100%" />
+<p class="caption">
+Figure 2.3: Stacked (top left), dodged (top right), and filled (bottom left) bar charts for injury code split by legal representation in the <code>persinj</code> dataset.
+</p>
+</div>
+</div>
+</div>
+<div id="end-of-chapter-practice-problems" class="section level3 hasAnchor" number="2.2.3">
+<h3><span class="header-section-number">2.2.3</span> End-of-Chapter Practice Problems<a href="chapter-02-data-exploration.html#end-of-chapter-practice-problems" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="problem-2.3.1-small-differences-in-code-large-differences-in-output" class="section level4 hasAnchor" number="2.2.3.1">
+<h4><span class="header-section-number">2.2.3.1</span> Problem 2.3.1 (Small Differences in code, large differences in output!)<a href="chapter-02-data-exploration.html#problem-2.3.1-small-differences-in-code-large-differences-in-output" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Consider the personal injury insurance data set again and the following chunks of R commands (which look so similar!):</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="chapter-02-data-exploration.html#cb30-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb30-2"><a href="chapter-02-data-exploration.html#cb30-2" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="chapter-02-data-exploration.html#cb30-3" tabindex="-1"></a><span class="co"># read in data</span></span>
+<span id="cb30-4"><a href="chapter-02-data-exploration.html#cb30-4" tabindex="-1"></a>persinj <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/persinj.csv&quot;</span>)</span>
+<span id="cb30-5"><a href="chapter-02-data-exploration.html#cb30-5" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="chapter-02-data-exploration.html#cb30-6" tabindex="-1"></a><span class="co"># convert categorical variables to factors</span></span>
+<span id="cb30-7"><a href="chapter-02-data-exploration.html#cb30-7" tabindex="-1"></a>persinj<span class="sc">$</span>inj <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(persinj<span class="sc">$</span>inj)</span>
+<span id="cb30-8"><a href="chapter-02-data-exploration.html#cb30-8" tabindex="-1"></a>persinj<span class="sc">$</span>legrep <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(persinj<span class="sc">$</span>legrep)</span>
+<span id="cb30-9"><a href="chapter-02-data-exploration.html#cb30-9" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="chapter-02-data-exploration.html#cb30-10" tabindex="-1"></a><span class="co"># CHUNK 1</span></span>
+<span id="cb30-11"><a href="chapter-02-data-exploration.html#cb30-11" tabindex="-1"></a><span class="fu">ggplot</span>(persinj, <span class="fu">aes</span>(<span class="at">x=</span>inj, <span class="at">color=</span>legrep)) <span class="sc">+</span> </span>
+<span id="cb30-12"><a href="chapter-02-data-exploration.html#cb30-12" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span>
+<span id="cb30-13"><a href="chapter-02-data-exploration.html#cb30-13" tabindex="-1"></a></span>
+<span id="cb30-14"><a href="chapter-02-data-exploration.html#cb30-14" tabindex="-1"></a><span class="co"># CHUNK 2</span></span>
+<span id="cb30-15"><a href="chapter-02-data-exploration.html#cb30-15" tabindex="-1"></a><span class="fu">ggplot</span>(persinj, <span class="fu">aes</span>(<span class="at">x=</span>inj, <span class="at">fill=</span>legrep)) <span class="sc">+</span> </span>
+<span id="cb30-16"><a href="chapter-02-data-exploration.html#cb30-16" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span>
+<span id="cb30-17"><a href="chapter-02-data-exploration.html#cb30-17" tabindex="-1"></a></span>
+<span id="cb30-18"><a href="chapter-02-data-exploration.html#cb30-18" tabindex="-1"></a><span class="co"># CHUNK 3</span></span>
+<span id="cb30-19"><a href="chapter-02-data-exploration.html#cb30-19" tabindex="-1"></a><span class="co">#ggplot(persinj, aes(x=inj)) + </span></span>
+<span id="cb30-20"><a href="chapter-02-data-exploration.html#cb30-20" tabindex="-1"></a><span class="co">#  geom_bar(fill=legrep)</span></span>
+<span id="cb30-21"><a href="chapter-02-data-exploration.html#cb30-21" tabindex="-1"></a></span>
+<span id="cb30-22"><a href="chapter-02-data-exploration.html#cb30-22" tabindex="-1"></a><span class="co"># CHUNK 4</span></span>
+<span id="cb30-23"><a href="chapter-02-data-exploration.html#cb30-23" tabindex="-1"></a><span class="fu">ggplot</span>(persinj, <span class="fu">aes</span>(<span class="at">x=</span>inj)) <span class="sc">+</span> </span>
+<span id="cb30-24"><a href="chapter-02-data-exploration.html#cb30-24" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">fill=</span>legrep))</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-33-1.svg" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-33-2.svg" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-33-3.svg" width="100%" style="display: block; margin: auto;" /></p>
+<p>Make a guess of what each chunk of code does. Then run the code in R and see the output.</p>
+<p><strong><em>Solution:</em></strong> Although the four chunks of code look similar, they produce drastically different output:</p>
+<ul>
+<li><strong><em>CHUNK 1:</em></strong> Here we are making a bar chart for injury code with the <em>boundary</em> (not the interior) of the vertical bars colored according to legal representation. As you can see, the colors are hardly perceptible.</li>
+<li><strong><em>CHUNK 2:</em></strong> This is similar to CHUNK 1, except that this time it is the <em>interior</em> of the vertical bars that is color-coded according to legal representation. The output is the same as the top left panel of Figure 2.2.12.</li>
+<li><strong><em>CHUNK 3:</em></strong> This chunk of code does not work (try to run it in R and you will get an error!). The reason is that the <code>fill</code> argument (not <code>fill</code> aesthetic) of the <code>geom_bar()</code> function is mapped to a variable (<code>legrep</code> here) instead of a constant (e.g., “blue”). This is the opposite of the mistake discussed in CHUNK 4 of Section 2.1 (Figure 2.1.2).</li>
+<li><strong><em>CHUNK 4:</em></strong> This chunk of code generates the same output as CHUNK 2. Instead of putting the <code>fill</code> aesthetic in the <code>ggplot()</code> call, it is placed inside the <code>geom_bar()</code> function.</li>
+</ul>
+</div>
+<div id="problem-2.3.2-data-exploration-univariate-and-bivariate" class="section level4 hasAnchor" number="2.2.3.2">
+<h4><span class="header-section-number">2.2.3.2</span> Problem 2.3.2 (Data Exploration: Univariate and Bivariate)<a href="chapter-02-data-exploration.html#problem-2.3.2-data-exploration-univariate-and-bivariate" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The <code>ggplot2</code> package comes with a data set named <code>diamonds</code> that contains the prices and other attributes of approximately 54,000 diamonds. To load the data set, use the following commands:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="chapter-02-data-exploration.html#cb31-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb31-2"><a href="chapter-02-data-exploration.html#cb31-2" tabindex="-1"></a><span class="fu">data</span>(diamonds)</span></code></pre></div>
+<p><strong>(a)</strong> Determine the number of observations and variables in the <code>diamonds</code> data set.</p>
+<p>With the aid of appropriate graphical displays and/or summary statistics, complete the following sub-tasks.</p>
+<p><strong>(b)</strong> Perform univariate exploration of the price of diamonds (<code>price</code>) and the quality of the cut (<code>cut</code>). Determine if any of these two variables should be transformed and, if so, what transformation should be made. Do your recommended transformation(s), if any, and delete the original variable(s). <strong>(c)</strong> Explore the relationship between the price of diamonds and the weight of diamonds (<code>carat</code>). <strong>(d)</strong> Explore the relationship between the price of diamonds and the quality of the cut. <strong>(e)</strong> Reconcile the apparent contradiction between what you get in parts (c) and (d).</p>
+<p><strong><em>Solution:</em></strong></p>
+<p><strong>(a)</strong> The number of rows in the <code>diamonds</code> data set can be obtained by the <code>nrow()</code> function:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="chapter-02-data-exploration.html#cb32-1" tabindex="-1"></a><span class="fu">nrow</span>(diamonds)</span>
+<span id="cb32-2"><a href="chapter-02-data-exploration.html#cb32-2" tabindex="-1"></a><span class="co">#&gt; [1] 53940</span></span></code></pre></div>
+<p>To get the number of variables, we can first extract the column names of the data set via the <code>colnames()</code> function, then apply the <code>length()</code> function to calculate its length:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="chapter-02-data-exploration.html#cb33-1" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">colnames</span>(diamonds))</span>
+<span id="cb33-2"><a href="chapter-02-data-exploration.html#cb33-2" tabindex="-1"></a><span class="co">#&gt; [1] 10</span></span></code></pre></div>
+<p>More efficiently, we can apply the <code>dim()</code> function to <code>diamonds</code> to get both of its row and column dimensions:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="chapter-02-data-exploration.html#cb34-1" tabindex="-1"></a><span class="fu">dim</span>(diamonds)</span>
+<span id="cb34-2"><a href="chapter-02-data-exploration.html#cb34-2" tabindex="-1"></a><span class="co">#&gt; [1] 53940    10</span></span></code></pre></div>
+<p><strong>(b)</strong> The <code>price</code> variable is a (positive and technically continuous) numeric variable. Let’s use the <code>summary()</code> function to learn more about its numeric statistics:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="chapter-02-data-exploration.html#cb35-1" tabindex="-1"></a><span class="fu">summary</span>(diamonds<span class="sc">$</span>price)    </span>
+<span id="cb35-2"><a href="chapter-02-data-exploration.html#cb35-2" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb35-3"><a href="chapter-02-data-exploration.html#cb35-3" tabindex="-1"></a><span class="co">#&gt;     326     950    2401    3933    5324   18823</span></span></code></pre></div>
+<p>The variable ranges from 326 to 18,823 and its mean is much higher than its median, an indication of its pronounced right skewness. This is confirmed by the histogram below:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="chapter-02-data-exploration.html#cb36-1" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(diamonds, <span class="fu">aes</span>(<span class="at">x=</span>price)) <span class="sc">+</span> </span>
+<span id="cb36-2"><a href="chapter-02-data-exploration.html#cb36-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span>
+<span id="cb36-3"><a href="chapter-02-data-exploration.html#cb36-3" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="chapter-02-data-exploration.html#cb36-4" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, <span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-39-1.svg" width="100%" style="display: block; margin: auto;" /></p>
+<p>To deal with the right skewness of <code>price</code>, we can use a log transformation. The following commands create a log-transformed <code>price</code> and delete the original <code>price</code> variable (recall what you learned in Section 1.3).</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="chapter-02-data-exploration.html#cb37-1" tabindex="-1"></a>diamonds<span class="sc">$</span>Lprice <span class="ot">&lt;-</span> <span class="fu">log</span>(diamonds<span class="sc">$</span>price)</span>
+<span id="cb37-2"><a href="chapter-02-data-exploration.html#cb37-2" tabindex="-1"></a>diamonds<span class="sc">$</span>price <span class="ot">&lt;-</span> <span class="cn">NULL</span></span></code></pre></div>
+<p>The resulting histogram shows that the distribution of the log-transformed <code>price</code> is closer to symmetric, although it is not bell-shaped.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="chapter-02-data-exploration.html#cb38-1" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(diamonds, <span class="fu">aes</span>(<span class="at">x=</span>Lprice)) <span class="sc">+</span> </span>
+<span id="cb38-2"><a href="chapter-02-data-exploration.html#cb38-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span>
+<span id="cb38-3"><a href="chapter-02-data-exploration.html#cb38-3" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, <span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-41-1.svg" width="100%" style="display: block; margin: auto;" /></p>
+<p>() For both histograms, you can experiment with different values of the <code>bins</code> parameter.</p>
+<p>The <code>cut</code> variable is a 5-level categorical veriable, its levels are <code>"Fair", "Good", "Very Good", "Premium", and "Ideal"</code>.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="chapter-02-data-exploration.html#cb39-1" tabindex="-1"></a><span class="fu">levels</span>(diamonds<span class="sc">$</span>cut)</span>
+<span id="cb39-2"><a href="chapter-02-data-exploration.html#cb39-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Fair&quot;      &quot;Good&quot;      &quot;Very Good&quot; &quot;Premium&quot;  </span></span>
+<span id="cb39-3"><a href="chapter-02-data-exploration.html#cb39-3" tabindex="-1"></a><span class="co">#&gt; [5] &quot;Ideal&quot;</span></span></code></pre></div>
+<p>The following table shows the counts and percentage for each level:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="chapter-02-data-exploration.html#cb40-1" tabindex="-1"></a><span class="fu">table</span>(diamonds<span class="sc">$</span>cut)</span>
+<span id="cb40-2"><a href="chapter-02-data-exploration.html#cb40-2" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb40-3"><a href="chapter-02-data-exploration.html#cb40-3" tabindex="-1"></a><span class="co">#&gt;      Fair      Good Very Good   Premium     Ideal </span></span>
+<span id="cb40-4"><a href="chapter-02-data-exploration.html#cb40-4" tabindex="-1"></a><span class="co">#&gt;      1610      4906     12082     13791     21551</span></span>
+<span id="cb40-5"><a href="chapter-02-data-exploration.html#cb40-5" tabindex="-1"></a></span>
+<span id="cb40-6"><a href="chapter-02-data-exploration.html#cb40-6" tabindex="-1"></a><span class="fu">table</span>(diamonds<span class="sc">$</span>cut)<span class="sc">/</span><span class="fu">nrow</span>(diamonds)</span>
+<span id="cb40-7"><a href="chapter-02-data-exploration.html#cb40-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb40-8"><a href="chapter-02-data-exploration.html#cb40-8" tabindex="-1"></a><span class="co">#&gt;      Fair      Good Very Good   Premium     Ideal </span></span>
+<span id="cb40-9"><a href="chapter-02-data-exploration.html#cb40-9" tabindex="-1"></a><span class="co">#&gt;   0.02985   0.09095   0.22399   0.25567   0.39954</span></span></code></pre></div>
+<p>The number of observations increases from “Fair” to “Ideal”. About 40% of the diamonds are of “Ideal” quality.</p>
+<p>Since <code>cut</code> is a categorical variable, numeric transformations such as the log-transformation are not applicable and so we would prefer to leave it as it is.</p>
+<p><strong>(c)</strong> Because <code>Lprice</code> and <code>carat</code> are both numeric variables, a scatterplot for the two variables is appropriate for exploring their relationship. The scatterplot shows that the two variables are strongly positively related; the heavier the diamond, the more expensive it is, conforming to our intuition.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="chapter-02-data-exploration.html#cb41-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>carat, <span class="at">y=</span>Lprice)) <span class="sc">+</span> </span>
+<span id="cb41-2"><a href="chapter-02-data-exploration.html#cb41-2" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-44-1.svg" width="100%" style="display: block; margin: auto;" /></p>
+<div class="remark">
+<p><span id="unlabeled-div-1" class="remark"><em>Remark</em>. </span></p>
+<ol style="list-style-type: lower-roman">
+<li><p>You can add the <code>alpha</code> argument to the <code>geom_point()</code> function to reduce the amount of overlapping.</p></li>
+<li><p>If you plot <code>Lprice</code> against the log of <code>carat</code>, the resulting relationship is very close to linear.</p></li>
+</ol>
+</div>
+<p><strong>(d)</strong> As cut is a categorical variable, a split boxplot for <code>Lprice</code> broken by the levels of <code>cut</code> is appropriate for exploring their relationship. The split boxplot, however, suggests the counter-intuitive idea that diamonds of a higher quality tend to be cheaper (though only slightly). How can this be the case?</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="chapter-02-data-exploration.html#cb42-1" tabindex="-1"></a><span class="fu">ggplot</span>(diamonds, <span class="fu">aes</span>(<span class="at">x=</span>cut, <span class="at">y=</span>Lprice)) <span class="sc">+</span> </span>
+<span id="cb42-2"><a href="chapter-02-data-exploration.html#cb42-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-45-1.svg" width="100%" style="display: block; margin: auto;" /></p>
+<p><strong>(e)</strong> To reconcile the contradiction between parts (c) and (d), one can look at the relationship betwen <code>carat</code> and <code>cut</code>. Again, as <code>carat</code> is numeric and <code>cut</code> is categorical, a split boxplot for <code>carat</code> split by <code>cut</code> will serve our purpose:</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="chapter-02-data-exploration.html#cb43-1" tabindex="-1"></a><span class="fu">ggplot</span>(diamonds, <span class="fu">aes</span>(<span class="at">x=</span>cut, <span class="at">y=</span><span class="fu">log</span>(carat))) <span class="sc">+</span></span>
+<span id="cb43-2"><a href="chapter-02-data-exploration.html#cb43-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-46-1.svg" width="100%" style="display: block; margin: auto;" /></p>
+<p>The split boxplot shows that the weight of a diamond tends to drop as the quality of the cut becomes higher (“Premium” is an exception). According to part (c), the <code>carat</code> is an important predictor of <code>Lprice</code>, so the findings in part (d) may be a result of the negative relationship between <code>carat</code> and <code>cut</code> – higher quality diamonds may be less pricey because they weigh less.</p>
+
+</div>
+</div>
+</div>
+<!-- </div> -->
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chapter-02-making-ggplots.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="linear-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/clipboard.min.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/jeffamaxey/soa-exam-pa/edit/master/02-Data-Exploration-and-Visualization.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/jeffamaxey/soa-exam-pa/blob/main/02-Data-Exploration-and-Visualization.Rmd",
+"text": null
+},
+"download": ["bookdown.pdf", "bookdown.epub", "bookdown.mobi"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

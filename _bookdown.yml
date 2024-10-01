@@ -1,8 +1,49 @@
-book_filename: "bookdownproj"
+book_filename: bookdown
+repo: https://github.com/jeffamaxey/soa-exam-pa/
 output_dir: docs
+clean: [packages.bib, book.bib]
 delete_merged_file: true
-edit: https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/edit/main/%s
-view: https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/blob/main/%s
+edit: https://github.com/jeffamaxey/soa-exam-pa/edit/main/%s
+view: https://github.com/jeffamaxey/soa-exam-pa/blob/main/%s
 language:
+  label:
+    fig: 'Figure '
+    tab: 'Table '
+    eq: 'Equation '
+    thm: 'Theorem '
+    lem: 'Lemma '
+    cor: 'Corollary '
+    prp: 'Proposition '
+    cnj: 'Conjecture '
+    def: 'Definition '
+    exm: 'Example '
+    exr: 'Exercise '
+    hyp: 'Hypothesis '
+    proof: 'Proof. '
+    remark: 'Remark. '
+    solution: 'Solution. '
   ui:
     chapter_name: "Chapter "
+    appendix_name: "Appendix "
+    edit: "Edit"
+before_chapter_script: "_common.R"
+
+rmd_files: [
+  'index.Rmd',
+  # A Crash Course in R
+  '01-Basics-of-R-Programming.Rmd',
+  '02-Data-Exploration-and-Visualization.Rmd',
+  # Theory and Case Studies in Predictive Analytics
+  '03-Linear-Models.Rmd',
+  '04-Generalized-Linear-Models.Rmd',
+  '05-Tree-Based-Models.Rmd',
+  '06-Unsupervised-Learning-Techniques.Rmd',
+  # Final Preparation
+  '07-Discussions-on-Past-PA-Exams.Rmd',
+  '08-Practice-Exams.Rmd',
+  # Appendix
+  '09-Tools.Rmd',
+  '10-Usage.Rmd',
+  '11-References.Rmd'
+  ]
+

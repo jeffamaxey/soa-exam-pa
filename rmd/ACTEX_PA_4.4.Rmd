@@ -1,0 +1,240 @@
+---
+title: "ACTEX Study Manual for Exam PA: Section 4.4 (Case Study 3: GLMs for Count and Aggregate Loss Variables)"
+author: "Ambrose Lo"
+---
+
+
+```{r}
+# CHUNK 1
+Swedish <- read.csv(url("https://instruction.bus.wisc.edu/jfrees/jfreesbooks/Regression%20Modeling/BookWebDec2010/CSVData/SwedishMotorInsurance.csv"))
+
+summary(Swedish)
+str(Swedish)
+```
+
+
+```{r}
+# CHUNK 2
+library(ggplot2)
+ggplot(Swedish, aes(x = Insured, y = Claims)) +
+  geom_point()
+
+ggplot(Swedish, aes(x = Claims, y = Payment)) +
+  geom_point()
+```
+
+
+```{r}
+# CHUNK 3
+summary(Swedish[Swedish$Claims == 0, ]$Payment)
+Swedish.severity <- Swedish[Swedish$Claims > 0, ]
+```
+
+
+```{r}
+# CHUNK 4
+Swedish$ClaimsPerInsured <- Swedish$Claims / Swedish$Insured
+Swedish.severity$PaymentPerClaim <-
+  Swedish.severity$Payment / Swedish.severity$Claims
+
+ggplot(Swedish, aes(x = Insured, y = ClaimsPerInsured)) +
+  geom_point()
+
+ggplot(Swedish.severity, aes(x = Claims, y = PaymentPerClaim)) +
+  geom_point()
+```
+
+
+```{r}
+# CHUNK 5
+Swedish$Zone <- as.factor(Swedish$Zone)
+Swedish$Make <- as.factor(Swedish$Make)
+Swedish.severity$Zone <- as.factor(Swedish.severity$Zone)
+Swedish.severity$Make <- as.factor(Swedish.severity$Make)
+```
+
+
+```{r}
+# CHUNK 6
+summary(Swedish$ClaimsPerInsured)
+summary(Swedish.severity$PaymentPerClaim)
+
+ggplot(Swedish, aes(x = ClaimsPerInsured)) +
+  geom_histogram()
+
+ggplot(Swedish.severity, aes(x = PaymentPerClaim)) +
+  geom_histogram()
+```
+
+
+```{r}
+# CHUNK 7
+library(tidyverse)
+
+vars <- c("Kilometres", "Bonus", "Zone", "Make")
+for (i in vars) {
+  x <- Swedish %>%
+    group_by_(i) %>%
+    summarize(
+      mean = mean(ClaimsPerInsured),
+      median = median(ClaimsPerInsured),
+      n = n()
+    )
+print(x)
+}
+
+for (i in vars) {
+  x <- Swedish.severity %>%
+    group_by_(i) %>%
+    summarize(
+      mean = mean(PaymentPerClaim),
+      median = median(PaymentPerClaim),
+      n = n()
+    )
+print(x)
+}
+
+# Remove redundant variables
+rm(i, vars, x)
+```
+
+
+```{r}
+# CHUNK 8
+library(caret)
+set.seed(14)
+train_ind <- createDataPartition(Swedish$ClaimsPerInsured,
+                                 p = 0.7,
+                                 list = FALSE)
+data.train <- Swedish[train_ind, ]
+data.test <- Swedish[-train_ind, ]
+
+# Take out the severity portions of the training and test sets
+data.train.severity <- data.train[data.train$Claims > 0, ]
+data.train.severity$PaymentPerClaim <-
+  data.train.severity$Payment / data.train.severity$Claims
+data.test.severity <- data.test[data.test$Claims > 0, ]
+data.test.severity$PaymentPerClaim <-
+  data.test.severity$Payment / data.test.severity$Claims
+
+print("TRAIN")
+mean(data.train$ClaimsPerInsured)
+mean(data.train.severity$PaymentPerClaim)
+
+print("TEST")
+mean(data.test$ClaimsPerInsured)
+mean(data.test.severity$PaymentPerClaim)
+```
+
+
+```{r}
+# CHUNK 9
+count.numeric <- glm(Claims ~ Kilometres + Zone + Bonus + Make,
+                     data = data.train,
+                     offset = log(Insured),
+                     family = poisson)
+summary(count.numeric)
+```
+
+
+```{r}
+# CHUNK 10
+freq <- glm(ClaimsPerInsured ~ Kilometres + Zone + Bonus + Make,
+            data = data.train,
+            weight = Insured,
+            family = poisson)
+summary(freq)
+```
+
+
+```{r}
+# CHUNK 11
+count.factor <- glm(Claims ~ factor(Kilometres) + Zone + factor(Bonus) + Make,
+                    data = data.train,
+                    offset = log(Insured),
+                    family = poisson)
+summary(count.factor)
+```
+
+
+```{r}
+# CHUNK 12
+count.numeric.pred <- predict(count.numeric,
+                              newdata = data.test,
+                              type = "response")
+
+sum((data.test$Claims - count.numeric.pred)^2 / count.numeric.pred) / nrow(data.test)
+
+count.factor.pred <- predict(count.factor,
+                             newdata = data.test,
+                             type = "response")
+
+sum((data.test$Claims - count.factor.pred)^2 / count.factor.pred) / nrow(data.test)
+```
+
+
+```{r}
+# CHUNK 13
+severity <- glm(PaymentPerClaim ~ factor(Kilometres) + Zone +
+                  factor(Bonus) + Make,
+                data = data.train.severity,
+                weight = Claims,
+                family = Gamma(link = "log"))
+summary(severity)
+```
+
+
+```{r}
+# CHUNK 14
+library(MASS)
+severity.final <- stepAIC(severity)
+summary(severity.final)
+```
+
+
+```{r}
+# CHUNK 15
+severity.final.pred <- data.test.severity$Claims *
+  predict(severity.final, newdata = data.test.severity, type = "response")
+RMSE(data.test.severity$Payment, severity.final.pred)
+RMSE(data.test.severity$Payment, mean(data.train.severity$Payment))
+```
+
+
+```{r}
+# CHUNK 16
+count.full <- glm(Claims ~ factor(Kilometres) + Zone + factor(Bonus) + Make,
+                  data = Swedish,
+                  offset = log(Insured),
+                  family = poisson)
+summary(count.full)
+
+severity.full <- glm(PaymentPerClaim ~ Zone + factor(Bonus) + Make,
+                     data = Swedish.severity,
+                     weight = Claims,
+                     family = Gamma(link = "log"))
+summary(severity.full)
+```
+
+
+```{r}
+# CHUNK 17
+sample <- data.frame(Kilometres = 2, Zone = "1", Bonus = 1, Make = "6", Insured = 350)
+sample
+```
+
+
+```{r}
+# CHUNK 18
+# Predicted number of claims
+N.pred <- predict(count.full, newdata = sample, type = "response")
+N.pred
+
+# Predicted claim severity
+X.pred <- predict(severity.full, newdata = sample, type = "response")
+X.pred
+
+# Predicted aggregate payments
+S.pred <- N.pred * X.pred
+S.pred
+```

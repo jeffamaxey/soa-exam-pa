@@ -1,0 +1,109 @@
+---
+title: "ACTEX Study Manual for Exam PA: Section 6.2 (Cluster Analysis)"
+author: "Ambrose Lo"
+---
+
+
+```{r}
+# CHUNK 1
+# Clean the working memory
+rm(list = ls())
+
+data(USArrests)
+
+# Scale the variables
+cluster_vars <- as.data.frame(scale(USArrests))
+
+# kmeans() uses random initial cluster centers
+set.seed(1)
+
+km1 <- kmeans(cluster_vars, centers = 1, nstart = 20)
+km2 <- kmeans(cluster_vars, centers = 2, nstart = 20)
+km3 <- kmeans(cluster_vars, centers = 3, nstart = 20)
+km4 <- kmeans(cluster_vars, centers = 4, nstart = 20)
+km5 <- kmeans(cluster_vars, centers = 5, nstart = 20)
+km6 <- kmeans(cluster_vars, centers = 6, nstart = 20)
+km7 <- kmeans(cluster_vars, centers = 7, nstart = 20)
+km8 <- kmeans(cluster_vars, centers = 8, nstart = 20)
+km9 <- kmeans(cluster_vars, centers = 9, nstart = 20)
+km10 <- kmeans(cluster_vars, centers = 10, nstart = 20)
+
+var.exp <- data.frame(K = 1:10,
+                      bss_tss = c(km1$betweenss/km1$totss,
+                                  km2$betweenss/km2$totss,
+                                  km3$betweenss/km3$totss,
+                                  km4$betweenss/km4$totss,
+                                  km5$betweenss/km5$totss,
+                                  km6$betweenss/km6$totss,
+                                  km7$betweenss/km7$totss,
+                                  km8$betweenss/km8$totss,
+                                  km9$betweenss/km9$totss,
+                                  km10$betweenss/km10$totss))
+
+# Make an elbow plot
+library(ggplot2)
+ggplot(var.exp, aes(x = K, y = bss_tss)) +
+  geom_point() +
+  geom_line() +
+  ggtitle("Elbow plot")
+```
+
+
+```{r}
+# CHUNK 2
+km3
+```
+
+
+```{r}
+# CHUNK 3
+# Get the cluster groups
+USArrests$group <- as.factor(km3$cluster)
+
+library(dplyr)
+USArrests %>%
+  group_by(group) %>%
+  summarize(
+    Murder = mean(Murder),
+    Assault = mean(Assault),
+    UrbanPop = mean(UrbanPop),
+    Rape = mean(Rape)
+  )
+```
+
+
+```{r}
+# CHUNK 4
+# Recreate the results from Subsection 6.1.3
+PCA <- prcomp(USArrests[, 1:4], center = TRUE, scale. = TRUE)
+USArrests$PC1 <- PCA$x[, 1]
+USArrests$PC2 <- PCA$x[, 2]
+
+ggplot(USArrests, aes(x = PC1, y = PC2, col = group, label = row.names(USArrests))) +
+  geom_point() +
+  geom_text(vjust = 1)
+```
+
+
+```{r}
+# CHUNK 5
+hc.complete <- hclust(dist(cluster_vars))  # complete linkage by default
+hc.single <- hclust(dist(cluster_vars), method = "single")
+hc.average <- hclust(dist(cluster_vars), method = "average")
+hc.centroid <- hclust(dist(cluster_vars), method = "centroid")
+
+plot(hc.complete, cex = 0.5)
+plot(hc.single, cex = 0.5)
+plot(hc.average, cex = 0.5)
+plot(hc.centroid, cex = 0.5)
+```
+
+
+```{r}
+# CHUNK 6
+USArrests$clusters <- as.factor(cutree(hc.complete, 3))
+
+ggplot(data = USArrests, aes(x = PC1, y = PC2, col = clusters, label = row.names(USArrests))) + 
+  geom_point() +
+  geom_text(vjust = 1)
+```

@@ -1,9 +1,109 @@
---- 
-title: "YOUR TITLE HERE"
-author: "YOUR NAME HERE"
+---
+title: "SOA Exam PA Study Manual"
+author: "Jeff A. Maxey"
 date: "`r Sys.Date()`"
+knit: "bookdown::render_book"
+documentclass: krantz
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
+lot: yes
+lof: yes
+fontsize: 12pt
 site: bookdown::bookdown_site
+monofont: "Source Code Pro"
+monofontoptions: "Scale=0.7"
+graphics: yes
+description: "A study guide for the Society of Actuaries Predictive Analytics Exam (Exam PA), including documentation on the basics of the R programming language, data exploration and visualization, theory of predictive analytics and sample exams. The book can be exported to HTML, PDF, and e-books (e.g. EPUB)."
+url: 'https\://jeffamaxey.github.io/soa-exam-pa/'
+github-repo: jeffamaxey/soa-exam-pa
+cover-image: images/cover.jpg
+output: 
+  - html_document:
+      toc: true
+      toc_depth: 5
+      number_sections: true
+      theme: united
+      highlight: tango  
+      css: "css/style.css"
+      df_print: kable
+      fig_caption: true
+  - bookdown::gitbook:
+      includes:
+        in_header: "latex/preamble.tex"
+header-includes:
+  - \usepackage{amsmath}
+  - \usepackage{awesomebox}
+  - \usepackage{tcolorbox}
+  - \usepackage{fancyframe}
+  - \usepackage{framed}
+  - \usepackage{xcolor}
+  - \usepackage{booktabs}
+  - \usepackage{longtable}
+  - \usepackage[bf,singlelinecheck=off]{caption}
+  - \usepackage{framed,color}
+  - \usepackage{Alegreya}
+  - \usepackage[scale=.7]{sourcecodepro}
+  - \usepackage{makeidx}
+  - \usepackage{amsthm}
+  - \usepackage{letltxmacro}
 ---
 
-# Down the rabbit-hole
+# **Preface**  {#preface .unnumbered}
+
+This books serves as user guide for material covered in the Society of Actuaries Predictive Analytics Exam (Exam PA). It is intended to serve as a resource for learning topics covered in the actuarial field.
+
+## Structure of Study Manual {#structure .unnumbered}
+
+To maximize your learning effectiveness and efficiency, this study manual is divided into three parts:
+
+-   **Part I: A Crash Course in R**
+
+    The first part of the manual is a crash course in R covering the elements of R programming that are particularly germane to Exam PA to get you up to speed. They include the basics of R programming and data visualizations using the `ggplot2` package, covered respectively in Chapters 1 and 2 of the manual. At the completion of this part, you will be equipped with the fundamental R programming skills necessary for constructing predictive models and making some simple but informative graphs in the rest of this manual.
+
+-   **Part II: Theory and Case Studies in Predictive Analytics**
+
+    Armed with R basics, you will learn the theory of different types of predictive analytics techniques illustrated by a series of case studies in the second part (Chapters 3 to 6), also the linchpin, of this manual. Each chapter in this part follows the same arrangement:
+
+    -   ***Theory*****:** Each chapter begins with a conceptual foundations section describing the mechanics of various predictive analytics techniques, including linear models (Chapter 3), generalized linear models (Chapter 4), decision trees (Chapter 5), and principal components and cluster analyses (Chapter 6).
+    -   ***Practice:*** After learning the ins and outs, pros and cons, and do's and don'ts of these techniques, we will turn to their practical implementations and gain some hands-on experience through a number of task-based case studies using R. Do read these case studies carefully as they illustrate a wide range of skills necessary for tackling various types of tasks in Exam PA, ranging from data pre-processing, data exploration, model construction, model evaluation, and model selection.
+
+-   **Part III: Final Preparation**
+
+    Last but not least, the third part concludes this manual with the following resources:
+
+    -   ***Chapter 7:*** Commentary on the SOA's past PA exams, which reflect the SOA's expectations of PA candidates and are quite indicative of future exams.
+    -   ***Chapter 8:*** Two original full-length practice exams updated for the new exam format and designed to mimic the real PA exams in terms of style and difficulty, with detailed illustrative solutions provided.
+    -   ***Cheat Sheet:*** A downloadable and printable cheat sheet that provides a high-level view of the entire PA exam syllabus, and is usable for both regular review and last-minute exam preparation.
+
+    After completing Part III, you will be ready to take (and pass!) the PA exam.
+    
+## Software Information and Conventions {#software-information-and-conventions .unnumbered}
+
+This book is primarily about the R software, so you need to at least install R. However, the concepts covered do not have to be related to the R language at all. They can use other computing languages (C++, SQL, Python, and so on; see Appendix \@ref(software-usage)). The software tools required to run all code are introduced in Appendix \@ref(software-tools).
+
+The R session information when compiling this book is shown below:
+
+```{r include=FALSE}
+# only show versions of very relevant packages
+sessionInfo = function() {
+  lapply(c('shiny', 'miniUI'), loadNamespace)
+  res = utils::sessionInfo()
+  loaded = res$loadedOnly
+  res$loadedOnly = loaded[intersect(names(loaded), c(
+    'bookdown', 'knitr', 'rmarkdown', 'shiny', 'htmltools', 'tools', 'miniUI'
+  ))]
+  res$BLAS = res$LAPACK = NULL
+  res
+}
+```
+
+```{r}
+sessionInfo()
+```
+
+We do not add prompts (`>` and `+`) to R source code in this book, and we comment out the text output with two hashes `##` by default, as you can see from the R session information above. This is for your convenience when you want to copy and run the code (the text output will be ignored since it is commented out). 
+
+Package names are in bold text (e.g., **rmarkdown**), and inline code and filenames are formatted in a typewriter font (e.g., `knitr::knit('foo.Rmd')`). Function names are followed by parentheses (e.g., `bookdown::render_book()`). The double-colon operator `::` means accessing an object from a package. 
 

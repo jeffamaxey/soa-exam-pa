@@ -1,0 +1,298 @@
+---
+title: "ACTEX Study Manual for Exam PA: Section 4.3 (Case Study 2: GLMs for Binary Target Variables)"
+author: "Ambrose Lo"
+---
+
+```{r}
+# CHUNK 1
+# install.packages("insuranceData")  # Uncomment this line the first time you use this package
+library(insuranceData)
+data(dataCar)
+summary(dataCar)
+```
+
+
+```{r}
+# CHUNK 2
+table(dataCar$clm, dataCar$numclaims)
+
+dataCar$claimcst0 <- NULL
+dataCar$numclaims <- NULL
+dataCar$X_OBSTAT_ <- NULL
+
+nrow(dataCar[dataCar$veh_value == 0, ])
+dataCar <- dataCar[dataCar$veh_value > 0, ]
+```
+
+
+```{r}
+# CHUNK 3
+# Before factor conversion
+class(dataCar$agecat)
+class(dataCar$veh_age)
+
+dataCar$agecat <- as.factor(dataCar$agecat)
+dataCar$veh_age <- as.factor(dataCar$veh_age)
+
+# After factor conversion
+class(dataCar$agecat)
+class(dataCar$veh_age)
+
+# Save the names of the factor variables as a vector
+# Relevel
+vars.cat <- c("veh_age", "veh_body", "gender", "area", "agecat")
+for (i in vars.cat){
+  table <- as.data.frame(table(dataCar[, i]))
+  max <- which.max(table[, 2])
+  level.name <- as.character(table[max, 1])
+  dataCar[, i] <- relevel(dataCar[, i], ref = level.name)
+}
+
+summary(dataCar)
+```
+
+
+```{r}
+# CHUNK 4
+library(ggplot2)
+ggplot(dataCar, aes(x = veh_value)) +
+  geom_histogram()
+ggplot(dataCar, aes(x = log(veh_value))) +
+  geom_histogram()
+
+dataCar$log_veh_value <- log(dataCar$veh_value)
+dataCar$veh_value <- NULL
+```
+
+
+```{r}
+# CHUNK 5
+ggplot(dataCar, aes(x = factor(clm), y = log_veh_value)) +
+  geom_boxplot(fill = "red")
+
+ggplot(dataCar, aes(x = factor(clm), y = exposure)) +
+  geom_boxplot(fill = "red")
+```
+
+
+```{r}
+# CHUNK 6
+library(tidyverse)
+
+dataCar %>%
+  group_by_("clm") %>%
+  summarize(
+    mean = mean(log_veh_value),
+    median = median(log_veh_value),
+    n = n()
+)
+
+dataCar %>%
+  group_by_("clm") %>%
+  summarize(
+    mean = mean(exposure),
+    median = median(exposure),
+    n = n()
+)
+```
+
+
+```{r}
+# CHUNK 7
+for (i in vars.cat) {
+  plot <- ggplot(dataCar, aes(x = dataCar[, i], fill = factor(clm))) +
+    geom_bar(position = "fill") +
+    labs(x = i, y = "percent") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  print(plot)
+}
+```
+
+
+```{r}
+# CHUNK 8
+for (i in vars.cat) {
+  print(i)
+  x <- dataCar %>%
+    group_by_(i) %>%
+    summarize(mean = mean(clm),
+              n = n())
+  print(x)
+}
+```
+
+
+```{r}
+# CHUNK 9
+# Combine "BUS" and "MCARA" as one level called "BUS-MCARA"
+levels(dataCar$veh_body)[levels(dataCar$veh_body) == "BUS"] <- "BUS-MCARA"
+levels(dataCar$veh_body)[levels(dataCar$veh_body) == "MCARA"] <- "BUS-MCARA"
+
+# Combine levels other than "BUS_MCARA" as "OTHER"
+levels(dataCar$veh_body)[!(levels(dataCar$veh_body) == "BUS-MCARA")] <- "OTHER"
+
+table(dataCar$veh_body)
+```
+
+
+```{r}
+# CHUNK 10
+ggplot(dataCar, aes(x = factor(clm), y = log_veh_value)) +
+  geom_boxplot() +
+  facet_wrap(~ veh_body)
+```
+
+
+```{r}
+# CHUNK 11
+library(caret)
+set.seed(4769)
+partition <- createDataPartition(y = dataCar$clm, p = .75, list = FALSE)
+data.train <- dataCar[partition, ]
+data.test <- dataCar[-partition, ]
+mean(data.train$clm)
+mean(data.test$clm)
+```
+
+
+```{r}
+# CHUNK 12
+logit <- glm(clm ~ . - exposure + log_veh_value:veh_body,
+             data = data.train,
+             family = binomial)
+probit <- glm(clm ~ . - exposure + log_veh_value:veh_body,
+              data = data.train,
+              family = binomial(link = "probit"))
+
+AIC(logit)
+AIC(probit)
+```
+
+
+```{r}
+# CHUNK 13
+logit.offset <- glm(clm ~ . - exposure + log_veh_value:veh_body,
+                    data = data.train,
+                    offset = log(exposure),
+                    family = binomial)
+AIC(logit.offset)
+summary(logit.offset)
+```
+
+
+```{r}
+# CHUNK 14
+cutoff <- mean(dataCar$clm)  # you can try other values
+
+# Generate predicted probabilities on the training set
+pred.train <- predict(logit.offset, type = "response")
+# Turn predicted probabilities into predicted classes
+class.train <- 1*(pred.train > cutoff) # OR ifelse(pred.train > cutoff, 1, 0)
+confusionMatrix(factor(class.train), factor(data.train$clm), positive = "1")
+
+# Generate predicted probabilities on the test set
+pred.test <- predict(logit.offset, newdata = data.test, type = "response")
+class.test <- 1*(pred.test > cutoff)
+confusionMatrix(factor(class.test), factor(data.test$clm), positive = "1")
+```
+
+
+```{r}
+# CHUNK 15
+library(pROC)
+roc.train <- roc(data.train$clm, pred.train)
+par(pty = "s")  # This improves the appearance of the roc plot
+plot(roc.train)
+auc(roc.train)
+
+roc.test <- roc(data.test$clm, pred.test)
+plot(roc.test)
+auc(roc.test)
+```
+
+
+```{r}
+# CHUNK 16
+binarizer <- dummyVars(~ agecat + area + veh_age,
+                       data = dataCar,
+                       fullRank = T)
+binarized.vars <- data.frame(predict(binarizer, newdata = dataCar))
+head(binarized.vars)
+
+# Attach the binarized variables
+dataCar.bin <- cbind(dataCar, binarized.vars)
+
+# Remove the original factor variables
+dataCar.bin$agecat <- NULL
+dataCar.bin$area <- NULL
+dataCar.bin$veh_age <- NULL
+
+# Set up the binarized training and test sets
+data.train.bin <- dataCar.bin[partition, ]
+data.test.bin <- dataCar.bin[-partition, ]
+```
+
+
+```{r}
+# CHUNK 17
+# Fit the logistic regression model to the binarized training set
+logit.full <- glm(clm ~ . - exposure + log_veh_value:veh_body,
+                  data = data.train.bin,
+                  offset = log(exposure),
+                  family = binomial)
+summary(logit.full)
+```
+
+
+```{r}
+# CHUNK 18
+library(MASS)
+logit.null <- glm(clm ~ 1,
+                  data = data.train.bin,
+                  offset = log(exposure),
+                  family = binomial)
+logit.reduced <- stepAIC(logit.null,
+                         direction = "forward",
+                         k = log(nrow(data.train.bin)),
+                         scope = list(upper = logit.full, lower = logit.null))
+summary(logit.reduced)
+```
+
+
+```{r}
+# CHUNK 19
+pred.reduced <- predict(logit.reduced, newdata = data.test.bin, type = "response")
+roc.reduced <- roc(data.test$clm, pred.reduced)
+auc(roc.reduced)
+```
+
+
+```{r}
+# CHUNK 20
+logit.final <- glm(clm ~ log_veh_value + agecat.1 + agecat.5 + agecat.6,
+                   data = dataCar.bin,
+                   offset = log(exposure),
+                   family = binomial)
+summary(logit.final)
+
+# Exponentiate the coefficients to get the multiplicative effects
+exp(coef(logit.final))
+```
+
+
+```{r}
+# CHUNK 21
+# To look at mean or modal values
+summary(dataCar)
+
+new.data <- data.frame(
+  exposure = c(0.468481, 0.515329, 0.468481, 0.468481, 0.468481, 0.468481),
+  log_veh_value = c(0.38675, 0.38675, 0.42543, 0.38675, 0.38675, 0.38675),
+  agecat.1 = c(0, 0, 0, 1, 0, 0),
+  agecat.5 = c(0, 0, 0, 0, 1, 0),
+  agecat.6 = c(0, 0, 0, 0, 0, 1)
+  )
+new.data
+
+predict(logit.final, newdata = new.data, type = "response")
+```

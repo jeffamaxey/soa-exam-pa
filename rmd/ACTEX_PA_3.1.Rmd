@@ -1,0 +1,109 @@
+---
+title: 'ACTEX Study Manual for Exam PA: Section 3.1 (A Primer on Predictive Analytics)'
+author: "Ambrose Lo"
+---
+
+
+```{r}
+# CHUNK 1
+n <- 50  # sample size of each training set
+n_sim <- 3000  # number of rounds of simulation (an important parameter!)
+x0 <- 0.8  # predictor value of interest
+df.test <- data.frame(x = x0)  # test set of one observation
+pred <- matrix(NA, nrow = n_sim, ncol = 5)
+
+set.seed(99)
+for (k in 1:n_sim) {
+  # simulate the training set of n observations for each round
+  x <- runif(n)
+  e <- rnorm(n, sd = 0.5)
+  y <- x^2 + e  # true model is quadratic
+  df.train <- data.frame(x, y)
+  
+  # fit the five linear models to the training set
+  model.0 <- lm(y ~ 1, data = df.train)  # intercept-only model
+  model.1 <- lm(y ~ x, data = df.train)  # simple linear regression
+  model.2 <- lm(y ~ poly(x, 2), data = df.train)  # quadratic regression
+  model.4 <- lm(y ~ poly(x, 4), data = df.train)  # degree 4
+  model.8 <- lm(y ~ poly(x, 8), data = df.train)  # degree 8
+  
+  # calculate the predicted value for each linear model
+  pred[k, 1] <- predict(model.0, newdata = df.test)
+  pred[k, 2] <- predict(model.1, newdata = df.test)
+  pred[k, 3] <- predict(model.2, newdata = df.test)
+  pred[k, 4] <- predict(model.4, newdata = df.test)
+  pred[k, 5] <- predict(model.8, newdata = df.test)
+}
+
+y0 <- x0^2 + rnorm(n_sim, sd = 0.5)  # random target of prediction
+```
+
+
+```{r}
+# CHUNK 2
+# Combine the predicted values of the five models
+# as a single vector for plotting purposes
+pred.all <- c(pred[, 1], pred[, 2], pred[, 3], pred[, 4], pred[, 5])
+degree <- as.factor(rep(c(0, 1, 2, 4, 8), each = n_sim))
+dat <- data.frame(degree, pred.all)
+
+library(ggplot2)
+ggplot(dat, aes(x = degree, y = pred.all)) +
+  geom_boxplot() +
+  geom_hline(yintercept = x0^2, linetype = "dashed") +
+  labs(x = "Degree of Polynomial Regression Function", y = "Predictions")
+```
+
+
+```{r}
+# CHUNK 3
+bias <- Var <- test.error <- rep(NA, 5)
+
+# Simulation estimate of the squared bias
+print("Squared Bias")
+for (j in 1:5) {
+  bias[j] <- (mean(pred[, j]) - x0^2)^2
+  print(bias[j])
+}
+
+# Simulation estimate of the variance
+print("Variance")
+for (j in 1:5) {
+  Var[j] <- mean((pred[, j] - mean(pred[, j]))^2)
+  print(Var[j])
+}
+
+# Simulation estimate of the test error
+print("Test MSE")
+for (j in 1:5) {
+  test.error[j] <- mean((y0 - pred[, j])^2)
+  print(test.error[j])
+}
+```
+
+
+```{r}
+# CHUNK 4
+set.seed(10)
+X1 <- runif(10000, -2, 2)
+X2 <- runif(10000, -2, 2)
+Y <- ifelse(sqrt(X1^2 + X2^2) < 1, "+", "-")  # target variable
+Df <- data.frame(X1, X2, Y)
+
+library(ggplot2)
+ggplot(data = Df, aes(x = X1, y = X2, color = Y)) +
+  geom_point() +
+  coord_fixed()
+```
+
+
+```{r}
+# CHUNK 5
+Df$D <- sqrt(Df$X1^2 + Df$X2^2)  # create the distance variable
+
+ggplot(data = Df, aes(x = 0, y = D, color = Y)) +
+  geom_point(position = "jitter") +
+  annotate("segment", x = -0.4, xend = 0.4, y = 1, yend = 1)
+```
+
+

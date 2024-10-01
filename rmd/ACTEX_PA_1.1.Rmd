@@ -1,0 +1,56 @@
+---
+title: "ACTEX Study Manual for Exam PA: Section 1.1 (Getting Started in R)"
+author: "Ambrose Lo"
+---
+
+```{r}
+# CHUNK 1
+1 + 1
+```
+
+
+```{r}
+# CHUNK 2
+a <- 1 + 1
+a
+(a <- 1 + 1)
+
+A  # not the same as a
+```
+
+
+```{r}
+# CHUNK 3
+b <- 1
+class(b)
+
+c <- 1L
+class(c)
+```
+
+
+```{r}
+# CHUNK 4
+d <- "I love you!"
+d
+class(d)
+
+e <- "123"  # character data, not numeric data
+e
+class(e)
+```
+
+
+```{r}
+# CHUNK 5
+1 < 2
+class(1 < 2)
+
+TRUE * 3   # equal to 1 * 3
+FALSE + 4  # equal to 0 + 4
+
+T          # equal to TRUE
+F          # equal to FALSE
+T <- 100   # override T by another value
+T
+```

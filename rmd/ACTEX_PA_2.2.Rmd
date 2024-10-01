@@ -1,0 +1,224 @@
+---
+title: "ACTEX Study Manual for Exam PA: Section 2.2 (Data Exploration)"
+author: "Ambrose Lo"
+---
+
+```{r}
+# CHUNK 1
+# Reload the data
+persinj <- read.csv("persinj.csv")
+
+summary(persinj$amt)
+```
+
+
+```{r}
+# CHUNK 2
+persinj.0 <- persinj[persinj$legrep == 0, ]
+persinj.1 <- persinj[persinj$legrep == 1, ]
+summary(persinj.0$amt)
+summary(persinj.1$amt)
+sd(persinj.0$amt)
+sd(persinj.1$amt)
+```
+
+
+```{r}
+# CHUNK 3
+library(ggplot2)
+p1 <- ggplot(persinj, aes(x = amt)) +
+  geom_histogram(bins = 10, fill = "blue") +
+  xlim(0, 100000) +
+  ggtitle("Bins = 10")
+p2 <- ggplot(persinj, aes(x = amt)) +
+  geom_histogram(fill = "blue") +
+  xlim(0, 100000) +
+  ggtitle("Default value")
+p3 <- ggplot(persinj, aes(x = amt)) +
+  geom_histogram(bins = 40, fill = "blue") +
+  xlim(0, 100000) +
+  ggtitle("Bins = 40")
+p4 <- ggplot(persinj, aes(x = amt)) +
+  geom_histogram(bins = 80, fill = "blue") +
+  xlim(0, 100000) +
+  ggtitle("Bins = 80")
+
+# uncomment the next line the first time you use the gridExtra package
+#install.packages("gridExtra")
+
+library(gridExtra)
+grid.arrange(p1, p2, p3, p4, ncol = 2)
+```
+
+
+```{r}
+# CHUNK 4
+p1 <- ggplot(persinj, aes(x = log(amt))) +
+  geom_histogram()
+p2 <- ggplot(persinj, aes(x = sqrt(amt))) +
+  geom_histogram()
+grid.arrange(p1, p2, ncol = 2)
+```
+
+
+```{r}
+# CHUNK 5
+p1 <- ggplot(persinj, aes(x = log(amt))) +
+  geom_density()
+p2 <- ggplot(persinj, aes(x = sqrt(amt))) +
+  geom_density()
+grid.arrange(p1, p2, ncol = 2)
+```
+
+
+```{r}
+# CHUNK 6
+p1 <- ggplot(persinj, aes(y = amt)) +
+  geom_boxplot()
+p2 <- ggplot(persinj, aes(y = log(amt))) +
+  geom_boxplot()
+grid.arrange(p1, p2, ncol = 2)
+```
+
+
+```{r}
+# CHUNK 7
+table(persinj$inj)
+table(persinj$inj)/nrow(persinj)
+```
+
+
+```{r}
+# CHUNK 8
+# first convert inj and legrep to factors (original data type is integer)
+persinj$inj <- as.factor(persinj$inj)
+persinj$legrep <- as.factor(persinj$legrep)
+
+p1 <- ggplot(persinj, aes(x = inj)) +
+  geom_bar(fill = "blue")
+p2 <- ggplot(persinj, aes(x = inj)) +
+  geom_bar(fill = "blue", aes(y = ..prop.., group = 1))
+grid.arrange(p1, p2, ncol = 2)
+```
+
+
+```{r}
+# CHUNK 9
+# Uncomment the next line the first time you use the tidyverse package
+#install.packages("tidyverse")
+
+library(tidyverse)
+persinj_by_inj <- persinj %>%
+  group_by(inj) %>%       # grouped by inj
+  summarize(count = n())  # count the no. of observations for each level of inj
+persinj_by_inj
+```
+
+
+```{r}
+# CHUNK 10
+ggplot(persinj_by_inj, aes(x = inj, y = count)) +
+  geom_col(fill = "blue")
+```
+
+
+```{r}
+# CHUNK 11
+cor(persinj$amt, persinj$op_time)
+cor(log(persinj$amt), persinj$op_time)
+```
+
+
+```{r}
+# CHUNK 12
+X <- c(-1, 0 , 1)
+Y <- c(1, 0, 1)
+
+cor(X, Y)
+```
+
+
+```{r}
+# CHUNK 13
+p1 <- ggplot(persinj, aes(x = op_time, y = amt)) +
+  geom_point(alpha = 0.05) +
+  geom_smooth(method = "lm", se = FALSE)
+p2 <- ggplot(persinj, aes(x = op_time, y = log(amt))) +
+  geom_point(alpha = 0.05) +
+  geom_smooth(method = "lm", se = FALSE)
+grid.arrange(p1, p2, ncol = 2)
+```
+
+
+```{r}
+# CHUNK 14
+ggplot(persinj, aes(x = op_time, y = log(amt), color = legrep)) +
+  geom_point(alpha = 0.25) +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+
+```{r}
+# CHUNK 15
+persinj %>%
+  group_by(inj) %>%
+  summarize(
+    mean = mean(log(amt)),
+    median = median(log(amt)),
+    n = n()
+  )
+
+persinj %>%
+  group_by(legrep) %>%
+  summarize(
+    mean = mean(log(amt)),
+    median = median(log(amt)),
+    n = n()
+  )
+```
+
+
+```{r}
+# CHUNK 16
+p1 <- ggplot(persinj, aes(x = inj, y = log(amt))) +
+  geom_boxplot()
+p2 <- ggplot(persinj, aes(x = legrep, y = log(amt))) +
+  geom_boxplot()
+grid.arrange(p1, p2, ncol = 2)
+```
+
+
+```{r}
+# CHUNK 17
+ggplot(persinj, aes(x = inj, y = log(amt), fill = legrep)) +
+  geom_boxplot()
+```
+
+
+```{r}
+# CHUNK 18
+p1 <- ggplot(persinj, aes(x = log(amt), fill = legrep)) +
+  geom_histogram()
+p2 <- ggplot(persinj, aes(x = log(amt), y = ..density.., fill = legrep)) +
+  geom_histogram(position = "dodge")
+grid.arrange(p1, p2)
+```
+
+
+```{r}
+# CHUNK 19
+table(persinj$legrep, persinj$inj)
+```
+
+
+```{r}
+# CHUNK 20
+p1 <- ggplot(persinj, aes(x = inj, fill = legrep)) +
+  geom_bar()
+p2 <- ggplot(persinj, aes(x = inj, fill = legrep)) +
+  geom_bar(position = "dodge")
+p3 <- ggplot(persinj, aes(x = inj, fill = legrep)) +
+  geom_bar(position = "fill") +
+  ylab("Proportion")
+grid.arrange(p1, p2, p3, ncol = 2)
+```

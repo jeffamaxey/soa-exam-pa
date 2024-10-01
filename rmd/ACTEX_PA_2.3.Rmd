@@ -1,0 +1,88 @@
+---
+title: 'ACTEX Study Manual for Exam PA: Section 2.3 (End-of-Chapter Practice Problems)'
+author: "Ambrose Lo"
+---
+
+
+```{r}
+# Problem 2.3.1
+persinj <- read.csv("persinj.csv")
+persinj$inj <- as.factor(persinj$inj)
+persinj$legrep <- as.factor(persinj$legrep)
+library(ggplot2)
+
+# CHUNK 1
+ggplot(persinj, aes(x = inj, color = legrep)) +
+  geom_bar()
+
+# CHUNK 2
+ggplot(persinj, aes(x = inj, fill = legrep)) +
+  geom_bar()
+
+# CHUNK 3
+ggplot(persinj, aes(x = inj)) +
+  geom_bar(fill = legrep)
+
+# CHUNK 4
+ggplot(persinj, aes(x = inj)) +
+  geom_bar(aes(fill = legrep))
+```
+
+
+```{r}
+# Problem 2.3.2 (a)
+library(ggplot2)
+data(diamonds)
+
+nrow(diamonds)
+length(colnames(diamonds))
+
+# preferred solution
+dim(diamonds)
+```
+
+
+```{r}
+# Problem 2.3.2 (b)
+# price
+summary(diamonds$price)
+
+ggplot(diamonds, aes(x = price)) +
+  geom_histogram()
+
+diamonds$Lprice <- log(diamonds$price)
+diamonds$price <- NULL
+
+ggplot(diamonds, aes(x = Lprice)) +
+  geom_histogram()
+```
+
+
+```{r}
+# Problem 2.3.2 (b)
+# cut
+levels(diamonds$cut)
+table(diamonds$cut)  # or use summary(diamonds$cut)
+table(diamonds$cut)/nrow(diamonds)
+```
+
+
+```{r}
+# Problem 2.3.2 (c)
+ggplot(diamonds, aes(x = carat, y = Lprice)) +
+  geom_point()
+```
+
+
+```{r}
+# Problem 2.3.2 (d)
+ggplot(diamonds, aes(x = cut, y = Lprice)) +
+  geom_boxplot(fill = "red")
+```
+
+
+```{r}
+# Problem 2.3.2 (e)
+ggplot(diamonds, aes(x = cut, y = log(carat))) +
+  geom_boxplot(fill = "red")
+```

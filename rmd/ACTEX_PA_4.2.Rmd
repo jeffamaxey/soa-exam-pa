@@ -1,0 +1,99 @@
+---
+title: "ACTEX Study Manual for Exam PA: Section 4.2 (Case Study 1: GLMs for Continuous Target Variables)"
+author: "Ambrose Lo"
+---
+
+```{r}
+# CHUNK 1
+persinj <- read.csv("persinj.csv")
+summary(persinj)
+```
+
+
+```{r}
+# CHUNK 2
+persinj$inj <- as.factor(persinj$inj)
+summary(persinj)
+```
+
+
+```{r}
+# CHUNK 3
+library(caret)
+set.seed(2019)
+partition <- createDataPartition(y = persinj$amt, p = .75, list = FALSE)
+data.train <- persinj[partition, ]
+data.test <- persinj[-partition, ]
+summary(data.train$amt)
+summary(data.test$amt)
+```
+
+
+```{r}
+# CHUNK 4
+glm.ols <- glm(log(amt) ~ inj + legrep * op_time,
+               family = gaussian(link = "identity"), data = data.train)
+summary(glm.ols)
+```
+
+
+```{r}
+# CHUNK 5
+pred.ols <- exp(predict(glm.ols, newdata = data.test))
+head(pred.ols)
+
+RMSE(data.test$amt, pred.ols)
+RMSE(data.test$amt, mean(data.train$amt))
+```
+
+
+```{r}
+# CHUNK 6
+glm.log <- glm(amt ~ inj + legrep * op_time,
+               family = gaussian(link = "log"), data = data.train)
+summary(glm.log)
+
+pred.log <- predict(glm.log, newdata = data.test, type = "response")
+head(pred.log)
+RMSE(data.test$amt, pred.log)
+```
+
+
+```{r}
+# CHUNK 7
+glm.gamma <- glm(amt ~ inj + legrep * op_time,
+                 family = Gamma(link = "log"), data = data.train)
+summary(glm.gamma)
+
+pred.gamma <- predict(glm.gamma, newdata = data.test, type = "response")
+RMSE(data.test$amt, pred.gamma)
+```
+
+
+```{r}
+# CHUNK 8
+glm.ig <- glm(amt ~ inj + legrep * op_time, data = data.train,
+              family = inverse.gaussian(link = "log"))
+```
+
+
+```{r}
+# CHUNK 9
+# Residuals vs Fitted plot
+plot(glm.gamma, which = 1)
+
+# Q-Q plot
+qqnorm(residuals(glm.gamma))
+qqline(residuals(glm.gamma))
+```
+
+
+```{r}
+# CHUNK 10
+glm.final <- glm(amt ~ inj + legrep * op_time,
+                 family = Gamma(link = "log"), data = persinj)
+summary(glm.final)
+
+# Exponentiate the coefficients to get the multiplicative changes
+exp(coef(glm.final))
+```

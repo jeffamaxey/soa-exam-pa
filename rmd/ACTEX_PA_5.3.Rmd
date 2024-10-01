@@ -1,0 +1,393 @@
+---
+title: "ACTEX Study Manual for Exam PA: Section 5.3 (Case Study: Classification Trees)"
+author: "Ambrose Lo"
+---
+
+
+```{r}
+# CHUNK 1
+# Clean the working memory
+rm(list = ls())
+
+# Load the data
+library(ISLR)
+data("Wage")
+
+# Summarize the data
+summary(Wage)
+str(Wage)
+```
+
+
+```{r}
+# CHUNK 2
+Wage$region <- NULL
+```
+
+
+```{r}
+# CHUNK 3
+library(ggplot2)
+ggplot(Wage, aes(x = wage)) +
+  geom_histogram()
+
+ggplot(Wage, aes(x = logwage)) +
+  geom_histogram()
+
+ggplot(Wage, aes(x = sqrt(wage))) +
+  geom_histogram()
+```
+
+
+```{r}
+# CHUNK 4
+# Load needed packages for trees
+library(rpart)
+library(rpart.plot)
+
+# Fit the two trees
+tree.untransformed <- rpart(wage ~ age,
+                            data = Wage,
+                            method = "anova",
+                            control = rpart.control(maxdepth = 1))
+tree.sqrt <- rpart(sqrt(wage) ~ age,
+                   data = Wage,
+                   method = "anova",
+                   control = rpart.control(maxdepth = 1))
+
+# Plot the two trees
+rpart.plot(tree.untransformed, main = "Wage")
+rpart.plot(tree.sqrt, main = "Square Root of Wage")
+```
+
+
+```{r}
+# CHUNK 5
+Wage$wage_flag <- ifelse(Wage$wage >= 100, 1, 0)
+summary(Wage$wage_flag)
+
+# Remove the two wage variables
+Wage$wage <- Wage$logwage <- NULL
+```
+
+
+```{r}
+# CHUNK 6
+vars <- colnames(Wage)[-9]  # exclude wage_flag
+for (i in vars) {
+  plot <- ggplot(Wage, aes(x = Wage[, i], fill = factor(wage_flag))) +
+    geom_bar(position = "fill") +
+    labs(x = i, y = "Proportion of High Earners") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  print(plot)
+}
+
+rm(i, vars, plot)
+```
+
+
+```{r}
+# CHUNK 7
+# Take out the third, fourth, and fifth levels of maritl
+# and change them to "3. Other"
+levels(Wage$maritl)[3:5] <- "3. Other"
+
+# Print the new frequency table of maritl
+table(Wage$maritl)
+```
+
+
+```{r}
+# CHUNK 8
+library(caret)
+set.seed(2021)
+partition <- createDataPartition(y = as.factor(Wage$wage_flag),
+                                 p = .7,
+                                 list = FALSE)
+data.train <- Wage[partition, ] 
+data.test <- Wage[-partition, ]
+
+mean(data.train$wage_flag)
+mean(data.test$wage_flag)
+```
+
+
+```{r}
+# CHUNK 9
+set.seed(60)
+
+# method = "class" ensures that target is treated as a categorical variable
+tree1 <- rpart(wage_flag ~ .,
+               data = data.train,
+               method = "class",
+               control = rpart.control(minbucket = 5,
+                                       cp = 0.0005,
+                                       maxdepth = 7),
+               parms = list(split = "gini"))
+
+# Print output for the tree
+tree1
+
+# Plot the tree
+rpart.plot(tree1, tweak = 2)
+```
+
+
+```{r}
+# CHUNK 10
+tree1$cptable
+plotcp(tree1)
+```
+
+
+```{r}
+# CHUNK 11
+# Get the minimum cp value
+cp.min <- tree1$cptable[which.min(tree1$cptable[, "xerror"]), "CP"] 
+cp.min
+
+# Prune the tree
+tree2 <- prune(tree1, cp = cp.min)
+```
+
+
+```{r}
+# CHUNK 12
+tree3 <- prune(tree1, cp = tree1$cptable[4, "CP"])
+tree3
+
+# Plot the tree
+rpart.plot(tree3)
+```
+
+
+```{r}
+# CHUNK 13
+rpart.plot(tree3, type = 0)
+rpart.plot(tree3, digits = 4, extra = 4)
+```
+
+
+```{r}
+# CHUNK 14
+pred1.class <- predict(tree1, newdata = data.test, type = "class")
+pred2.class <- predict(tree2, newdata = data.test, type = "class")
+pred3.class <- predict(tree3, newdata = data.test, type = "class")
+
+confusionMatrix(pred1.class, as.factor(data.test$wage_flag), positive = "1")
+confusionMatrix(pred2.class, as.factor(data.test$wage_flag), positive = "1")
+confusionMatrix(pred3.class, as.factor(data.test$wage_flag), positive = "1")
+```
+
+
+```{r}
+# CHUNK 15
+library(pROC)
+
+# Extract the predicted probabilities for the second class of wage_flag
+pred1.prob <- predict(tree1, newdata = data.test, type = "prob")[, 2]
+pred2.prob <- predict(tree2, newdata = data.test, type = "prob")[, 2]
+pred3.prob <- predict(tree3, newdata = data.test, type = "prob")[, 2]
+
+roc(data.test$wage_flag, pred1.prob)
+roc(data.test$wage_flag, pred2.prob)
+roc(data.test$wage_flag, pred3.prob)
+```
+
+
+```{r}
+# CHUNK 16
+sample_worker <- data.frame(year = 2021,
+                            age = 30,
+                            maritl = "2. Married",
+                            race = "3. Asian",
+                            education = "4. College Grad",
+                            jobclass = "1. Industrial",
+                            health = "1. <=Good",
+                            health_ins = "1. Yes")
+predict(tree3, newdata = sample_worker)
+```
+
+
+```{r}
+# CHUNK 17
+tree.age <- rpart(wage_flag ~ age, method = "class", data = data.train)
+tree.age
+rpart.plot(tree.age, digits = 4)
+```
+
+
+```{r}
+# CHUNK 18
+tree.age2 <- rpart(wage_flag ~ age + I(age^2),
+                   method = "class",
+                   data = data.train)
+tree.age2
+rpart.plot(tree.age2, digits = 4)
+```
+
+
+```{r}
+# CHUNK 19
+# Set the controls
+ctrl <- trainControl(method = "repeatedcv",
+                     number = 5,  # 5-fold CV
+                     repeats = 3,  # 5-fold CV repeated 3 times
+                     sampling = "down")  # undersampling
+
+# Set up the tuning grid
+rf.grid <- expand.grid(mtry = 1:5)
+rf.grid
+```
+
+
+```{r}
+# CHUNK 20
+# Set up the x and y variables
+target <- factor(data.train$wage_flag)
+predictors <- data.train[, -9]
+
+# Uncomment the next line the first time you use randomForest
+# install.packages("randomForest")
+
+# Train the first random forest
+set.seed(20)  # because CV will be done
+rf1 <- train(
+  y = target,
+  x = predictors,
+  method = "rf",  # use the randomForest algorithm
+  ntree = 5,  # only 5 trees (default = 500)
+  importance = TRUE,
+  trControl = ctrl,
+  tuneGrid = rf.grid
+  )
+
+# View the output
+rf1
+ggplot(rf1)  # OR simply plot(rf1)
+```
+
+
+```{r}
+# CHUNK 21
+set.seed(50)  # this seed need not be the same as the previous seed
+
+# Train the second random forest
+rf2 <- train(
+  y = target,
+  x = predictors,
+  method = "rf",
+  ntree = 20,  # increased to 20
+  importance = TRUE,
+  trControl = ctrl,
+  tuneGrid = rf.grid)
+rf2
+
+# Train the third random forest
+rf3 <- train(
+  y = target,
+  x = predictors,
+  method = "rf",
+  ntree = 100,  # further increased to 100
+  importance = TRUE,
+  trControl = ctrl,
+  tuneGrid = rf.grid)
+rf3
+```
+
+
+```{r}
+# CHUNK 22
+pred.rf1.class <- predict(rf1, newdata = data.test, type = "raw")
+pred.rf2.class <- predict(rf2, newdata = data.test, type = "raw")
+pred.rf3.class <- predict(rf3, newdata = data.test, type = "raw")
+
+confusionMatrix(pred.rf1.class, as.factor(data.test$wage_flag), positive = "1")
+confusionMatrix(pred.rf2.class, as.factor(data.test$wage_flag), positive = "1")
+confusionMatrix(pred.rf3.class, as.factor(data.test$wage_flag), positive = "1")
+```
+
+
+```{r}
+# CHUNK 23
+# Add the type = "prob" option to return predicted probabilities
+pred.rf1.prob <- predict(rf1, newdata = data.test, type = "prob")[, 2]
+pred.rf2.prob <- predict(rf2, newdata = data.test, type = "prob")[, 2]
+pred.rf3.prob <- predict(rf3, newdata = data.test, type = "prob")[, 2]
+
+roc(data.test$wage_flag, pred.rf1.prob)
+roc(data.test$wage_flag, pred.rf2.prob)
+roc(data.test$wage_flag, pred.rf3.prob)
+```
+
+
+```{r}
+# CHUNK 24
+imp <- varImp(rf3)
+imp  # a table of variable importance scores
+
+# Make a variable importance plot
+plot(imp, main = "Variable Importance of Classification Random Forest")
+```
+
+
+```{r}
+# CHUNK 25
+# Uncomment the next line the first time you use pdp
+# install.packages("pdp")
+
+library(pdp)
+# plot = TRUE has the function generate a plot instead of a table
+partial(rf3, train = data.train, pred.var = "education", plot = TRUE)
+
+# For numeric predictors...
+# rug = TRUE produces the eleven tick marks above the horizontal axis.
+# These are the min, max, and deciles of the variable
+# smooth = TRUE adds a smoothed curve 
+partial(rf3, train = data.train, pred.var = "age",
+        plot = TRUE, rug = TRUE, smooth = TRUE)
+```
+
+
+```{r}
+# CHUNK 26
+# Set up the tuning grid
+xgb.grid <- expand.grid(max_depth = 7,
+                        min_child_weight = 1,
+                        gamma = 0,
+                        nrounds = c(50, 100, 150, 200, 250),
+                        eta = c(0.001, 0.002, 0.01, 0.02, 0.1),
+                        colsample_bytree = 0.6,
+                        subsample = 0.6)
+xgb.grid
+
+# Set the controls
+ctrl <- trainControl(method = "cv",
+                     number = 5,
+                     sampling = "down")
+
+# Uncomment the next line the first time you use xgboost
+# install.packages("xgboost")
+
+# Train the boosted tree
+set.seed(42)
+xgb.tuned <- train(as.factor(wage_flag) ~ .,
+                   data = data.train,
+                   method = "xgbTree",
+                   trControl = ctrl,
+                   tuneGrid = xgb.grid)
+
+# View the output
+xgb.tuned
+ggplot(xgb.tuned)
+```
+
+
+```{r}
+# CHUNK 27
+pred.xgb.class <- predict(xgb.tuned, newdata = data.test, type = "raw")
+confusionMatrix(pred.xgb.class, as.factor(data.test$wage_flag), positive = "1")
+
+pred.xgb.prob <- predict(xgb.tuned, newdata = data.test, type = "prob")[, 2]
+roc(as.numeric(data.test$wage_flag), pred.xgb.prob)
+```

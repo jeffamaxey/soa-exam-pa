@@ -1,0 +1,113 @@
+---
+title: "ACTEX Study Manual for Exam PA: Section 2.1 (Making ggplots)"
+author: "Ambrose Lo"
+---
+
+```{r}
+# CHUNK 1
+# Uncomment the next line the first time you use ggplot2
+#install.packages("ggplot2")
+library(ggplot2)
+```
+
+
+```{r}
+# CHUNK 2
+persinj <- read.csv("persinj.csv")
+# Take out a subset of 50 observations from the full data
+persinj50 <- persinj[seq(1, nrow(persinj), length = 50), ]
+```
+
+
+```{r}
+# CHUNK 3
+ggplot(data = persinj50, mapping = aes(x = op_time, y = amt)) +
+  geom_point()
+```
+
+
+```{r}
+# CHUNK 4
+# It is OK to suppress the names of the data and mapping arguments
+# so long as they are supplied in order
+ggplot(persinj50, aes(x = op_time, y = amt, color = "blue")) +
+  geom_point()
+```
+
+
+```{r}
+# CHUNK 5
+ggplot(persinj50, aes(x = op_time, y = amt)) +
+  geom_point(color = "blue")
+```
+
+
+```{r}
+# CHUNK 6
+ggplot(persinj50, aes(x = op_time, y = amt, color = factor(legrep))) +
+  geom_point()
+```
+
+
+```{r}
+# CHUNK 7
+ggplot(persinj50, aes(x = op_time, y = amt, color = legrep)) +
+  geom_point()
+```
+
+
+```{r}
+# CHUNK 8
+ggplot(persinj50, aes(x = op_time, y = amt,
+                      color = factor(legrep), fill = factor(legrep))) +
+  geom_point(size = 2, alpha = 0.5) +
+  geom_smooth()
+```
+
+
+```{r}
+# CHUNK 9
+ggplot(persinj50, aes(x = op_time, y = amt)) +
+  geom_point(aes(color = factor(legrep)), size = 2, alpha = 0.5) +
+  geom_smooth()
+```
+
+
+```{r}
+# CHUNK 10
+ggplot(persinj50, aes(x = op_time, y = amt, fill = factor(legrep))) +
+  geom_point(aes(color = factor(legrep)), size = 2, alpha = 0.5) +
+  geom_smooth(se = FALSE)
+```
+
+
+```{r}
+# CHUNK 11
+ggplot(persinj50, aes(x = op_time, y = amt)) +
+  geom_point(aes(color = factor(legrep)), size = 2, alpha = 0.5) +
+  geom_smooth(aes(fill = factor(legrep)))
+```
+
+
+```{r}
+# CHUNK 12
+ggplot(persinj50, aes(x = op_time, y = amt)) +
+  geom_point(size = 2, alpha = 0.5) +
+  geom_smooth() +
+  facet_wrap(~ legrep)  # Try to add scales = "free" to see what happens
+```
+
+
+```{r}
+# CHUNK 13
+ggplot(persinj50, aes(x = op_time,
+                      y = amt,
+                      color = factor(legrep),
+                      fill = factor(legrep))) +
+  geom_point(size = 2, alpha = 0.5) +
+  geom_smooth() +
+  labs(title = "Personal Injury Dataset",
+       x = "Operational Time",
+       y = "Claim Amount") +
+  coord_cartesian(ylim = c(-200000, 300000))
+```

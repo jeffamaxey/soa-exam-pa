@@ -1,0 +1,168 @@
+---
+title: "ACTEX Study Manual for Exam PA: Section 1.3 (Basic Data Management)"
+author: "Ambrose Lo"
+---
+
+```{r}
+# CHUNK 1
+x <- 1:8
+name <- c("Embryo Luo", "", "Peter Smith", NA,
+          "Angela Peterson", "Emily Johnston", "Barbara Scott", "Benjamin Eng")
+gender <- c("M", "F", "M", "F", "F", "F", "?", "M")
+age <- c(-1, 25, 22, 50, 30, 42, 29, 36)
+exams <- c(10, 3, 0, 4, 6, 7, 5, 9)
+Q1 <- c(10, NA, 4, 7, 8, 9, 8, 7)
+Q2 <- c(9, 9, 5, 7, 8, 10, 9, 8)
+Q3 <- c(9, 7, 5, 8, 10, 10, 7, 8)
+salary <- c(300000, NA, 80000, NA, NA, NA, NA, NA)
+actuary <- data.frame(x, name, gender, age, exams, Q1, Q2, Q3, salary)
+actuary
+```
+
+
+```{r}
+# CHUNK 2
+actuary$x <- NULL
+actuary
+```
+
+
+```{r}
+# CHUNK 3
+actuary$salary <- NULL
+actuary  # salary is gone
+```
+
+
+```{r}
+# CHUNK 4
+is.na(actuary$Q1)
+
+actuary.1 <- actuary[!is.na(actuary$Q1), ]
+actuary.1
+```
+
+
+```{r}
+# CHUNK 5 (Version 1)
+cc <- complete.cases(actuary)
+actuary.2 <- actuary[cc, ]
+actuary.2
+
+# CHUNK 5 (Version 2)
+actuary.3 <- na.omit(actuary)
+actuary.3
+```
+
+
+```{r}
+# CHUNK 6
+actuary.n <- actuary.3  # cleaned dataset
+actuary.n
+nrow(actuary) - nrow(actuary.n)
+```
+
+
+```{r}
+# CHUNK 7
+actuary.n$S <- (actuary.n$Q1 + actuary.n$Q2 + actuary.n$Q3) / 3
+actuary.n
+```
+
+
+```{r}
+# CHUNK 8
+actuary.n$S <- apply(actuary.n[, c("Q1", "Q2", "Q3")], 1, mean)
+actuary.n
+```
+
+
+```{r}
+# CHUNK 9
+actuary.n[which.max(actuary.n$S), "name"]  # best actuary
+actuary.n[which.min(actuary.n$S), "name"]  # worst actuary
+```
+
+
+```{r}
+# CHUNK 10
+# Sorted by S in ascending order
+actuary.n1 <- actuary.n[order(actuary.n$S), ]
+actuary.n1
+
+# Sorted by S in descending order
+actuary.n2 <- actuary.n[order(actuary.n$S, decreasing = TRUE), ]
+actuary.n2
+
+# Sorted by gender, then by S, both in descending order
+actuary.n3 <- actuary.n[order(actuary.n$gender, actuary.n$S, decreasing = TRUE), ]
+actuary.n3
+```
+
+
+```{r}
+# CHUNK 11
+actuary.FSA <- actuary.n[actuary.n$exams == 10, ]
+actuary.FSA
+
+actuary.ASA <- actuary.n[actuary.n$exams >= 7 & actuary.n$exams <= 9, ]
+actuary.ASA
+
+nrow(actuary.FSA)
+nrow(actuary.ASA)
+```
+
+
+```{r}
+# CHUNK 12
+test <- actuary.n$gender == "M" | (actuary.n$exams >= 7 & actuary.n$exams <= 9)
+actuary.reduced <- actuary.n[test, ]
+actuary.reduced <- actuary.reduced[order(actuary.reduced$exams,
+                                         decreasing = TRUE), ]
+actuary.reduced
+```
+
+
+```{r}
+# CHUNK 13
+actuary.n$title <- ifelse(actuary.n$exams == 10, "FSA",
+                          ifelse(actuary.n$exams >= 7 & actuary.n$exams <= 9,
+                                 "ASA", "student"))
+actuary.n
+```
+
+
+```{r}
+# CHUNK 14
+new <- data.frame(smoke = c("N", "N", "Y", "Y", "N", "N", "N", "Y"),
+                  weight = c(70, 65, 60, 90, 60, 55, 50, 75))
+
+actuary.n <- cbind(actuary.n, new[cc, ])
+actuary.n
+```
+
+
+```{r}
+# CHUNK 15
+paste("Hello", "There!")
+paste(c("a", "b", "c"), c("x", "y", "z"), sep = "")  # 3 strings
+paste("The answer is", c("YES", "NO"))  # recycling rule used
+paste0("Yr", 1:10)  # recycling rule used too
+paste("The answer is", c("YES", "NO"), sep = "...", collapse = " OR ")
+```
+
+
+```{r}
+# CHUNK 16
+actuary.n$genderSmoke <- paste0(actuary.n$gender, actuary.n$smoke)
+actuary.n
+```
+
+
+```{r}
+# CHUNK 17
+text <- paste0("Q", 1:3)
+text
+actuary.n$S.new <- apply(actuary.n[, text], 1, mean)
+actuary.n
+```

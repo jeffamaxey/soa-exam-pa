@@ -1,8 +1,38 @@
 bookdown::gitbook:
-  css: style.css
+  dev: svglite
+  css: [css/style.css, css/toc.css]
+  split_by: section
   config:
     toc:
+      collapse: none
       before: |
-        <li><a href="./">SHORT TITLE HERE</a></li>
+        <li><a href="./">Society of Actuaries | Exam PA</a></li>
       after: |
-        <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+        <li><a href="https://github.com/jeffamaxey/soa-exam-pa" target="blank">Github Homepage</a></li>
+    download: [pdf, epub, mobi]
+    edit: https://github.com/jeffamaxey/soa-exam-pa/edit/master/%s
+    sharing:
+      github: yes
+      facebook: no
+    search:
+      engine: fuse
+bookdown::html_chapters:
+  css: [css/style.css, css/toc.css]
+bookdown::pdf_book:
+  includes:
+    in_header: latex/preamble.tex
+    before_body: latex/before_body.tex
+    after_body: latex/after_body.tex
+  keep_tex: yes
+  dev: "cairo_pdf"
+  latex_engine: xelatex
+  citation_package: natbib
+  template: null
+  pandoc_args: --top-level-division=chapter
+  toc_depth: 3
+  toc_unnumbered: no
+  toc_appendix: yes
+  quote_footer: ["\\VA{", "}{}"]
+bookdown::epub_book:
+  dev: svglite
+  stylesheet: [css/style.css, css/toc.css]

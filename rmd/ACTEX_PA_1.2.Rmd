@@ -1,0 +1,278 @@
+---
+title: "ACTEX Study Manual for Exam PA: Section 1.2 (Data Structures)"
+author: "Ambrose Lo"
+---
+
+```{r}
+# CHUNK 1
+a <- c(1, 2, 3, 4, 5)
+b <- c(5, 4, 3, 2, 1)
+c <- c("A", "B", "C")
+d <- c(TRUE, FALSE, FALSE, TRUE, TRUE)
+
+seq(0, 1, 0.25)
+
+length(a)
+length(c)
+```
+
+
+```{r}
+# CHUNK 2
+a + 2   # add 2 to each element of a
+a * 3   # multiply each element of a by 3
+a^2     # square each element of a
+a + b   # usual vector addition
+a * b   # element-wise product of a and b; not dot product
+a / b   # element-wise division of a and b
+a <= b  # determine if each element of a is <= corresponding element of b
+c(a, b) # combine a and b end to end to form a longer vector
+```
+
+
+```{r}
+# CHUNK 3
+a + 1:3
+```
+
+
+```{r}
+# CHUNK 4
+a[2]       # second element of a
+a[c(2, 4)] # second and fourth elements of a
+
+b[-1]       # all but the first element of b
+b[-(2:4)]   # remove the second to fourth elements of b
+
+a[d]
+```
+
+
+```{r}
+# CHUNK 5 (Exercise 1.2.1)
+x <- c(1, 10, 8, 2, 6)
+x[x > 4]
+```
+
+
+```{r}
+# CHUNK 6
+x <- c("M", "F", "F", "O", "M", "M")  # a character vector
+x
+
+x.factor <- factor(x)  # now a factor
+x.factor
+
+levels(x.factor)
+length(levels(x.factor))
+
+as.numeric(x.factor)
+```
+
+
+```{r}
+# CHUNK 7
+y <- c(0, 1, 1, 0, 1, 1)
+y
+
+y.factor <- factor(y)
+y.factor
+```
+
+
+```{r}
+# CHUNK 8
+z <- c("Good", "Excellent", "Bad", "Good", "Bad", "Good")
+z.factor <- factor(z, order = TRUE)
+z.factor
+z.factor <- factor(z, levels = c("Bad", "Good", "Excellent"),
+                   order = TRUE)
+z.factor
+```
+
+
+```{r}
+# CHUNK 9
+A <- matrix(1:8, ncol = 2)
+A
+B <- matrix(9:16, nrow = 4, byrow = TRUE)
+B
+C <- matrix(c(2, 1, 1, 4), ncol = 2)
+C
+D <- matrix(LETTERS[1:6], nrow = 3)
+D
+```
+
+
+```{r}
+# CHUNK 10
+nrow(A)
+ncol(B)
+dim(C)
+dim(D)
+```
+
+
+```{r}
+# CHUNK 11
+A + B  # element-wise addition of A and B
+A * B  # element-wise product of A and B
+A == B
+```
+
+
+```{r}
+# CHUNK 12
+A %*% B  # returns an error
+A %*% C
+
+t(A)
+solve(C)
+```
+
+
+```{r}
+# CHUNK 13
+Y <- c(14, 11, 14, 18, 12, 9)
+X0 <- rep(1, 6)  # intercept column; same as c(1, 1, 1, 1, 1, 1)
+X1 <- c(2, 3, 0, 8, 4, 1)
+X2 <- c(4, 2, 6, 4, 3, 2)
+X <- matrix(c(X0, X1, X2), nrow = 6)
+X
+
+B <- solve(t(X) %*% X) %*% t(X) %*% Y
+B
+```
+
+
+```{r}
+# CHUNK 14
+x <- 6:10
+y <- 11:15
+z <- c("one", "two", "three", "four", "five")
+Df <- data.frame(x, y, z)  # construct a data frame with x, y, and z as columns
+Df
+```
+
+
+```{r}
+# CHUNK 15
+head(Df, n = 3)  # print out the first three rows
+tail(Df, n = 2)  # print out the last two rows
+```
+
+
+```{r}
+# CHUNK 16
+nrow(Df)
+ncol(Df)
+dim(Df)
+
+Df <- data.frame(6:10, 11:15, c("one", "two", "three", "four", "five"))
+Df
+names(Df) <- c("x", "y", "z")
+Df
+```
+
+
+```{r}
+# CHUNK 17
+Df[2, 1]                    # (2,1)-element of Df
+Df[3, 2:3]                  # third row, columns 2 through 3
+Df[, 1]                     # first column of Df
+Df[2:4, ]                   # second to fourth rows of Df
+Df[, c(TRUE, TRUE, FALSE)]  # first two columns of Df
+```
+
+
+```{r}
+# CHUNK 18
+Df$y               # no quotes should go around the column name
+Df[, c("x", "z")]  # quotes should be used
+
+mean(Df$y)
+```
+
+
+```{r}
+# CHUNK 19
+l <- list(p = "This is a list",
+          q = 4:6,
+          r = matrix(1:9, nrow = 3),
+          s = data.frame(x = c(1, 4, 9)))
+l
+```
+
+
+```{r}
+# CHUNK 20
+l[[1]]     # first component of the list
+l[["r"]]   # third component (named r) of the list by name
+l[[2]][3]  # third element of the second component of the list
+l$s        # fourth component of the list by name
+```
+
+
+```{r}
+# CHUNK 21 (Exercise 1.2.3)
+Y <- c(14, 11, 14, 18, 12, 9)
+X1 <- c(2, 3, 0, 8, 4, 1)
+X2 <- c(4, 2, 6, 4, 3, 2)
+m <- lm(Y ~ X1 + X2)
+
+names(m)
+m$coefficients
+```
+
+
+```{r}
+# CHUNK 22
+sumDiff <- function(x, y) {
+  s <- x + y
+  d <- x - y
+  return(list(sum = s, diff = d))
+}
+
+sumDiff(1, 2)$sum
+sumDiff(1:3, 1:3)
+```
+
+
+```{r}
+# CHUNK 23
+sumDiff(1, 2)
+s
+```
+
+
+```{r}
+# CHUNK 24
+sumDiff(x = 2, y = 1)$diff  # by name
+sumDiff(y = 1, x = 2)$diff  # order does not matter
+sumDiff(y = c(0, 3, 2), c(1, 5, 3))$diff  # only one argument named
+sumDiff(9:7, 1:3)$diff  # by position
+```
+
+
+```{r}
+# CHUNK 25
+sumDiff.mod <- function(x, y, list = TRUE) {
+  s <- x + y
+  d <- x - y
+  if (list) {
+    return(list(sum = s, diff = d))
+  } else {
+    return(data.frame(sum = s, diff = d))
+  }
+}
+
+sumDiff.mod(1:3, 4:6)
+sumDiff.mod(1:3, 4:6, list = FALSE)
+```
+
+
+```{r}
+# CHUNK 26
+head(sumDiff.mod(1:8, 8:1, list = FALSE))         # show first six rows
+head(sumDiff.mod(1:8, 8:1, list = FALSE), n = 3)  # show first three rows
+```

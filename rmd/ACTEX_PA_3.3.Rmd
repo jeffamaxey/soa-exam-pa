@@ -1,0 +1,220 @@
+---
+title: 'ACTEX Study Manual for Exam PA: Section 3.3 (Case Study 1: Fitting  Linear Models in R)'
+author: "Ambrose Lo"
+---
+
+
+```{r}
+# CHUNK 1
+ad <- read.csv(url("https://www.statlearning.com/s/Advertising.csv"))
+head(ad)
+
+# Remember to specify the name of the dataset ("ad")
+ad$X <- NULL
+```
+
+
+```{r}
+# CHUNK 2
+summary(ad)
+```
+
+
+```{r}
+# CHUNK 3
+library(ggplot2)
+ggplot(ad, aes(x = sales)) +
+  geom_histogram()
+ggplot(ad, aes(x = TV)) +
+  geom_histogram()
+ggplot(ad, aes(x = radio)) +
+  geom_histogram()
+ggplot(ad, aes(x = newspaper)) +
+  geom_histogram()
+```
+
+
+```{r}
+# CHUNK 4
+cor(ad)
+```
+
+
+```{r}
+# CHUNK 5
+ggplot(ad, aes(x = TV, y = sales)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+ggplot(ad, aes(x = radio, y = sales)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+ggplot(ad, aes(x = newspaper, y = sales)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+
+# Alternative: Create a scatterplot matrix
+pairs(ad)
+```
+
+
+```{r}
+# CHUNK 6
+slr.TV <- lm(sales ~ TV, data = ad)
+slr.TV
+```
+
+
+```{r}
+# CHUNK 7
+summary(slr.TV)
+```
+
+
+```{r}
+# CHUNK 8
+confint(slr.TV)
+```
+
+
+```{r}
+# CHUNK 9
+head(predict(slr.TV))
+```
+
+
+```{r}
+# CHUNK 10
+dat <- data.frame(TV = seq(0, 300, by = 100))
+predict(slr.TV, newdata = dat)
+
+# OR simply...
+# predict(slr.TV, newdata = data.frame(TV = seq(0, 300, by = 100)))
+```
+
+
+```{r}
+# CHUNK 11
+slr.radio <- lm(sales ~ radio, data = ad)
+slr.newspaper <- lm(sales ~ newspaper, data = ad)
+
+summary(slr.radio)
+summary(slr.newspaper)
+```
+
+
+```{r}
+# CHUNK 12
+# Long way
+model.1 <- lm(sales ~ TV + radio + newspaper, data = ad)
+# OR the shorthand...
+model.1 <- lm(sales ~ ., data = ad)
+summary(model.1)
+```
+
+
+```{r}
+# CHUNK 13
+m1 <- lm(sales ~ TV + radio, data = ad)
+m2 <- lm(newspaper ~ TV + radio, data = ad)
+
+cor(m1$residuals, m2$residuals)
+```
+
+
+```{r}
+# CHUNK 14
+model.2 <- lm(sales ~ TV + radio, data = ad)
+
+# OR regress sales on all media except newspaper
+# model.2 <- lm(sales ~ . - newspaper, data = ad)
+
+summary(model.2)
+```
+
+
+```{r}
+# CHUNK 15
+# These two packages are not required for Exam PA
+#install.packages("car")  # uncomment this line the first time you run this chunk
+#install.packages("rgl")  # uncomment this line the first time you run this chunk
+library(car)
+library(rgl)
+scatter3d(sales ~ TV + radio, data = ad)
+```
+
+
+```{r}
+# CHUNK 16
+model.3 <- lm(sales ~ TV * radio, data = ad)
+
+# OR
+# model.3 <- lm(sales ~ TV + radio + TV:radio, data = ad)
+
+summary(model.3)
+```
+
+
+```{r}
+# CHUNK 17
+dat.budget <- data.frame(TV = c(0, 50, 30), radio = c(100, 50, 70))
+predict(model.3, newdata = dat.budget)
+```
+
+
+```{r}
+# CHUNK 18
+model.4 <- lm(sales ~ TV * radio + I(TV^2), data = ad)
+summary(model.4)
+```
+
+
+```{r}
+# CHUNK 19
+#install.packages("caret")  # uncomment this line the first time you use caret
+library(caret)
+set.seed(1)  # set the random seed so that the results are reproducible
+partition <- createDataPartition(ad$sales, p = 0.7, list = FALSE)
+data.train <- ad[partition, ]
+data.test <- ad[-partition, ]
+```
+
+
+```{r}
+# CHUNK 20
+print("TRAIN")
+summary(data.train$sales)
+print("TEST")
+summary(data.test$sales)
+```
+
+
+```{r}
+# CHUNK 21
+model.1.tr <- lm(sales ~ TV + radio + newspaper, data = data.train)
+model.2.tr <- lm(sales ~ TV + radio, data = data.train)
+model.3.tr <- lm(sales ~ TV * radio, data = data.train)
+model.4.tr <- lm(sales ~ TV * radio + I(TV^2), data = data.train)
+model.5.tr <- lm(sales ~ TV * radio + I(TV^2) + I(radio^2), data = data.train)
+```
+
+
+```{r}
+# CHUNK 22
+print("TRAIN")
+RMSE(data.train$sales, predict(model.1.tr))
+RMSE(data.train$sales, predict(model.2.tr))
+RMSE(data.train$sales, predict(model.3.tr))
+RMSE(data.train$sales, predict(model.4.tr))
+RMSE(data.train$sales, predict(model.5.tr))
+```
+
+
+```{r}
+# CHUNK 23
+print("TEST")
+RMSE(data.test$sales, predict(model.1.tr, newdata = data.test))
+RMSE(data.test$sales, predict(model.2.tr, newdata = data.test))
+RMSE(data.test$sales, predict(model.3.tr, newdata = data.test))
+RMSE(data.test$sales, predict(model.4.tr, newdata = data.test))
+RMSE(data.test$sales, predict(model.5.tr, newdata = data.test))
+```

@@ -1,0 +1,342 @@
+---
+title: 'ACTEX Study Manual for Exam PA: Section 3.4 (Case Study 2: Feature Selection and Regularization)'
+author: "Ambrose Lo"
+---
+
+
+```{r}
+# CHUNK 1
+# Uncomment the next line the first time you use ISLR
+# install.packages("ISLR")
+library(ISLR)
+data(Credit)
+
+# Delete the first column containing row indices
+Credit$ID <- NULL
+
+summary(Credit)
+```
+
+
+```{r}
+# CHUNK 2
+library(ggplot2)
+ggplot(Credit, aes(x = Balance)) +
+  geom_histogram()
+
+nrow(Credit[Credit$Balance == 0, ])  # OR sum(Credit$Balance == 0)
+```
+
+
+```{r}
+# CHUNK 3
+# Calculate the correlation matrix for numeric variables
+# The numeric predictors are in the first 6 columns
+cor.matrix <- cor(Credit[, c(1:6, 11)])
+print("Correlation Matrix")
+round(cor.matrix, digits = 4)
+```
+
+```{r}
+# CHUNK 4
+ggplot(Credit, aes(x = Limit, y = Rating)) +
+  geom_point()
+
+# Delete Limit
+Credit$Limit <- NULL
+```
+
+
+```{r}
+# CHUNK 5
+# first save the names of the numeric predictors as a vector
+vars.numeric <- colnames(Credit[, 1:5])
+for (i in vars.numeric) {
+  plot <- ggplot(Credit, aes(x = Credit[, i], y = Balance)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE) +
+    labs(x = i)
+  print(plot)
+}
+```
+
+
+```{r}
+# CHUNK 6
+library(tidyverse)
+
+# Save the names of the categorical predictors as a vector
+vars.categorical <- c("Gender", "Student", "Married", "Ethnicity")
+for (i in vars.categorical) {
+  x <- Credit %>%
+    group_by_(i) %>%
+    summarize(
+      mean = mean(Balance),
+      median = median(Balance),
+      n = n()
+      )
+  print(x)
+}
+```
+
+
+```{r}
+# CHUNK 7
+for (i in vars.categorical) {
+  plot <- ggplot(Credit, aes(x = Credit[, i], y = Balance)) +
+    geom_boxplot() +
+    labs(x = i)
+  print(plot)
+}
+```
+
+
+```{r}
+# CHUNK 8
+ggplot(Credit, aes(x = Student, y = Age)) +
+  geom_boxplot()
+
+ggplot(Credit, aes(x = Income, y = Balance, color = Student)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+
+```{r}
+# CHUNK 9
+library(caret)
+set.seed(8964)
+partition <- createDataPartition(Credit$Balance, p = 0.75, list = FALSE)
+data.train <- Credit[partition, ]
+data.test <- Credit[-partition, ]
+
+print("TRAIN")
+mean(data.train$Balance)
+
+print("TEST")
+mean(data.test$Balance)
+```
+
+
+```{r}
+# CHUNK 10
+model.full <- lm(Balance ~ . + Income:Student, data = data.train)
+summary(model.full)
+```
+
+
+```{r}
+# CHUNK 11
+for (i in vars.categorical){
+  # Use the table() function to calculate the frequencies for each factor
+  table <- as.data.frame(table(Credit[, i]))
+  # Determine the level with the highest frequency
+  max <- which.max(table[, 2])
+  # Save the name of the level with the highest frequency
+  level.name <- as.character(table[max, 1])
+  # Set the baseline level to the most populous level
+  Credit[, i] <- relevel(Credit[, i], ref = level.name)
+}
+
+summary(Credit[, vars.categorical])
+```
+
+
+```{r}
+# CHUNK 12
+# To make sure factors in the training set are releveled
+data.train <- Credit[partition, ]
+
+model.full <- lm(Balance ~ . + Income:Student, data = data.train)
+summary(model.full)
+```
+
+
+```{r}
+# CHUNK 13
+library(caret)
+binarizer <- dummyVars(paste("~", paste(vars.categorical, collapse = "+")),
+                       data = Credit, fullRank = TRUE)
+# OR type out the categorical predictors one by one
+#binarizer <- dummyVars(~ Gender + Student + Married + Ethnicity,
+#                       data = Credit, fullRank = TRUE)
+binarized_vars <- data.frame(predict(binarizer, newdata = Credit))
+head(binarized_vars)
+```
+
+
+```{r}
+# CHUNK 14
+Credit.bin <- cbind(Credit, binarized_vars)
+head(Credit.bin)
+
+Credit.bin$Gender <- NULL
+Credit.bin$Student <- NULL
+Credit.bin$Married <- NULL
+Credit.bin$Ethnicity <- NULL
+head(Credit.bin)
+
+data.train.bin <- Credit.bin[partition, ]
+data.test.bin <- Credit.bin[-partition, ]
+```
+
+
+```{r}
+# CHUNK 15
+# The interaction term is now Income:Student.Yes, not Income:Student
+model.full.bin <- lm(Balance ~ . + Income:Student.Yes, data = data.train.bin)
+summary(model.full.bin)
+```
+
+
+```{r}
+# CHUNK 16
+#install.packages("MASS")  # uncomment this line the first time you use MASS
+library(MASS)
+model.backward.AIC <- stepAIC(model.full.bin)
+
+summary(model.backward.AIC)
+```
+
+
+```{r}
+# CHUNK 17
+model.no.binarize <- stepAIC(model.full, steps = 1)
+```
+
+
+```{r}
+# CHUNK 18
+# first fit the null model (i.e., model with no predictors)
+model.null <- lm(Balance ~ 1, data = data.train.bin)
+
+model.forward.BIC <- stepAIC(model.null,
+                             direction = "forward",
+                             scope = list(upper = model.full.bin,
+                                          lower = model.null),
+                             k = log(nrow(data.train.bin)))
+
+summary(model.forward.BIC)
+```
+
+
+```{r}
+# CHUNK 19
+RMSE(data.test$Balance, predict(model.null, newdata = data.test.bin))
+RMSE(data.test$Balance, predict(model.full.bin, newdata = data.test.bin))
+RMSE(data.test$Balance, predict(model.backward.AIC, newdata = data.test.bin))
+RMSE(data.test$Balance, predict(model.forward.BIC, newdata = data.test.bin))
+```
+
+
+```{r}
+# CHUNK 20
+plot(model.forward.BIC)
+```
+
+
+```{r}
+# CHUNK 21
+X.train <- model.matrix(Balance ~ . + Income:Student, data = data.train)
+head(X.train)  # print out a few rows of the design matrix
+```
+
+
+```{r}
+# CHUNK 22
+#install.packages("glmnet")  # uncomment this line the first time you use glmnet
+library(glmnet)
+m.lambda <- glmnet(x = X.train,
+                   y = data.train$Balance,
+                   family = "gaussian",
+                   lambda = c(0, 10, 100, 500, 1000),
+                   alpha = 0.5)
+
+# first way to extract coefficient estimates
+m.lambda$a0
+m.lambda$beta
+
+# second way
+coef(m.lambda)
+
+mean(data.train$Balance)
+```
+
+
+```{r}
+# CHUNK 23
+m.ridge <- glmnet(x = X.train,
+                  y = data.train$Balance,
+                  family = "gaussian",
+                  lambda = 10,
+                  alpha = 0)
+coef(m.ridge)
+
+m.elastic.net <- glmnet(x = X.train,
+                        y = data.train$Balance,
+                        family = "gaussian",
+                        lambda = 10,
+                        alpha = 0.5)
+coef(m.elastic.net)
+
+m.lasso <- glmnet(x = X.train,
+                  y = data.train$Balance,
+                  family = "gaussian",
+                  lambda = 10,
+                  alpha = 1)
+coef(m.lasso)
+```
+
+
+
+```{r}
+# CHUNK 24
+set.seed(1111)
+m <- cv.glmnet(x = X.train,
+               y = data.train$Balance,
+               family = "gaussian",
+               alpha = 0.5)
+plot(m)
+
+m$lambda.min
+m$lambda.1se
+```
+
+
+```{r}
+# CHUNK 25
+# Fit the regularized model using lambda.min
+m.min <- glmnet(x = X.train,
+                y = data.train$Balance,
+                family = "gaussian",
+                lambda = m$lambda.min,
+                alpha = 0.5)
+
+# List the coefficient estimates
+m.min$beta
+
+# Set up the design matrix for the test set
+X.test <- model.matrix(Balance ~ . + Income:Student, data = data.test)
+
+# Make predictions on the test set and calculate test RMSE
+m.min.pred <- predict(m.min, newx = X.test)
+RMSE(data.test$Balance, m.min.pred)
+```
+
+
+```{r}
+# CHUNK 26
+# Fit the regularized model using lambda.1se
+m.1se <- glmnet(x = X.train,
+                y = data.train$Balance,
+                family = "gaussian",
+                lambda = m$lambda.1se,
+                alpha = 0.5)
+
+# List the coefficient estimates
+m.1se$beta
+
+# Make predictions on the test set and calculate test RMSE
+m.1se.pred <- predict(m.1se, newx = X.test)
+RMSE(data.test$Balance, m.1se.pred)
+```

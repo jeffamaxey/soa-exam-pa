@@ -1,0 +1,134 @@
+---
+title: "ACTEX Study Manual for Exam PA: Section 6.1 (Principal Components Analysis)"
+author: "Ambrose Lo"
+---
+
+
+```{r}
+# CHUNK 1
+# Clean the working memory
+rm(list = ls())
+
+data(USArrests)
+summary(USArrests)
+```
+
+
+```{r}
+# CHUNK 2
+apply(USArrests, 2, sd)
+```
+
+
+```{r}
+# CHUNK 3
+library(ggplot2)
+
+# names(USArrests) extracts the column names of the USArrests data
+for (i in names(USArrests)) {
+  plot <- ggplot(USArrests, aes(x = USArrests[, i])) +
+    geom_histogram() +
+    xlab(i)
+  print(plot)
+}
+
+rm(i, plot)
+```
+
+
+```{r}
+# CHUNK 4
+cor(USArrests)
+```
+
+
+```{r}
+# CHUNK 5
+PCA <- prcomp(USArrests, center = TRUE, scale. = TRUE)
+
+# PC loadings
+PCA$rotation
+
+# PC scores
+PCA$x
+```
+
+
+```{r}
+# CHUNK 6
+# cex argument indicates the amount by which plotting symbols should be scaled
+# cex = 0.6 means 40% smaller
+# scale = 0 ensures that the arrows are scaled to represent the loadings
+biplot(PCA, scale = 0, cex = 0.6)
+```
+
+
+```{r}
+# CHUNK 7
+PCA.unscaled <- prcomp(USArrests, scale. = FALSE)
+PCA.unscaled$rotation
+biplot(PCA.unscaled, scale = 0, cex = 0.6)
+```
+
+
+```{r}
+# CHUNK 8
+summary(PCA)
+
+plot(PCA$sdev^2/sum(PCA$sdev^2), xlab = "Principal Component",
+     ylab = "PVE", ylim = c(0, 1), type = "b")
+plot(cumsum(PCA$sdev^2/sum(PCA$sdev^2)),
+     xlab = "Principal Component", ylab = "Cumulative PVE",
+     ylim = c(0, 1), type = "b")
+```
+
+
+```{r}
+# CHUNK 9
+library(ISLR)
+data(Credit)
+PCA.Credit <- prcomp(Credit[, c("Limit", "Rating")], scale. = TRUE)
+PCA.Credit  # or PCA.Credit$rotation
+summary(PCA.Credit)
+```
+
+
+```{r}
+# CHUNK 10
+USArrests.1 <- USArrests  # make a new copy of USArrests
+USArrests.1$PC1 <- PCA$x[, 1]
+head(USArrests.1)
+```
+
+
+```{r}
+# CHUNK 11
+USArrests.2 <- USArrests
+
+# the scale() function performs both centering and standardization for each variable
+# and will convert the USArrests data to a numeric matrix
+# so we use the as.data.frame() function to change it back to a data frame
+USArrests.scaled <- as.data.frame(scale(USArrests.2))
+
+USArrests.2$crime <- PCA$rotation[1, 1] * USArrests.scaled$Murder +
+  PCA$rotation[2, 1] * USArrests.scaled$Assault +
+  PCA$rotation[4, 1] * USArrests.scaled$Rape
+
+# OR
+#USArrests$crime <- PCA$rotation[1, 1] * scale(USArrests$Murder) +
+#  PCA$rotation[2, 1] * scale(USArrests$Assault) +
+#  PCA$rotation[4, 1] * scale(USArrests$Rape)
+
+head(USArrests.2)
+```
+
+
+```{r}
+# CHUNK 12
+USArrests.2$Murder <- USArrests.2$Assault <- USArrests.2$Rape <- NULL
+
+# OR
+# USArrests.2[, c(1, 2, 4)] <- NULL
+
+head(USArrests.2)
+```

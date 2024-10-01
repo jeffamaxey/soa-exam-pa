@@ -1,0 +1,91 @@
+---
+title: "ACTEX Study Manual for Exam PA: Section 1.4 (for Loops)"
+author: "Ambrose Lo"
+---
+
+```{r}
+# CHUNK 1
+psum <- function(n) {
+  s <- 0
+  for (i in 1:n) {
+    s <- s + i
+  }
+  return(s)  # don't miss the return value
+}
+
+psum(1)
+psum(3)
+psum(10)
+```
+
+
+```{r}
+# CHUNK 2
+psum.vec <- function(n) {
+  x <- 1:n
+  return(sum(x))
+}
+
+psum.vec(1)
+psum.vec(3)
+psum.vec(10)
+```
+
+
+```{r}
+# CHUNK 3
+# Initialization step
+n <- 100
+n_sim <- 1000  # number of replications
+mu <- 5        # true mean value
+sigma <- 2
+count <- rep(NA, n_sim)
+
+# Repetition step
+set.seed(0)    # to make results reproducible
+for (i in 1:n_sim) {
+  # Draw a random sample of size n from a normal distribution
+  # with mean mu and standard deviation sigma
+  x <- rnorm(n, mean = mu, sd = sigma)
+  count[i] <- (abs(mean(x) - mu) <= qnorm(0.975) * sigma / sqrt(n))
+}
+
+# Final result
+mean(count)
+```
+
+
+```{r}
+# CHUNK 4
+runif(3)        # simulate without specifying a random seed
+runif(3)        # different results from previous run 
+
+set.seed(1111)  # now simulate with a specified random seed
+runif(3)
+runif(3)
+
+set.seed(1111)  # use the same seed again
+runif(3)
+runif(3)        # same results as previous two runs
+```
+
+
+```{r}
+# CHUNK 5
+# Initialization step
+n <- 100
+n_sim <- 1000
+mu <- 5
+sigma <- 2
+count <- rep(NA, n_sim)
+
+# Repetition step
+for (i in 1:n_sim) {
+  set.seed(86)  # put inside for loop
+  x <- rnorm(n, mean = mu, sd = sigma)
+  count[i] <- (abs(mean(x) - mu) <= qnorm(0.975) * sigma / sqrt(n))
+}
+
+# Final result
+mean(count)
+```
