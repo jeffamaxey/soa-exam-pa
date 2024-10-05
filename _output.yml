@@ -15,4 +15,10 @@ bookdown::pdf_book:
   citation_package: natbib
   keep_tex: yes
 bookdown::epub_book: default
-bookdown::bs4_book: default
+bookdown::bs4_book:
+  theme:
+    primary: "#0d6efd"   # default .rmdnote = blue
+    danger:  "#dc3545"   # default .rmdcaution = red
+    success: "#198754"   # default .rmdimportant = green
+    info:    "#0dcaf0"   # default .rmdtip = cyan
+    warning: "#ffc107"   # default .rmdwarning = yellow

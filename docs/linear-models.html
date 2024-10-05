@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 3 Linear Models | Society of Actuaries Exam PA</title>
+<meta name="author" content="Jeff A. Maxey">
+<meta name="description" content="Topic: Predictive Analytics Problem Defintion (10-20%) Learning Objectives: The Candidate will be able to identify the business problem, how the available data relates to possible analyses, and...">
+<meta name="generator" content="bookdown 0.40 with bs4_book()">
+<meta property="og:title" content="Chapter 3 Linear Models | Society of Actuaries Exam PA">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Topic: Predictive Analytics Problem Defintion (10-20%) Learning Objectives: The Candidate will be able to identify the business problem, how the available data relates to possible analyses, and...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 3 Linear Models | Society of Actuaries Exam PA">
+<meta name="twitter:description" content="Topic: Predictive Analytics Problem Defintion (10-20%) Learning Objectives: The Candidate will be able to identify the business problem, how the available data relates to possible analyses, and...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Society of Actuaries Exam PA</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="introduction.html">Introduction</a></li>
+<li class="book-part">A Crash Course in R</li>
+<li><a class="" href="basics-of-r-programming.html"><span class="header-section-number">1</span> Basics of R Programming</a></li>
+<li><a class="" href="data-exploration-and-visualization.html"><span class="header-section-number">2</span> Data Exploration and Visualization</a></li>
+<li class="book-part">Theory of and Case Studies in Predictive Analytics</li>
+<li><a class="active" href="linear-models.html"><span class="header-section-number">3</span> Linear Models</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="linear-models" class="section level1" number="3">
+<h1>
+<span class="header-section-number">3</span> Linear Models<a class="anchor" aria-label="anchor" href="#linear-models"><i class="fas fa-link"></i></a>
+</h1>
+<div class="rmdnote">
+<p>Topic: Predictive Analytics Problem Defintion (10-20%)</p>
+<p>Learning Objectives: The Candidate will be able to identify the business problem, how the available data relates to possible analyses, and use the information to propose an appropriate modeling approach.</p>
+</div>
+<div id="a-primer-on-predictive-analytics" class="section level2" number="3.1">
+<h2>
+<span class="header-section-number">3.1</span> A Primer on Predictive Analytics<a class="anchor" aria-label="anchor" href="#a-primer-on-predictive-analytics"><i class="fas fa-link"></i></a>
+</h2>
+<p>This subsection streamlines the material scattered in different parts of the PA modules (which are notoriously difficult to digest) and presents a coherent introduction to predictive analytics.</p>
+<p>The fundamental concepts introduced in this section are universally applicable in the sense that they apply to essentially all types of models, and will be illustrated in the context of specific types of models (generalized linear models and decision trees, in particular) in this and later chapters.</p>
+<div id="basic-terminology" class="section level3" number="3.1.1">
+<h3>
+<span class="header-section-number">3.1.1</span> Basic Terminology<a class="anchor" aria-label="anchor" href="#basic-terminology"><i class="fas fa-link"></i></a>
+</h3>
+<p><strong>Predictive Analytics in a Nutshell:</strong></p>
+<p>What exactly is predictive analytics? To answer this question, it may help to understand the three main categories of predictive modeling problems suggested by the PA modules:</p>
+<ul>
+<li>
+<strong>Descriptive:</strong> Descriptive analytics focuses on what happened in the <strong><em>past</em></strong> and aims to “describe” or explain the observed trends by identifying the relationships between different variables in the data.
+<ul>
+<li>
+<strong>Example:</strong> If you saw an increase in the lapse rate among the policyholders of a certain line of business, what kind of policyholders had the highest tendency to lapse? This is a question that can be answered by descriptive analytics.</li>
+</ul>
+</li>
+<li>
+<strong>Predictive:</strong> Predictive analytics focuses on what will happen in the <strong><em>future</em></strong> and is concerned with making accurate “predictions”.
+<ul>
+<li>
+<strong>Example:</strong> For a prospective policyholder with certain characteristics, what is their predicted probability of lapse? The ability to make such a prediction will be useful for identifying future policyholders who will have a lower probability of lapse and contribute to the profitability of an insurer.</li>
+</ul>
+</li>
+<li>
+<strong>Prescriptive:</strong> Prescriptive analytics uses a combination of optimization and simulation to investigate and quantify impact of different “prescribed” actions in different scenarios.
+<ul>
+<li>
+<strong>Example:</strong> If we reduce the premium by a certain amount, how will this affect the lapse rate?</li>
+</ul>
+</li>
+</ul>
+<p>Not surprisingly, Exam PA is predominantly concerned with <em>predictive analytics</em>, although the three modeling approaches are often mutually complementary, not contradictory.</p>
+<p>There is always an output (or outcome) of interest, which can be numeric (salary, premium, injury rates) or categorical (positive/negative, email/spam), and we have at our disposal a collection of input variables that may offer potentially useful information for predicting or understanding the output.</p>
+<p>This “input-output” setting is characteristic of predictive analytics in general, and our job is to develop a model teasing out the (possibly complex, overlapping) contributions of inputs to the outputs.</p>
+<p><strong>Classification of Variables:</strong></p>
+<p>Predictive analytics requires data, often with a large number of observations and variables. Generally speaking, there are two ways to classify variables in a predictive analytics context: By their role in the study (intended use) or by their nature (characteristics).</p>
+<ul>
+<li>
+<p><strong>By Role:</strong> The variable that we are interested in predicting is called the <strong><em>target variable</em></strong>, or simply the <strong><em>target</em></strong> <strong>(a.k.a response variable, dependent variable, output variable, outcome variable).</strong></p>
+<p>Despite the target variable being our interest, in most situations we cannot change the target variable directly, but we have control over some associated variables which can be used to predict the target. These variables go by different names, such as <strong><em>predictors, explanatory variables, independent variables, input variables</em></strong>.</p>
+<p>In an actuarial context, predictors are also known as risk factors or risk drivers. In the remainder of this manual and in Exam PA, we will mostly use the term “predictors” and “features” (to be defined in Subsection 3.1.4).</p>
+<p>Throughout your study of predictive analytics, it is useful to think of a predictive model as the following functional relationship between the target variable <span class="math inline">\(Y\)</span> and the set of predictors <span class="math inline">\(X = (X_{1}, ..., X_{p})\)</span> (collected as a vector): <span class="math display">\[
+        \begin{equation}
+        Y_{i} = f(X_{i}) + \epsilon_{i} (\#eq:linear-relationship)
+        \end{equation}
+        \]</span> Where:</p>
+<ul>
+<li><p>The subscript <span class="math inline">\(i\)</span> signifies the <span class="math inline">\(i\)</span>th observation in your dataset, so <span class="math inline">\(Y_{i}\)</span> is the value of the target variable for the <span class="math inline">\(i\)</span>th observation and <span class="math inline">\(X_{i} = (X_{i1},..., X_{ip})\)</span> is the corresponding vector of predictor values.</p></li>
+<li>
+<p>The symbol <span class="math inline">\(f\)</span> is a fixed (non-random) but unknown real function connecting the predictors and the target variables. Without the subscript <span class="math inline">\(i\)</span> (it is <span class="math inline">\(f\)</span> rather than <span class="math inline">\(f_{i}\)</span>), the function applies to all observations in the data, hence “systematic”. Largely synonymous with the model, this function carries the systematic information that the predictors offer about the target variable, and allows us to differentiate, or discriminate, the observations of the target variable on the basis of those of the predictors.</p>
+<p>Different types of predictive models are distinguished by the structural form of this function, e.g., linear for linear models and piece-wise constant for decision trees, as we will see in later chapters.</p>
+</li>
+<li>
+<p>The symbol <span class="math inline">\(\epsilon_{i}\)</span> is a zero-mean random error term carrying information that is specific to the <span class="math inline">\(i\)</span>th observation, hence “idiosyncratic” and the presence of the subscript <span class="math inline">\(i\)</span>. It can be regarded as a catch-all for what the systematic component of the model misses, e.g., the true relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is probably more complex than <a href="#eq:linear-relationship">(<strong>??</strong>)</a>, there are other variables associated with <span class="math inline">\(Y\)</span> omitted by the model.</p>
+<p>Although <a href="#eq:linear-relationship">(<strong>??</strong>)</a> looks abstract and the exam will not test it directly, it will provide a useful framework for thinking about predictive analytics.</p>
+<p>For convenience, we will refer to <span class="math inline">\(f\)</span> and <span class="math inline">\(\epsilon\)</span> respectively as the <span class="math inline">\(\fbox{signal function}\)</span> and the <span class="math inline">\(\fbox{noise}\)</span> which are engineering terms.</p>
+<p>We are interested in the signal, but the data we have is “contaminated” with noise. The goal of predictive analytics is to filter out the noise and use a variety of tools and techniques to learn as much about the signal as possible from the data. This knowledge about the signal can then provide us with a basis for understanding the data-generating process underlying the population of interest, and making predictions for the target variable.</p>
+</li>
+</ul>
+</li>
+</ul>
+<!-- --><ul>
+<li>
+<p><strong>By Nature:</strong> Variables can also be classified as <em>numeric</em> variables or <em>categorical</em> variables. Such a classification has important implications for developing an effective predictive model that aligns with the character of the target variable and predictors to produce realistic output.</p>
+<ol style="list-style-type: decimal">
+<li>
+<p><strong>Numeric Variables:</strong> Numeric variables take the form of numbers with a well-defined order (e.g., 1 must be less than 2) and an associated range. They can be further classified as:</p>
+<ul>
+<li><p><strong>Discrete variables:</strong> Restricted to only certain numeric values in that range, e.g., non-negative integers.</p></li>
+<li><p><strong>Continuous:</strong> Can assume any value in a continuum, at least in theory.</p></li>
+</ul>
+</li>
+<li>
+<p><strong>Categorical Variables:</strong> Categorical variables take predefined values in a countable collection of “categories”. These categories, which often have no numeric order (i.e., we cannot say which category is larger or smaller), are called the <strong>levels</strong> or <strong>classes</strong> of the variable. Here are some examples of properties that can be described by categorical variables:</p>
+<ul>
+<li><p>Gender (male, female, or non-binary)</p></li>
+<li><p>Smoking status (smoking or non-smoking)</p></li>
+<li><p>Risk group (preferred, standard, rated, or un-insurable)</p></li>
+<li><p>Marital status (single, married, divorced, or widowed)</p></li>
+</ul>
+<p>An important special case of a categorical variable is a <strong>binary</strong> variable, which only takes two possible levels (often yes or no), indicating whether an event has taken place or whether a characteristic is present.</p>
+<p>In many datasets in practice, categorical variables are represented by numbers, but note that coding the levels of a categorical variable by numbers does not make the variable numeric. Consider, for instance, the variable <span class="math inline">\(X\)</span> which represents smoking status and is encoded as: <span class="math display">\[
+X = \begin{cases} &amp; \text{0, for a non-smoker,} \\ &amp; \text{1, for a smoker,} \\ &amp; \text{2, for an individual with unknown smoking status.}  \end{cases}
+\]</span></p>
+<p>Even though the three levels “non-smoker”, “smoker”, and “unknown” have been coded as “0”, “1”, and “2”, respectively, the three numbers are merely labels without an implicit order and cannot be compared in an algebraic fashion. For example, “1” is not less than “2” in a meaningful fashion in this case.</p>
+</li>
+</ol>
+<p>In predictive modeling, the type of model to use is largely determined by the nature of the target variable, not the predictors.</p>
+<p>In other words, the distinction between continuous and categorical variables is relatively unimportant when they serve as predictors of a model, but we need to take the distinction properly into account when they serve as the target variable. Some predictive models (e.g., linear models) will work well only for continuous target variables while some (e.g., generalized linear models and decision trees) apply to both numeric and categorical target variables.</p>
+</li>
+</ul>
+<p><strong>Supervised vs. Unsupervised Problems:</strong></p>
+<p>Predictive analytics problems can also be classified into <em>supervised</em> and <em>unsupervised</em> problems, depending on the presence of a target variable and the objective of analysis.</p>
+<ul>
+<li>
+<p><strong>Supervised Learning Problems:</strong> They refer to those for which there is a target variable “supervising” or guiding our analysis, and our goal is to understand the relationship between the target variable and the predictors, and/or make accurate predictions for the target based on the predictors.</p>
+<ul>
+<li>
+<p><strong>Types of Supervised Learning Methods:</strong></p>
+<ul>
+<li><p>Generalized Linear Models (GLMs)</p></li>
+<li><p>Decision Trees</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Unsupervised Learning Problems:</strong> For unsupervised learning methods, there is no target variable supervising our analysis (we are therefore “unsupervised”), and we are interested in extracting relationships and structures between different variables in the data.</p>
+<ul>
+<li>
+<p><strong>Types of Unsupervised Learning Methods:</strong></p>
+<ul>
+<li><p>Principal Components Analysis (PCA)</p></li>
+<li><p>Cluster Analysis</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Note that supervised and unsupervised learning methods are sometimes used in conjunction with one another. As we will see in Chapter 6, unsupervised learning methods can be used for the purposes of data exploration and producing potentially useful features for predicting the target variable more accurately.</p>
+<p><strong>Regression vs. Classification Problems:</strong></p>
+<p>In predictive analytics, it is customary to refer to supervised learning problems with a numeric target variable as <strong><em>regression</em></strong> problems (an exception is logistic regression, for which the target variable is binary; see Chapter 4. In contrast, when the target variable is categorical in nature, we are dealing with <strong><em>classification</em></strong> problems. A predictive model for predicting a categorical target variable involves “classifying” its observations to a certain level and is aptly called a <em>classifier</em>.</p>
+<p>Both regression and classification problems are of importance in predictive modeling in general. The two kinds of predictive analytics problems have their unique features and will covered in detail in Part II of this manual.</p>
+</div>
+<div id="the-model-building-process" class="section level3" number="3.1.2">
+<h3>
+<span class="header-section-number">3.1.2</span> The Model Building Process<a class="anchor" aria-label="anchor" href="#the-model-building-process"><i class="fas fa-link"></i></a>
+</h3>
+<p>Now that we have a first taste of what predictive analytics is like, in this important and rather lengthy subsection we will walk through the main steps involved in the construction and evaluation of a predictive model.</p>
+<p>In practice, model building typically requires a sequence of complex and inter-related decisions. The whole process is iterative and often more of an art than a science. The framework here is necessarily simplified and focuses on the most important steps in Exam PA, but is rich enough to show you what it takes to build a good model in real life.</p>
+<div id="stage-1-problem-definition" class="section level4" number="3.1.2.1">
+<h4>
+<span class="header-section-number">3.1.2.1</span> Stage 1: Problem Definition<a class="anchor" aria-label="anchor" href="#stage-1-problem-definition"><i class="fas fa-link"></i></a>
+</h4>
+<p>The first step in any model building exercise is to clearly formulate the business problems to which predictive analytics will be applied.</p>
+</div>
+<div id="characteristics-of-predictive-modeling-problems" class="section level4 unnumbered">
+<h4>Characteristics of Predictive Modeling Problems<a class="anchor" aria-label="anchor" href="#characteristics-of-predictive-modeling-problems"><i class="fas fa-link"></i></a>
+</h4>
+<p>Before we decide to apply predictive analytics to solve a business problem, we should ensure that it is indeed a problem that should be addressed by predictive modeling.</p>
+<p>A conceptual exam task testing the syllabus learning outcome, “Describe the characteristics of predictive modeling problems.”, may ask:</p>
+<div class="rmdnote">
+<p>Explain two (or three) reasons why this business problem should be addressed by predictive modeling*</p>
+</div>
+<p>Some common characteristics of predictive modeling problems include:</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:unnamed-chunk-2">TABLE 2.1: </span>Characteristics of Predictive Modeling Problems</caption>
+<thead><tr class="header">
+<th align="left">Characteristic</th>
+<th align="left">Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>Issue</strong></td>
+<td align="left">There is a clearly identified and defined business issue that needs to be addressed.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Questions</strong></td>
+<td align="left">The issue can be addressed with a few well-defined questions (What data do we need? What is the target or outcome? What is the success criteria / how will the model performance be evaluated?)</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Data</strong></td>
+<td align="left">Good and useful data is available for answering the questions above.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Impact</strong></td>
+<td align="left">The predictions will likely drive actions or increase understanding.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Better Solution</strong></td>
+<td align="left">Predictive analytics likely produces a solution better than any existing approach.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Update</strong></td>
+<td align="left">We can continue to monitor and update the models when new data becomes available.</td>
+</tr>
+</tbody>
+</table></div>
+<p>A typical predictive modeling problem will have most, but not necessarily all of these characteristics.</p>
+</div>
+<div id="problem-definition" class="section level4 unnumbered">
+<h4>Problem Definition<a class="anchor" aria-label="anchor" href="#problem-definition"><i class="fas fa-link"></i></a>
+</h4>
+<p>After deciding to use predictive analytics to address the business issue of interest, we should define the problem as clearly as possible.</p>
+<p>It is important to get to the root cause of the business issue and make it specific enough to be solvable.</p>
+<p>The following strategies suggested can help us come up with a meaningful problem definition and give our project a higher chance of success:</p>
+<ul>
+<li><p><strong>Hypotheses:</strong> It is useful to use our prior knowledge of the business problem to ask questions and develop hypotheses that can prove or disprove in the course of our analytic work. Doing so helps us gain a clearer understanding of the business issue and guide our efforts in a clearly defined way. With the questions and hypotheses, we know where to focus on.</p></li>
+<li><p><strong>KPI’s:</strong> We also need ways to assess the outcome by selecting appropriate key performance indicators (KPI’s), which will provide a quantitative basis to measure the success of the project. Naturally, these KPI’s should align with the overall business strategy as far as possible and show the client what key numbers will change as a result of your predictive analytic work.</p></li>
+</ul>
+</div>
+<div id="constraints" class="section level4 unnumbered">
+<h4>Constraints<a class="anchor" aria-label="anchor" href="#constraints"><i class="fas fa-link"></i></a>
+</h4>
+<p>As soon as we have defined the business problem clearly, it is important to evaluate the feasibility of solving the business problem and implementing the predictive analytic solution.</p>
+<p>We want to make sure that the solutions we produce will work. Some considerations and constraints we should keep in ind when evaluating and prioritizing business problems include:</p>
+<ul>
+<li>The availability of easily accessible and high-quality data.</li>
+<li>Implementation issues such as the presence of necessary IT infrastructure and technology to fit complex models efficiently, the timeline for completing the project, and the cost and effort required to maintain the selected model.</li>
+</ul>
+<p>Do we have the resources to implement complex models without freezing or crashing? If a model is operationally prohibitive to execute, then it makes sense to trade some prediction performance for ease of implementation. After all, if we cannot actually implement and apply the model in practice, then it is basically useless.</p>
+</div>
+<div id="stage-2-data-collection-and-validation" class="section level4" number="3.1.2.2">
+<h4>
+<span class="header-section-number">3.1.2.2</span> Stage 2: Data Collection and Validation<a class="anchor" aria-label="anchor" href="#stage-2-data-collection-and-validation"><i class="fas fa-link"></i></a>
+</h4>
+<p>Predictive analytics relies on models, which in turn are constructed from data. After defining the business problem properly, we will spend some time and effort collecting useful data that will underlie the predictive models we are going to build.</p>
+<p>This data collection stage is more important and intricate than you probably first thought. You may have heard of the phrase “garbage in, garbage out”, better known as GIGO, which means that low-quality data is doomed to produce low-quality output.</p>
+<p>Here we will learn some key considerations and some pitfalls to avoid related to the collection and use of data.</p>
+</div>
+<div id="data-design" class="section level4 unnumbered">
+<h4>Data Design<a class="anchor" aria-label="anchor" href="#data-design"><i class="fas fa-link"></i></a>
+</h4>
+<p>To begin, we will contemplate here to collect the data to be used in the modeling stage.</p>
+<p>At the data design stage, there are a few things we should take note of to maximize the usefulness of our data source, which is the entire set of observations that enter the dataset you collect.</p>
+<ul>
+<li>
+<p><strong>Relevance:</strong> Intuitively, the more data we have, the more information available and the better, provided that the data is unbiased (e.g., representative of the environment where our predictive model will operate). To ensure that the data is relevant for our business problem, it is necessary to source the data from the right population and time frame.</p>
+<ul>
+<li><p><strong>Population:</strong> As obvious as this may seem, it is important that the data source aligns with the true population we are interested in. If the data source is not a reasonably good proxy of a representative sample, then taking a larger dataset does not help, we are only representing the bias over again and again.</p></li>
+<li><p><strong>Time Frame:</strong> When selecting an appropriate time frame for our data, it is advisable to choose the time period which best reflects the business environment in which we will be implementing our models. In general, recent history is more predictive of the near future than distant history, so data one year ago should be more useful than data 10 years ago, other things equal.</p></li>
+</ul>
+<p><strong>Example 3.1.1: Problems with a Facebook Poll</strong></p>
+<p>In November 2020, the Divide States of America (DSA) held its 60th presidential election, with Donald Dump running against Joe Hidden. To gauge public sentiments towards the election, Great News Network (GNN), a/an information outlet, set up a poll on Facebook allowing users to vote for their preferred presidential candidate. Any Facebook users could take part in the poll, which was open between August 2020 and September 2020.</p>
+<p>Evaluate the quality of the data collected by GNN with respect to the population, time frame, and/or other items.</p>
+<p><strong><em>Solution:</em></strong> There are quite a few problems with the data collected by GNN, some of which are:</p>
+<ul>
+<li><p><strong>Population:</strong> The votes were limited to Facebook users while the intended audience was supposed to be all eligible citizens of DSA. Users of social media outlets tend to be younger generations, so there may be a systematic mismatch between the voters of the poll and the general population.</p></li>
+<li><p><strong>Time Frame:</strong> The objective of the poll was to understand voters’ preferences at the time of the November 2020 election. The poll, conducted between August 2020 and September 2020, was premature in a way and might fail to gauge public sentiments accurately (a lot could happen in October). It may be desirable for the poll to extend to October, right before the November election took place.</p></li>
+<li><p><strong>Quality:</strong> By design, the data collected is susceptible to <strong><em>contamination</em></strong>. An individual may register for several accounts and take part in the poll several times. The repetitive votes are allowed by the poll could substantially bias the polling results.</p></li>
+</ul>
+<p><strong>Example 3.1.2 Considerations with Time Frame (Based on Exercise 2.1.1 in the PA Modules)</strong></p>
+<p>Suppose that you are constructing a model to predict which retirement option a customer will choose. You have data from 1990 to 2020 containing your customers choices. In 2010, your company introduced a digital platform, which increased not only the variety of retirement options available, but also the richness of the supporting data available to customers when they made their decisions.</p>
+<p>Discuss the pros and cons of including all of the data from 1990 relative to including only the data from 2010 for constructing your predictive model.</p>
+<p><strong><em>Solution:</em></strong></p>
+<ul>
+<li><p><strong>Pros:</strong> Including all of the data from 1990 means more data. Other things equal, having more data is generally desirable as it makes model training more robust and less vulnerable to noise.</p></li>
+<li><p><strong>Cons:</strong> In predictive modeling, it is important to select the period of time that best reflects the environment in which we will be implementing our model. In this case, something happened in 2010 which significantly affected the behavior of the outcome (retirement options) we are modeling. This makes the data prior to 2010 less likely to be predictive of current and future behavior of customers. Including such (outdated) data may make the predictions of retirement options in the current era less accurate.</p></li>
+</ul>
+</li>
+<li>
+<p><strong>Sampling:</strong> Sampling is the process of taking a subset of observations from the data source to generate our dataset.</p>
+<p>Why do we need to bother with sampling? Why not use the entire data source? In reality, the underlying population is often too big to handle, and we need a smaller, much more manageable subset to form our data.</p>
+<p>The observations sampled should closely resemble the business environment in which our predictive model will be applied in the future. In fact, a good time frame, discussed above, can be seen as a form of sampling, which the same goal of making sure that our data is representative.</p>
+<p>There are a number of sampling methods commonly used to draw an appropriate sample:</p>
+<ul>
+<li>
+<p><strong>Random Sampling:</strong> This is the simplest sampling scheme by which we “randomly” draw observations from the underlying population without replacement until we have the required number of observations. Each record is equally likely to be sampled.</p>
+<ul>
+<li>
+<p>One common way to achieve <strong>random sampling</strong> is through a survey or questionnaire. Individuals in the population are invited to respond to the survey and contribute to the collected dataset.</p>
+<p>However, voluntary surveys are known to be vulnerable to <strong><em>respondent bias</em></strong>. Only those interested will respond, which means that the respondents of a survey may make up a population different from the the population of interest.</p>
+<p>For example, university students who respond to end-of-semester course evaluations tend to be those who feel strongly about the courses they take. These students with strong opinions may substantially bias the results of the course evaluations which are supposed to be for the general students.</p>
+<p>Surveys also tend to suffer from a <strong><em>low response rate</em></strong>, unless there are financial incentives for people to respond.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Stratified Sampling:</strong> Stratified sampling involves dividing the underlying population into a number of non-overlapping “strata” or groups in a non-random fashion, and randomly sampling (with or without replacement) a set number of observations from each stratum.</p>
+<p>This sampling method has the notable advantage of ensuring that every stratum is properly represented in the collected data. In Exam PA, the strata are usually formed with respect to the distribution of the target variable.</p>
+<p>Here are a few special cases of <strong>stratified sampling</strong>:</p>
+<ul>
+<li><p><strong><em>Oversampling and Undersampling:</em></strong> These are sampling methods designed specifically for unbalanced data, and we will learn about them in detail in Subsection 4.1.4.</p></li>
+<li>
+<p><strong>Systematic Sampling:</strong> By systematic sampling, we draw observations according to a set pattern and there is no random mechanism controlling which observations are sampled.</p>
+<p>For a population with 100,000 units, we may order them in a well-defined way and sample every tenth observation to get a smaller, more manageable sample of 10,000 units. Once the sampling rule has been set, the sampled observations are pre-determined.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Granularity:</strong> Granularity refers to how precisely a variable in a dataset is measured, or equivalently, how detailed the information contained by the variable is. As an example, location, in ascending order of granularity, can be recorded in different degrees of precision:</p>
+<ul>
+<li><p>By Country (least granular)</p></li>
+<li><p>By State</p></li>
+<li><p>By City</p></li>
+<li><p>By Zip Code</p></li>
+<li><p>By Address (most granular)</p></li>
+</ul>
+<p>From country to address, we have more and more specific information about the location of an individual.</p>
+<p>At the data design stage, it is a good idea to use a relatively high level of granularity. It is always possible to go from a higher level of granularity to a lower level of granularity down the track, but not the other way around.</p>
+</li>
+</ul>
+</div>
+<div id="data-quality-issues" class="section level4 unnumbered">
+<h4>Data Quality Issues<a class="anchor" aria-label="anchor" href="#data-quality-issues"><i class="fas fa-link"></i></a>
+</h4>
+<p>Once we have collected the data from a data source representative of the population of interest using an appropriate sampling method, we have to take an important step before jumping straight into doing predictive modeling: <strong><em>Data Validation</em></strong>, the process of ensuring the quality and appropriateness of the data available.</p>
+<p>If the collected data falls short of our standards, we may have to go back to the data collection step and search for an alternative dataset.</p>
+<ul>
+<li><p><strong>Reasonableness:</strong> For a dataset to be useful, the data values should, at a minimum, be reasonable, which can be checked by exploratory data analysis. Do the key statistics for the variables make sense in the context of the business problem? If one of the variables is income and one observation has a negative income, then almost certainly this is a recording error that should be fixed before we launch into model construction.</p></li>
+<li>
+<p><strong>Consistency:</strong> We also need to ensure that the records in the data are inputted consistently, meaning that the same basis and rules have been applied to all values, so that they can be directly compared with one another.</p>
+<ul>
+<li><p><strong><em>Numeric Variables:</em></strong> For numeric variables, the same unit should be used across all rows of the data for consistency. If one of the variables is weight, the nits values should be measured either all in kilograms or all in pounds. If there is a monetary variable, such as income, then the same currency should be used throughout.</p></li>
+<li><p><strong><em>Categorical Variables:</em></strong> We should make sure that the factor levels of categorical variables are defined and recorded consistently over time with no coding changes, like either the full name (e.g., Iowa) or the two-character abbreviation (e.g., IA) for the state of policy issue.</p></li>
+</ul>
+<p>To check consistency, it is necessary to gain knowledge of how the data entries are recorded. To this end, the data dictionary (see the next point) that accompanies each PA exam project will be useful.</p>
+<p>If we want to combine multiple datasets to form new variables (columns) or new observations (rows), then the consistency checks above extend to all constituent datasets to make sure that the concatenation works properly.</p>
+<p>If we need to join datasets by a certain variable (column), it is especially important to ensure that the format of that variable is consistent across both datasets to ease matching, e.g., name should be recorded either as [first name] or [last name], [first name] so that each person can be identified uniquely. The possible existence of a middle name adds further complication.</p>
+</li>
+</ul>
+<!-- --><ul>
+<li>
+<p><strong>Sufficient Documentation:</strong> A good dataset should also be sufficiently documented so that other users can easily gain an accurate understanding of different aspects of the data. The PA modules suggest that effective documentation should at least include the following information:</p>
+<ul>
+<li><p>A description of the dataset overall, including the data source (how and when the dataset was collected).</p></li>
+<li><p>A description of each variable in the data, including its name, definition, and format (range of values for numeric variables and the possible levels for categorical variables).</p></li>
+<li><p>Notes about any past updates or other irregularities of the dataset.</p></li>
+<li><p>A statement of accountability for the correctness of the dataset.</p></li>
+<li><p>A description of the governance processes used to manage the dataset.</p></li>
+</ul>
+<p>Exam PA exam project describes the dataset in the “Business Problem” section and provides you with a <em>data dictionary</em>, which lists all the variables in the data together with their information. Here is a sample data dictionary for a hypothetical group of insurance policies:</p>
+</li>
+</ul>
+<div class="inline-table"><table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:unnamed-chunk-3">TABLE 3.1: </span>Sample Data Dictionary
+</caption>
+<thead><tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+VariableName
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Description
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Values
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<code>age</code>
+</td>
+<td style="text-align:left;">
+The age of a policyholder
+</td>
+<td style="text-align:left;">
+Integer, 20 to 65
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<code>gender</code>
+</td>
+<td style="text-align:left;">
+The gender of a policyholder
+</td>
+<td style="text-align:left;">
+3 levels, “F”, “M”, and “0”
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<code>type</code>
+</td>
+<td style="text-align:left;">
+The risk type of a policyholder
+</td>
+<td style="text-align:left;">
+2 levels, “standard” and “substandard”
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<code>n_claims</code>
+</td>
+<td style="text-align:left;">
+The number of claims submitted
+</td>
+<td style="text-align:left;">
+Integer, 0 to 10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<code>claims</code>
+</td>
+<td style="text-align:left;">
+The total amount of claims
+</td>
+<td style="text-align:left;">
+Numeric, 0 to 30,451.8
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div id="stage-3-exploratory-data-analysis" class="section level4" number="3.1.2.3">
+<h4>
+<span class="header-section-number">3.1.2.3</span> Stage 3: Exploratory Data Analysis<a class="anchor" aria-label="anchor" href="#stage-3-exploratory-data-analysis"><i class="fas fa-link"></i></a>
+</h4>
+</div>
+<div id="stage-4-model-construction-evaluation-and-selection-important" class="section level4" number="3.1.2.4">
+<h4>
+<span class="header-section-number">3.1.2.4</span> Stage 4: Model Construction, Evaluation, and Selection [IMPORTANT!]<a class="anchor" aria-label="anchor" href="#stage-4-model-construction-evaluation-and-selection-important"><i class="fas fa-link"></i></a>
+</h4>
+</div>
+<div id="stage-5-model-validation" class="section level4" number="3.1.2.5">
+<h4>
+<span class="header-section-number">3.1.2.5</span> Stage 5: Model Validation<a class="anchor" aria-label="anchor" href="#stage-5-model-validation"><i class="fas fa-link"></i></a>
+</h4>
+</div>
+<div id="stage-6-model-maintenance" class="section level4" number="3.1.2.6">
+<h4>
+<span class="header-section-number">3.1.2.6</span> Stage 6: Model Maintenance<a class="anchor" aria-label="anchor" href="#stage-6-model-maintenance"><i class="fas fa-link"></i></a>
+</h4>
+</div>
+</div>
+<div id="bias-variance-trade-off" class="section level3" number="3.1.3">
+<h3>
+<span class="header-section-number">3.1.3</span> Bias-Variance Trade-Off<a class="anchor" aria-label="anchor" href="#bias-variance-trade-off"><i class="fas fa-link"></i></a>
+</h3>
+</div>
+<div id="feature-generation-and-selection" class="section level3" number="3.1.4">
+<h3>
+<span class="header-section-number">3.1.4</span> Feature Generation and Selection<a class="anchor" aria-label="anchor" href="#feature-generation-and-selection"><i class="fas fa-link"></i></a>
+</h3>
+</div>
+</div>
+<div id="linear-models-conceptual-foundation" class="section level2" number="3.2">
+<h2>
+<span class="header-section-number">3.2</span> Linear Models: Conceptual Foundation<a class="anchor" aria-label="anchor" href="#linear-models-conceptual-foundation"><i class="fas fa-link"></i></a>
+</h2>
+<div id="model-formulation" class="section level3" number="3.2.1">
+<h3>
+<span class="header-section-number">3.2.1</span> Model Formulation<a class="anchor" aria-label="anchor" href="#model-formulation"><i class="fas fa-link"></i></a>
+</h3>
+</div>
+<div id="model-evaluation-and-validation" class="section level3" number="3.2.2">
+<h3>
+<span class="header-section-number">3.2.2</span> Model Evaluation and Validation<a class="anchor" aria-label="anchor" href="#model-evaluation-and-validation"><i class="fas fa-link"></i></a>
+</h3>
+</div>
+<div id="feature-generation" class="section level3" number="3.2.3">
+<h3>
+<span class="header-section-number">3.2.3</span> Feature Generation<a class="anchor" aria-label="anchor" href="#feature-generation"><i class="fas fa-link"></i></a>
+</h3>
+</div>
+<div id="feature-selection" class="section level3" number="3.2.4">
+<h3>
+<span class="header-section-number">3.2.4</span> Feature Selection<a class="anchor" aria-label="anchor" href="#feature-selection"><i class="fas fa-link"></i></a>
+</h3>
+</div>
+<div id="regularization" class="section level3" number="3.2.5">
+<h3>
+<span class="header-section-number">3.2.5</span> Regularization<a class="anchor" aria-label="anchor" href="#regularization"><i class="fas fa-link"></i></a>
+</h3>
+</div>
+</div>
+<div id="case-study-1-fitting-linear-models-in-r" class="section level2" number="3.3">
+<h2>
+<span class="header-section-number">3.3</span> Case Study 1: Fitting Linear Models in R<a class="anchor" aria-label="anchor" href="#case-study-1-fitting-linear-models-in-r"><i class="fas fa-link"></i></a>
+</h2>
+<div id="exploratory-data-analysis" class="section level3" number="3.3.1">
+<h3>
+<span class="header-section-number">3.3.1</span> Exploratory Data Analysis<a class="anchor" aria-label="anchor" href="#exploratory-data-analysis"><i class="fas fa-link"></i></a>
+</h3>
+</div>
+<div id="simple-linear-regression" class="section level3" number="3.3.2">
+<h3>
+<span class="header-section-number">3.3.2</span> Simple Linear Regression<a class="anchor" aria-label="anchor" href="#simple-linear-regression"><i class="fas fa-link"></i></a>
+</h3>
+</div>
+<div id="multiple-linear-regression" class="section level3" number="3.3.3">
+<h3>
+<span class="header-section-number">3.3.3</span> Multiple Linear Regression<a class="anchor" aria-label="anchor" href="#multiple-linear-regression"><i class="fas fa-link"></i></a>
+</h3>
+</div>
+<div id="evaluation-of-linear-models" class="section level3" number="3.3.4">
+<h3>
+<span class="header-section-number">3.3.4</span> Evaluation of Linear Models<a class="anchor" aria-label="anchor" href="#evaluation-of-linear-models"><i class="fas fa-link"></i></a>
+</h3>
+</div>
+</div>
+<div id="case-study-2-feature-selection-and-regularization" class="section level2" number="3.4">
+<h2>
+<span class="header-section-number">3.4</span> Case Study 2: Feature Selection and Regularization<a class="anchor" aria-label="anchor" href="#case-study-2-feature-selection-and-regularization"><i class="fas fa-link"></i></a>
+</h2>
+<div id="preparatory-work" class="section level3" number="3.4.1">
+<h3>
+<span class="header-section-number">3.4.1</span> Preparatory Work<a class="anchor" aria-label="anchor" href="#preparatory-work"><i class="fas fa-link"></i></a>
+</h3>
+</div>
+<div id="model-construction-and-feature-selection" class="section level3" number="3.4.2">
+<h3>
+<span class="header-section-number">3.4.2</span> Model Construction and Feature Selection<a class="anchor" aria-label="anchor" href="#model-construction-and-feature-selection"><i class="fas fa-link"></i></a>
+</h3>
+</div>
+<div id="model-validation" class="section level3" number="3.4.3">
+<h3>
+<span class="header-section-number">3.4.3</span> Model Validation<a class="anchor" aria-label="anchor" href="#model-validation"><i class="fas fa-link"></i></a>
+</h3>
+</div>
+<div id="regularization-1" class="section level3" number="3.4.4">
+<h3>
+<span class="header-section-number">3.4.4</span> Regularization<a class="anchor" aria-label="anchor" href="#regularization-1"><i class="fas fa-link"></i></a>
+</h3>
+</div>
+</div>
+<div id="conceptual-review-questions-for-chapter-3" class="section level2 unnumbered">
+<h2>Conceptual Review: Questions for Chapter 3<a class="anchor" aria-label="anchor" href="#conceptual-review-questions-for-chapter-3"><i class="fas fa-link"></i></a>
+</h2>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="data-exploration-and-visualization.html"><span class="header-section-number">2</span> Data Exploration and Visualization</a></div>
+<div class="empty"></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#linear-models"><span class="header-section-number">3</span> Linear Models</a></li>
+<li>
+<a class="nav-link" href="#a-primer-on-predictive-analytics"><span class="header-section-number">3.1</span> A Primer on Predictive Analytics</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#basic-terminology"><span class="header-section-number">3.1.1</span> Basic Terminology</a></li>
+<li><a class="nav-link" href="#the-model-building-process"><span class="header-section-number">3.1.2</span> The Model Building Process</a></li>
+<li><a class="nav-link" href="#bias-variance-trade-off"><span class="header-section-number">3.1.3</span> Bias-Variance Trade-Off</a></li>
+<li><a class="nav-link" href="#feature-generation-and-selection"><span class="header-section-number">3.1.4</span> Feature Generation and Selection</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#linear-models-conceptual-foundation"><span class="header-section-number">3.2</span> Linear Models: Conceptual Foundation</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#model-formulation"><span class="header-section-number">3.2.1</span> Model Formulation</a></li>
+<li><a class="nav-link" href="#model-evaluation-and-validation"><span class="header-section-number">3.2.2</span> Model Evaluation and Validation</a></li>
+<li><a class="nav-link" href="#feature-generation"><span class="header-section-number">3.2.3</span> Feature Generation</a></li>
+<li><a class="nav-link" href="#feature-selection"><span class="header-section-number">3.2.4</span> Feature Selection</a></li>
+<li><a class="nav-link" href="#regularization"><span class="header-section-number">3.2.5</span> Regularization</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#case-study-1-fitting-linear-models-in-r"><span class="header-section-number">3.3</span> Case Study 1: Fitting Linear Models in R</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#exploratory-data-analysis"><span class="header-section-number">3.3.1</span> Exploratory Data Analysis</a></li>
+<li><a class="nav-link" href="#simple-linear-regression"><span class="header-section-number">3.3.2</span> Simple Linear Regression</a></li>
+<li><a class="nav-link" href="#multiple-linear-regression"><span class="header-section-number">3.3.3</span> Multiple Linear Regression</a></li>
+<li><a class="nav-link" href="#evaluation-of-linear-models"><span class="header-section-number">3.3.4</span> Evaluation of Linear Models</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#case-study-2-feature-selection-and-regularization"><span class="header-section-number">3.4</span> Case Study 2: Feature Selection and Regularization</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#preparatory-work"><span class="header-section-number">3.4.1</span> Preparatory Work</a></li>
+<li><a class="nav-link" href="#model-construction-and-feature-selection"><span class="header-section-number">3.4.2</span> Model Construction and Feature Selection</a></li>
+<li><a class="nav-link" href="#model-validation"><span class="header-section-number">3.4.3</span> Model Validation</a></li>
+<li><a class="nav-link" href="#regularization-1"><span class="header-section-number">3.4.4</span> Regularization</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#conceptual-review-questions-for-chapter-3">Conceptual Review: Questions for Chapter 3</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Society of Actuaries Exam PA</strong>" was written by Jeff A. Maxey. It was last built on 2024-10-05.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

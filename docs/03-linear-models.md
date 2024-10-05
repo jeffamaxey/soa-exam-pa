@@ -2,9 +2,7 @@
 
 # Linear Models
 
-```{r, include=FALSE}
-source("_common.R")
-```
+
 
 
 ::: {.rmdnote}
@@ -152,27 +150,20 @@ Explain two (or three) reasons why this business problem should be addressed by 
 
 Some common characteristics of predictive modeling problems include:
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-library(lares)
-library(knitr)
-library(kableExtra)
 
 
-markdown_table <- "
-| Characteristic | Description |
-|:---------------|:------------|
-| **Issue** | There is a clearly identified and defined business issue that needs to be addressed. |
-| **Questions** | The issue can be addressed with a few well-defined questions (What data do we need? What is the target or outcome? What is the success criteria / how will the model performance be evaluated?) |
-| **Data** | Good and useful data is available for answering the questions above. |
-| **Impact** | The predictions will likely drive actions or increase understanding. |
-| **Better Solution** | Predictive analytics likely produces a solution better than any existing approach. |
-| **Update** | We can continue to monitor and update the models when new data becomes available. |
-"
+Table: (\#tab:unnamed-chunk-2)Characteristics of Predictive Modeling Problems
 
-df <- markdown2df(markdown_table)
+Characteristic        Description                                                                                                                                                                                     
+--------------------  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+**Issue**             There is a clearly identified and defined business issue that needs to be addressed.                                                                                                            
+**Questions**         The issue can be addressed with a few well-defined questions (What data do we need? What is the target or outcome? What is the success criteria / how will the model performance be evaluated?) 
+**Data**              Good and useful data is available for answering the questions above.                                                                                                                            
+**Impact**            The predictions will likely drive actions or increase understanding.                                                                                                                            
+**Better Solution**   Predictive analytics likely produces a solution better than any existing approach.                                                                                                              
+**Update**            We can continue to monitor and update the models when new data becomes available.                                                                                                               
 
-knitr::kable(df, caption = 'Characteristics of Predictive Modeling Problems')
-```
+
 
 A typical predictive modeling problem will have most, but not necessarily all of these characteristics.
 
@@ -327,37 +318,45 @@ If the collected data falls short of our standards, we may have to go back to th
 
     Exam PA exam project describes the dataset in the "Business Problem" section and provides you with a *data dictionary*, which lists all the variables in the data together with their information. Here is a sample data dictionary for a hypothetical group of insurance policies:
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>(\#tab:unnamed-chunk-3)Sample Data Dictionary</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> VariableName </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> Description </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> Values </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> `age` </td>
+   <td style="text-align:left;"> The age of a policyholder </td>
+   <td style="text-align:left;"> Integer, 20 to 65 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `gender` </td>
+   <td style="text-align:left;"> The gender of a policyholder </td>
+   <td style="text-align:left;"> 3 levels, “F”, “M”, and “0” </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `type` </td>
+   <td style="text-align:left;"> The risk type of a policyholder </td>
+   <td style="text-align:left;"> 2 levels, “standard” and “substandard” </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `n_claims` </td>
+   <td style="text-align:left;"> The number of claims submitted </td>
+   <td style="text-align:left;"> Integer, 0 to 10 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `claims` </td>
+   <td style="text-align:left;"> The total amount of claims </td>
+   <td style="text-align:left;"> Numeric, 0 to 30,451.8 </td>
+  </tr>
+</tbody>
+</table>
 
 
-    convert_md_table_to_kable <- function(markdown_table="", caption_text="") {
-      library(lares)
-      library(knitr)
-      library(kableExtra)
-      
-      df <- markdown2df(markdown_table)
-
-      df %>% 
-        kbl(df, format="html", caption=caption_text) %>% 
-        kable_styling(
-          bootstrap_options=c("striped", "hover", "condensed", "responsive"), 
-          full_width=F, 
-          position="center", 
-          fixed_thead=T)
-    }
-
-    markdown_table <- "
-    | VariableName	| Description	| Values |
-    |:--------------|:------------|:-------|
-    | `age` | The age of a policyholder | Integer, 20 to 65 |
-    | `gender` | The gender of a policyholder | 3 levels, “F”, “M”, and “0” |
-    | `type` | The risk type of a policyholder | 2 levels, “standard” and “substandard” |
-    | `n_claims` | The number of claims submitted | Integer, 0 to 10 |
-    | `claims` | The total amount of claims | Numeric, 0 to 30,451.8 |
-    "
-
-    convert_md_table_to_kable(markdown_table=markdown_table, caption="Sample Data Dictionary")
-```
 
 
 #### Stage 3: Exploratory Data Analysis
