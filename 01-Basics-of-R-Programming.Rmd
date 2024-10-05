@@ -1,38 +1,6 @@
----
-output: 
-  - html_document:
-      toc: true
-      toc_depth: 5
-      number_sections: true
-      theme: united
-      highlight: tango  
-      css: "css/style.css"
-      df_print: kable
-      fig_caption: true
-  - bookdown::gitbook:
-      includes:
-        in_header: "latex/preamble.tex"
-header-includes:
-  - \usepackage{amsmath}
-  - \usepackage{awesomebox}
-  - \usepackage{tcolorbox}
-  - \usepackage{fancyframe}
-  - \usepackage{framed}
-  - \usepackage{xcolor}
-  - \usepackage{booktabs}
-  - \usepackage{longtable}
-  - \usepackage[bf,singlelinecheck=off]{caption}
-  - \usepackage{framed,color}
-  - \usepackage{Alegreya}
-  - \usepackage[scale=.7]{sourcecodepro}
-  - \usepackage{makeidx}
-  - \usepackage{amsthm}
-  - \usepackage{letltxmacro}
----
-
 # (PART) A Crash Course in R {-}
 
-# **Basics of R Programming**
+# Basics of R Programming
 
 ```{r, include=FALSE}
 source("_common.R")

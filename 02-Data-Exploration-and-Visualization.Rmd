@@ -1,49 +1,17 @@
----
-output: 
-  - html_document:
-      toc: true
-      toc_depth: 5
-      number_sections: true
-      theme: united
-      highlight: tango  
-      css: "css/style.css"
-      df_print: kable
-      fig_caption: true
-  - bookdown::gitbook:
-      includes:
-        in_header: "latex/preamble.tex"
-header-includes:
-  - \usepackage{amsmath}
-  - \usepackage{awesomebox}
-  - \usepackage{tcolorbox}
-  - \usepackage{fancyframe}
-  - \usepackage{framed}
-  - \usepackage{xcolor}
-  - \usepackage{booktabs}
-  - \usepackage{longtable}
-  - \usepackage[bf,singlelinecheck=off]{caption}
-  - \usepackage{framed,color}
-  - \usepackage{Alegreya}
-  - \usepackage[scale=.7]{sourcecodepro}
-  - \usepackage{makeidx}
-  - \usepackage{amsthm}
-  - \usepackage{letltxmacro}
----
+# Data Exploration and Visualization
 
-# **Data Exploration and Visualization** {#data-exploration-and-visualization}
+::: {.rmdnote}
+Topic: Data Exploration and Visualization 
 
-```{block2 02-overview, type='rmdnote'}
-**Topic:** Data Exploration and Visualization (20-30%)
+Learning Objectives: The candidate will be able to work with various data types, understand principles of data design, and construct a variety of common visualizations common to exploring data.
 
-**Learning Objectives:** 
-The candidate will be able to work with various data types, understand principles of data design, and construct a variety of common visualizations for exploring daa.```
+Learning Outcomes:
 
-**Learning Outcomes:** 
 The candidate will be able to:
-  1. Apply the key principles of constructing graphs.
-  2. Apply univariate data exploration techniques.
-  3. Apply bivariate data exploration techniques.
-```
+  Apply the key principles of constructing graphs.
+  Apply univariate data exploration techniques.
+  Apply bivariate data exploration techniques.
+:::
 
 ----
 
@@ -117,7 +85,7 @@ persinj50 <- persinj[seq(1, nrow(persinj), length = 50), ]
 persinj50
 ```
 
-As our first example, let's make a ***scatterplot*** for the two numeric variables in the `persinj50` data, `amt` and `op_time`. The plot, produced by the code below is given in Figure 2.1.1. The code obeys the two-part structure discussed earlier:
+As our first example, let's make a **scatterplot** for the two numeric variables in the `persinj50` data, `amt` and `op_time`. The plot, produced by the code below is given in Figure 2.1.1. The code obeys the two-part structure discussed earlier:
 
 -   *`ggplot()` function*: The first line makes it clear that we are using the `persinj50` data, where the variables `op_time` and `amt` are mapped to the variables on the x-axis and y-axis through the x and y aesthetics, respectively. There is no need to name the variables as persinj50%op_time or persinj50\$amt as the data source is already specified in the data argument.
 -   *`Geom`:* Given these mappings, we use the $\fbox{geom_point()}$ to make a scatterplot of `amt` (the y-variable) against `op_time` (the x-variable). The plot comprises 50 points corresponding the the 50 paired values of the two variables and allows us to see the two variables in comparison with each other.
@@ -208,7 +176,7 @@ EDA is an integral part of predictive modeling because it serves two important p
 
 -   **Characteristics of Variables:** EDA helps us understand the key characteristics of the variables in the data. Such an understanding may suggest useful ways to pre-process the variables to improve the predictive performance and interpreteability of the models we will construct, and, most importantly, decide on an appropriate type of predictive model that is likely to meet our business needs.
 
-Typically, EDA is accomplished by a ***combination*** of two kinds of tools:
+Typically, EDA is accomplished by a **combination** of two kinds of tools:
 
 -   **Descriptive Statistics (Summary Statistics)**
     -   **Purpose:** Quickly summarize different distributional properties of the variable(s) of interest.
@@ -272,7 +240,7 @@ In the following exercise, you will calculate the summary statistics for the two
 
 Write R code to calculate the summary statistics for claim amount separately for injuries with legal representation and those without legal representation. Comment on the central tendency and dispersion of claim amount of these two groups of injuries.
 
-***Solution:*** To extract the two groups of injuries, we can use the method of logical sub-setting to split the data set into two subsets.
+**Solution:** To extract the two groups of injuries, we can use the method of logical sub-setting to split the data set into two subsets.
 
 1.  A subset called `persinj.0` corresponding to injuries without legal representation (`legrep` = 0).
 2.  A subset called `persinj.1` corresponding to injuries with legal representation (`legrep` = 1).
@@ -333,11 +301,11 @@ In predictive modeling, it is often undesirable to have a right-skewed target va
     -   A number of predictive models (e.g., linear models, decision trees) are fitted by minimizing the sum of the squared discrepancies between the observed values and predicted values of the target variable.
     -   If the target variable is right-skewed, then the outliers, or extreme values, will contribute substantially to the sum and have a disproportionate effect (or "leverage") on the model, which is undesirable unless the right tail is where our main concern lies.
 
-```{block2, type = "rmdnote", warning=FALSE}
+::: {.rmdnote}
 To correct for **skewness**, we can apply a monotone concave function to shrink the outliers relative to the smaller values and symmetrize the overall distribution.
 
 This will dampen the effects of the extreme values on the model and tend to improve its overall goodness-of-fit than using the original right-skewed variable. 
-```
+:::
 
 Two commonly used transformations for dealing with right-skewed variables are:
 
@@ -552,7 +520,7 @@ There are three types of bivariate combinations, depending on the type of variab
 
     The two variables are moderately positively correlated on the original scale, and the correlation becomes stronger when the claim amount is on the log scale.
 
-    As much as correlation is a compact summary of the extent to which two numeric variables move in tandem, it can only capture ***linear*** relationships. A zero correlation only means that the two variables are not linearly related, but they may be related in more subtle ways. More complex relationships (e.g., quadratic) can be revealed more effectively by graphical displays.
+    As much as correlation is a compact summary of the extent to which two numeric variables move in tandem, it can only capture **linear** relationships. A zero correlation only means that the two variables are not linearly related, but they may be related in more subtle ways. More complex relationships (e.g., quadratic) can be revealed more effectively by graphical displays.
 
 **Exercise 2.2.3 (What can you say about two variables with zero correlation?)**
 
@@ -567,13 +535,14 @@ Determine which of the following statements about the two variables is true:
 
 **(A)** The correlation between X and Y is positive; they are dependent. **(B)** The correlation between X and Y is positive; they are unrelated. **(C)** The correlation between X and Y is zero; they are dependent. **(D)** The correlation between X and Y is zero; they are unrelated. **(E)** The correlation between X and Y is negative; they are dependent.
 
-***Solution:*** In the the following code, we compute the (sample) correlation between X and Y.
+**Solution:** In the the following code, we compute the (sample) correlation between X and Y.
 
 ```{r, include=TRUE, echo=TRUE}
 cor(X, Y)
 ```
 
-The zero correlation suggests that X and Y are linearly unrelated. However, the two variables are perfectly dependent via the quadratic relationship $Y = X^2$. **(Answer: (C))**
+The zero correlation suggests that X and Y are linearly unrelated. However, the two variables are perfectly dependent via the quadratic relationship $Y = X^2$. 
+**(Answer: (C))**
 
 -   **Graphical Displays:** The relationship between numeric variables (one of which is usually the target variable) is typically visualized by a $\fbox{scatterplot}$, where values of the two variables are graphed on a two-dimensional plane, as we saw in Section 2.1.
 
@@ -626,7 +595,7 @@ To understand the interplay between a numeric and categorical variable, it is be
 
 In effect, we are looking at the conditional distribution of the numeric variable given different levels of the categorical variable.
 
--   ***Descriptive Statistics***: To summarize the association between a numeric variable and a categorical variable, we can partition the data into different subsets, one subset for each level of the categorical variable, and compute the mean of the numeric variable there. These conditional means varying substantially may suggest a strong relationship between the two variables.
+-   **Descriptive Statistics**: To summarize the association between a numeric variable and a categorical variable, we can partition the data into different subsets, one subset for each level of the categorical variable, and compute the mean of the numeric variable there. These conditional means varying substantially may suggest a strong relationship between the two variables.
 
 In the code below, we produce a table of the mean of the log-transformed claim amount (it is also fine to use the untransformed claim amount variable) split by the different levels of `inj` and `legrep`, which are categorical.
 
@@ -655,7 +624,7 @@ persinj %>%
 
 It is clear that the claim amount on average increases from injury code 1 to injury code 4, then decreases down to injury code 9. The two means split by `legrep` are in agreement with what we observed in Figure 2.2.8, which shows that larger claim amounts are associated with the use of legal representation.
 
-***Graphical Displays***: The conditional distribution of a numeric variable given a second, categorical variable is best visualized by $\fbox{split boxplots}$, where a series of boxplots of the numeric variable split by the categorical variable are made.
+**Graphical Displays**: The conditional distribution of a numeric variable given a second, categorical variable is best visualized by $\fbox{split boxplots}$, where a series of boxplots of the numeric variable split by the categorical variable are made.
 
 The following code constructs two split boxplots for the log of claim amount, one split by injury code and one split by legal representation (Figure 2.2.9). The categorical variable that is used to split the numeric variable simply enters the x aesthetic and a collection of boxplots of the numeric variable for each level of the categorical variable will be shown. The two boxplots further support the findings based on the summary statistics above, but turn them more powerfully into diagrams.
 
@@ -697,7 +666,7 @@ grid.arrange(p1, p2, ncol=1)
 
 #### Case 3: Categorical vs. Categorical
 
--   ***Descriptive Statistics***: When examining a pair of categorical variables, it is often useful to construct a two-way frequency table showing the number of observations for every combination of the levels of the two variables using the $\fbox{table()}$ function.
+-   **Descriptive Statistics**: When examining a pair of categorical variables, it is often useful to construct a two-way frequency table showing the number of observations for every combination of the levels of the two variables using the $\fbox{table()}$ function.
 
 When two arguments are supplied to the `table()` function, the first argument will correspond to the rows of the two way frequency table, while the second argument will correspond to its columns.
 
@@ -707,7 +676,7 @@ The following code makes a two-way frequency table for the legal representation 
 table(persinj$legrep, persinj$inj)
 ```
 
--   ***Graphical Displays:*** The proportions in a frequency table are useful statistics, but a visual picture often expresses these statistics much more powerfully and makes for easy interpretation, especially when the two categorical variables have a lot of levels. To visualize the distribution of a categorical variable split by another categorical variable effectively, *split bar charts* can be of use. These charts come in different versions, each one being useful for a certain purpose. The following code produces three bar charts for injury code split by legal representation (see Figure 2.2.12):
+-   **Graphical Displays:** The proportions in a frequency table are useful statistics, but a visual picture often expresses these statistics much more powerfully and makes for easy interpretation, especially when the two categorical variables have a lot of levels. To visualize the distribution of a categorical variable split by another categorical variable effectively, *split bar charts* can be of use. These charts come in different versions, each one being useful for a certain purpose. The following code produces three bar charts for injury code split by legal representation (see Figure 2.2.12):
 
     -   **Stacked:** The first bar chart has counts within each injury code colored by legal representation because the `fill` aesthetic is set to `legrep`. In other words, each bar is broken down proportionally into injuries with legal representation (colored in teal) and those without legal representation (colored in red).
     -   **Dodged:** The second bar chart has counts within each injury code separated according to legal representation and placed side by side for comparison due to the option $\fbox{position="dodge"}$ in the `geom_bar()` function.
@@ -767,12 +736,12 @@ ggplot(persinj, aes(x=inj)) +
 
 Make a guess of what each chunk of code does. Then run the code in R and see the output.
 
-***Solution:*** Although the four chunks of code look similar, they produce drastically different output:
+**Solution:** Although the four chunks of code look similar, they produce drastically different output:
 
--   ***CHUNK 1:*** Here we are making a bar chart for injury code with the *boundary* (not the interior) of the vertical bars colored according to legal representation. As you can see, the colors are hardly perceptible.
--   ***CHUNK 2:*** This is similar to CHUNK 1, except that this time it is the *interior* of the vertical bars that is color-coded according to legal representation. The output is the same as the top left panel of Figure 2.2.12.
--   ***CHUNK 3:*** This chunk of code does not work (try to run it in R and you will get an error!). The reason is that the `fill` argument (not `fill` aesthetic) of the `geom_bar()` function is mapped to a variable (`legrep` here) instead of a constant (e.g., "blue"). This is the opposite of the mistake discussed in CHUNK 4 of Section 2.1 (Figure 2.1.2).
--   ***CHUNK 4:*** This chunk of code generates the same output as CHUNK 2. Instead of putting the `fill` aesthetic in the `ggplot()` call, it is placed inside the `geom_bar()` function.
+-   **CHUNK 1:** Here we are making a bar chart for injury code with the *boundary* (not the interior) of the vertical bars colored according to legal representation. As you can see, the colors are hardly perceptible.
+-   **CHUNK 2:** This is similar to CHUNK 1, except that this time it is the *interior* of the vertical bars that is color-coded according to legal representation. The output is the same as the top left panel of Figure 2.2.12.
+-   **CHUNK 3:** This chunk of code does not work (try to run it in R and you will get an error!). The reason is that the `fill` argument (not `fill` aesthetic) of the `geom_bar()` function is mapped to a variable (`legrep` here) instead of a constant (e.g., "blue"). This is the opposite of the mistake discussed in CHUNK 4 of Section 2.1 (Figure 2.1.2).
+-   **CHUNK 4:** This chunk of code generates the same output as CHUNK 2. Instead of putting the `fill` aesthetic in the `ggplot()` call, it is placed inside the `geom_bar()` function.
 
 #### Problem 2.3.2 (Data Exploration: Univariate and Bivariate)
 
@@ -789,7 +758,7 @@ With the aid of appropriate graphical displays and/or summary statistics, comple
 
 **(b)** Perform univariate exploration of the price of diamonds (`price`) and the quality of the cut (`cut`). Determine if any of these two variables should be transformed and, if so, what transformation should be made. Do your recommended transformation(s), if any, and delete the original variable(s). **(c)** Explore the relationship between the price of diamonds and the weight of diamonds (`carat`). **(d)** Explore the relationship between the price of diamonds and the quality of the cut. **(e)** Reconcile the apparent contradiction between what you get in parts (c) and (d).
 
-***Solution:***
+**Solution:**
 
 **(a)** The number of rows in the `diamonds` data set can be obtained by the `nrow()` function:
 

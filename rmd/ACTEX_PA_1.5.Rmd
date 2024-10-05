@@ -81,33 +81,33 @@ Fib(50)
 ```
 
 
-```{r}
-# Problem 1.5.6
-# Old code
-n <- 100
-n_sim <- 10000
-beta0 <- 2  # true intercept
-beta1 <- 4  # true slope
-sigma <- 1  # true random error standard deviation 
-
-count <- rep(NA, n_sim)
-
-set.seed(0)
-x <- runif(n)  # predictor values are uniform on (0,1)
-x0 <- 0.8      # predictor value of interest
-y0 <- rnorm(1, mean = beta0 + beta1 * x0, sd = sigma)  # target of prediction
-
-for (i in 1:n_sim) {
-  y <- rnorm(n, mean = beta0 + beta1 * x, sd = sigma)
-  m <- lm(y ~ x)
-  # lower bound of 95% prediction interval
-  l <- predict(m, newdata = data.frame(x = x0), interval = "prediction")[, 2]
-  # upper bound of 95% prediction interval
-  u <- predict(m, newdata = data.frame(x = x0), interval = "prediction")[, 3]
-  count[i] <- (l <= y0 <= u)
-}
-
-mean(count)
+```{r, eval=FALSE}
+# # Problem 1.5.6
+# # Old code
+# n <- 100
+# n_sim <- 10000
+# beta0 <- 2  # true intercept
+# beta1 <- 4  # true slope
+# sigma <- 1  # true random error standard deviation 
+# 
+# count <- rep(NA, n_sim)
+# 
+# set.seed(0)
+# x <- runif(n)  # predictor values are uniform on (0,1)
+# x0 <- 0.8      # predictor value of interest
+# y0 <- rnorm(1, mean = beta0 + beta1 * x0, sd = sigma)  # target of prediction
+# 
+# for (i in 1:n_sim) {
+#   y <- rnorm(n, mean = beta0 + beta1 * x, sd = sigma)
+#   m <- lm(y ~ x)
+#   # lower bound of 95% prediction interval
+#   l <- predict(m, newdata = data.frame(x = x0), interval = "prediction")[, 2]
+#   # upper bound of 95% prediction interval
+#   u <- predict(m, newdata = data.frame(x = x0), interval = "prediction")[, 3]
+#   count[i] <- (l <= y0 & y0<= u)
+# }
+# 
+# mean(count)
 ```
 
 

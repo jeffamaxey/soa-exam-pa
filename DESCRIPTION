@@ -1,0 +1,6 @@
+Package: soa_exam_pa
+Type: Book
+Title: User Manual for Society of Actuaries Exam PA.
+Version: 0.0.1
+Imports: bookdown
+Remotes: rstudio/bookdown
