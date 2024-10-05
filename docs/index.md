@@ -23,7 +23,7 @@ description: This is a minimal example of using the bookdown package to write a 
 **Note**: This book follows the Actex Exam PA study manual by author Ambrose Lo, and contains only study notes from readings in the Actex manual. The online version of the Actex manual is available and highly recommended for purchase here at [actexmadriver.com](https://www.actexlearning.com/exams/pa).
 
 
-<p style="text-align: center;"><a href="https://github.com/jeffamaxey/soa-exam-pa"><img src="assets/images/cover-soa-predictive-analytics.png" /></a></p>
+<p style="text-align: center;"><a href="https://github.com/jeffamaxey/soa-exam-pa"><img src="assets/images/cover-soa-predictive-analytics.png" class="cover" width="250" height="328"/></a></p>
 
 
 
