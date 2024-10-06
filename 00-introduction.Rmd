@@ -21,7 +21,7 @@ The complete source is available from [GitHub](https://github.com/jeffamaxey/soa
 
 This version of the book was built with `r R.version.string` and the following packages:
 
-```{r, echo = FALSE, results="asis", messages=FALSE, warning=FALSE}
+```{r, echo = FALSE, messages=FALSE, warning=FALSE}
 library(tidyverse)
 library(tibble)
 library(kableExtra)

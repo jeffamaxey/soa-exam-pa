@@ -1,4 +1,5 @@
-# (PART) Theory of and Case Studies in Predictive Analytics {.unnumbered}
+
+# (PART) Theory of and Case Studies in Predictive Analytics {-}
 
 # Linear Models
 
@@ -6,12 +7,15 @@
 source("_common.R")
 ```
 
+```{block2, type='rmdnote'}
 
-::: {.rmdnote}
-Topic: Predictive Analytics Problem Defintion (10-20%)
-  
-Learning Objectives:  The Candidate will be able to identify the business problem, how the available data relates to possible analyses, and use the information to propose an appropriate modeling approach.
-:::
+**Topic**
+Predictive Analytics Problem Defintion
+
+**Learning Objectives**  
+The Candidate will be able to identify the business problem, how the available data relates to possible analyses, and use the information to propose an appropriate modeling approach.
+```
+
 
 
 ## A Primer on Predictive Analytics
@@ -145,10 +149,9 @@ Before we decide to apply predictive analytics to solve a business problem, we s
 
 A conceptual exam task testing the syllabus learning outcome, "Describe the characteristics of predictive modeling problems.", may ask:
 
-::: {.rmdnote}
+```{block2, type='rmdimportant'}
 Explain two (or three) reasons why this business problem should be addressed by predictive modeling*
-:::
-
+```
 
 Some common characteristics of predictive modeling problems include:
 

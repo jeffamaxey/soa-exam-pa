@@ -1,13 +1,34 @@
 bookdown::gitbook:
-  css: ["assets/css/style.css"]
+  css: ["assets/css/style.css", "assets/css/toc.css"]
   config:
+    theme: journal
     toc:
+      collapse: subsection
+      scroll_highlight: true
       before: |
         <li><a href="./">Society of Actuaries Exam PA</a></li>
       after: |
         <li><a href="https://github.com/jeffamaxey/soa-exam-pa" target="blank">Github Repository</a></li>
-    edit: https://github.com/jeffamaxey/soa-exam-pa/edit/master/%s
+    toolbar:
+      position: fixed
+    edit : null
     download: [pdf, epub]
+    search:
+      engine: lunr # or fuse
+      # options to control/tune search engine behavior (for
+      # fuse.js, refer to https://fusejs.io/api/options.html)
+      options: null
+    sharing:
+      facebook: false
+      github: true
+      twitter: false
+      linkedin: false
+      weibo: false
+      instapaper: false
+      vk: false
+      whatsapp: false
+      all: []
+    info: true
 bookdown::pdf_book:
   includes:
     in_header: ["assets/latex/preamble.tex"]
@@ -16,9 +37,4 @@ bookdown::pdf_book:
   keep_tex: yes
 bookdown::epub_book: default
 bookdown::bs4_book:
-  theme:
-    primary: "#0d6efd"   # default .rmdnote = blue
-    danger:  "#dc3545"   # default .rmdcaution = red
-    success: "#198754"   # default .rmdimportant = green
-    info:    "#0dcaf0"   # default .rmdtip = cyan
-    warning: "#ffc107"   # default .rmdwarning = yellow
+  css: ["assets/css/style.css", "assets/css/toc.css"]

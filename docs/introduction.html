@@ -1,68 +1,183 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="" xml:lang="">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Introduction | Society of Actuaries Exam PA</title>
-<meta name="author" content="Jeff A. Maxey">
-<meta name="description" content="Getting Started Before we continue, make sure you have all the software you need for this book: R: If you don’t have R installed already, you may be reading the wrong book; I assume a basic...">
-<meta name="generator" content="bookdown 0.40 with bs4_book()">
-<meta property="og:title" content="Introduction | Society of Actuaries Exam PA">
-<meta property="og:type" content="book">
-<meta property="og:description" content="Getting Started Before we continue, make sure you have all the software you need for this book: R: If you don’t have R installed already, you may be reading the wrong book; I assume a basic...">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Introduction | Society of Actuaries Exam PA">
-<meta name="twitter:description" content="Getting Started Before we continue, make sure you have all the software you need for this book: R: If you don’t have R installed already, you may be reading the wrong book; I assume a basic...">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
-    
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  </style>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Introduction | Society of Actuaries Exam PA</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Introduction | Society of Actuaries Exam PA" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="github-repo" content="jeffamaxey/soa-exam-pa" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Introduction | Society of Actuaries Exam PA" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Jeff A. Maxey" />
+
+
+<meta name="date" content="2024-10-05" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="basics-of-r-programming.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="assets/css/style.css" type="text/css" />
+<link rel="stylesheet" href="assets/css/toc.css" type="text/css" />
 </head>
-<body data-spy="scroll" data-target="#toc">
 
-<div class="container-fluid">
-<div class="row">
-  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+<body>
 
-    <div class="d-flex align-items-start justify-content-between">
-      <h1>
-        <a href="index.html" title="">Society of Actuaries Exam PA</a>
-      </h1>
-      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
-    </div>
 
-    <div id="main-nav" class="collapse-lg">
-      <form role="search">
-        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
-</form>
 
-      <nav aria-label="Table of contents"><h2>Table of contents</h2>
-        <ul class="book-toc list-unstyled">
-<li><a class="" href="index.html">Preface</a></li>
-<li><a class="active" href="introduction.html">Introduction</a></li>
-<li class="book-part">A Crash Course in R</li>
-<li><a class="" href="basics-of-r-programming.html"><span class="header-section-number">1</span> Basics of R Programming</a></li>
-<li><a class="" href="data-exploration-and-visualization.html"><span class="header-section-number">2</span> Data Exploration and Visualization</a></li>
-<li class="book-part">Theory of and Case Studies in Predictive Analytics</li>
-<li><a class="" href="linear-models.html"><span class="header-section-number">3</span> Linear Models</a></li>
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Society of Actuaries Exam PA</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i>Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#getting-started"><i class="fa fa-check"></i>Getting Started</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#system-requirements"><i class="fa fa-check"></i>System Requirements</a></li>
+</ul></li>
+<li class="part"><span><b>I A Crash Course in R</b></span></li>
+<li class="chapter" data-level="1" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html"><i class="fa fa-check"></i><b>1</b> Basics of R Programming</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#data-types-in-r"><i class="fa fa-check"></i><b>1.1</b> Data Types in R</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#exercise-1.2.2---calculating-least-squares-estimates-by-matrix-manipulation"><i class="fa fa-check"></i><b>1.1.1</b> Exercise 1.2.2 - Calculating least squares estimates by matrix manipulation</a></li>
+<li class="chapter" data-level="1.1.2" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#data-frames"><i class="fa fa-check"></i><b>1.1.2</b> Data Frames</a></li>
+<li class="chapter" data-level="1.1.3" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#exercise-1.2.3---listing-the-components-of-a-list"><i class="fa fa-check"></i><b>1.1.3</b> Exercise 1.2.3 - Listing the components of a list</a></li>
+<li class="chapter" data-level="1.1.4" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#functions"><i class="fa fa-check"></i><b>1.1.4</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#basic-data-management"><i class="fa fa-check"></i><b>1.2</b> Basic Data Management</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#task-1-removing-unimportant-variables"><i class="fa fa-check"></i><b>1.2.1</b> Task 1: Removing Unimportant Variables</a></li>
+<li class="chapter" data-level="1.2.2" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#task-2-missing-values"><i class="fa fa-check"></i><b>1.2.2</b> Task 2: Missing Values</a></li>
+<li class="chapter" data-level="1.2.3" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#task-3-adding-new-variables"><i class="fa fa-check"></i><b>1.2.3</b> Task 3: Adding New Variables</a></li>
+<li class="chapter" data-level="1.2.4" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#task-4-using-logical-tests-to-identify-observations-with-certain-characteristics"><i class="fa fa-check"></i><b>1.2.4</b> Task 4: Using Logical Tests to Identify Observations with Certain Characteristics</a></li>
+<li class="chapter" data-level="1.2.5" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#end-of-chapter-1-practice-problems"><i class="fa fa-check"></i><b>1.2.5</b> End of Chapter 1 Practice Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html"><i class="fa fa-check"></i><b>2</b> Data Exploration and Visualization</a>
+<ul>
+<li class="chapter" data-level="" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#chapter-02-overview"><i class="fa fa-check"></i>Chapter Overview</a></li>
+<li class="chapter" data-level="2.1" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#chapter-02-making-ggplots"><i class="fa fa-check"></i><b>2.1</b> Making <code>ggplots</code></a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#chapter-02-making-ggplots-basic-features"><i class="fa fa-check"></i><b>2.1.1</b> Basic Features</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#chapter-02-making-ggplots-customizing-your-plots"><i class="fa fa-check"></i><b>2.1.2</b> Customizing Your Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#chapter-02-data-exploration"><i class="fa fa-check"></i><b>2.2</b> Data Exploration</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#chapter-02-data-exploration-univariate"><i class="fa fa-check"></i><b>2.2.1</b> Univariate Data Exploration</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#chapter-02-data-exploration-bivariate"><i class="fa fa-check"></i><b>2.2.2</b> Bivariate Data Exploration</a></li>
+<li class="chapter" data-level="2.2.3" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#end-of-chapter-practice-problems"><i class="fa fa-check"></i><b>2.2.3</b> End-of-Chapter Practice Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Theory of and Case Studies in Predictive Analytics</b></span></li>
+<li class="chapter" data-level="3" data-path="linear-models.html"><a href="linear-models.html"><i class="fa fa-check"></i><b>3</b> Linear Models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="linear-models.html"><a href="linear-models.html#a-primer-on-predictive-analytics"><i class="fa fa-check"></i><b>3.1</b> A Primer on Predictive Analytics</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="linear-models.html"><a href="linear-models.html#basic-terminology"><i class="fa fa-check"></i><b>3.1.1</b> Basic Terminology</a></li>
+<li class="chapter" data-level="3.1.2" data-path="linear-models.html"><a href="linear-models.html#the-model-building-process"><i class="fa fa-check"></i><b>3.1.2</b> The Model Building Process</a></li>
+<li class="chapter" data-level="3.1.3" data-path="linear-models.html"><a href="linear-models.html#bias-variance-trade-off"><i class="fa fa-check"></i><b>3.1.3</b> Bias-Variance Trade-Off</a></li>
+<li class="chapter" data-level="3.1.4" data-path="linear-models.html"><a href="linear-models.html#feature-generation-and-selection"><i class="fa fa-check"></i><b>3.1.4</b> Feature Generation and Selection</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="linear-models.html"><a href="linear-models.html#linear-models-conceptual-foundation"><i class="fa fa-check"></i><b>3.2</b> Linear Models: Conceptual Foundation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="linear-models.html"><a href="linear-models.html#model-formulation"><i class="fa fa-check"></i><b>3.2.1</b> Model Formulation</a></li>
+<li class="chapter" data-level="3.2.2" data-path="linear-models.html"><a href="linear-models.html#model-evaluation-and-validation"><i class="fa fa-check"></i><b>3.2.2</b> Model Evaluation and Validation</a></li>
+<li class="chapter" data-level="3.2.3" data-path="linear-models.html"><a href="linear-models.html#feature-generation"><i class="fa fa-check"></i><b>3.2.3</b> Feature Generation</a></li>
+<li class="chapter" data-level="3.2.4" data-path="linear-models.html"><a href="linear-models.html#feature-selection"><i class="fa fa-check"></i><b>3.2.4</b> Feature Selection</a></li>
+<li class="chapter" data-level="3.2.5" data-path="linear-models.html"><a href="linear-models.html#regularization"><i class="fa fa-check"></i><b>3.2.5</b> Regularization</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="linear-models.html"><a href="linear-models.html#case-study-1-fitting-linear-models-in-r"><i class="fa fa-check"></i><b>3.3</b> Case Study 1: Fitting Linear Models in R</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="linear-models.html"><a href="linear-models.html#exploratory-data-analysis"><i class="fa fa-check"></i><b>3.3.1</b> Exploratory Data Analysis</a></li>
+<li class="chapter" data-level="3.3.2" data-path="linear-models.html"><a href="linear-models.html#simple-linear-regression"><i class="fa fa-check"></i><b>3.3.2</b> Simple Linear Regression</a></li>
+<li class="chapter" data-level="3.3.3" data-path="linear-models.html"><a href="linear-models.html#multiple-linear-regression"><i class="fa fa-check"></i><b>3.3.3</b> Multiple Linear Regression</a></li>
+<li class="chapter" data-level="3.3.4" data-path="linear-models.html"><a href="linear-models.html#evaluation-of-linear-models"><i class="fa fa-check"></i><b>3.3.4</b> Evaluation of Linear Models</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="linear-models.html"><a href="linear-models.html#case-study-2-feature-selection-and-regularization"><i class="fa fa-check"></i><b>3.4</b> Case Study 2: Feature Selection and Regularization</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="linear-models.html"><a href="linear-models.html#preparatory-work"><i class="fa fa-check"></i><b>3.4.1</b> Preparatory Work</a></li>
+<li class="chapter" data-level="3.4.2" data-path="linear-models.html"><a href="linear-models.html#model-construction-and-feature-selection"><i class="fa fa-check"></i><b>3.4.2</b> Model Construction and Feature Selection</a></li>
+<li class="chapter" data-level="3.4.3" data-path="linear-models.html"><a href="linear-models.html#model-validation"><i class="fa fa-check"></i><b>3.4.3</b> Model Validation</a></li>
+<li class="chapter" data-level="3.4.4" data-path="linear-models.html"><a href="linear-models.html#regularization-1"><i class="fa fa-check"></i><b>3.4.4</b> Regularization</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#conceptual-review-questions-for-chapter-3"><i class="fa fa-check"></i>Conceptual Review: Questions for Chapter 3</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/jeffamaxey/soa-exam-pa" target="blank">Github Repository</a></li>
+
 </ul>
 
-        <div class="book-extra">
-          
-        </div>
       </nav>
-</div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="introduction" class="section level1 unnumbered">
-<h1>Introduction<a class="anchor" aria-label="anchor" href="#introduction"><i class="fas fa-link"></i></a>
-</h1>
-<div id="getting-started" class="section level2 unnumbered">
-<h2>Getting Started<a class="anchor" aria-label="anchor" href="#getting-started"><i class="fas fa-link"></i></a>
-</h2>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Society of Actuaries Exam PA</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="introduction" class="section level1 unnumbered hasAnchor">
+<h1>Introduction<a href="introduction.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="getting-started" class="section level2 unnumbered hasAnchor">
+<h2>Getting Started<a href="introduction.html#getting-started" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Before we continue, make sure you have all the software you need for this book:</p>
 <ul>
 <li><p><strong>R</strong>: If you don’t have R installed already, you may be reading the wrong book; I assume a basic familiarity with R throughout this book.
@@ -73,18 +188,18 @@ We recommend giving it a try, but it’s not required to be successful with Shin
 You can download RStudio Desktop from <a href="https://www.rstudio.com/products/rstudio/download" class="uri">https://www.rstudio.com/products/rstudio/download</a></p></li>
 </ul>
 </div>
-<div id="system-requirements" class="section level2 unnumbered">
-<h2>System Requirements<a class="anchor" aria-label="anchor" href="#system-requirements"><i class="fas fa-link"></i></a>
-</h2>
+<div id="system-requirements" class="section level2 unnumbered hasAnchor">
+<h2>System Requirements<a href="introduction.html#system-requirements" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>This book was written in <a href="http://www.rstudio.com/ide/">RStudio</a> using <a href="http://bookdown.org/">bookdown</a>.</p>
 <p>The <a href="http://jeffamaxey.github.io/soa-exam-pa">website</a> is hosted with <a href="https://github.com/">Github Pages</a>, and automatically updated after every commit by <a href="https://github.com/features/actions">Github Actions</a>.
 The complete source is available from <a href="https://github.com/jeffamaxey/soa-exa-pa">GitHub</a>.</p>
 <p>This version of the book was built with R version 4.3.3 (2024-02-29 ucrt) and the following packages:</p>
-<div class="inline-table"><table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
 <span id="tab:unnamed-chunk-1">TABLE 0.1: </span>R Packages
 </caption>
-<thead><tr>
+<thead>
+<tr>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 package
 </th>
@@ -94,7 +209,8 @@ version
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 source
 </th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -273,73 +389,77 @@ CRAN (R 4.3.3)
 </td>
 </tr>
 </tbody>
-</table></div>
-</div>
-</div>
-
-
-
-  <div class="chapter-nav">
-<div class="prev"><a href="index.html">Preface</a></div>
-<div class="next"><a href="basics-of-r-programming.html"><span class="header-section-number">1</span> Basics of R Programming</a></div>
-</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
-    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#introduction">Introduction</a></li>
-<li><a class="nav-link" href="#getting-started">Getting Started</a></li>
-<li><a class="nav-link" href="#system-requirements">System Requirements</a></li>
-</ul>
-
-      <div class="book-extra">
-        <ul class="list-unstyled">
-          
-        </ul>
-</div>
-    </nav>
-</div>
+</table>
 
 </div>
-</div> <!-- .container -->
+</div>
 
-<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
-  <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Society of Actuaries Exam PA</strong>" was written by Jeff A. Maxey. It was last built on 2024-10-05.</p>
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="basics-of-r-programming.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
   </div>
-
-  <div class="col-12 col-md-6 mt-3">
-    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
-  </div>
-
-</div></div>
-</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
-for (let popover of popovers) {
-  const div = document.createElement('div');
-  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
-  div.innerHTML = popover.getAttribute('data-content');
-
-  var has_math = div.querySelector("span.math");
-  if (has_math) {
-    document.body.appendChild(div);
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
-    MathJax.Hub.Queue(function() {
-      popover.setAttribute('data-content', div.innerHTML);
-      document.body.removeChild(div);
-    })
-  }
-}
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": {}
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["soa-exam-pa.pdf", "soa-exam-pa.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"theme": "journal",
+"toolbar": {
+"position": "fixed"
+},
+"info": true
+});
+});
 </script>
+
 </body>
+
 </html>

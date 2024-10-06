@@ -1,3 +1,4 @@
+
 # (PART) A Crash Course in R {-}
 
 # Basics of R Programming
@@ -438,3 +439,4 @@ actuary.n$classify <- ifelse(actuary.n$S >= 9, "Excellent",
                              ifelse(actuary.n$S > 7, "Good", "Unsatisfactory"))
 actuary.n
 ```
+

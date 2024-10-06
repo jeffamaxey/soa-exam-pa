@@ -1,74 +1,249 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="" xml:lang="">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 1 Basics of R Programming | Society of Actuaries Exam PA</title>
-<meta name="author" content="Jeff A. Maxey">
-<meta name="description" content="1.1 Data Types in R  1.1.1 Exercise 1.2.2 - Calculating least squares estimates by matrix manipulation You are fitting a multiple linear regression model: \[ \begin{equation} \widehat{Y} =...">
-<meta name="generator" content="bookdown 0.40 with bs4_book()">
-<meta property="og:title" content="Chapter 1 Basics of R Programming | Society of Actuaries Exam PA">
-<meta property="og:type" content="book">
-<meta property="og:description" content="1.1 Data Types in R  1.1.1 Exercise 1.2.2 - Calculating least squares estimates by matrix manipulation You are fitting a multiple linear regression model: \[ \begin{equation} \widehat{Y} =...">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 1 Basics of R Programming | Society of Actuaries Exam PA">
-<meta name="twitter:description" content="1.1 Data Types in R  1.1.1 Exercise 1.2.2 - Calculating least squares estimates by matrix manipulation You are fitting a multiple linear regression model: \[ \begin{equation} \widehat{Y} =...">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
-    
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  </style>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Basics of R Programming | Society of Actuaries Exam PA</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Basics of R Programming | Society of Actuaries Exam PA" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="github-repo" content="jeffamaxey/soa-exam-pa" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Basics of R Programming | Society of Actuaries Exam PA" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Jeff A. Maxey" />
+
+
+<meta name="date" content="2024-10-05" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="introduction.html"/>
+<link rel="next" href="data-exploration-and-visualization.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="assets/css/style.css" type="text/css" />
+<link rel="stylesheet" href="assets/css/toc.css" type="text/css" />
 </head>
-<body data-spy="scroll" data-target="#toc">
 
-<div class="container-fluid">
-<div class="row">
-  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+<body>
 
-    <div class="d-flex align-items-start justify-content-between">
-      <h1>
-        <a href="index.html" title="">Society of Actuaries Exam PA</a>
-      </h1>
-      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
-    </div>
 
-    <div id="main-nav" class="collapse-lg">
-      <form role="search">
-        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
-</form>
 
-      <nav aria-label="Table of contents"><h2>Table of contents</h2>
-        <ul class="book-toc list-unstyled">
-<li><a class="" href="index.html">Preface</a></li>
-<li><a class="" href="introduction.html">Introduction</a></li>
-<li class="book-part">A Crash Course in R</li>
-<li><a class="active" href="basics-of-r-programming.html"><span class="header-section-number">1</span> Basics of R Programming</a></li>
-<li><a class="" href="data-exploration-and-visualization.html"><span class="header-section-number">2</span> Data Exploration and Visualization</a></li>
-<li class="book-part">Theory of and Case Studies in Predictive Analytics</li>
-<li><a class="" href="linear-models.html"><span class="header-section-number">3</span> Linear Models</a></li>
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Society of Actuaries Exam PA</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i>Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#getting-started"><i class="fa fa-check"></i>Getting Started</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#system-requirements"><i class="fa fa-check"></i>System Requirements</a></li>
+</ul></li>
+<li class="part"><span><b>I A Crash Course in R</b></span></li>
+<li class="chapter" data-level="1" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html"><i class="fa fa-check"></i><b>1</b> Basics of R Programming</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#data-types-in-r"><i class="fa fa-check"></i><b>1.1</b> Data Types in R</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#exercise-1.2.2---calculating-least-squares-estimates-by-matrix-manipulation"><i class="fa fa-check"></i><b>1.1.1</b> Exercise 1.2.2 - Calculating least squares estimates by matrix manipulation</a></li>
+<li class="chapter" data-level="1.1.2" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#data-frames"><i class="fa fa-check"></i><b>1.1.2</b> Data Frames</a></li>
+<li class="chapter" data-level="1.1.3" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#exercise-1.2.3---listing-the-components-of-a-list"><i class="fa fa-check"></i><b>1.1.3</b> Exercise 1.2.3 - Listing the components of a list</a></li>
+<li class="chapter" data-level="1.1.4" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#functions"><i class="fa fa-check"></i><b>1.1.4</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#basic-data-management"><i class="fa fa-check"></i><b>1.2</b> Basic Data Management</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#task-1-removing-unimportant-variables"><i class="fa fa-check"></i><b>1.2.1</b> Task 1: Removing Unimportant Variables</a></li>
+<li class="chapter" data-level="1.2.2" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#task-2-missing-values"><i class="fa fa-check"></i><b>1.2.2</b> Task 2: Missing Values</a></li>
+<li class="chapter" data-level="1.2.3" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#task-3-adding-new-variables"><i class="fa fa-check"></i><b>1.2.3</b> Task 3: Adding New Variables</a></li>
+<li class="chapter" data-level="1.2.4" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#task-4-using-logical-tests-to-identify-observations-with-certain-characteristics"><i class="fa fa-check"></i><b>1.2.4</b> Task 4: Using Logical Tests to Identify Observations with Certain Characteristics</a></li>
+<li class="chapter" data-level="1.2.5" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#end-of-chapter-1-practice-problems"><i class="fa fa-check"></i><b>1.2.5</b> End of Chapter 1 Practice Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html"><i class="fa fa-check"></i><b>2</b> Data Exploration and Visualization</a>
+<ul>
+<li class="chapter" data-level="" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#chapter-02-overview"><i class="fa fa-check"></i>Chapter Overview</a></li>
+<li class="chapter" data-level="2.1" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#chapter-02-making-ggplots"><i class="fa fa-check"></i><b>2.1</b> Making <code>ggplots</code></a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#chapter-02-making-ggplots-basic-features"><i class="fa fa-check"></i><b>2.1.1</b> Basic Features</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#chapter-02-making-ggplots-customizing-your-plots"><i class="fa fa-check"></i><b>2.1.2</b> Customizing Your Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#chapter-02-data-exploration"><i class="fa fa-check"></i><b>2.2</b> Data Exploration</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#chapter-02-data-exploration-univariate"><i class="fa fa-check"></i><b>2.2.1</b> Univariate Data Exploration</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#chapter-02-data-exploration-bivariate"><i class="fa fa-check"></i><b>2.2.2</b> Bivariate Data Exploration</a></li>
+<li class="chapter" data-level="2.2.3" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#end-of-chapter-practice-problems"><i class="fa fa-check"></i><b>2.2.3</b> End-of-Chapter Practice Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Theory of and Case Studies in Predictive Analytics</b></span></li>
+<li class="chapter" data-level="3" data-path="linear-models.html"><a href="linear-models.html"><i class="fa fa-check"></i><b>3</b> Linear Models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="linear-models.html"><a href="linear-models.html#a-primer-on-predictive-analytics"><i class="fa fa-check"></i><b>3.1</b> A Primer on Predictive Analytics</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="linear-models.html"><a href="linear-models.html#basic-terminology"><i class="fa fa-check"></i><b>3.1.1</b> Basic Terminology</a></li>
+<li class="chapter" data-level="3.1.2" data-path="linear-models.html"><a href="linear-models.html#the-model-building-process"><i class="fa fa-check"></i><b>3.1.2</b> The Model Building Process</a></li>
+<li class="chapter" data-level="3.1.3" data-path="linear-models.html"><a href="linear-models.html#bias-variance-trade-off"><i class="fa fa-check"></i><b>3.1.3</b> Bias-Variance Trade-Off</a></li>
+<li class="chapter" data-level="3.1.4" data-path="linear-models.html"><a href="linear-models.html#feature-generation-and-selection"><i class="fa fa-check"></i><b>3.1.4</b> Feature Generation and Selection</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="linear-models.html"><a href="linear-models.html#linear-models-conceptual-foundation"><i class="fa fa-check"></i><b>3.2</b> Linear Models: Conceptual Foundation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="linear-models.html"><a href="linear-models.html#model-formulation"><i class="fa fa-check"></i><b>3.2.1</b> Model Formulation</a></li>
+<li class="chapter" data-level="3.2.2" data-path="linear-models.html"><a href="linear-models.html#model-evaluation-and-validation"><i class="fa fa-check"></i><b>3.2.2</b> Model Evaluation and Validation</a></li>
+<li class="chapter" data-level="3.2.3" data-path="linear-models.html"><a href="linear-models.html#feature-generation"><i class="fa fa-check"></i><b>3.2.3</b> Feature Generation</a></li>
+<li class="chapter" data-level="3.2.4" data-path="linear-models.html"><a href="linear-models.html#feature-selection"><i class="fa fa-check"></i><b>3.2.4</b> Feature Selection</a></li>
+<li class="chapter" data-level="3.2.5" data-path="linear-models.html"><a href="linear-models.html#regularization"><i class="fa fa-check"></i><b>3.2.5</b> Regularization</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="linear-models.html"><a href="linear-models.html#case-study-1-fitting-linear-models-in-r"><i class="fa fa-check"></i><b>3.3</b> Case Study 1: Fitting Linear Models in R</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="linear-models.html"><a href="linear-models.html#exploratory-data-analysis"><i class="fa fa-check"></i><b>3.3.1</b> Exploratory Data Analysis</a></li>
+<li class="chapter" data-level="3.3.2" data-path="linear-models.html"><a href="linear-models.html#simple-linear-regression"><i class="fa fa-check"></i><b>3.3.2</b> Simple Linear Regression</a></li>
+<li class="chapter" data-level="3.3.3" data-path="linear-models.html"><a href="linear-models.html#multiple-linear-regression"><i class="fa fa-check"></i><b>3.3.3</b> Multiple Linear Regression</a></li>
+<li class="chapter" data-level="3.3.4" data-path="linear-models.html"><a href="linear-models.html#evaluation-of-linear-models"><i class="fa fa-check"></i><b>3.3.4</b> Evaluation of Linear Models</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="linear-models.html"><a href="linear-models.html#case-study-2-feature-selection-and-regularization"><i class="fa fa-check"></i><b>3.4</b> Case Study 2: Feature Selection and Regularization</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="linear-models.html"><a href="linear-models.html#preparatory-work"><i class="fa fa-check"></i><b>3.4.1</b> Preparatory Work</a></li>
+<li class="chapter" data-level="3.4.2" data-path="linear-models.html"><a href="linear-models.html#model-construction-and-feature-selection"><i class="fa fa-check"></i><b>3.4.2</b> Model Construction and Feature Selection</a></li>
+<li class="chapter" data-level="3.4.3" data-path="linear-models.html"><a href="linear-models.html#model-validation"><i class="fa fa-check"></i><b>3.4.3</b> Model Validation</a></li>
+<li class="chapter" data-level="3.4.4" data-path="linear-models.html"><a href="linear-models.html#regularization-1"><i class="fa fa-check"></i><b>3.4.4</b> Regularization</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#conceptual-review-questions-for-chapter-3"><i class="fa fa-check"></i>Conceptual Review: Questions for Chapter 3</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/jeffamaxey/soa-exam-pa" target="blank">Github Repository</a></li>
+
 </ul>
 
-        <div class="book-extra">
-          
-        </div>
       </nav>
-</div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="basics-of-r-programming" class="section level1" number="1">
-<h1>
-<span class="header-section-number">1</span> Basics of R Programming<a class="anchor" aria-label="anchor" href="#basics-of-r-programming"><i class="fas fa-link"></i></a>
-</h1>
-<div id="data-types-in-r" class="section level2" number="1.1">
-<h2>
-<span class="header-section-number">1.1</span> Data Types in R<a class="anchor" aria-label="anchor" href="#data-types-in-r"><i class="fas fa-link"></i></a>
-</h2>
-<div id="exercise-1.2.2---calculating-least-squares-estimates-by-matrix-manipulation" class="section level3" number="1.1.1">
-<h3>
-<span class="header-section-number">1.1.1</span> Exercise 1.2.2 - Calculating least squares estimates by matrix manipulation<a class="anchor" aria-label="anchor" href="#exercise-1.2.2---calculating-least-squares-estimates-by-matrix-manipulation"><i class="fas fa-link"></i></a>
-</h3>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Society of Actuaries Exam PA</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="basics-of-r-programming" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Basics of R Programming<a href="basics-of-r-programming.html#basics-of-r-programming" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="data-types-in-r" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Data Types in R<a href="basics-of-r-programming.html#data-types-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="exercise-1.2.2---calculating-least-squares-estimates-by-matrix-manipulation" class="section level3 hasAnchor" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> Exercise 1.2.2 - Calculating least squares estimates by matrix manipulation<a href="basics-of-r-programming.html#exercise-1.2.2---calculating-least-squares-estimates-by-matrix-manipulation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>You are fitting a multiple linear regression model:</p>
 <p><span class="math display">\[
 \begin{equation}
@@ -76,13 +251,15 @@
 \end{equation}
 \]</span></p>
 <p>to the following dataset:</p>
-<div class="inline-table"><table class="table table-sm">
-<thead><tr class="header">
+<table>
+<thead>
+<tr class="header">
 <th>i</th>
 <th><span class="math inline">\(Y_{i}\)</span></th>
 <th><span class="math inline">\(X_{i1}\)</span></th>
 <th><span class="math display">\[X_{i2}\]</span></th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td>1</td>
@@ -121,7 +298,7 @@
 <td>2</td>
 </tr>
 </tbody>
-</table></div>
+</table>
 <p>Perform the following two tasks in R:</p>
 <p><strong>(a)</strong> In matrix form, the model is</p>
 <p><span class="math display">\[
@@ -133,77 +310,64 @@
 <p><strong>(b)</strong> Use the matrix formula <span class="math display">\[\widehat{\beta} = (X^TX)^{-1}X^TY\]</span> from Exam SRM to calculate the least squares estimates of <span class="math inline">\(\beta_{0}\)</span>, <span class="math inline">\(\beta_{1}\)</span>, <span class="math inline">\(\beta_{2}\)</span>.</p>
 <p><strong>Solution:</strong> The R commands are collected below. Let’s look at the code line by line.</p>
 <p><strong>(a)</strong> The response vector can be created by the following command:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">14</span>, <span class="fl">11</span>, <span class="fl">14</span>, <span class="fl">18</span>, <span class="fl">12</span>, <span class="fl">9</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="basics-of-r-programming.html#cb1-1" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">14</span>, <span class="dv">11</span>, <span class="dv">14</span>, <span class="dv">18</span>, <span class="dv">12</span>, <span class="dv">9</span>)</span></code></pre></div>
 <p>To setup the design matrix, we first create the three columns:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">6</span><span class="op">)</span> <span class="co"># same as c(1, 1, 1, 1, 1, 1)</span></span>
-<span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">0</span>, <span class="fl">8</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">x2</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">2</span>, <span class="fl">6</span>, <span class="fl">4</span>, <span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="basics-of-r-programming.html#cb2-1" tabindex="-1"></a>x0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">6</span>) <span class="co"># same as c(1, 1, 1, 1, 1, 1)</span></span>
+<span id="cb2-2"><a href="basics-of-r-programming.html#cb2-2" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">4</span>, <span class="dv">1</span>)</span>
+<span id="cb2-3"><a href="basics-of-r-programming.html#cb2-3" tabindex="-1"></a>x2 <span class="ot">&lt;-</span>  <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">2</span>)</span></code></pre></div>
 <p>The first column is a vectorof 1’s corresponding to the intercept of the model. It is created by the <code>rep(x, n)</code> function, which, in its simplest form, repeats or replicates the x vector n times.</p>
 <p>The other two columns represent the values of <span class="math inline">\(X_{1}\)</span> and <span class="math inline">\(X_{2}\)</span>.</p>
-<p>Now we combine these three vectors via c(x0, x1, x2) and use the <code><a href="https://rdrr.io/r/base/matrix.html">matrix()</a></code> function to produce the design matrix.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">x0</span>, <span class="va">x1</span>, <span class="va">x2</span><span class="op">)</span>, nrow<span class="op">=</span><span class="fl">6</span><span class="op">)</span></span>
-<span><span class="va">X</span></span>
-<span><span class="co">#&gt;      [,1] [,2] [,3]</span></span>
-<span><span class="co">#&gt; [1,]    1    2    4</span></span>
-<span><span class="co">#&gt; [2,]    1    3    2</span></span>
-<span><span class="co">#&gt; [3,]    1    0    6</span></span>
-<span><span class="co">#&gt; [4,]    1    8    4</span></span>
-<span><span class="co">#&gt; [5,]    1    4    3</span></span>
-<span><span class="co">#&gt; [6,]    1    1    2</span></span></code></pre></div>
+<p>Now we combine these three vectors via c(x0, x1, x2) and use the <code>matrix()</code> function to produce the design matrix.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="basics-of-r-programming.html#cb3-1" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(x0, x1, x2), <span class="at">nrow=</span><span class="dv">6</span>)</span>
+<span id="cb3-2"><a href="basics-of-r-programming.html#cb3-2" tabindex="-1"></a>X</span>
+<span id="cb3-3"><a href="basics-of-r-programming.html#cb3-3" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3]</span></span>
+<span id="cb3-4"><a href="basics-of-r-programming.html#cb3-4" tabindex="-1"></a><span class="co">#&gt; [1,]    1    2    4</span></span>
+<span id="cb3-5"><a href="basics-of-r-programming.html#cb3-5" tabindex="-1"></a><span class="co">#&gt; [2,]    1    3    2</span></span>
+<span id="cb3-6"><a href="basics-of-r-programming.html#cb3-6" tabindex="-1"></a><span class="co">#&gt; [3,]    1    0    6</span></span>
+<span id="cb3-7"><a href="basics-of-r-programming.html#cb3-7" tabindex="-1"></a><span class="co">#&gt; [4,]    1    8    4</span></span>
+<span id="cb3-8"><a href="basics-of-r-programming.html#cb3-8" tabindex="-1"></a><span class="co">#&gt; [5,]    1    4    3</span></span>
+<span id="cb3-9"><a href="basics-of-r-programming.html#cb3-9" tabindex="-1"></a><span class="co">#&gt; [6,]    1    1    2</span></span></code></pre></div>
 <p><strong>(b)</strong> Using the matrix formula <span class="math inline">\(\widehat{\beta} = (X^TX)^{-1}X^TY\)</span>, we can calculate the least squares estimates of <span class="math inline">\(\beta_{0}\)</span>, <span class="math inline">\(\beta_{1}\)</span>, <span class="math inline">\(\beta_{2}\)</span>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">B</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/solve.html">solve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">X</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">Y</span></span>
-<span><span class="va">B</span></span>
-<span><span class="co">#&gt;        [,1]</span></span>
-<span><span class="co">#&gt; [1,] 5.2506</span></span>
-<span><span class="co">#&gt; [2,] 0.8137</span></span>
-<span><span class="co">#&gt; [3,] 1.5166</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="basics-of-r-programming.html#cb4-1" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(X) <span class="sc">%*%</span> X) <span class="sc">%*%</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> Y</span>
+<span id="cb4-2"><a href="basics-of-r-programming.html#cb4-2" tabindex="-1"></a>B</span>
+<span id="cb4-3"><a href="basics-of-r-programming.html#cb4-3" tabindex="-1"></a><span class="co">#&gt;        [,1]</span></span>
+<span id="cb4-4"><a href="basics-of-r-programming.html#cb4-4" tabindex="-1"></a><span class="co">#&gt; [1,] 5.2506</span></span>
+<span id="cb4-5"><a href="basics-of-r-programming.html#cb4-5" tabindex="-1"></a><span class="co">#&gt; [2,] 0.8137</span></span>
+<span id="cb4-6"><a href="basics-of-r-programming.html#cb4-6" tabindex="-1"></a><span class="co">#&gt; [3,] 1.5166</span></span></code></pre></div>
 <p>Then <span class="math inline">\(\widehat{\beta}_{0}\)</span> = 5.2505543, <span class="math inline">\(\widehat{\beta}_{1}\)</span> = 0.8137472, and <span class="math inline">\(\widehat{\beta}_{2}\)</span> = 1.5166297.</p>
-<p><em>Remark:</em> In Chapter 3, we will learn how to use the <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> function to fit a linear model and the <code><a href="https://rdrr.io/r/stats/coef.html">coef()</a></code> function to extract the least squares estimates.</p>
+<p><em>Remark:</em> In Chapter 3, we will learn how to use the <code>lm()</code> function to fit a linear model and the <code>coef()</code> function to extract the least squares estimates.</p>
 </div>
-<div id="data-frames" class="section level3" number="1.1.2">
-<h3>
-<span class="header-section-number">1.1.2</span> Data Frames<a class="anchor" aria-label="anchor" href="#data-frames"><i class="fas fa-link"></i></a>
-</h3>
+<div id="data-frames" class="section level3 hasAnchor" number="1.1.2">
+<h3><span class="header-section-number">1.1.2</span> Data Frames<a href="basics-of-r-programming.html#data-frames" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>Importance of Data Frames:</strong> In Exam PA (and predictive modeling in general), data frames are <strong>useful</strong> mainly for two reasons:</p>
 <ol style="list-style-type: decimal">
 <li><p><strong><em>(Data frames = datasets)</em></strong> From a statistical point of view, eac column of a data frame can be interpreted as observed values of the same variable (that’s why each column must have the same type of data) and each row represents the set of measurements taken for the same observations (e.g., record, case, instance) corresponding to these variables, very much like an Excel Spreadsheet. The variables across different columns are allowed to be of different types and capture different kinds of information.</p></li>
 <li><p><strong><em>(Structure vs. Unstructured Data)</em></strong> From a data management prespective, data frames are efficient storage devices for <strong><em>structrued data</em></strong>, or data that fit into a tabular arrangement. The row-by-column configuration of structured data makes it easy to search for, extract, and compare information across rows, but there is a limit to the scope of information that can be expressed by structured data. It does not lend itself to information that does not naturally fit into a tabular arrangement. Such information, such as texts, images, audio, and videos, is known as <strong><em>unstructured data</em></strong>. Although unstructured data are more flexible and potentially useful, they are harder to access and have to be carefully pre-processed (or manipulated) before they can serve as useful inputs to a predictive model.</p></li>
 </ol>
 </div>
-<div id="exercise-1.2.3---listing-the-components-of-a-list" class="section level3" number="1.1.3">
-<h3>
-<span class="header-section-number">1.1.3</span> Exercise 1.2.3 - Listing the components of a list<a class="anchor" aria-label="anchor" href="#exercise-1.2.3---listing-the-components-of-a-list"><i class="fas fa-link"></i></a>
-</h3>
-<p>In Exercise 1.2.2, we considered a multiple linear regression model for Y on two predictors <span class="math inline">\(X_{1}\)</span> and <span class="math inline">\(X_{2}\)</span>. As we will learn in Chapter 3, we can easily fit such a model by the following commands involving the <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> function:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">14</span>, <span class="fl">11</span>, <span class="fl">14</span>, <span class="fl">18</span>, <span class="fl">12</span>, <span class="fl">9</span><span class="op">)</span></span>
-<span><span class="va">X1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">0</span>, <span class="fl">8</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">X2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">2</span>, <span class="fl">6</span>, <span class="fl">4</span>, <span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X1</span> <span class="op">+</span> <span class="va">X2</span><span class="op">)</span></span></code></pre></div>
+<div id="exercise-1.2.3---listing-the-components-of-a-list" class="section level3 hasAnchor" number="1.1.3">
+<h3><span class="header-section-number">1.1.3</span> Exercise 1.2.3 - Listing the components of a list<a href="basics-of-r-programming.html#exercise-1.2.3---listing-the-components-of-a-list" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In Exercise 1.2.2, we considered a multiple linear regression model for Y on two predictors <span class="math inline">\(X_{1}\)</span> and <span class="math inline">\(X_{2}\)</span>. As we will learn in Chapter 3, we can easily fit such a model by the following commands involving the <code>lm()</code> function:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="basics-of-r-programming.html#cb5-1" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">14</span>, <span class="dv">11</span>, <span class="dv">14</span>, <span class="dv">18</span>, <span class="dv">12</span>, <span class="dv">9</span>)</span>
+<span id="cb5-2"><a href="basics-of-r-programming.html#cb5-2" tabindex="-1"></a>X1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">4</span>, <span class="dv">1</span>)</span>
+<span id="cb5-3"><a href="basics-of-r-programming.html#cb5-3" tabindex="-1"></a>X2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">2</span>)</span>
+<span id="cb5-4"><a href="basics-of-r-programming.html#cb5-4" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X1 <span class="sc">+</span> X2)</span></code></pre></div>
 <p>The resulting object, named <code>m</code>, is a list with various components.</p>
 <p>List the components of <code>m</code> and choose the components that apears to contain the least squares coefficient estimates. Check your answers against the code.</p>
 <p><strong><em>Solution:</em></strong> We can see a list of components of <code>m</code> by typing the command <code>m$</code>. Then RSudio will show a prompt listing all of the components of <code>m</code>.</p>
-<p>Alternatively and more formally, we can apply the <code><a href="https://rdrr.io/r/base/names.html">names()</a></code> function to <code>m</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] "coefficients"  "residuals"     "effects"      </span></span>
-<span><span class="co">#&gt;  [4] "rank"          "fitted.values" "assign"       </span></span>
-<span><span class="co">#&gt;  [7] "qr"            "df.residual"   "xlevels"      </span></span>
-<span><span class="co">#&gt; [10] "call"          "terms"         "model"</span></span></code></pre></div>
+<p>Alternatively and more formally, we can apply the <code>names()</code> function to <code>m</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="basics-of-r-programming.html#cb6-1" tabindex="-1"></a><span class="fu">names</span>(m)</span>
+<span id="cb6-2"><a href="basics-of-r-programming.html#cb6-2" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;coefficients&quot;  &quot;residuals&quot;     &quot;effects&quot;      </span></span>
+<span id="cb6-3"><a href="basics-of-r-programming.html#cb6-3" tabindex="-1"></a><span class="co">#&gt;  [4] &quot;rank&quot;          &quot;fitted.values&quot; &quot;assign&quot;       </span></span>
+<span id="cb6-4"><a href="basics-of-r-programming.html#cb6-4" tabindex="-1"></a><span class="co">#&gt;  [7] &quot;qr&quot;            &quot;df.residual&quot;   &quot;xlevels&quot;      </span></span>
+<span id="cb6-5"><a href="basics-of-r-programming.html#cb6-5" tabindex="-1"></a><span class="co">#&gt; [10] &quot;call&quot;          &quot;terms&quot;         &quot;model&quot;</span></span></code></pre></div>
 <p>Out of the 12 components, the <code>coefficients</code> component appears the most relevant. Accessing this component indeed produces the least squares coefficient estimates:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">m</span><span class="op">$</span><span class="va">coefficients</span></span>
-<span><span class="co">#&gt; (Intercept)          X1          X2 </span></span>
-<span><span class="co">#&gt;      5.2506      0.8137      1.5166</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="basics-of-r-programming.html#cb7-1" tabindex="-1"></a>m<span class="sc">$</span>coefficients</span>
+<span id="cb7-2"><a href="basics-of-r-programming.html#cb7-2" tabindex="-1"></a><span class="co">#&gt; (Intercept)          X1          X2 </span></span>
+<span id="cb7-3"><a href="basics-of-r-programming.html#cb7-3" tabindex="-1"></a><span class="co">#&gt;      5.2506      0.8137      1.5166</span></span></code></pre></div>
 </div>
-<div id="functions" class="section level3" number="1.1.4">
-<h3>
-<span class="header-section-number">1.1.4</span> Functions<a class="anchor" aria-label="anchor" href="#functions"><i class="fas fa-link"></i></a>
-</h3>
+<div id="functions" class="section level3 hasAnchor" number="1.1.4">
+<h3><span class="header-section-number">1.1.4</span> Functions<a href="basics-of-r-programming.html#functions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The basic structure of a function in R:</p>
 <pre><code>FUNCTION_NAME &lt;- function(ARGUMENT_1, ARGUMENT_2,...) {
   STATEMENT_1
@@ -212,51 +376,47 @@
   return(VALUE)
 }</code></pre>
 <p>Example of a function:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sumDiff</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">s</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span></span>
-<span>  <span class="va">d</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">-</span> <span class="va">y</span></span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>sum<span class="op">=</span><span class="va">s</span>, diff<span class="op">=</span><span class="va">d</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span></span>
-<span><span class="fu">sumDiff</span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">$</span><span class="va">sum</span></span>
-<span><span class="co">#&gt; [1] 3</span></span>
-<span><span class="fu">sumDiff</span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">$</span><span class="va">diff</span></span>
-<span><span class="co">#&gt; [1] -1</span></span>
-<span><span class="fu">sumDiff</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $sum</span></span>
-<span><span class="co">#&gt; [1] 2 4 6</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $diff</span></span>
-<span><span class="co">#&gt; [1] 0 0 0</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="basics-of-r-programming.html#cb9-1" tabindex="-1"></a>sumDiff <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {</span>
+<span id="cb9-2"><a href="basics-of-r-programming.html#cb9-2" tabindex="-1"></a>  s <span class="ot">&lt;-</span> x <span class="sc">+</span> y</span>
+<span id="cb9-3"><a href="basics-of-r-programming.html#cb9-3" tabindex="-1"></a>  d <span class="ot">&lt;-</span> x <span class="sc">-</span> y</span>
+<span id="cb9-4"><a href="basics-of-r-programming.html#cb9-4" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">sum=</span>s, <span class="at">diff=</span>d))</span>
+<span id="cb9-5"><a href="basics-of-r-programming.html#cb9-5" tabindex="-1"></a>}</span>
+<span id="cb9-6"><a href="basics-of-r-programming.html#cb9-6" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="basics-of-r-programming.html#cb9-7" tabindex="-1"></a><span class="fu">sumDiff</span>(<span class="dv">1</span>, <span class="dv">2</span>)<span class="sc">$</span>sum</span>
+<span id="cb9-8"><a href="basics-of-r-programming.html#cb9-8" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb9-9"><a href="basics-of-r-programming.html#cb9-9" tabindex="-1"></a><span class="fu">sumDiff</span>(<span class="dv">1</span>, <span class="dv">2</span>)<span class="sc">$</span>diff</span>
+<span id="cb9-10"><a href="basics-of-r-programming.html#cb9-10" tabindex="-1"></a><span class="co">#&gt; [1] -1</span></span>
+<span id="cb9-11"><a href="basics-of-r-programming.html#cb9-11" tabindex="-1"></a><span class="fu">sumDiff</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb9-12"><a href="basics-of-r-programming.html#cb9-12" tabindex="-1"></a><span class="co">#&gt; $sum</span></span>
+<span id="cb9-13"><a href="basics-of-r-programming.html#cb9-13" tabindex="-1"></a><span class="co">#&gt; [1] 2 4 6</span></span>
+<span id="cb9-14"><a href="basics-of-r-programming.html#cb9-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-15"><a href="basics-of-r-programming.html#cb9-15" tabindex="-1"></a><span class="co">#&gt; $diff</span></span>
+<span id="cb9-16"><a href="basics-of-r-programming.html#cb9-16" tabindex="-1"></a><span class="co">#&gt; [1] 0 0 0</span></span></code></pre></div>
 </div>
 </div>
-<div id="basic-data-management" class="section level2" number="1.2">
-<h2>
-<span class="header-section-number">1.2</span> Basic Data Management<a class="anchor" aria-label="anchor" href="#basic-data-management"><i class="fas fa-link"></i></a>
-</h2>
+<div id="basic-data-management" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Basic Data Management<a href="basics-of-r-programming.html#basic-data-management" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Now that we have a basic undertanding of common data types and structures in R, we are ready to look at some elementary data management problems commonly encountered in Exam PA (you will see more complicated ones in ATPA). Even after we have imported the data into R in the usual observation-by-variable format, there are often data management issues that should be resolved before a predictive model can be constructed meaningfully. To illustrate these data mangement issues, we will focus on a small-scale dataset involving eight actuaries in a hypothetical company set up in the code below:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">8</span></span>
-<span><span class="va">name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Embryo Luo"</span>, <span class="st">""</span>, <span class="st">"Peter Smith"</span>, <span class="cn">NA</span>, <span class="st">"Angela Peterson"</span>, <span class="st">"Emily Johnston"</span>, <span class="st">"Barbara Scott"</span>, <span class="st">"Benjamin Eng"</span><span class="op">)</span></span>
-<span><span class="va">gender</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>, <span class="st">"?"</span>, <span class="st">"M"</span><span class="op">)</span></span>
-<span><span class="va">age</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">25</span>, <span class="fl">22</span>, <span class="fl">50</span>, <span class="fl">30</span>, <span class="fl">42</span>, <span class="fl">29</span>, <span class="fl">36</span><span class="op">)</span></span>
-<span><span class="va">exams</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">3</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">7</span>, <span class="fl">5</span>, <span class="fl">9</span><span class="op">)</span></span>
-<span><span class="va">Q1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="cn">NA</span>, <span class="fl">4</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="fl">8</span>, <span class="fl">7</span><span class="op">)</span></span>
-<span><span class="va">Q2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">9</span>, <span class="fl">9</span>, <span class="fl">5</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">10</span>, <span class="fl">9</span>, <span class="fl">8</span><span class="op">)</span></span>
-<span><span class="va">Q3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">9</span> ,<span class="fl">7</span>, <span class="fl">5</span>, <span class="fl">8</span>, <span class="fl">10</span>, <span class="fl">10</span>, <span class="fl">7</span>, <span class="fl">8</span><span class="op">)</span></span>
-<span><span class="va">salary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">300000</span>, <span class="cn">NA</span>, <span class="fl">80000</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span><span class="op">)</span></span>
-<span><span class="va">actuary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">name</span>, <span class="va">gender</span>, <span class="va">age</span>, <span class="va">exams</span>, <span class="va">Q1</span>, <span class="va">Q2</span>, <span class="va">Q3</span>, <span class="va">salary</span><span class="op">)</span></span>
-<span><span class="va">actuary</span></span>
-<span><span class="co">#&gt;   x            name gender age exams Q1 Q2 Q3 salary</span></span>
-<span><span class="co">#&gt; 1 1      Embryo Luo      M  -1    10 10  9  9  3e+05</span></span>
-<span><span class="co">#&gt; 2 2                      F  25     3 NA  9  7     NA</span></span>
-<span><span class="co">#&gt; 3 3     Peter Smith      M  22     0  4  5  5  8e+04</span></span>
-<span><span class="co">#&gt; 4 4            &lt;NA&gt;      F  50     4  7  7  8     NA</span></span>
-<span><span class="co">#&gt; 5 5 Angela Peterson      F  30     6  8  8 10     NA</span></span>
-<span><span class="co">#&gt; 6 6  Emily Johnston      F  42     7  9 10 10     NA</span></span>
-<span><span class="co">#&gt; 7 7   Barbara Scott      ?  29     5  8  9  7     NA</span></span>
-<span><span class="co">#&gt; 8 8    Benjamin Eng      M  36     9  7  8  8     NA</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="basics-of-r-programming.html#cb10-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span></span>
+<span id="cb10-2"><a href="basics-of-r-programming.html#cb10-2" tabindex="-1"></a>name <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Embryo Luo&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="st">&quot;Peter Smith&quot;</span>, <span class="cn">NA</span>, <span class="st">&quot;Angela Peterson&quot;</span>, <span class="st">&quot;Emily Johnston&quot;</span>, <span class="st">&quot;Barbara Scott&quot;</span>, <span class="st">&quot;Benjamin Eng&quot;</span>)</span>
+<span id="cb10-3"><a href="basics-of-r-programming.html#cb10-3" tabindex="-1"></a>gender <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;M&quot;</span>)</span>
+<span id="cb10-4"><a href="basics-of-r-programming.html#cb10-4" tabindex="-1"></a>age <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">25</span>, <span class="dv">22</span>, <span class="dv">50</span>, <span class="dv">30</span>, <span class="dv">42</span>, <span class="dv">29</span>, <span class="dv">36</span>)</span>
+<span id="cb10-5"><a href="basics-of-r-programming.html#cb10-5" tabindex="-1"></a>exams <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">9</span>)</span>
+<span id="cb10-6"><a href="basics-of-r-programming.html#cb10-6" tabindex="-1"></a>Q1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="cn">NA</span>, <span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">8</span>, <span class="dv">7</span>)</span>
+<span id="cb10-7"><a href="basics-of-r-programming.html#cb10-7" tabindex="-1"></a>Q2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">8</span>)</span>
+<span id="cb10-8"><a href="basics-of-r-programming.html#cb10-8" tabindex="-1"></a>Q3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">9</span> ,<span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">7</span>, <span class="dv">8</span>)</span>
+<span id="cb10-9"><a href="basics-of-r-programming.html#cb10-9" tabindex="-1"></a>salary <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">300000</span>, <span class="cn">NA</span>, <span class="dv">80000</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>)</span>
+<span id="cb10-10"><a href="basics-of-r-programming.html#cb10-10" tabindex="-1"></a>actuary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, name, gender, age, exams, Q1, Q2, Q3, salary)</span>
+<span id="cb10-11"><a href="basics-of-r-programming.html#cb10-11" tabindex="-1"></a>actuary</span>
+<span id="cb10-12"><a href="basics-of-r-programming.html#cb10-12" tabindex="-1"></a><span class="co">#&gt;   x            name gender age exams Q1 Q2 Q3 salary</span></span>
+<span id="cb10-13"><a href="basics-of-r-programming.html#cb10-13" tabindex="-1"></a><span class="co">#&gt; 1 1      Embryo Luo      M  -1    10 10  9  9  3e+05</span></span>
+<span id="cb10-14"><a href="basics-of-r-programming.html#cb10-14" tabindex="-1"></a><span class="co">#&gt; 2 2                      F  25     3 NA  9  7     NA</span></span>
+<span id="cb10-15"><a href="basics-of-r-programming.html#cb10-15" tabindex="-1"></a><span class="co">#&gt; 3 3     Peter Smith      M  22     0  4  5  5  8e+04</span></span>
+<span id="cb10-16"><a href="basics-of-r-programming.html#cb10-16" tabindex="-1"></a><span class="co">#&gt; 4 4            &lt;NA&gt;      F  50     4  7  7  8     NA</span></span>
+<span id="cb10-17"><a href="basics-of-r-programming.html#cb10-17" tabindex="-1"></a><span class="co">#&gt; 5 5 Angela Peterson      F  30     6  8  8 10     NA</span></span>
+<span id="cb10-18"><a href="basics-of-r-programming.html#cb10-18" tabindex="-1"></a><span class="co">#&gt; 6 6  Emily Johnston      F  42     7  9 10 10     NA</span></span>
+<span id="cb10-19"><a href="basics-of-r-programming.html#cb10-19" tabindex="-1"></a><span class="co">#&gt; 7 7   Barbara Scott      ?  29     5  8  9  7     NA</span></span>
+<span id="cb10-20"><a href="basics-of-r-programming.html#cb10-20" tabindex="-1"></a><span class="co">#&gt; 8 8    Benjamin Eng      M  36     9  7  8  8     NA</span></span></code></pre></div>
 <p>Each row of the dataset, called <code>actuary</code>, has information about an actuary’s name, gender, age, number of exams passed, three evaluation ratings on a scale from 1 to 10 assigned by their supervisors according to three performance measures, and their salary.</p>
 <p>Although the dataset you will encounter in real life is likely to have hundreds and thousands of observations, for demonstration pruposes I have deliberately chosen a toy dataset like <code>actuary</code> so that you can appreciate the changes you have made to the dataset by visual inspection (the small size of the dataset makes this possible). The data management techniques we are going to illustrate, however, are so general and efficient that they apply equally well to large datasets.</p>
 <p>Using this toy dataset, we will demonstrate how to accomplish the following data management tasks in R:</p>
@@ -268,39 +428,36 @@
 <li><p><strong>(Merge):</strong> How to add new observations and variables to an existing dataset?</p></li>
 <li><p><strong>(Compound):</strong> How to create a compound variable that represents both the gender and smoking status of an actuary?</p></li>
 </ol>
-<div id="task-1-removing-unimportant-variables" class="section level3" number="1.2.1">
-<h3>
-<span class="header-section-number">1.2.1</span> Task 1: Removing Unimportant Variables<a class="anchor" aria-label="anchor" href="#task-1-removing-unimportant-variables"><i class="fas fa-link"></i></a>
-</h3>
+<div id="task-1-removing-unimportant-variables" class="section level3 hasAnchor" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Task 1: Removing Unimportant Variables<a href="basics-of-r-programming.html#task-1-removing-unimportant-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In the course of a data analysis, we may want to remove variables which turn out to be redundant or add little value to our analysis. In the <code>actuary</code> data, the <code>x</code> variable is a vector of row numbers that do not provide any useful information for understanding the eight actuaries.</p>
 <p>To <strong>delete</strong> a variable in a data frame, we can use the <code>$</code> notation we learned to access the variable and assign it to the special symbol <code>NULL</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">actuary</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
-<span><span class="va">actuary</span></span>
-<span><span class="co">#&gt;              name gender age exams Q1 Q2 Q3 salary</span></span>
-<span><span class="co">#&gt; 1      Embryo Luo      M  -1    10 10  9  9  3e+05</span></span>
-<span><span class="co">#&gt; 2                      F  25     3 NA  9  7     NA</span></span>
-<span><span class="co">#&gt; 3     Peter Smith      M  22     0  4  5  5  8e+04</span></span>
-<span><span class="co">#&gt; 4            &lt;NA&gt;      F  50     4  7  7  8     NA</span></span>
-<span><span class="co">#&gt; 5 Angela Peterson      F  30     6  8  8 10     NA</span></span>
-<span><span class="co">#&gt; 6  Emily Johnston      F  42     7  9 10 10     NA</span></span>
-<span><span class="co">#&gt; 7   Barbara Scott      ?  29     5  8  9  7     NA</span></span>
-<span><span class="co">#&gt; 8    Benjamin Eng      M  36     9  7  8  8     NA</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="basics-of-r-programming.html#cb11-1" tabindex="-1"></a>actuary<span class="sc">$</span>x <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb11-2"><a href="basics-of-r-programming.html#cb11-2" tabindex="-1"></a>actuary</span>
+<span id="cb11-3"><a href="basics-of-r-programming.html#cb11-3" tabindex="-1"></a><span class="co">#&gt;              name gender age exams Q1 Q2 Q3 salary</span></span>
+<span id="cb11-4"><a href="basics-of-r-programming.html#cb11-4" tabindex="-1"></a><span class="co">#&gt; 1      Embryo Luo      M  -1    10 10  9  9  3e+05</span></span>
+<span id="cb11-5"><a href="basics-of-r-programming.html#cb11-5" tabindex="-1"></a><span class="co">#&gt; 2                      F  25     3 NA  9  7     NA</span></span>
+<span id="cb11-6"><a href="basics-of-r-programming.html#cb11-6" tabindex="-1"></a><span class="co">#&gt; 3     Peter Smith      M  22     0  4  5  5  8e+04</span></span>
+<span id="cb11-7"><a href="basics-of-r-programming.html#cb11-7" tabindex="-1"></a><span class="co">#&gt; 4            &lt;NA&gt;      F  50     4  7  7  8     NA</span></span>
+<span id="cb11-8"><a href="basics-of-r-programming.html#cb11-8" tabindex="-1"></a><span class="co">#&gt; 5 Angela Peterson      F  30     6  8  8 10     NA</span></span>
+<span id="cb11-9"><a href="basics-of-r-programming.html#cb11-9" tabindex="-1"></a><span class="co">#&gt; 6  Emily Johnston      F  42     7  9 10 10     NA</span></span>
+<span id="cb11-10"><a href="basics-of-r-programming.html#cb11-10" tabindex="-1"></a><span class="co">#&gt; 7   Barbara Scott      ?  29     5  8  9  7     NA</span></span>
+<span id="cb11-11"><a href="basics-of-r-programming.html#cb11-11" tabindex="-1"></a><span class="co">#&gt; 8    Benjamin Eng      M  36     9  7  8  8     NA</span></span></code></pre></div>
 </div>
-<div id="task-2-missing-values" class="section level3" number="1.2.2">
-<h3>
-<span class="header-section-number">1.2.2</span> Task 2: Missing Values<a class="anchor" aria-label="anchor" href="#task-2-missing-values"><i class="fas fa-link"></i></a>
-</h3>
+<div id="task-2-missing-values" class="section level3 hasAnchor" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> Task 2: Missing Values<a href="basics-of-r-programming.html#task-2-missing-values" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In data analysis, we say that there is a <em>missing value</em> when a value is not available (hence missing) for a particular entry in a dataset for whatever reason.</p>
 <p>In R, <strong>missing values</strong> are denoted by the special symbol <strong><code>NA</code></strong>, which stands for not available.</p>
 <p>We can see that the actuary dataset has quite a few missing values:</p>
-<div class="inline-table"><table class="table table-sm">
-<thead><tr class="header">
+<table>
+<thead>
+<tr class="header">
 <th>Variable</th>
 <th>Missing Value(s)</th>
 <th></th>
 <th></th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td><code>name</code></td>
@@ -327,14 +484,12 @@
 <td></td>
 </tr>
 </tbody>
-</table></div>
+</table>
 <p><em>Note that although the name of the second observation is left blank (indicated by the empty character string ““) and the missing value of gender is coded as”?“, they are not treated technically in R as missing values. We will need to identify these entries manually.</em></p>
 <p>Missing values are problmeatic in data analsis because many functions in R will return a missing value if some of its arguments contain missing values. There are many methods for dealing with missing values, some simple and some more sophisticated (the more sophisticated ones will e introduced in ATPA). In most cases, more than one method can apply. Here are some simple guidelines:</p>
 <ul>
-<li>
-<strong><em>Removing observations:</em></strong> If the missing observations for a variable are only a very small part of the data, as in the case of Q1, then deleting the missing observation results in virtually no loss of information and is a sensible move.</li>
-<li>
-<strong><em>Removing variables:</em></strong> If the majority of the observation for a variable are missing ,as in the case of <code>salary</code>, then the variable contributes little information to help us understand the data and it makes sense to remove the entire variable.</li>
+<li><strong><em>Removing observations:</em></strong> If the missing observations for a variable are only a very small part of the data, as in the case of Q1, then deleting the missing observation results in virtually no loss of information and is a sensible move.</li>
+<li><strong><em>Removing variables:</em></strong> If the majority of the observation for a variable are missing ,as in the case of <code>salary</code>, then the variable contributes little information to help us understand the data and it makes sense to remove the entire variable.</li>
 </ul>
 <p>While removing observations nd/or variables is simple, doing so relies on the assumption that the missing values are randomly (rather than systematically) generated, so their removal is unlikely to introduce bias or impair the effectiveness of the predictive model we build.</p>
 <p>For the sake of demonstration, here we will handle the missing values in the <code>actuary</code> dataset as follows:</p>
@@ -344,75 +499,68 @@
 <li>Treating <code>gender</code> as a factor with three levels, <code>"M", "F", and "?"</code>. (This requires no adjustment. If you like, you can rename the “?” level as `“Unknown”.)</li>
 </ul>
 <p>The removal of <code>salary</code> should be straight forward and we can do it in exactly the same way as in Task 1.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">actuary</span><span class="op">$</span><span class="va">salary</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
-<span><span class="va">actuary</span></span>
-<span><span class="co">#&gt;              name gender age exams Q1 Q2 Q3</span></span>
-<span><span class="co">#&gt; 1      Embryo Luo      M  -1    10 10  9  9</span></span>
-<span><span class="co">#&gt; 2                      F  25     3 NA  9  7</span></span>
-<span><span class="co">#&gt; 3     Peter Smith      M  22     0  4  5  5</span></span>
-<span><span class="co">#&gt; 4            &lt;NA&gt;      F  50     4  7  7  8</span></span>
-<span><span class="co">#&gt; 5 Angela Peterson      F  30     6  8  8 10</span></span>
-<span><span class="co">#&gt; 6  Emily Johnston      F  42     7  9 10 10</span></span>
-<span><span class="co">#&gt; 7   Barbara Scott      ?  29     5  8  9  7</span></span>
-<span><span class="co">#&gt; 8    Benjamin Eng      M  36     9  7  8  8</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="basics-of-r-programming.html#cb12-1" tabindex="-1"></a>actuary<span class="sc">$</span>salary <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb12-2"><a href="basics-of-r-programming.html#cb12-2" tabindex="-1"></a>actuary</span>
+<span id="cb12-3"><a href="basics-of-r-programming.html#cb12-3" tabindex="-1"></a><span class="co">#&gt;              name gender age exams Q1 Q2 Q3</span></span>
+<span id="cb12-4"><a href="basics-of-r-programming.html#cb12-4" tabindex="-1"></a><span class="co">#&gt; 1      Embryo Luo      M  -1    10 10  9  9</span></span>
+<span id="cb12-5"><a href="basics-of-r-programming.html#cb12-5" tabindex="-1"></a><span class="co">#&gt; 2                      F  25     3 NA  9  7</span></span>
+<span id="cb12-6"><a href="basics-of-r-programming.html#cb12-6" tabindex="-1"></a><span class="co">#&gt; 3     Peter Smith      M  22     0  4  5  5</span></span>
+<span id="cb12-7"><a href="basics-of-r-programming.html#cb12-7" tabindex="-1"></a><span class="co">#&gt; 4            &lt;NA&gt;      F  50     4  7  7  8</span></span>
+<span id="cb12-8"><a href="basics-of-r-programming.html#cb12-8" tabindex="-1"></a><span class="co">#&gt; 5 Angela Peterson      F  30     6  8  8 10</span></span>
+<span id="cb12-9"><a href="basics-of-r-programming.html#cb12-9" tabindex="-1"></a><span class="co">#&gt; 6  Emily Johnston      F  42     7  9 10 10</span></span>
+<span id="cb12-10"><a href="basics-of-r-programming.html#cb12-10" tabindex="-1"></a><span class="co">#&gt; 7   Barbara Scott      ?  29     5  8  9  7</span></span>
+<span id="cb12-11"><a href="basics-of-r-programming.html#cb12-11" tabindex="-1"></a><span class="co">#&gt; 8    Benjamin Eng      M  36     9  7  8  8</span></span></code></pre></div>
 <p>Now lets proceed to remove the second and fourth observations (rows). Here are two commond methods, both of which rely on logical subsetting:</p>
 <ol style="list-style-type: decimal">
-<li>
-<em>Using the <code><a href="https://rdrr.io/r/base/NA.html">is.na()</a></code> function</em>: The <code><a href="https://rdrr.io/r/base/NA.html">is.na()</a></code> function returns an object of the same size as its argument. The elements of this object are equal to <code>TRUE</code> if the corresponding elements of the original object are equal to NA and equal to <code>FALSE</code> otherwise. Effectively, it answers the question of hether each element of the function’s argument is <code>NA</code> or not.</li>
+<li><em>Using the <code>is.na()</code> function</em>: The <code>is.na()</code> function returns an object of the same size as its argument. The elements of this object are equal to <code>TRUE</code> if the corresponding elements of the original object are equal to NA and equal to <code>FALSE</code> otherwise. Effectively, it answers the question of hether each element of the function’s argument is <code>NA</code> or not.</li>
 </ol>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">actuary</span><span class="op">$</span><span class="va">Q1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
-<span><span class="va">actuary.1</span> <span class="op">&lt;-</span> <span class="va">actuary</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">actuary</span><span class="op">$</span><span class="va">Q1</span><span class="op">)</span>,<span class="op">]</span></span>
-<span><span class="va">actuary.1</span></span>
-<span><span class="co">#&gt;              name gender age exams Q1 Q2 Q3</span></span>
-<span><span class="co">#&gt; 1      Embryo Luo      M  -1    10 10  9  9</span></span>
-<span><span class="co">#&gt; 3     Peter Smith      M  22     0  4  5  5</span></span>
-<span><span class="co">#&gt; 4            &lt;NA&gt;      F  50     4  7  7  8</span></span>
-<span><span class="co">#&gt; 5 Angela Peterson      F  30     6  8  8 10</span></span>
-<span><span class="co">#&gt; 6  Emily Johnston      F  42     7  9 10 10</span></span>
-<span><span class="co">#&gt; 7   Barbara Scott      ?  29     5  8  9  7</span></span>
-<span><span class="co">#&gt; 8    Benjamin Eng      M  36     9  7  8  8</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="basics-of-r-programming.html#cb13-1" tabindex="-1"></a><span class="fu">is.na</span>(actuary<span class="sc">$</span>Q1)</span>
+<span id="cb13-2"><a href="basics-of-r-programming.html#cb13-2" tabindex="-1"></a><span class="co">#&gt; [1] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span id="cb13-3"><a href="basics-of-r-programming.html#cb13-3" tabindex="-1"></a>actuary<span class="fl">.1</span> <span class="ot">&lt;-</span> actuary[<span class="sc">!</span><span class="fu">is.na</span>(actuary<span class="sc">$</span>Q1),]</span>
+<span id="cb13-4"><a href="basics-of-r-programming.html#cb13-4" tabindex="-1"></a>actuary<span class="fl">.1</span></span>
+<span id="cb13-5"><a href="basics-of-r-programming.html#cb13-5" tabindex="-1"></a><span class="co">#&gt;              name gender age exams Q1 Q2 Q3</span></span>
+<span id="cb13-6"><a href="basics-of-r-programming.html#cb13-6" tabindex="-1"></a><span class="co">#&gt; 1      Embryo Luo      M  -1    10 10  9  9</span></span>
+<span id="cb13-7"><a href="basics-of-r-programming.html#cb13-7" tabindex="-1"></a><span class="co">#&gt; 3     Peter Smith      M  22     0  4  5  5</span></span>
+<span id="cb13-8"><a href="basics-of-r-programming.html#cb13-8" tabindex="-1"></a><span class="co">#&gt; 4            &lt;NA&gt;      F  50     4  7  7  8</span></span>
+<span id="cb13-9"><a href="basics-of-r-programming.html#cb13-9" tabindex="-1"></a><span class="co">#&gt; 5 Angela Peterson      F  30     6  8  8 10</span></span>
+<span id="cb13-10"><a href="basics-of-r-programming.html#cb13-10" tabindex="-1"></a><span class="co">#&gt; 6  Emily Johnston      F  42     7  9 10 10</span></span>
+<span id="cb13-11"><a href="basics-of-r-programming.html#cb13-11" tabindex="-1"></a><span class="co">#&gt; 7   Barbara Scott      ?  29     5  8  9  7</span></span>
+<span id="cb13-12"><a href="basics-of-r-programming.html#cb13-12" tabindex="-1"></a><span class="co">#&gt; 8    Benjamin Eng      M  36     9  7  8  8</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
-<li>
-<em>Using the <code><a href="https://rdrr.io/r/stats/complete.cases.html">complete.cases()</a></code> or <code><a href="https://rdrr.io/r/stats/na.fail.html">na.omit()</a></code> functions</em>: These two functions are more global than <code><a href="https://rdrr.io/r/base/NA.html">is.na()</a></code> and remove all rows containing missing values.</li>
+<li><em>Using the <code>complete.cases()</code> or <code>na.omit()</code> functions</em>: These two functions are more global than <code>is.na()</code> and remove all rows containing missing values.</li>
 </ol>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/complete.cases.html">complete.cases</a></span><span class="op">(</span><span class="va">actuary</span><span class="op">)</span></span>
-<span><span class="va">actuary.2</span> <span class="op">&lt;-</span> <span class="va">actuary</span><span class="op">[</span><span class="va">cc</span>, <span class="op">]</span></span>
-<span><span class="va">actuary.2</span></span>
-<span><span class="co">#&gt;              name gender age exams Q1 Q2 Q3</span></span>
-<span><span class="co">#&gt; 1      Embryo Luo      M  -1    10 10  9  9</span></span>
-<span><span class="co">#&gt; 3     Peter Smith      M  22     0  4  5  5</span></span>
-<span><span class="co">#&gt; 5 Angela Peterson      F  30     6  8  8 10</span></span>
-<span><span class="co">#&gt; 6  Emily Johnston      F  42     7  9 10 10</span></span>
-<span><span class="co">#&gt; 7   Barbara Scott      ?  29     5  8  9  7</span></span>
-<span><span class="co">#&gt; 8    Benjamin Eng      M  36     9  7  8  8</span></span></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">actuary.3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="va">actuary</span><span class="op">)</span></span>
-<span><span class="va">actuary.3</span></span>
-<span><span class="co">#&gt;              name gender age exams Q1 Q2 Q3</span></span>
-<span><span class="co">#&gt; 1      Embryo Luo      M  -1    10 10  9  9</span></span>
-<span><span class="co">#&gt; 3     Peter Smith      M  22     0  4  5  5</span></span>
-<span><span class="co">#&gt; 5 Angela Peterson      F  30     6  8  8 10</span></span>
-<span><span class="co">#&gt; 6  Emily Johnston      F  42     7  9 10 10</span></span>
-<span><span class="co">#&gt; 7   Barbara Scott      ?  29     5  8  9  7</span></span>
-<span><span class="co">#&gt; 8    Benjamin Eng      M  36     9  7  8  8</span></span></code></pre></div>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">actuary.n</span> <span class="op">&lt;-</span> <span class="va">actuary.3</span> <span class="co"># cleansed dataset</span></span>
-<span><span class="va">actuary.n</span></span>
-<span><span class="co">#&gt;              name gender age exams Q1 Q2 Q3</span></span>
-<span><span class="co">#&gt; 1      Embryo Luo      M  -1    10 10  9  9</span></span>
-<span><span class="co">#&gt; 3     Peter Smith      M  22     0  4  5  5</span></span>
-<span><span class="co">#&gt; 5 Angela Peterson      F  30     6  8  8 10</span></span>
-<span><span class="co">#&gt; 6  Emily Johnston      F  42     7  9 10 10</span></span>
-<span><span class="co">#&gt; 7   Barbara Scott      ?  29     5  8  9  7</span></span>
-<span><span class="co">#&gt; 8    Benjamin Eng      M  36     9  7  8  8</span></span>
-<span></span>
-<span><span class="co"># Number of rows with missing values</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">actuary</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">actuary.n</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 2</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="basics-of-r-programming.html#cb14-1" tabindex="-1"></a>cc <span class="ot">&lt;-</span> <span class="fu">complete.cases</span>(actuary)</span>
+<span id="cb14-2"><a href="basics-of-r-programming.html#cb14-2" tabindex="-1"></a>actuary<span class="fl">.2</span> <span class="ot">&lt;-</span> actuary[cc, ]</span>
+<span id="cb14-3"><a href="basics-of-r-programming.html#cb14-3" tabindex="-1"></a>actuary<span class="fl">.2</span></span>
+<span id="cb14-4"><a href="basics-of-r-programming.html#cb14-4" tabindex="-1"></a><span class="co">#&gt;              name gender age exams Q1 Q2 Q3</span></span>
+<span id="cb14-5"><a href="basics-of-r-programming.html#cb14-5" tabindex="-1"></a><span class="co">#&gt; 1      Embryo Luo      M  -1    10 10  9  9</span></span>
+<span id="cb14-6"><a href="basics-of-r-programming.html#cb14-6" tabindex="-1"></a><span class="co">#&gt; 3     Peter Smith      M  22     0  4  5  5</span></span>
+<span id="cb14-7"><a href="basics-of-r-programming.html#cb14-7" tabindex="-1"></a><span class="co">#&gt; 5 Angela Peterson      F  30     6  8  8 10</span></span>
+<span id="cb14-8"><a href="basics-of-r-programming.html#cb14-8" tabindex="-1"></a><span class="co">#&gt; 6  Emily Johnston      F  42     7  9 10 10</span></span>
+<span id="cb14-9"><a href="basics-of-r-programming.html#cb14-9" tabindex="-1"></a><span class="co">#&gt; 7   Barbara Scott      ?  29     5  8  9  7</span></span>
+<span id="cb14-10"><a href="basics-of-r-programming.html#cb14-10" tabindex="-1"></a><span class="co">#&gt; 8    Benjamin Eng      M  36     9  7  8  8</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="basics-of-r-programming.html#cb15-1" tabindex="-1"></a>actuary<span class="fl">.3</span> <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(actuary)</span>
+<span id="cb15-2"><a href="basics-of-r-programming.html#cb15-2" tabindex="-1"></a>actuary<span class="fl">.3</span></span>
+<span id="cb15-3"><a href="basics-of-r-programming.html#cb15-3" tabindex="-1"></a><span class="co">#&gt;              name gender age exams Q1 Q2 Q3</span></span>
+<span id="cb15-4"><a href="basics-of-r-programming.html#cb15-4" tabindex="-1"></a><span class="co">#&gt; 1      Embryo Luo      M  -1    10 10  9  9</span></span>
+<span id="cb15-5"><a href="basics-of-r-programming.html#cb15-5" tabindex="-1"></a><span class="co">#&gt; 3     Peter Smith      M  22     0  4  5  5</span></span>
+<span id="cb15-6"><a href="basics-of-r-programming.html#cb15-6" tabindex="-1"></a><span class="co">#&gt; 5 Angela Peterson      F  30     6  8  8 10</span></span>
+<span id="cb15-7"><a href="basics-of-r-programming.html#cb15-7" tabindex="-1"></a><span class="co">#&gt; 6  Emily Johnston      F  42     7  9 10 10</span></span>
+<span id="cb15-8"><a href="basics-of-r-programming.html#cb15-8" tabindex="-1"></a><span class="co">#&gt; 7   Barbara Scott      ?  29     5  8  9  7</span></span>
+<span id="cb15-9"><a href="basics-of-r-programming.html#cb15-9" tabindex="-1"></a><span class="co">#&gt; 8    Benjamin Eng      M  36     9  7  8  8</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="basics-of-r-programming.html#cb16-1" tabindex="-1"></a>actuary.n <span class="ot">&lt;-</span> actuary<span class="fl">.3</span> <span class="co"># cleansed dataset</span></span>
+<span id="cb16-2"><a href="basics-of-r-programming.html#cb16-2" tabindex="-1"></a>actuary.n</span>
+<span id="cb16-3"><a href="basics-of-r-programming.html#cb16-3" tabindex="-1"></a><span class="co">#&gt;              name gender age exams Q1 Q2 Q3</span></span>
+<span id="cb16-4"><a href="basics-of-r-programming.html#cb16-4" tabindex="-1"></a><span class="co">#&gt; 1      Embryo Luo      M  -1    10 10  9  9</span></span>
+<span id="cb16-5"><a href="basics-of-r-programming.html#cb16-5" tabindex="-1"></a><span class="co">#&gt; 3     Peter Smith      M  22     0  4  5  5</span></span>
+<span id="cb16-6"><a href="basics-of-r-programming.html#cb16-6" tabindex="-1"></a><span class="co">#&gt; 5 Angela Peterson      F  30     6  8  8 10</span></span>
+<span id="cb16-7"><a href="basics-of-r-programming.html#cb16-7" tabindex="-1"></a><span class="co">#&gt; 6  Emily Johnston      F  42     7  9 10 10</span></span>
+<span id="cb16-8"><a href="basics-of-r-programming.html#cb16-8" tabindex="-1"></a><span class="co">#&gt; 7   Barbara Scott      ?  29     5  8  9  7</span></span>
+<span id="cb16-9"><a href="basics-of-r-programming.html#cb16-9" tabindex="-1"></a><span class="co">#&gt; 8    Benjamin Eng      M  36     9  7  8  8</span></span>
+<span id="cb16-10"><a href="basics-of-r-programming.html#cb16-10" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="basics-of-r-programming.html#cb16-11" tabindex="-1"></a><span class="co"># Number of rows with missing values</span></span>
+<span id="cb16-12"><a href="basics-of-r-programming.html#cb16-12" tabindex="-1"></a><span class="fu">nrow</span>(actuary) <span class="sc">-</span> <span class="fu">nrow</span>(actuary.n)</span>
+<span id="cb16-13"><a href="basics-of-r-programming.html#cb16-13" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span></code></pre></div>
 <p>While we have gotten rid of missing values, some entries in the new dataset are clearly amiss.</p>
 <ul>
 <li><p>First, the age of the first actuary, Embryo Luo, is -1, which is not possible and is likely the result of a data entry error.</p></li>
@@ -421,89 +569,75 @@
 <p>How should we deal with these two observations? Peter Smith is not as problematic since we are not completely sure whether his <code>exams</code> entry is an error or not. It is judicious to retain the entry, but discuss its potential inaccuracy in your response, if this was a real PA exam and you were asked to discuss any concerns with the data you might have.</p>
 <p>The <code>age</code> entry of Embryo Luo is more troublesome. For now, we will keep it and proceed. However, if you are going to fit a predictive model using <code>age</code> as a predictor, then it makes sense to exclude Embryo Luo from your analysis or make an educated guess of his age, e.g., imput his age using the average age of the other actuaries.</p>
 </div>
-<div id="task-3-adding-new-variables" class="section level3" number="1.2.3">
-<h3>
-<span class="header-section-number">1.2.3</span> Task 3: Adding New Variables<a class="anchor" aria-label="anchor" href="#task-3-adding-new-variables"><i class="fas fa-link"></i></a>
-</h3>
+<div id="task-3-adding-new-variables" class="section level3 hasAnchor" number="1.2.3">
+<h3><span class="header-section-number">1.2.3</span> Task 3: Adding New Variables<a href="basics-of-r-programming.html#task-3-adding-new-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The opposite of removing an existing variable (Task 1) is to create a new variable of interest, which may serve as predictors in a predictive model.</p>
 <p>To add a new variable to a data frame, we can use the dollar sign <code>$</code> notation to name and define the new variable. The generic syntax is:</p>
 <pre><code>DATA_FRAME$NEW_VARIABLE &lt;- DEFINITION</code></pre>
 <p>Even if the new variable does not exist in the original data frame, R will automatically expland the data frame to accomodate the new variable.</p>
 <p>As an illustration run the following code to create a new variable, called <code>S</code> and added to the <code>actuary.n</code> data, that measure the avaerage of the three evaluation ratings for each actuary.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">actuary.n</span><span class="op">$</span><span class="va">S</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">actuary.n</span><span class="op">$</span><span class="va">Q1</span> <span class="op">+</span> <span class="va">actuary.n</span><span class="op">$</span><span class="va">Q2</span> <span class="op">+</span> <span class="va">actuary.n</span><span class="op">$</span><span class="va">Q3</span><span class="op">)</span> <span class="op">/</span> <span class="fl">3</span></span>
-<span><span class="va">actuary.n</span></span>
-<span><span class="co">#&gt;              name gender age exams Q1 Q2 Q3     S</span></span>
-<span><span class="co">#&gt; 1      Embryo Luo      M  -1    10 10  9  9 9.333</span></span>
-<span><span class="co">#&gt; 3     Peter Smith      M  22     0  4  5  5 4.667</span></span>
-<span><span class="co">#&gt; 5 Angela Peterson      F  30     6  8  8 10 8.667</span></span>
-<span><span class="co">#&gt; 6  Emily Johnston      F  42     7  9 10 10 9.667</span></span>
-<span><span class="co">#&gt; 7   Barbara Scott      ?  29     5  8  9  7 8.000</span></span>
-<span><span class="co">#&gt; 8    Benjamin Eng      M  36     9  7  8  8 7.667</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="basics-of-r-programming.html#cb18-1" tabindex="-1"></a>actuary.n<span class="sc">$</span>S <span class="ot">&lt;-</span> (actuary.n<span class="sc">$</span>Q1 <span class="sc">+</span> actuary.n<span class="sc">$</span>Q2 <span class="sc">+</span> actuary.n<span class="sc">$</span>Q3) <span class="sc">/</span> <span class="dv">3</span></span>
+<span id="cb18-2"><a href="basics-of-r-programming.html#cb18-2" tabindex="-1"></a>actuary.n</span>
+<span id="cb18-3"><a href="basics-of-r-programming.html#cb18-3" tabindex="-1"></a><span class="co">#&gt;              name gender age exams Q1 Q2 Q3     S</span></span>
+<span id="cb18-4"><a href="basics-of-r-programming.html#cb18-4" tabindex="-1"></a><span class="co">#&gt; 1      Embryo Luo      M  -1    10 10  9  9 9.333</span></span>
+<span id="cb18-5"><a href="basics-of-r-programming.html#cb18-5" tabindex="-1"></a><span class="co">#&gt; 3     Peter Smith      M  22     0  4  5  5 4.667</span></span>
+<span id="cb18-6"><a href="basics-of-r-programming.html#cb18-6" tabindex="-1"></a><span class="co">#&gt; 5 Angela Peterson      F  30     6  8  8 10 8.667</span></span>
+<span id="cb18-7"><a href="basics-of-r-programming.html#cb18-7" tabindex="-1"></a><span class="co">#&gt; 6  Emily Johnston      F  42     7  9 10 10 9.667</span></span>
+<span id="cb18-8"><a href="basics-of-r-programming.html#cb18-8" tabindex="-1"></a><span class="co">#&gt; 7   Barbara Scott      ?  29     5  8  9  7 8.000</span></span>
+<span id="cb18-9"><a href="basics-of-r-programming.html#cb18-9" tabindex="-1"></a><span class="co">#&gt; 8    Benjamin Eng      M  36     9  7  8  8 7.667</span></span></code></pre></div>
 <p>As in Task 1, it is crucial that we specify the name of the dataset that should host the new variable. If you drop <code>"actuary.n"</code> on the left and use the command:</p>
 <pre><code>S &lt;- (actuary.n$Q1 + actuary.n$Q2 + actuary.n$Q3) / 3</code></pre>
 <p>Then the new variable <code>S</code> will exist in the current workspace, but not as a new variable in the <code>actuary.n</code> data frame.</p>
-<p>In the previous code, we manually averaged the three evaluation ratings for each actuary. However, it would be cumbersome to type the ratings variable one by one if there were more than three periods. In this case, the <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code> function can make our work a lot easier and is a powerful function in general.</p>
-<p>The <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code> function allows us to “apply” an arbitrary function to any dimension of a matrix or a data frame, provided that its columns are of the same data structure. Its general syntax is:</p>
+<p>In the previous code, we manually averaged the three evaluation ratings for each actuary. However, it would be cumbersome to type the ratings variable one by one if there were more than three periods. In this case, the <code>apply()</code> function can make our work a lot easier and is a powerful function in general.</p>
+<p>The <code>apply()</code> function allows us to “apply” an arbitrary function to any dimension of a matrix or a data frame, provided that its columns are of the same data structure. Its general syntax is:</p>
 <p><span class="math display">\[
   \begin{equation}
   \boxed{\begin{align*}apply(DATA_FRAME, MARGIN, FUNCTION)\end{align*}}
   \end{equation}
   \]</span></p>
 <p>where <code>MARGIN = 1</code> indciates that the function will act on the rows of the data frame, while <code>MARGIN = 2</code> indicates that the function will act on its columns.</p>
-<p>The next code chunk calculates the means for Q1, Q2, and Q3 using the <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code> function.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">actuary.n</span><span class="op">$</span><span class="va">S</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">actuary.n</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Q1"</span>, <span class="st">"Q2"</span>, <span class="st">"Q3"</span><span class="op">)</span><span class="op">]</span>, <span class="fl">1</span>, <span class="va">mean</span><span class="op">)</span></span>
-<span><span class="va">actuary.n</span></span>
-<span><span class="co">#&gt;              name gender age exams Q1 Q2 Q3     S</span></span>
-<span><span class="co">#&gt; 1      Embryo Luo      M  -1    10 10  9  9 9.333</span></span>
-<span><span class="co">#&gt; 3     Peter Smith      M  22     0  4  5  5 4.667</span></span>
-<span><span class="co">#&gt; 5 Angela Peterson      F  30     6  8  8 10 8.667</span></span>
-<span><span class="co">#&gt; 6  Emily Johnston      F  42     7  9 10 10 9.667</span></span>
-<span><span class="co">#&gt; 7   Barbara Scott      ?  29     5  8  9  7 8.000</span></span>
-<span><span class="co">#&gt; 8    Benjamin Eng      M  36     9  7  8  8 7.667</span></span></code></pre></div>
+<p>The next code chunk calculates the means for Q1, Q2, and Q3 using the <code>apply()</code> function.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="basics-of-r-programming.html#cb20-1" tabindex="-1"></a>actuary.n<span class="sc">$</span>S <span class="ot">&lt;-</span> <span class="fu">apply</span>(actuary.n[, <span class="fu">c</span>(<span class="st">&quot;Q1&quot;</span>, <span class="st">&quot;Q2&quot;</span>, <span class="st">&quot;Q3&quot;</span>)], <span class="dv">1</span>, mean)</span>
+<span id="cb20-2"><a href="basics-of-r-programming.html#cb20-2" tabindex="-1"></a>actuary.n</span>
+<span id="cb20-3"><a href="basics-of-r-programming.html#cb20-3" tabindex="-1"></a><span class="co">#&gt;              name gender age exams Q1 Q2 Q3     S</span></span>
+<span id="cb20-4"><a href="basics-of-r-programming.html#cb20-4" tabindex="-1"></a><span class="co">#&gt; 1      Embryo Luo      M  -1    10 10  9  9 9.333</span></span>
+<span id="cb20-5"><a href="basics-of-r-programming.html#cb20-5" tabindex="-1"></a><span class="co">#&gt; 3     Peter Smith      M  22     0  4  5  5 4.667</span></span>
+<span id="cb20-6"><a href="basics-of-r-programming.html#cb20-6" tabindex="-1"></a><span class="co">#&gt; 5 Angela Peterson      F  30     6  8  8 10 8.667</span></span>
+<span id="cb20-7"><a href="basics-of-r-programming.html#cb20-7" tabindex="-1"></a><span class="co">#&gt; 6  Emily Johnston      F  42     7  9 10 10 9.667</span></span>
+<span id="cb20-8"><a href="basics-of-r-programming.html#cb20-8" tabindex="-1"></a><span class="co">#&gt; 7   Barbara Scott      ?  29     5  8  9  7 8.000</span></span>
+<span id="cb20-9"><a href="basics-of-r-programming.html#cb20-9" tabindex="-1"></a><span class="co">#&gt; 8    Benjamin Eng      M  36     9  7  8  8 7.667</span></span></code></pre></div>
 </div>
-<div id="task-4-using-logical-tests-to-identify-observations-with-certain-characteristics" class="section level3" number="1.2.4">
-<h3>
-<span class="header-section-number">1.2.4</span> Task 4: Using Logical Tests to Identify Observations with Certain Characteristics<a class="anchor" aria-label="anchor" href="#task-4-using-logical-tests-to-identify-observations-with-certain-characteristics"><i class="fas fa-link"></i></a>
-</h3>
+<div id="task-4-using-logical-tests-to-identify-observations-with-certain-characteristics" class="section level3 hasAnchor" number="1.2.4">
+<h3><span class="header-section-number">1.2.4</span> Task 4: Using Logical Tests to Identify Observations with Certain Characteristics<a href="basics-of-r-programming.html#task-4-using-logical-tests-to-identify-observations-with-certain-characteristics" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Under the SOA exam curriculum, an Associate is identified as an individual having passed seven to nine exams and a Fellow should have passed ten exams. To single out associates and fellows , we can again apply logical subsetting with carefully formulated logical tests. For a small dataset like <code>actuary.n</code>, it is easy to spot which actuaries are an associate or a fellow However, the subsetting techniques we introduce will generalize well to large datasets encounted in the practice; these datasets call for more systematic way to search through.</p>
 <p>Fellows are easier to identify; they have passed exactly ten exams. Using this criterion to form a logical index vector for the row subscript, we can “extract” fellows and save their information to a new data frame called actuary.FSA:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">actuary.FSA</span> <span class="op">&lt;-</span> <span class="va">actuary.n</span><span class="op">[</span><span class="va">actuary.n</span><span class="op">$</span><span class="va">exams</span> <span class="op">==</span> <span class="fl">10</span>, <span class="op">]</span></span>
-<span><span class="va">actuary.FSA</span></span>
-<span><span class="co">#&gt;         name gender age exams Q1 Q2 Q3     S</span></span>
-<span><span class="co">#&gt; 1 Embryo Luo      M  -1    10 10  9  9 9.333</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="basics-of-r-programming.html#cb21-1" tabindex="-1"></a>actuary.FSA <span class="ot">&lt;-</span> actuary.n[actuary.n<span class="sc">$</span>exams <span class="sc">==</span> <span class="dv">10</span>, ]</span>
+<span id="cb21-2"><a href="basics-of-r-programming.html#cb21-2" tabindex="-1"></a>actuary.FSA</span>
+<span id="cb21-3"><a href="basics-of-r-programming.html#cb21-3" tabindex="-1"></a><span class="co">#&gt;         name gender age exams Q1 Q2 Q3     S</span></span>
+<span id="cb21-4"><a href="basics-of-r-programming.html#cb21-4" tabindex="-1"></a><span class="co">#&gt; 1 Embryo Luo      M  -1    10 10  9  9 9.333</span></span></code></pre></div>
 <p>Similarly, for associates, we can subset on greater or equal to seven exams and less than or equal to 9 exams:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">actuary.ASA</span> <span class="op">&lt;-</span> <span class="va">actuary.n</span><span class="op">[</span><span class="va">actuary.n</span><span class="op">$</span><span class="va">exams</span> <span class="op">&gt;=</span> <span class="fl">7</span> <span class="op">&amp;</span> <span class="va">actuary.n</span><span class="op">$</span><span class="va">exams</span> <span class="op">&lt;=</span> <span class="fl">9</span>, <span class="op">]</span></span>
-<span><span class="va">actuary.ASA</span></span>
-<span><span class="co">#&gt;             name gender age exams Q1 Q2 Q3     S</span></span>
-<span><span class="co">#&gt; 6 Emily Johnston      F  42     7  9 10 10 9.667</span></span>
-<span><span class="co">#&gt; 8   Benjamin Eng      M  36     9  7  8  8 7.667</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="basics-of-r-programming.html#cb22-1" tabindex="-1"></a>actuary.ASA <span class="ot">&lt;-</span> actuary.n[actuary.n<span class="sc">$</span>exams <span class="sc">&gt;=</span> <span class="dv">7</span> <span class="sc">&amp;</span> actuary.n<span class="sc">$</span>exams <span class="sc">&lt;=</span> <span class="dv">9</span>, ]</span>
+<span id="cb22-2"><a href="basics-of-r-programming.html#cb22-2" tabindex="-1"></a>actuary.ASA</span>
+<span id="cb22-3"><a href="basics-of-r-programming.html#cb22-3" tabindex="-1"></a><span class="co">#&gt;             name gender age exams Q1 Q2 Q3     S</span></span>
+<span id="cb22-4"><a href="basics-of-r-programming.html#cb22-4" tabindex="-1"></a><span class="co">#&gt; 6 Emily Johnston      F  42     7  9 10 10 9.667</span></span>
+<span id="cb22-5"><a href="basics-of-r-programming.html#cb22-5" tabindex="-1"></a><span class="co">#&gt; 8   Benjamin Eng      M  36     9  7  8  8 7.667</span></span></code></pre></div>
 </div>
-<div id="end-of-chapter-1-practice-problems" class="section level3" number="1.2.5">
-<h3>
-<span class="header-section-number">1.2.5</span> End of Chapter 1 Practice Problems<a class="anchor" aria-label="anchor" href="#end-of-chapter-1-practice-problems"><i class="fas fa-link"></i></a>
-</h3>
-<div id="exercise-1.5.2-writing-a-function-to-calculate-loglikelihood" class="section level4" number="1.2.5.1">
-<h4>
-<span class="header-section-number">1.2.5.1</span> Exercise 1.5.2: Writing a Function to Calculate Loglikelihood<a class="anchor" aria-label="anchor" href="#exercise-1.5.2-writing-a-function-to-calculate-loglikelihood"><i class="fas fa-link"></i></a>
-</h4>
+<div id="end-of-chapter-1-practice-problems" class="section level3 hasAnchor" number="1.2.5">
+<h3><span class="header-section-number">1.2.5</span> End of Chapter 1 Practice Problems<a href="basics-of-r-programming.html#end-of-chapter-1-practice-problems" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="exercise-1.5.2-writing-a-function-to-calculate-loglikelihood" class="section level4 hasAnchor" number="1.2.5.1">
+<h4><span class="header-section-number">1.2.5.1</span> Exercise 1.5.2: Writing a Function to Calculate Loglikelihood<a href="basics-of-r-programming.html#exercise-1.5.2-writing-a-function-to-calculate-loglikelihood" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>For <span class="math inline">\(i = 1, ..., n\)</span>, let <span class="math inline">\(Y_{i}\)</span> be a Poisson random variable with mean <span class="math inline">\(\mu_{i}\)</span> and fitted mean <span class="math inline">\(\widehat{\mu}_{i}\)</span> based on a given predictive model (e.g., Poisson regression model, to be studied in Chapter 4) and the method of maximum likelihood estimation.</p>
 <p><strong>(a)</strong> Show that the maximum loglikelihood function is:</p>
 <p><span class="math inline">\(\boxed{l(\widehat{\mu}_{1},...,\widehat{\mu}_{n}) = {\sum_{n=1}^{n}\widehat{\mu}_{i}} +  constants}\)</span></p>
 <p>provided that the <span class="math inline">\(\widehat{\mu}_{i}\)</span>’s are well-defined.</p>
 <p><strong>(b)</strong> Write an R function called LL to compute the maximum loglikelihood function that takes the following two arguments:</p>
 <ul>
-<li>
-<code>observed</code> is a vector of observed values of the <span class="math inline">\(Y_{i}\)</span>’s</li>
+<li><code>observed</code> is a vector of observed values of the <span class="math inline">\(Y_{i}\)</span>’s</li>
 <li>`predicted’ is a vector of fitted values of the <span class="math inline">\(Y_{i}\)</span>’s</li>
 </ul>
 <p><strong>(c)</strong> Use the function in part (b) to calculate the maximized loglikelihood function for the following data:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">observed</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">6</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="fl">10</span>, <span class="fl">12</span>, <span class="fl">15</span><span class="op">)</span> </span>
-<span><span class="va">predicted</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2.516332</span>, <span class="fl">2.516332</span>, <span class="fl">7.451633</span>, <span class="fl">7.451633</span>, <span class="fl">7.451633</span>, <span class="fl">7.451633</span>, <span class="fl">12.386934</span>, <span class="fl">12.386934</span>, <span class="fl">12.386934</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="basics-of-r-programming.html#cb23-1" tabindex="-1"></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">15</span>) </span>
+<span id="cb23-2"><a href="basics-of-r-programming.html#cb23-2" tabindex="-1"></a>predicted <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">2.516332</span>, <span class="fl">2.516332</span>, <span class="fl">7.451633</span>, <span class="fl">7.451633</span>, <span class="fl">7.451633</span>, <span class="fl">7.451633</span>, <span class="fl">12.386934</span>, <span class="fl">12.386934</span>, <span class="fl">12.386934</span>)</span></code></pre></div>
 <p><em><strong>Solution:</strong></em></p>
 <p><strong>(a)</strong> The log-likelihood function is:</p>
 <p><span class="math display">\[
@@ -521,12 +655,11 @@
   \end{equation}
   }
   \]</span>
-<strong>(b)</strong> The log-likelihood function involves <span class="math inline">\(ln\widehat{\mu}_{i}\)</span>, which is not defined when <span class="math inline">\(\widehat{\mu}_{i} \le 0\)</span>. To sidestep the calculation of <span class="math inline">\(ln\widehat{\mu}_{i}\)</span> for non-positive <span class="math inline">\(\widehat{\mu}_{i}\)</span>, we need to design the function in such a way that those <span class="math inline">\(\widehat{\mu}_{i}\)</span>’s will be converted to a small number such as 0.000001 and <span class="math inline">\(ln0.000001\)</span> is computed instead. This is accomplished by the <code><a href="https://rdrr.io/r/base/ifelse.html">ifelse()</a></code> construct. Here is how the function is defined:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">LL</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">observed</span>, <span class="va">predicted</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">predicted_pos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">predicted</span> <span class="op">&lt;=</span> <span class="fl">0</span>, <span class="fl">0.000001</span>, <span class="va">predicted</span><span class="op">)</span></span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">observed</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">predicted_pos</span><span class="op">)</span> <span class="op">-</span> <span class="va">predicted</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
+<strong>(b)</strong> The log-likelihood function involves <span class="math inline">\(ln\widehat{\mu}_{i}\)</span>, which is not defined when <span class="math inline">\(\widehat{\mu}_{i} \le 0\)</span>. To sidestep the calculation of <span class="math inline">\(ln\widehat{\mu}_{i}\)</span> for non-positive <span class="math inline">\(\widehat{\mu}_{i}\)</span>, we need to design the function in such a way that those <span class="math inline">\(\widehat{\mu}_{i}\)</span>’s will be converted to a small number such as 0.000001 and <span class="math inline">\(ln0.000001\)</span> is computed instead. This is accomplished by the <code>ifelse()</code> construct. Here is how the function is defined:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="basics-of-r-programming.html#cb24-1" tabindex="-1"></a>LL <span class="ot">&lt;-</span> <span class="cf">function</span>(observed, predicted) {</span>
+<span id="cb24-2"><a href="basics-of-r-programming.html#cb24-2" tabindex="-1"></a>  predicted_pos <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(predicted <span class="sc">&lt;=</span> <span class="dv">0</span>, <span class="fl">0.000001</span>, predicted)</span>
+<span id="cb24-3"><a href="basics-of-r-programming.html#cb24-3" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">sum</span>(observed<span class="sc">*</span><span class="fu">log</span>(predicted_pos) <span class="sc">-</span> predicted))</span>
+<span id="cb24-4"><a href="basics-of-r-programming.html#cb24-4" tabindex="-1"></a>}</span></code></pre></div>
 <p><strong>(c)</strong> For the given <code>observed</code> and <code>predicted</code> vectors, the maximized log-likelihood function equals 85.98277.</p>
 <pre><code>``` r
 observed &lt;- c(2, 3, 6, 7, 8, 9, 10, 12, 15) 
@@ -536,37 +669,36 @@ LL(observed, predicted)
 #&gt; [1] 85.98
 ```</code></pre>
 </div>
-<div id="exercise-1.5.3-based-on-new-performance-measure-how-to-create-a-new-categorical-variable-that-classifies-each-actuary-as-excellent-good-unsatisfactory" class="section level4" number="1.2.5.2">
-<h4>
-<span class="header-section-number">1.2.5.2</span> Exercise 1.5.3 (Based on new performance measure, how to create a new categorical variable that classifies each actuary as “Excellent”, “Good”, “Unsatisfactory”)<a class="anchor" aria-label="anchor" href="#exercise-1.5.3-based-on-new-performance-measure-how-to-create-a-new-categorical-variable-that-classifies-each-actuary-as-excellent-good-unsatisfactory"><i class="fas fa-link"></i></a>
-</h4>
+<div id="exercise-1.5.3-based-on-new-performance-measure-how-to-create-a-new-categorical-variable-that-classifies-each-actuary-as-excellent-good-unsatisfactory" class="section level4 hasAnchor" number="1.2.5.2">
+<h4><span class="header-section-number">1.2.5.2</span> Exercise 1.5.3 (Based on new performance measure, how to create a new categorical variable that classifies each actuary as “Excellent”, “Good”, “Unsatisfactory”)<a href="basics-of-r-programming.html#exercise-1.5.3-based-on-new-performance-measure-how-to-create-a-new-categorical-variable-that-classifies-each-actuary-as-excellent-good-unsatisfactory" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Consider the <code>actuary.n</code> dataset in Section 1.3. If needed, run the following code to get it set up again:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">8</span></span>
-<span><span class="va">name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Embryo Luo"</span>, <span class="st">""</span>, <span class="st">"Peter Smith"</span>, <span class="cn">NA</span>, <span class="st">"Angela Peterson"</span>, <span class="st">"Emily Johnston"</span>, <span class="st">"Barbara Scott"</span>, <span class="st">"Benjamin Eng"</span><span class="op">)</span></span>
-<span><span class="va">gender</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>, <span class="st">"?"</span>, <span class="st">"M"</span><span class="op">)</span></span>
-<span><span class="va">age</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">25</span>, <span class="fl">22</span>, <span class="fl">50</span>, <span class="fl">30</span>, <span class="fl">42</span>, <span class="fl">29</span>, <span class="fl">36</span><span class="op">)</span></span>
-<span><span class="va">exams</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">3</span>, <span class="fl">0</span>, <span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">7</span>, <span class="fl">5</span>, <span class="fl">9</span><span class="op">)</span></span>
-<span><span class="va">Q1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="cn">NA</span>, <span class="fl">4</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="fl">8</span>, <span class="fl">7</span><span class="op">)</span></span>
-<span><span class="va">Q2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">9</span>, <span class="fl">9</span>, <span class="fl">5</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">10</span>, <span class="fl">9</span>, <span class="fl">8</span><span class="op">)</span></span>
-<span><span class="va">Q3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">9</span> ,<span class="fl">7</span>, <span class="fl">5</span>, <span class="fl">8</span>, <span class="fl">10</span>, <span class="fl">10</span>, <span class="fl">7</span>, <span class="fl">8</span><span class="op">)</span></span>
-<span><span class="co">#salary &lt;- c(300000, NA, 80000, NA, NA, NA, NA, NA)</span></span>
-<span><span class="va">actuary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">name</span>, <span class="va">gender</span>, <span class="va">age</span>, <span class="va">exams</span>, <span class="va">Q1</span>, <span class="va">Q2</span>, <span class="va">Q3</span><span class="op">)</span></span>
-<span><span class="va">actuary.n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="va">actuary</span><span class="op">)</span></span>
-<span><span class="va">actuary.n</span><span class="op">$</span><span class="va">S</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">actuary.n</span><span class="op">$</span><span class="va">Q1</span> <span class="op">+</span> <span class="va">actuary.n</span><span class="op">$</span><span class="va">Q2</span> <span class="op">+</span> <span class="va">actuary.n</span><span class="op">$</span><span class="va">Q3</span><span class="op">)</span> <span class="op">/</span> <span class="fl">3</span></span>
-<span><span class="va">actuary.n</span></span>
-<span><span class="co">#&gt;   x            name gender age exams Q1 Q2 Q3     S</span></span>
-<span><span class="co">#&gt; 1 1      Embryo Luo      M  -1    10 10  9  9 9.333</span></span>
-<span><span class="co">#&gt; 3 3     Peter Smith      M  22     0  4  5  5 4.667</span></span>
-<span><span class="co">#&gt; 5 5 Angela Peterson      F  30     6  8  8 10 8.667</span></span>
-<span><span class="co">#&gt; 6 6  Emily Johnston      F  42     7  9 10 10 9.667</span></span>
-<span><span class="co">#&gt; 7 7   Barbara Scott      ?  29     5  8  9  7 8.000</span></span>
-<span><span class="co">#&gt; 8 8    Benjamin Eng      M  36     9  7  8  8 7.667</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="basics-of-r-programming.html#cb26-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span></span>
+<span id="cb26-2"><a href="basics-of-r-programming.html#cb26-2" tabindex="-1"></a>name <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Embryo Luo&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="st">&quot;Peter Smith&quot;</span>, <span class="cn">NA</span>, <span class="st">&quot;Angela Peterson&quot;</span>, <span class="st">&quot;Emily Johnston&quot;</span>, <span class="st">&quot;Barbara Scott&quot;</span>, <span class="st">&quot;Benjamin Eng&quot;</span>)</span>
+<span id="cb26-3"><a href="basics-of-r-programming.html#cb26-3" tabindex="-1"></a>gender <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;M&quot;</span>)</span>
+<span id="cb26-4"><a href="basics-of-r-programming.html#cb26-4" tabindex="-1"></a>age <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">25</span>, <span class="dv">22</span>, <span class="dv">50</span>, <span class="dv">30</span>, <span class="dv">42</span>, <span class="dv">29</span>, <span class="dv">36</span>)</span>
+<span id="cb26-5"><a href="basics-of-r-programming.html#cb26-5" tabindex="-1"></a>exams <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">9</span>)</span>
+<span id="cb26-6"><a href="basics-of-r-programming.html#cb26-6" tabindex="-1"></a>Q1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="cn">NA</span>, <span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">8</span>, <span class="dv">7</span>)</span>
+<span id="cb26-7"><a href="basics-of-r-programming.html#cb26-7" tabindex="-1"></a>Q2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">8</span>)</span>
+<span id="cb26-8"><a href="basics-of-r-programming.html#cb26-8" tabindex="-1"></a>Q3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">9</span> ,<span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">7</span>, <span class="dv">8</span>)</span>
+<span id="cb26-9"><a href="basics-of-r-programming.html#cb26-9" tabindex="-1"></a><span class="co">#salary &lt;- c(300000, NA, 80000, NA, NA, NA, NA, NA)</span></span>
+<span id="cb26-10"><a href="basics-of-r-programming.html#cb26-10" tabindex="-1"></a>actuary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, name, gender, age, exams, Q1, Q2, Q3)</span>
+<span id="cb26-11"><a href="basics-of-r-programming.html#cb26-11" tabindex="-1"></a>actuary.n <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(actuary)</span>
+<span id="cb26-12"><a href="basics-of-r-programming.html#cb26-12" tabindex="-1"></a>actuary.n<span class="sc">$</span>S <span class="ot">&lt;-</span> (actuary.n<span class="sc">$</span>Q1 <span class="sc">+</span> actuary.n<span class="sc">$</span>Q2 <span class="sc">+</span> actuary.n<span class="sc">$</span>Q3) <span class="sc">/</span> <span class="dv">3</span></span>
+<span id="cb26-13"><a href="basics-of-r-programming.html#cb26-13" tabindex="-1"></a>actuary.n</span>
+<span id="cb26-14"><a href="basics-of-r-programming.html#cb26-14" tabindex="-1"></a><span class="co">#&gt;   x            name gender age exams Q1 Q2 Q3     S</span></span>
+<span id="cb26-15"><a href="basics-of-r-programming.html#cb26-15" tabindex="-1"></a><span class="co">#&gt; 1 1      Embryo Luo      M  -1    10 10  9  9 9.333</span></span>
+<span id="cb26-16"><a href="basics-of-r-programming.html#cb26-16" tabindex="-1"></a><span class="co">#&gt; 3 3     Peter Smith      M  22     0  4  5  5 4.667</span></span>
+<span id="cb26-17"><a href="basics-of-r-programming.html#cb26-17" tabindex="-1"></a><span class="co">#&gt; 5 5 Angela Peterson      F  30     6  8  8 10 8.667</span></span>
+<span id="cb26-18"><a href="basics-of-r-programming.html#cb26-18" tabindex="-1"></a><span class="co">#&gt; 6 6  Emily Johnston      F  42     7  9 10 10 9.667</span></span>
+<span id="cb26-19"><a href="basics-of-r-programming.html#cb26-19" tabindex="-1"></a><span class="co">#&gt; 7 7   Barbara Scott      ?  29     5  8  9  7 8.000</span></span>
+<span id="cb26-20"><a href="basics-of-r-programming.html#cb26-20" tabindex="-1"></a><span class="co">#&gt; 8 8    Benjamin Eng      M  36     9  7  8  8 7.667</span></span></code></pre></div>
 <p>Suppose that as the boss of the six actuaries, you would like to classify them according to the following scheme:</p>
-<div class="inline-table"><table class="table table-sm">
-<thead><tr class="header">
+<table>
+<thead>
+<tr class="header">
 <th>Criterion</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td>S &lt;= 7</td>
@@ -578,81 +710,97 @@ LL(observed, predicted)
 <td>S &gt;= 9</td>
 </tr>
 </tbody>
-</table></div>
+</table>
 <p>Write R commands to perform these classifications and save the classifications as a new variable called <code>classify</code>.</p>
-<p><strong><em>Solution:</em></strong> Similar to how we accomplished Task 4 (b) in Section 1.3, we use <code><a href="https://rdrr.io/r/base/ifelse.html">ifelse()</a></code> to make the classifications:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">actuary.n</span><span class="op">$</span><span class="va">classify</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">actuary.n</span><span class="op">$</span><span class="va">S</span> <span class="op">&gt;=</span> <span class="fl">9</span>, <span class="st">"Excellent"</span>, </span>
-<span>                             <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">actuary.n</span><span class="op">$</span><span class="va">S</span> <span class="op">&gt;</span> <span class="fl">7</span>, <span class="st">"Good"</span>, <span class="st">"Unsatisfactory"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">actuary.n</span></span>
-<span><span class="co">#&gt;   x            name gender age exams Q1 Q2 Q3     S</span></span>
-<span><span class="co">#&gt; 1 1      Embryo Luo      M  -1    10 10  9  9 9.333</span></span>
-<span><span class="co">#&gt; 3 3     Peter Smith      M  22     0  4  5  5 4.667</span></span>
-<span><span class="co">#&gt; 5 5 Angela Peterson      F  30     6  8  8 10 8.667</span></span>
-<span><span class="co">#&gt; 6 6  Emily Johnston      F  42     7  9 10 10 9.667</span></span>
-<span><span class="co">#&gt; 7 7   Barbara Scott      ?  29     5  8  9  7 8.000</span></span>
-<span><span class="co">#&gt; 8 8    Benjamin Eng      M  36     9  7  8  8 7.667</span></span>
-<span><span class="co">#&gt;         classify</span></span>
-<span><span class="co">#&gt; 1      Excellent</span></span>
-<span><span class="co">#&gt; 3 Unsatisfactory</span></span>
-<span><span class="co">#&gt; 5           Good</span></span>
-<span><span class="co">#&gt; 6      Excellent</span></span>
-<span><span class="co">#&gt; 7           Good</span></span>
-<span><span class="co">#&gt; 8           Good</span></span></code></pre></div>
+<p><strong><em>Solution:</em></strong> Similar to how we accomplished Task 4 (b) in Section 1.3, we use <code>ifelse()</code> to make the classifications:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="basics-of-r-programming.html#cb27-1" tabindex="-1"></a>actuary.n<span class="sc">$</span>classify <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(actuary.n<span class="sc">$</span>S <span class="sc">&gt;=</span> <span class="dv">9</span>, <span class="st">&quot;Excellent&quot;</span>, </span>
+<span id="cb27-2"><a href="basics-of-r-programming.html#cb27-2" tabindex="-1"></a>                             <span class="fu">ifelse</span>(actuary.n<span class="sc">$</span>S <span class="sc">&gt;</span> <span class="dv">7</span>, <span class="st">&quot;Good&quot;</span>, <span class="st">&quot;Unsatisfactory&quot;</span>))</span>
+<span id="cb27-3"><a href="basics-of-r-programming.html#cb27-3" tabindex="-1"></a>actuary.n</span>
+<span id="cb27-4"><a href="basics-of-r-programming.html#cb27-4" tabindex="-1"></a><span class="co">#&gt;   x            name gender age exams Q1 Q2 Q3     S</span></span>
+<span id="cb27-5"><a href="basics-of-r-programming.html#cb27-5" tabindex="-1"></a><span class="co">#&gt; 1 1      Embryo Luo      M  -1    10 10  9  9 9.333</span></span>
+<span id="cb27-6"><a href="basics-of-r-programming.html#cb27-6" tabindex="-1"></a><span class="co">#&gt; 3 3     Peter Smith      M  22     0  4  5  5 4.667</span></span>
+<span id="cb27-7"><a href="basics-of-r-programming.html#cb27-7" tabindex="-1"></a><span class="co">#&gt; 5 5 Angela Peterson      F  30     6  8  8 10 8.667</span></span>
+<span id="cb27-8"><a href="basics-of-r-programming.html#cb27-8" tabindex="-1"></a><span class="co">#&gt; 6 6  Emily Johnston      F  42     7  9 10 10 9.667</span></span>
+<span id="cb27-9"><a href="basics-of-r-programming.html#cb27-9" tabindex="-1"></a><span class="co">#&gt; 7 7   Barbara Scott      ?  29     5  8  9  7 8.000</span></span>
+<span id="cb27-10"><a href="basics-of-r-programming.html#cb27-10" tabindex="-1"></a><span class="co">#&gt; 8 8    Benjamin Eng      M  36     9  7  8  8 7.667</span></span>
+<span id="cb27-11"><a href="basics-of-r-programming.html#cb27-11" tabindex="-1"></a><span class="co">#&gt;         classify</span></span>
+<span id="cb27-12"><a href="basics-of-r-programming.html#cb27-12" tabindex="-1"></a><span class="co">#&gt; 1      Excellent</span></span>
+<span id="cb27-13"><a href="basics-of-r-programming.html#cb27-13" tabindex="-1"></a><span class="co">#&gt; 3 Unsatisfactory</span></span>
+<span id="cb27-14"><a href="basics-of-r-programming.html#cb27-14" tabindex="-1"></a><span class="co">#&gt; 5           Good</span></span>
+<span id="cb27-15"><a href="basics-of-r-programming.html#cb27-15" tabindex="-1"></a><span class="co">#&gt; 6      Excellent</span></span>
+<span id="cb27-16"><a href="basics-of-r-programming.html#cb27-16" tabindex="-1"></a><span class="co">#&gt; 7           Good</span></span>
+<span id="cb27-17"><a href="basics-of-r-programming.html#cb27-17" tabindex="-1"></a><span class="co">#&gt; 8           Good</span></span></code></pre></div>
 
 </div>
 </div>
 </div>
 </div>
-  <div class="chapter-nav">
-<div class="prev"><a href="introduction.html">Introduction</a></div>
-<div class="next"><a href="data-exploration-and-visualization.html"><span class="header-section-number">2</span> Data Exploration and Visualization</a></div>
-</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
-    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#basics-of-r-programming"><span class="header-section-number">1</span> Basics of R Programming</a></li>
-<li>
-<a class="nav-link" href="#data-types-in-r"><span class="header-section-number">1.1</span> Data Types in R</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#exercise-1.2.2---calculating-least-squares-estimates-by-matrix-manipulation"><span class="header-section-number">1.1.1</span> Exercise 1.2.2 - Calculating least squares estimates by matrix manipulation</a></li>
-<li><a class="nav-link" href="#data-frames"><span class="header-section-number">1.1.2</span> Data Frames</a></li>
-<li><a class="nav-link" href="#exercise-1.2.3---listing-the-components-of-a-list"><span class="header-section-number">1.1.3</span> Exercise 1.2.3 - Listing the components of a list</a></li>
-<li><a class="nav-link" href="#functions"><span class="header-section-number">1.1.4</span> Functions</a></li>
-</ul>
-</li>
-<li>
-<a class="nav-link" href="#basic-data-management"><span class="header-section-number">1.2</span> Basic Data Management</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#task-1-removing-unimportant-variables"><span class="header-section-number">1.2.1</span> Task 1: Removing Unimportant Variables</a></li>
-<li><a class="nav-link" href="#task-2-missing-values"><span class="header-section-number">1.2.2</span> Task 2: Missing Values</a></li>
-<li><a class="nav-link" href="#task-3-adding-new-variables"><span class="header-section-number">1.2.3</span> Task 3: Adding New Variables</a></li>
-<li><a class="nav-link" href="#task-4-using-logical-tests-to-identify-observations-with-certain-characteristics"><span class="header-section-number">1.2.4</span> Task 4: Using Logical Tests to Identify Observations with Certain Characteristics</a></li>
-<li><a class="nav-link" href="#end-of-chapter-1-practice-problems"><span class="header-section-number">1.2.5</span> End of Chapter 1 Practice Problems</a></li>
-</ul>
-</li>
-</ul>
+            </section>
 
-      <div class="book-extra">
-        <ul class="list-unstyled">
-          
-        </ul>
-</div>
-    </nav>
-</div>
-
-</div>
-</div> <!-- .container -->
-
-<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
-
-  <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Society of Actuaries Exam PA</strong>" was written by Jeff A. Maxey. It was last built on 2024-10-05.</p>
+          </div>
+        </div>
+      </div>
+<a href="introduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="data-exploration-and-visualization.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
   </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": {}
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["soa-exam-pa.pdf", "soa-exam-pa.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"theme": "journal",
+"toolbar": {
+"position": "fixed"
+},
+"info": true
+});
+});
+</script>
 
-  <div class="col-12 col-md-6 mt-3">
-    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
-  </div>
-
-</div></div>
-</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -664,22 +812,7 @@ LL(observed, predicted)
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
-</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
-for (let popover of popovers) {
-  const div = document.createElement('div');
-  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
-  div.innerHTML = popover.getAttribute('data-content');
-
-  var has_math = div.querySelector("span.math");
-  if (has_math) {
-    document.body.appendChild(div);
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
-    MathJax.Hub.Queue(function() {
-      popover.setAttribute('data-content', div.innerHTML);
-      document.body.removeChild(div);
-    })
-  }
-}
 </script>
 </body>
+
 </html>

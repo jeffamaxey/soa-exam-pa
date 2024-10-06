@@ -1,6 +1,6 @@
 # Data Exploration and Visualization
 
-::: {.rmdnote}
+```{block2, type='rmdnote'}
 Topic: Data Exploration and Visualization 
 
 Learning Objectives: The candidate will be able to work with various data types, understand principles of data design, and construct a variety of common visualizations common to exploring data.
@@ -11,7 +11,7 @@ The candidate will be able to:
   Apply the key principles of constructing graphs.
   Apply univariate data exploration techniques.
   Apply bivariate data exploration techniques.
-:::
+```
 
 ----
 
@@ -301,11 +301,9 @@ In predictive modeling, it is often undesirable to have a right-skewed target va
     -   A number of predictive models (e.g., linear models, decision trees) are fitted by minimizing the sum of the squared discrepancies between the observed values and predicted values of the target variable.
     -   If the target variable is right-skewed, then the outliers, or extreme values, will contribute substantially to the sum and have a disproportionate effect (or "leverage") on the model, which is undesirable unless the right tail is where our main concern lies.
 
-::: {.rmdnote}
 To correct for **skewness**, we can apply a monotone concave function to shrink the outliers relative to the smaller values and symmetrize the overall distribution.
 
 This will dampen the effects of the extreme values on the model and tend to improve its overall goodness-of-fit than using the original right-skewed variable. 
-:::
 
 Two commonly used transformations for dealing with right-skewed variables are:
 

@@ -3,7 +3,6 @@ title: "Society of Actuaries Exam PA"
 author: "Jeff A. Maxey"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
-output: bookdown::bs4_book
 documentclass: book
 bibliography:
 - assets/bib/book.bib

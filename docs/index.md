@@ -3,7 +3,6 @@ title: "Society of Actuaries Exam PA"
 author: "Jeff A. Maxey"
 date: "2024-10-05"
 site: bookdown::bookdown_site
-output: bookdown::bs4_book
 documentclass: book
 bibliography:
 - assets/bib/book.bib
@@ -27,9 +26,9 @@ description: This is a minimal example of using the bookdown package to write a 
 
 
 
-This is the online version of *SOA Exam PA*, a book **currently under early development** and intended for a late 2024 release on  [ Github](https://www.github.com/jeffamaxey/soa-exam-pa).
+This is the online version of the *SOA Exam PA Study Notes*, a guide that is **currently under early development** and intended for to be released on  [ Github](https://www.github.com/jeffamaxey/soa-exam-pa) at a later date.
 
-This book was designed to capture study notes from reading of the Actex Study Manual for Exam PA, and encapsulates all chapters of that reading in  preparation for taking the Society of Actuaries Predictive Analytics Exam (Exam PA). Throughout this book, we will gain a deeper understanding of the basics of R programming, the theory of and relevent case studies in predictive analytics, and be provided final preperation for the exam in the form of a discussion on past exams, sample mock exams, and a cheatsheet.
+This document was designed to capture study notes from the reading of the Actex Study Manual for Exam PA, and encapsulates all chapters of the SOA Exam Syllabus in  preparation of taking the Predictive Analytics Exam (Exam PA). Throughout this guide, we the goal is to gain a deeper understanding of the basics of R programming, the theory of and relevent case studies in predictive analytics, and provide final preparation tactics in the form of a discussion on past exams, sample mock exams, and a formula sheet.
 
 
 

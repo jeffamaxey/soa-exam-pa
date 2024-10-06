@@ -1,17 +1,6 @@
 # Data Exploration and Visualization
 
-::: {.rmdnote}
-Topic: Data Exploration and Visualization 
 
-Learning Objectives: The candidate will be able to work with various data types, understand principles of data design, and construct a variety of common visualizations common to exploring data.
-
-Learning Outcomes:
-
-The candidate will be able to:
-  Apply the key principles of constructing graphs.
-  Apply univariate data exploration techniques.
-  Apply bivariate data exploration techniques.
-:::
 
 ----
 
@@ -66,7 +55,7 @@ To illustrate data visualization and exploration techniques, in this chapter we 
 
 
 
-Table: (\#tab:unnamed-chunk-2)Data dictionary for the personal injury (`persing`) insurance claims dataset.
+Table: (\#tab:unnamed-chunk-3)Data dictionary for the personal injury (`persing`) insurance claims dataset.
 
 Variable   Description                                                                                                                                    
 ---------  -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -152,7 +141,7 @@ ggplot(data = persinj50, mapping = aes(x = op_time, y = amt), caption="A basic s
   geom_point(color = "blue")
 ```
 
-<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-4-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" />
 
 Now let's see an example of using the `color` aesthetic correctly. In the `persinj50` data, the `legrep` variable is a binary variable equal to 1 for injuries with legal representation and 0 for those without.
 
@@ -168,13 +157,13 @@ ggplot(data = persinj50, mapping = aes(x = op_time, y = amt, color = factor(legr
          geom_point()
 ```
 
-<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" />
 
 **Important Geoms for Exam PA**
 
 
 
-Table: (\#tab:unnamed-chunk-6)Important Geoms for Exam PA with Commonly Used Arguments.
+Table: (\#tab:unnamed-chunk-7)Important Geoms for Exam PA with Commonly Used Arguments.
 
 Geom               GraphType        Arguments                 
 -----------------  ---------------  --------------------------
@@ -198,7 +187,7 @@ ggplot(data = persinj50, mapping=aes(x=op_time, y=amt, color=factor(legrep), fil
 
 ```
 
-<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-7-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" />
 
 To make a single smoothed line for all data points, but leave the coloring of points by `legrep`, move the `color` aesthetic to the `geom_point()` function.
 
@@ -210,7 +199,7 @@ ggplot(persinj50, aes(x = op_time, y = amt)) +
 
 ```
 
-<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" />
 
 **Faceting**
 
@@ -234,7 +223,7 @@ ggplot(data = persinj50,
 
 ```
 
-<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" />
 
 ## Data Exploration {#chapter-02-data-exploration}
 
@@ -346,7 +335,7 @@ Now we turn to visual representations. In `ggplot2`, a histogram is constructed 
 
 In the next set of code, we make four histograms colored in blue for the claim amount variable with different choices of the $\fbox{bins}$ parameter, which controls the number of bins in a histogram.
 
-<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-12-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-13-1.png" width="100%" style="display: block; margin: auto;" />
 
 ##### Problems with Skewed Data and Possible Solutions
 
@@ -360,11 +349,9 @@ In predictive modeling, it is often undesirable to have a right-skewed target va
     -   A number of predictive models (e.g., linear models, decision trees) are fitted by minimizing the sum of the squared discrepancies between the observed values and predicted values of the target variable.
     -   If the target variable is right-skewed, then the outliers, or extreme values, will contribute substantially to the sum and have a disproportionate effect (or "leverage") on the model, which is undesirable unless the right tail is where our main concern lies.
 
-::: {.rmdnote}
 To correct for **skewness**, we can apply a monotone concave function to shrink the outliers relative to the smaller values and symmetrize the overall distribution.
 
 This will dampen the effects of the extreme values on the model and tend to improve its overall goodness-of-fit than using the original right-skewed variable. 
-:::
 
 Two commonly used transformations for dealing with right-skewed variables are:
 
@@ -375,7 +362,7 @@ Two commonly used transformations for dealing with right-skewed variables are:
 
 To see the effects of the log and square root transformations in action, the following code produces a histogram for the log of claim amount and the square root of claim amount.
 
-<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-13-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" />
 
 Based on the resulting histograms, we make the following observations:
 
@@ -429,7 +416,7 @@ p2 <- ggplot(data=persinj, mapping=aes(x=sqrt(amt))) +
 grid.arrange(p1, p2, ncol=2)
 ```
 
-<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" />
 
 Comparing to the histogram, we can see that the density plots have the same shape as the histograms and can be interpreted in the same way. Do note that the vertical axis of the density plots shows the "density" rather than "count" and the area under a density curve is always 1.
 
@@ -456,7 +443,7 @@ grid.arrange(p1, p2, ncol=2)
 
 ```
 
-<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" />
 
 While most of the raw claim amounts are so close that the 25% percentile, median, and 75% percentile all degenerate to the same line, the log transformation corrects for the skewness and re-positions the data points for much easier visual inspection.
 
@@ -495,7 +482,7 @@ The numbers in a frequency table can be depicted in a bar chart created in `ggpl
 
 The following code produces two bar charts for injury code corresponding to the two frequency tables in the last code chunk:
 
-<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" />
 
 ##### Case 2: Given Summarized Data
 
@@ -543,7 +530,7 @@ p1 <- ggplot(data=persinj_by_inj, mapping=aes(x=inj, y=count)) +
 grid.arrange(p1, ncol=1)
 ```
 
-<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-20-1.png" width="100%" style="display: block; margin: auto;" />
 
 This bar chart is identical to the one in the left panel of Figure 2.2.6 based on the original version of the `persinj` data set.
 
@@ -632,7 +619,7 @@ The zero correlation suggests that X and Y are linearly unrelated. However, the 
     grid.arrange(p1, p2, ncol=2, bottom="Scatterplots of claim amount (left) and the log of claim amount (right) against operational time in the `persinj` dataset.")
     ```
     
-    <img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-23-1.png" width="100%" style="display: block; margin: auto;" />
+    <img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-24-1.png" width="100%" style="display: block; margin: auto;" />
 
     Although a scatterplot itself is confined to depicting the relationship between only two numeric variables, the effect of a third, categorical variable can be incorporated and investigated by corating the observations by color, shape, or other visual elements according to the levels assumed by this third variable.
 
@@ -650,7 +637,7 @@ The zero correlation suggests that X and Y are linearly unrelated. However, the 
     
     ```
     
-    <img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-24-1.png" width="100%" style="display: block; margin: auto;" />
+    <img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-25-1.png" width="100%" style="display: block; margin: auto;" />
 
     The scatterplot shows that the two smoothed lines corresponding to the two levels of `legrep` have markedly different slopes and intercepts (keep in mind that we are on the log scale, so a small change in the intercept and slope can matter a lot on the original scale).
 
@@ -723,15 +710,15 @@ p1 <- ggplot(persinj, aes(x=legrep, y=log(amt))) +
 grid.arrange(p1, p2, ncol=2, bottom="Two split boxplots for the log of claim amount, one split by injury code (left) and one split by legal representation (right), in the `persinj` data.")
 ```
 
-<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-26-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-27-1.png" width="100%" style="display: block; margin: auto;" />
 
 In the following code, we split the log of claim amount by injury code (the x aesthetic), followed by legal representation (the `fill` aesthetic) within each injury code, to view a *three-way relationship* (Figure 2.2.10).
 
 Now the effect of legal representation is even more pronounced: Regardless of the injury code, larger claim sizes tend to be injuries with legal representation, with the effect being the most prominent for injuries of code 5 and code 9.
 
 <div class="figure" style="text-align: center">
-<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-27-1.png" alt="Boxplots of the log of claim amount split by injury and legal representation in the `persinj` data." width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-27)Boxplots of the log of claim amount split by injury and legal representation in the `persinj` data.</p>
+<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-28-1.png" alt="Boxplots of the log of claim amount split by injury and legal representation in the `persinj` data." width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-28)Boxplots of the log of claim amount split by injury and legal representation in the `persinj` data.</p>
 </div>
 
 Although not as effective as split boxplots (in my opinion), histograms can also be adapted to visualize the distribution of a numeric variable split by a categorical variable. They can either be histograms **stacked** on top of one another (using the `fill` aesthetic) to highlight the contribution of each categorical level to the overall distribution of the numeric variable, or **dodged** histograms with each bin placed side by side for comparison (note the argument $\fbox{position="dodge"}$).
@@ -741,8 +728,8 @@ The following code produces both types of histograms for the log of claim amount
 Both histograms suggest that larger claims (e.g., those with `log(amt)` greater than 9) tend to be those with legal representation, as expected.
 
 <div class="figure" style="text-align: center">
-<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-28-1.png" alt="Stacked (top) and dodged (bottom) histograms of the log of claim amount in the `persinj` dataset." width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-28)Stacked (top) and dodged (bottom) histograms of the log of claim amount in the `persinj` dataset.</p>
+<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-29-1.png" alt="Stacked (top) and dodged (bottom) histograms of the log of claim amount in the `persinj` dataset." width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-29)Stacked (top) and dodged (bottom) histograms of the log of claim amount in the `persinj` dataset.</p>
 </div>
 
 #### Case 3: Categorical vs. Categorical
@@ -771,8 +758,8 @@ table(persinj$legrep, persinj$inj)
 Although not discussed in the PA modules, filled bar charts are usually the most useful for depicting the interplay between two categorical variables; they are used, for example, in the June 17 and 18, 2020 PA exams and the Hospital Re-admissions sample project. A cursory glance at the filled bar chart in Figure 2.2.12 shows that there is a higher proportion of injuries with legal representation for codes 1 to 4 than for codes 5, 6, and 9.
 
 <div class="figure" style="text-align: center">
-<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-30-1.png" alt="Stacked (top left), dodged (top right), and filled (bottom left) bar charts for injury code split by legal representation in the `persinj` dataset." width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-30)Stacked (top left), dodged (top right), and filled (bottom left) bar charts for injury code split by legal representation in the `persinj` dataset.</p>
+<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-31-1.png" alt="Stacked (top left), dodged (top right), and filled (bottom left) bar charts for injury code split by legal representation in the `persinj` dataset." width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-31)Stacked (top left), dodged (top right), and filled (bottom left) bar charts for injury code split by legal representation in the `persinj` dataset.</p>
 </div>
 
 ### End-of-Chapter Practice Problems
@@ -810,7 +797,7 @@ ggplot(persinj, aes(x=inj)) +
 
 ```
 
-<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-31-1.png" width="100%" style="display: block; margin: auto;" /><img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-31-2.png" width="100%" style="display: block; margin: auto;" /><img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-31-3.png" width="100%" style="display: block; margin: auto;" />
+<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-32-1.png" width="100%" style="display: block; margin: auto;" /><img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-32-2.png" width="100%" style="display: block; margin: auto;" /><img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-32-3.png" width="100%" style="display: block; margin: auto;" />
 
 Make a guess of what each chunk of code does. Then run the code in R and see the output.
 
@@ -882,7 +869,7 @@ p1 <- ggplot(diamonds, aes(x=price)) +
 grid.arrange(p1, ncol=1)
 ```
 
-<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-37-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-38-1.png" width="100%" style="display: block; margin: auto;" />
 
 To deal with the right skewness of `price`, we can use a log transformation. The following commands create a log-transformed `price` and delete the original `price` variable (recall what you learned in Section 1.3).
 
@@ -901,7 +888,7 @@ p1 <- ggplot(diamonds, aes(x=Lprice)) +
 grid.arrange(p1, ncol=1)
 ```
 
-<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-39-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-40-1.png" width="100%" style="display: block; margin: auto;" />
 
 (\Remark) For both histograms, you can experiment with different values of the `bins` parameter.
 
@@ -931,7 +918,7 @@ Since `cut` is a categorical variable, numeric transformations such as the log-t
 
 **(c)** Because `Lprice` and `carat` are both numeric variables, a scatterplot for the two variables is appropriate for exploring their relationship. The scatterplot shows that the two variables are strongly positively related; the heavier the diamond, the more expensive it is, conforming to our intuition.
 
-<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-42-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-43-1.png" width="100%" style="display: block; margin: auto;" />
 
 ::: {.remark}
 (i) You can add the `alpha` argument to the `geom_point()` function to reduce the amount of overlapping.
@@ -941,11 +928,11 @@ Since `cut` is a categorical variable, numeric transformations such as the log-t
 
 **(d)** As cut is a categorical variable, a split boxplot for `Lprice` broken by the levels of `cut` is appropriate for exploring their relationship. The split boxplot, however, suggests the counter-intuitive idea that diamonds of a higher quality tend to be cheaper (though only slightly). How can this be the case?
 
-<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-43-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-44-1.png" width="100%" style="display: block; margin: auto;" />
 
 **(e)** To reconcile the contradiction between parts (c) and (d), one can look at the relationship betwen `carat` and `cut`. Again, as `carat` is numeric and `cut` is categorical, a split boxplot for `carat` split by `cut` will serve our purpose:
 
-<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-44-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="02-data-exploration-and-visualization_files/figure-html/unnamed-chunk-45-1.png" width="100%" style="display: block; margin: auto;" />
 
 The split boxplot shows that the weight of a diamond tends to drop as the quality of the cut becomes higher ("Premium" is an exception). According to part (c), the `carat` is an important predictor of `Lprice`, so the findings in part (d) may be a result of the negative relationship between `carat` and `cut` -- higher quality diamonds may be less pricey because they weigh less.
 

@@ -1,15 +1,12 @@
-# (PART) Theory of and Case Studies in Predictive Analytics {.unnumbered}
+
+# (PART) Theory of and Case Studies in Predictive Analytics {-}
 
 # Linear Models
 
 
 
 
-::: {.rmdnote}
-Topic: Predictive Analytics Problem Defintion (10-20%)
-  
-Learning Objectives:  The Candidate will be able to identify the business problem, how the available data relates to possible analyses, and use the information to propose an appropriate modeling approach.
-:::
+
 
 
 ## A Primer on Predictive Analytics
@@ -143,16 +140,13 @@ Before we decide to apply predictive analytics to solve a business problem, we s
 
 A conceptual exam task testing the syllabus learning outcome, "Describe the characteristics of predictive modeling problems.", may ask:
 
-::: {.rmdnote}
-Explain two (or three) reasons why this business problem should be addressed by predictive modeling*
-:::
 
 
 Some common characteristics of predictive modeling problems include:
 
 
 
-Table: (\#tab:unnamed-chunk-2)Characteristics of Predictive Modeling Problems
+Table: (\#tab:unnamed-chunk-4)Characteristics of Predictive Modeling Problems
 
 Characteristic        Description                                                                                                                                                                                     
 --------------------  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -319,7 +313,7 @@ If the collected data falls short of our standards, we may have to go back to th
     Exam PA exam project describes the dataset in the "Business Problem" section and provides you with a *data dictionary*, which lists all the variables in the data together with their information. Here is a sample data dictionary for a hypothetical group of insurance policies:
 
 <table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<caption>(\#tab:unnamed-chunk-3)Sample Data Dictionary</caption>
+<caption>(\#tab:unnamed-chunk-5)Sample Data Dictionary</caption>
  <thead>
   <tr>
    <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> VariableName </th>
