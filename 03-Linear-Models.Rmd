@@ -1,4 +1,4 @@
-# (PART) Theory of and Case Studies in Predictive Analytics {-}
+# (PART) Theory of and Case Studies in Predictive Analytics {.unnumbered}
 
 # Linear Models
 
@@ -384,7 +384,7 @@ Even if a dataset is representative of the population of interest and is of suff
         Exercise 3.1.7. \*& (Detecting target leakage) Consider the persinj dataset in Chapter 2 again, and treat amt as the target variable. The data dictionary is reproduced below:
 
         | Variable | Description |
-        |----|----|
+        |------------------------------------|------------------------------------|
         | `amt` | Settled claim amount (continuous numeric variable) |
         | `inj` | Injury code, with seven levels: 1 (no injury), 2, 3, 4, 5, 6 (fatal), 9 (not recorded). |
         | `legrep` | legal representation (0 = no, 1 = yes) |
@@ -395,7 +395,7 @@ Even if a dataset is representative of the population of interest and is of suff
 
         **Solution.**
 
-        1.   The `op_time` variable may pose the problem of target leakage when amt is the target variable. According to the data dictionary, the value of op_time would not be known until a claim was settled, at which time the value of amt would be observed. Due to this timing issue, `op_time` ma not serve as a predictor of `amt` in practice.
+        1.  The `op_time` variable may pose the problem of target leakage when amt is the target variable. According to the data dictionary, the value of op_time would not be known until a claim was settled, at which time the value of amt would be observed. Due to this timing issue, `op_time` ma not serve as a predictor of `amt` in practice.
         2.  We can first build a predictive model for `op_time` based on the variables other than `amt` and then use a separate predictive model to predict the `amt` based on the predicted value of `op_time` and/or other variables.
 
 #### Stage 3: Exploratory Data Analysis
@@ -412,7 +412,7 @@ After we have collected and validated the data, the next step is to perform **Ex
 
 Having defined the problem, collected some useful data, and taken a first look at the key variables, it is time for us to move onto the modelling phase and construct our predictive models in earnest.
 
-##### **Should we use all available data to train our models?** 
+##### **Should we use all available data to train our models?**
 
 You may be tempted to fit your predictive models directly to the whole set of data. Remember that one of the main goals when doing predictive modeling is to construct models that make good predictions. The fundamental question is is:
 
@@ -420,7 +420,7 @@ How do we go about designing a predictive model that performs well when it is ap
 
 If we use all of the collected data for model fitting, that will leave no independent data for assessing the prediction performance of our models. It does not help much to evaluate the models on the same data on which they were built. After all, the models have seen those data and are not making genuine predictions. To ensure that our predictive models do a good job of describing the past data they have seen and, more importantly, prediction new, *future* observations, we need an unconventional way of leveraging our available data.
 
-##### **Training / Test Set Split** 
+##### **Training / Test Set Split**
 
 To construct a model that thrives on future data, it is common practice in predictive analytics to partition our data into a few parts, each of which plays a different role in the model development and evaluation process.
 
@@ -462,14 +462,14 @@ The relative size of the training and test sets involves a trade-off:
 If we have multiple candidate models, then we can perform the following steps:
 
 1.  Split the data into training / test sets..
-    -    The same training and test sets should be used across all candidate models.
+    -   The same training and test sets should be used across all candidate models.
 2.  Fit the models to the training set.
 3.  Evaluate the quality of these models on the test set; and
 4.  Choose the one with the best test set performance according to a certain model selection criterion.
 
 When the "test set" above is for *selecting* the best model and is more commonly referred to as the ***validation set***.
 
-**Test /Validation Set** 
+**Test /Validation Set**
 
 :   In many predictive modeling textbooks, the test set is where we obtain an independent measure of the prediction performance of your ***chosen model*** **when** it is applied to data not involved in training or ***selecting*** the final model. The test set is held out until the end.
 
@@ -477,11 +477,87 @@ When the "test set" above is for *selecting* the best model and is more commonly
 
 ##### Common Performance Metrics
 
-::: {.theorem}
-For a right triangle, if $c$ denotes the length of the hypotenuse and $a$ and $b$ denotes the length of the other two sides, we have
+After making the training / test set split and fitting the predictive model (to the training set), it is time for us to evaluate the performance of the model on the training set or test set with respect to an appropriate metric, which measures thee extent to which the model model matches the observations in the data.
 
-$$a^2 + b^2 = c^2$$
-:::
+This requires a **loss function**, which quantifies the discrepancy between the actual predicted values for each observation of the target variable mathematically. Here are the three most commonly used loss functions:
+
+| Name          | Loss Function                                   |
+|---------------|-------------------------------------------------|
+| Square Loss   | $L(y_{i},\hat{y}_{i}) = (y_{i}-\hat{y}_{i})^2$  |
+| Absolute Loss | $L(y_{i},\hat{y}_{i}) = |y_{i}-\hat{y}_{i}|$    |
+| Zero-one Loss | $L(y_{i},\hat{y}_{i}) = 1, if y <> \hat{y}_{i}$ |
+
+Here, $y_{i}$ and $\hat{y}_{i}$ are respectively the observed and predicted values (produced by a predictive model) of the target variable for the ith observation in the data at hand. In each case, the loss function is the smallest when $y_{i}$ = $\hat{y}_{i}$ , and grows with the difference between $y_{i}$ and $\hat{y}_{i}$.
+
+The precise choice of the loss function depends closely on the nature of the target variable (numerical or categorical), or equivalently the nature of the prediction problem (regression or classification).
+
+**Regression Problems:** When the target variable is numeric, we can assess the performance of a model by looking at the size of the discrepancy between each observed value of the target variable and the corresponding predicted value, $y_{i} - \hat{y}_{i}$. For a given observation, we call this discrepancy the ***residual*** if the observation is in the training set, and ***prediction error*** if the observation is in the test set. A commonly used metric that aggregates all such discrepancies is the square loss function $L(y_{i},\hat{y}_{i}) = (y_{i}-\hat{y}_{i})^2$ and provides an overall performance measure is the **Root Mean Squared Error (RMSE),** defined on the training and test sets as:
+
+![***Equation: Root Mean Squared Error Equation***](assets/images/03-figure-rsme-equation.png)
+
+By design, the individual residuals or prediction errors are squared (so that +/i discrepancies will not cancel out), summed, and averaged, followed by taking a square root, to yield the RMSE.
+
+The ***smaller*** the RMSE, the ***better*** the fit of the model to the training / test data.
+
+-   **Mean Squared Error (MSE):** In your prior studies, you may have seen the concept of **Mean Squared Error (MSE)**, which is simply the square of the RMSE:
+
+    ![](assets/images/03-figure-mse-equation.png)
+
+    Due to the square relations, whether you use RMSE or MSE does not really matter, but the advantage of the RMSE over the MSE is that the **RMSE has the same unit as the target variable, making it easier to interpret**.
+
+-   **Mean Absolute Error (MAE):** Instead of the square loss function, we could have used the absolute loss function $L(y_{i},\hat{y}_{i}) = |y_{i}-\hat{y}_{i}|$, in which case the resulting metric is called the mean absolute error (MAE) or mean absolute derivation (MAD):
+
+    ![](assets/images/03-figure-mean-absolute-error.png)
+
+    While the loss function places a much smaller weight on large loss than the square loss function and therefore makes the fitted model more robust against outliers, the square loss function is more frequently used i practice because it is differentiable and eases model fitting, which involves optimizing objective functions.
+
+-   **Fitting vs. Evaluation:** The loss function that defines the performance metric can be the same or different as the one that defines the objective function for training the model. We can for example, use the square loss function to estimate the model parameters (e.g., the method of least squares for linear models) and use the absolute loss function to measure the model performance.
+
+**Exercise 3.1.8 (Calculation of test RMSE)**
+
+You have fitted a predictive model and applied it to the following test set with five observations:
+
+| Observation Number (i) | $y_{i}$  |  $\hat{y}_{i}$  |
+|:----------------------:|:--------:|:---------------:|
+|           1            |    2     |        4        |
+|           2            |    5     |        3        |
+|           3            |    6     |        9        |
+|           4            |    8     |        3        |
+|           5            |    4     |        6        |
+
+: ***Table:** Test Set of Five Observations*
+
+Calculate the test RMSE and test MAE.
+
+***Solution:*** The test RMSE is the square root of the average squared prediction error
+
+Test RMSE = $[(1/5)*((2-4)^2 + (5-3)^2 + (6-9)^2 + (8-3)^2 + (4-6)^2)]^{1/2}$ = **3.0332**
+
+Test MAE = $(1/5)*(|2-4| + |5-3| + |6-9)| + |8-3| + |4-6|)$ = **2.8**
+
+**Classification Problems:** For categorical target variables. the predictions are simply labels, or certain factor levels of the target variable, and they cannot be handled algebraically, so the difference may not be well-defined or may not make sense even if it is defined.
+
+Instead of using the square loss or absolute loss function, we use the zero-one loss function (which is actually an indicator function) to come $y_i$ and $\hat{y}_{i}$ meaningfully:
+
+![](assets/images/03-classification-error-rate.png)
+
+Both RMSE and classification error rate are universal performance metrics that apply to general regression and classification problems, respectively. They can be computed on the training set as ewll as the test set, but as discussed above, we are mainly interested in these performance metrics on the test set, because they measure how well the model fits the test observations, or equivalently how well the model makes predictions on future, unseen data. The goodness of fit of the model to the training set is usually of secondary importance.
+
+In the rest of this manual, we will use the generic term training error to mean the training RMSE or training classification error rate (depending on whether the problem is regression or classification), and test error to mean the test (R)MSE or test classification error rate, as long as there is no confusion.
+
+**Cross Validation**
+
+In predictive analytics, there is a remarkably useful and widely applicable technique, known as **Cross Validation (CV)**, that is an enhanced version of the training/test set split described above. The power of this technique is that it provides means to assess the prediction performance of a model ***without*** ***using using additional test data***. In Exam PA, it also serves an important purpose:
+
+**Purpose of Cross Validation**
+
+:   To select the values of *hyper-parameters (tuning parameters)*, which are parameters that control some aspect of the fitting process itself.
+
+As we mentioned above, model fitting typically involves optimizing a certain objective function, and hyper-parameters often play a role either in the mathematical expression of the objective function, or in the set of constraints defining the optimization problem.
+
+We will encounter concrete examples of hyperparameters in the context of GLMs and Decision Trees in later chapters.
+
+In fact, almost all predictive models in modern use contain one or more hyperparameters that serve as indices of model complexity and need to be tuned carefully to achieve optimal model performance, speaking to their importance in predictive analytics.
 
 #### Stage 5: Model Validation
 
