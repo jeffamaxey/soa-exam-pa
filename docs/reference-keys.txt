@@ -1,4 +1,3 @@
-tab:unnamed-chunk-1
 basics-of-r-programming
 data-types-in-r
 exercise-1.2.2---calculating-least-squares-estimates-by-matrix-manipulation
@@ -38,6 +37,9 @@ stage-1-problem-definition
 stage-2-data-collection-and-validation
 stage-3-exploratory-data-analysis
 stage-4-model-construction-evaluation-and-selection-important
+should-we-use-all-available-data-to-train-our-models
+training-test-set-split
+common-performance-metrics
 stage-5-model-validation
 stage-6-model-maintenance
 bias-variance-trade-off

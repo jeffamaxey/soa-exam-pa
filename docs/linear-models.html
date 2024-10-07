@@ -23,7 +23,7 @@
 <meta name="author" content="Jeff A. Maxey" />
 
 
-<meta name="date" content="2024-10-05" />
+<meta name="date" content="2024-10-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -206,7 +206,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="3.3.1" data-path="linear-models.html"><a href="linear-models.html#exploratory-data-analysis"><i class="fa fa-check"></i><b>3.3.1</b> Exploratory Data Analysis</a></li>
 <li class="chapter" data-level="3.3.2" data-path="linear-models.html"><a href="linear-models.html#simple-linear-regression"><i class="fa fa-check"></i><b>3.3.2</b> Simple Linear Regression</a></li>
-<li class="chapter" data-level="3.3.3" data-path="linear-models.html"><a href="linear-models.html#multiple-linear-regression"><i class="fa fa-check"></i><b>3.3.3</b> Multiple Linear Regression</a></li>
+<li class="chapter" data-level="3.3.3" data-path="linear-models.html"><a href="linear-models.html#multiple-linear-regression"><i class="fa fa-check"></i><b>3.3.3</b> Multiple Linear Regression::::</a></li>
 <li class="chapter" data-level="3.3.4" data-path="linear-models.html"><a href="linear-models.html#evaluation-of-linear-models"><i class="fa fa-check"></i><b>3.3.4</b> Evaluation of Linear Models</a></li>
 </ul></li>
 <li class="chapter" data-level="3.4" data-path="linear-models.html"><a href="linear-models.html#case-study-2-feature-selection-and-regularization"><i class="fa fa-check"></i><b>3.4</b> Case Study 2: Feature Selection and Regularization</a>
@@ -343,9 +343,8 @@ X = \begin{cases} &amp; \text{0, for a non-smoker,} \\ &amp; \text{1, for a smok
 <div id="stage-1-problem-definition" class="section level4 hasAnchor" number="3.1.2.1">
 <h4><span class="header-section-number">3.1.2.1</span> Stage 1: Problem Definition<a href="linear-models.html#stage-1-problem-definition" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The first step in any model building exercise is to clearly formulate the business problems to which predictive analytics will be applied.</p>
-</div>
-<div id="characteristics-of-predictive-modeling-problems" class="section level4 unnumbered hasAnchor">
-<h4>Characteristics of Predictive Modeling Problems<a href="linear-models.html#characteristics-of-predictive-modeling-problems" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="characteristics-of-predictive-modeling-problems" class="section level5 unnumbered hasAnchor">
+<h5>Characteristics of Predictive Modeling Problems<a href="linear-models.html#characteristics-of-predictive-modeling-problems" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <p>Before we decide to apply predictive analytics to solve a business problem, we should ensure that it is indeed a problem that should be addressed by predictive modeling.</p>
 <p>A conceptual exam task testing the syllabus learning outcome, “Describe the characteristics of predictive modeling problems.”, may ask:</p>
 <p>Some common characteristics of predictive modeling problems include:</p>
@@ -386,8 +385,8 @@ X = \begin{cases} &amp; \text{0, for a non-smoker,} \\ &amp; \text{1, for a smok
 </table>
 <p>A typical predictive modeling problem will have most, but not necessarily all of these characteristics.</p>
 </div>
-<div id="problem-definition" class="section level4 unnumbered hasAnchor">
-<h4>Problem Definition<a href="linear-models.html#problem-definition" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="problem-definition" class="section level5 unnumbered hasAnchor">
+<h5>Problem Definition<a href="linear-models.html#problem-definition" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <p>After deciding to use predictive analytics to address the business issue of interest, we should define the problem as clearly as possible.</p>
 <p>It is important to get to the root cause of the business issue and make it specific enough to be solvable.</p>
 <p>The following strategies suggested can help us come up with a meaningful problem definition and give our project a higher chance of success:</p>
@@ -396,8 +395,8 @@ X = \begin{cases} &amp; \text{0, for a non-smoker,} \\ &amp; \text{1, for a smok
 <li><p><strong>KPI’s:</strong> We also need ways to assess the outcome by selecting appropriate key performance indicators (KPI’s), which will provide a quantitative basis to measure the success of the project. Naturally, these KPI’s should align with the overall business strategy as far as possible and show the client what key numbers will change as a result of your predictive analytic work.</p></li>
 </ul>
 </div>
-<div id="constraints" class="section level4 unnumbered hasAnchor">
-<h4>Constraints<a href="linear-models.html#constraints" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="constraints" class="section level5 unnumbered hasAnchor">
+<h5>Constraints<a href="linear-models.html#constraints" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <p>As soon as we have defined the business problem clearly, it is important to evaluate the feasibility of solving the business problem and implementing the predictive analytic solution.</p>
 <p>We want to make sure that the solutions we produce will work. Some considerations and constraints we should keep in ind when evaluating and prioritizing business problems include:</p>
 <ul>
@@ -406,14 +405,14 @@ X = \begin{cases} &amp; \text{0, for a non-smoker,} \\ &amp; \text{1, for a smok
 </ul>
 <p>Do we have the resources to implement complex models without freezing or crashing? If a model is operationally prohibitive to execute, then it makes sense to trade some prediction performance for ease of implementation. After all, if we cannot actually implement and apply the model in practice, then it is basically useless.</p>
 </div>
+</div>
 <div id="stage-2-data-collection-and-validation" class="section level4 hasAnchor" number="3.1.2.2">
 <h4><span class="header-section-number">3.1.2.2</span> Stage 2: Data Collection and Validation<a href="linear-models.html#stage-2-data-collection-and-validation" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Predictive analytics relies on models, which in turn are constructed from data. After defining the business problem properly, we will spend some time and effort collecting useful data that will underlie the predictive models we are going to build.</p>
 <p>This data collection stage is more important and intricate than you probably first thought. You may have heard of the phrase “garbage in, garbage out”, better known as GIGO, which means that low-quality data is doomed to produce low-quality output.</p>
 <p>Here we will learn some key considerations and some pitfalls to avoid related to the collection and use of data.</p>
-</div>
-<div id="data-design" class="section level4 unnumbered hasAnchor">
-<h4>Data Design<a href="linear-models.html#data-design" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="data-design" class="section level5 unnumbered hasAnchor">
+<h5>Data Design<a href="linear-models.html#data-design" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <p>To begin, we will contemplate here to collect the data to be used in the modeling stage.</p>
 <p>At the data design stage, there are a few things we should take note of to maximize the usefulness of our data source, which is the entire set of observations that enter the dataset you collect.</p>
 <ul>
@@ -472,33 +471,33 @@ X = \begin{cases} &amp; \text{0, for a non-smoker,} \\ &amp; \text{1, for a smok
 <p>At the data design stage, it is a good idea to use a relatively high level of granularity. It is always possible to go from a higher level of granularity to a lower level of granularity down the track, but not the other way around.</p></li>
 </ul>
 </div>
-<div id="data-quality-issues" class="section level4 unnumbered hasAnchor">
-<h4>Data Quality Issues<a href="linear-models.html#data-quality-issues" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="data-quality-issues" class="section level5 unnumbered hasAnchor">
+<h5>Data Quality Issues<a href="linear-models.html#data-quality-issues" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <p>Once we have collected the data from a data source representative of the population of interest using an appropriate sampling method, we have to take an important step before jumping straight into doing predictive modeling: <strong><em>Data Validation</em></strong>, the process of ensuring the quality and appropriateness of the data available.</p>
 <p>If the collected data falls short of our standards, we may have to go back to the data collection step and search for an alternative dataset.</p>
 <ul>
 <li><p><strong>Reasonableness:</strong> For a dataset to be useful, the data values should, at a minimum, be reasonable, which can be checked by exploratory data analysis. Do the key statistics for the variables make sense in the context of the business problem? If one of the variables is income and one observation has a negative income, then almost certainly this is a recording error that should be fixed before we launch into model construction.</p></li>
 <li><p><strong>Consistency:</strong> We also need to ensure that the records in the data are inputted consistently, meaning that the same basis and rules have been applied to all values, so that they can be directly compared with one another.</p>
 <ul>
-<li><p><strong><em>Numeric Variables:</em></strong> For numeric variables, the same unit should be used across all rows of the data for consistency. If one of the variables is weight, the nits values should be measured either all in kilograms or all in pounds. If there is a monetary variable, such as income, then the same currency should be used throughout.</p></li>
+<li><strong><em>Numeric Variables:</em></strong> For numeric variables, the same unit should be used across all rows of the data for consistency. If one of the variables is weight, the nits values should be measured either all in kilograms or all in pounds. If there is a monetary variable, such as income, then the same currency should be used throughout.</li>
+</ul></li>
 <li><p><strong><em>Categorical Variables:</em></strong> We should make sure that the factor levels of categorical variables are defined and recorded consistently over time with no coding changes, like either the full name (e.g., Iowa) or the two-character abbreviation (e.g., IA) for the state of policy issue.</p></li>
 </ul>
-<p>To check consistency, it is necessary to gain knowledge of how the data entries are recorded. To this end, the data dictionary (see the next point) that accompanies each PA exam project will be useful.</p>
-<p>If we want to combine multiple datasets to form new variables (columns) or new observations (rows), then the consistency checks above extend to all constituent datasets to make sure that the concatenation works properly.</p>
-<p>If we need to join datasets by a certain variable (column), it is especially important to ensure that the format of that variable is consistent across both datasets to ease matching, e.g., name should be recorded either as [first name] or [last name], [first name] so that each person can be identified uniquely. The possible existence of a middle name adds further complication.</p></li>
-</ul>
+<pre><code>To check consistency, it is necessary to gain knowledge of how the data entries are recorded. To this end, the data dictionary (see the next point) that accompanies each PA exam project will be useful.
+
+If we want to combine multiple datasets to form new variables (columns) or new observations (rows), then the consistency checks above extend to all constituent datasets to make sure that the concatenation works properly.
+
+If we need to join datasets by a certain variable (column), it is especially important to ensure that the format of that variable is consistent across both datasets to ease matching, e.g., name should be recorded either as [first name] or [last name], [first name] so that each person can be identified uniquely. The possible existence of a middle name adds further complication.</code></pre>
 <!-- -->
 <ul>
-<li><p><strong>Sufficient Documentation:</strong> A good dataset should also be sufficiently documented so that other users can easily gain an accurate understanding of different aspects of the data. The PA modules suggest that effective documentation should at least include the following information:</p>
-<ul>
+<li><p><strong>Sufficient Documentation:</strong> A good dataset should also be sufficiently documented so that other users can easily gain an accurate understanding of different aspects of the data. The PA modules suggest that effective documentation should at least include the following information:</p></li>
 <li><p>A description of the dataset overall, including the data source (how and when the dataset was collected).</p></li>
 <li><p>A description of each variable in the data, including its name, definition, and format (range of values for numeric variables and the possible levels for categorical variables).</p></li>
 <li><p>Notes about any past updates or other irregularities of the dataset.</p></li>
 <li><p>A statement of accountability for the correctness of the dataset.</p></li>
 <li><p>A description of the governance processes used to manage the dataset.</p></li>
 </ul>
-<p>Exam PA exam project describes the dataset in the “Business Problem” section and provides you with a <em>data dictionary</em>, which lists all the variables in the data together with their information. Here is a sample data dictionary for a hypothetical group of insurance policies:</p></li>
-</ul>
+<p>Exam PA exam project describes the dataset in the “Business Problem” section and provides you with a <em>data dictionary</em>, which lists all the variables in the data together with their information. Here is a sample data dictionary for a hypothetical group of insurance policies:</p>
 <table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
 <span id="tab:unnamed-chunk-5">TABLE 3.2: </span>Sample Data Dictionary
@@ -575,11 +574,148 @@ Numeric, 0 to 30,451.8
 </tbody>
 </table>
 </div>
+<div id="other-data-issues" class="section level5 unnumbered hasAnchor">
+<h5>Other Data Issues<a href="linear-models.html#other-data-issues" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Even if a dataset is representative of the population of interest and is of sufficient quality, there are additional regulatory and practical issues related to the collection and use of data that we need to be aware of.</p>
+<ul>
+<li><p><strong><em>PII</em></strong>: It is not uncommon that datasets contain personally identifiable information (PII). Examples of such include name, Social Security number, address, photographs and bio-metric needs.</p>
+<ul>
+<li>Anonymous: Needs to comply with the pertinent laws since processing of data is still required.</li>
+<li>Data Security: Ensure that personal data receives sufficient protection such as encryption and access restrictions</li>
+<li>Terms of Use: Be well aware of all terms and conditions and the privacy policy related to the collection and use of data.</li>
+</ul></li>
+<li><p><strong>Variables with Legal/Ethical Concerns</strong>: Race, Gender, Ethnicity, Age, Income, Disability Status may be controversial variables that are a part of the dataset, and differential treatment based on these variables may lead to unfair “discrimination” and regulation violations.</p>
+<p>Proxies of Prohibited is occupation, which can be strongly correlated with gender, and coal mine workers. If we use occupation as a predictor, then even though we are not feeding gender directly into our model, we are still using the information about the gender indirectly.</p></li>
+<li><p><strong>Target Leakeage</strong>: In predictive modeling, target leakage refers to the phenomenon that some predictors in a model include (“leak”) information about the target variable <strong><em>that will not be available when the model is applied in practice</em></strong>. These predictors are typically strongly associated with the target variable, but their values are not known until or after the target variable is observed. Remember that our aim when doing predictive analytics is to use the other variables to predict the target variable <strong><em>before</em></strong> it is observed, so these “predictors” cannot serve as predictors in reality. If we include these variables in the model construction process, then our model will appear to perform extraordinarily well.</p>
+<p>Examples of Target Leakage:</p>
+<ul>
+<li><p>Suppose you are interest in predicting whether or not a policyholder of an insurance policy will incur a loss or not in a future period (binary target variable). If the number of incurred losses is one of the predictors you use, then it appears that you will be able to make the perfect predictions: <em><strong>By definition, an incurred loss must have arisen if the number of incurred losses is one or more</strong>. The number of incurred losses simply would not be available at the time we predict the occurrence of incurred losses in practice.</em></p></li>
+<li><p>An extreme form of target leakage that is commonly tested on the exam is when the target variable itself is included as a predictor, or is used to develop new variables (e.g., principal components) for predicting the same target variable.</p>
+<p>Exercise 3.1.7. *&amp; (Detecting target leakage) Consider the persinj dataset in Chapter 2 again, and treat amt as the target variable. The data dictionary is reproduced below:</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>amt</code></td>
+<td>Settled claim amount (continuous numeric variable)</td>
+</tr>
+<tr class="even">
+<td><code>inj</code></td>
+<td>Injury code, with seven levels: 1 (no injury), 2, 3, 4, 5, 6 (fatal), 9 (not recorded).</td>
+</tr>
+<tr class="odd">
+<td><code>legrep</code></td>
+<td>legal representation (0 = no, 1 = yes)</td>
+</tr>
+<tr class="even">
+<td><code>op_time</code></td>
+<td>Operational time (standardized amount of time elapsed between the when the injury was reported and the time when the claim was settled)</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: decimal">
+<li>Identify a variable in the dataset that may pose the problem of target leakage.</li>
+<li>Suggest how to retain the variable in part (a) for constructing meaningful predictive models for amt.</li>
+</ol>
+<p><strong>Solution.</strong></p>
+<ol style="list-style-type: decimal">
+<li>The <code>op_time</code> variable may pose the problem of target leakage when amt is the target variable. According to the data dictionary, the value of op_time would not be known until a claim was settled, at which time the value of amt would be observed. Due to this timing issue, <code>op_time</code> ma not serve as a predictor of <code>amt</code> in practice.</li>
+<li>We can first build a predictive model for <code>op_time</code> based on the variables other than <code>amt</code> and then use a separate predictive model to predict the <code>amt</code> based on the predicted value of <code>op_time</code> and/or other variables.</li>
+</ol></li>
+</ul></li>
+</ul>
+</div>
+</div>
 <div id="stage-3-exploratory-data-analysis" class="section level4 hasAnchor" number="3.1.2.3">
 <h4><span class="header-section-number">3.1.2.3</span> Stage 3: Exploratory Data Analysis<a href="linear-models.html#stage-3-exploratory-data-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>After we have collected and validated the data, the next step is to perform <strong>Exploratory Data Analysis</strong>, which was discussed in Section @ref(2.2) with a focus on R programming and will further be illustrated in the case studies sections in the later part of this manual. The goals of exploratory data analysis are the same as those presented in Section @ref(2.2):</p>
+<dl>
+<dt><strong>Exploratory Data Analysis</strong></dt>
+<dd>
+<p>With the use of descriptive statistics and graphical displays, clean the data for incorrect, unreasonable, and inconsistent entries, and understand the characteristics of and the key relationships among variables in the data.</p>
+<p>The observations we make may suggest an appropriate type of predictive model to use (e.g., GLMs vs. Decision Trees) and the best form for the predictors to enter the model.</p>
+</dd>
+</dl>
 </div>
 <div id="stage-4-model-construction-evaluation-and-selection-important" class="section level4 hasAnchor" number="3.1.2.4">
 <h4><span class="header-section-number">3.1.2.4</span> Stage 4: Model Construction, Evaluation, and Selection [IMPORTANT!]<a href="linear-models.html#stage-4-model-construction-evaluation-and-selection-important" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Having defined the problem, collected some useful data, and taken a first look at the key variables, it is time for us to move onto the modelling phase and construct our predictive models in earnest.</p>
+<div id="should-we-use-all-available-data-to-train-our-models" class="section level5 hasAnchor" number="3.1.2.4.1">
+<h5><span class="header-section-number">3.1.2.4.1</span> <strong>Should we use all available data to train our models?</strong><a href="linear-models.html#should-we-use-all-available-data-to-train-our-models" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>You may be tempted to fit your predictive models directly to the whole set of data. Remember that one of the main goals when doing predictive modeling is to construct models that make good predictions. The fundamental question is is:</p>
+<p>How do we go about designing a predictive model that performs well when it is applied to <strong><em>new, previously unseen</em></strong> data? In other words, how do we make sure that the model calibrated on <strong><em>past</em></strong> data excels in predicting <strong><em>future</em></strong> target values on the basis of <strong><em>future</em></strong> predictor values?</p>
+<p>If we use all of the collected data for model fitting, that will leave no independent data for assessing the prediction performance of our models. It does not help much to evaluate the models on the same data on which they were built. After all, the models have seen those data and are not making genuine predictions. To ensure that our predictive models do a good job of describing the past data they have seen and, more importantly, prediction new, <em>future</em> observations, we need an unconventional way of leveraging our available data.</p>
+</div>
+<div id="training-test-set-split" class="section level5 hasAnchor" number="3.1.2.4.2">
+<h5><span class="header-section-number">3.1.2.4.2</span> <strong>Training / Test Set Split</strong><a href="linear-models.html#training-test-set-split" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>To construct a model that thrives on future data, it is common practice in predictive analytics to partition our data into a few parts, each of which plays a different role in the model development and evaluation process.</p>
+<p>The simplest way is to split the full data into two parts, the training set and the test set; see Figure <a href="#fig:figure-schematic-diagram"><strong>??</strong></a> for a schematic diagram.</p>
+<div class="float" id="figure-schematic-diagram">
+<img src="assets/images/figure-3-1-1.jpeg" alt="Figure 3.1.1: A schematic diagram of the training / test set split." />
+<div class="figcaption"><strong>Figure 3.1.1:</strong> A schematic diagram of the training / test set split.</div>
+</div>
+<dl>
+<dt><strong>Training Set</strong></dt>
+<dd>
+<p>The larger part of the full data (70-80%), the <em>training set</em>, or <em>training data</em>, is where you “train”, fit, or develop your predictive model to estimate the signal function <span class="math inline">\(f\)</span> and, if needed, the model parameters.</p>
+<p>The training is typically done by optimizing a certain objective function that describes how well the model matches the training observations. The fitted model is denoted by <span class="math inline">\(\hat{f}\)</span> , where the hat emphasizes that it is an estimate of <span class="math inline">\(f\)</span>. After the model has been trained, it is ready for making predictions on the other part of the full data.</p>
+</dd>
+<dt><strong>Test Set</strong></dt>
+<dd>
+<p>Following the fitting, you will apply the trained model to make a prediction for each observation in the <em>test set</em>, or <em>test data</em>, and assess the prediction performance of the model according to certain performance metrics.</p>
+<p>Observations in the test set <u><strong>did not participate in the model training process</strong></u> and will provide a much more objective ground for evaluating prediction performance when the model is applied to new, future data.</p>
+<p>In contrast, evaluating the model on the training set will give an overly optimistic and somewhat misleading picture of its true predictive performance – the model has already seen the training observations and is merely fitting, not predicting those observations.</p>
+</dd>
+</dl>
+<p><strong>How to Split the Data?</strong></p>
+<p>There are many ways to do the training/test split.</p>
+<ul>
+<li>It can be done <strong><em>purely randomly</em></strong> according to pre-specified proportions,</li>
+<li>Using special <strong><em>statistical techniques</em></strong> that ensure the distributions of the target variable in the two sets are comparable (stratified sampling).</li>
+<li>If one of the variables is a <strong><em>time-variable</em></strong>, such as calendar year or month, and the behavior of the target variable over time is of interest, then one more way to make the split is on the basis of time, allocating older observations to the training set, and the more recent observations to the test set. Such “out-of-time” validation is conducted often for time series data, also known as longitudinal data, and is use for evaluating how well a model extrapolates time trends observed in the past to future periods.</li>
+</ul>
+<p><strong>How many observations should we assign to the two sets?</strong></p>
+<p>The relative size of the training and test sets involves a trade-off:</p>
+<ul>
+<li>Having more training data will make for a more robust predictive model more capable of learning the patterns in the data and less susceptible to noise.</li>
+<li>If too little data is set aside for the test set, however, the assessment of the prediction performance of the trained model on new, unseen observations will be less reliable.</li>
+</ul>
+<p><strong>How to use the training/test set split to rank competing models?</strong></p>
+<p>If we have multiple candidate models, then we can perform the following steps:</p>
+<ol style="list-style-type: decimal">
+<li>Split the data into training / test sets..
+<ul>
+<li>The same training and test sets should be used across all candidate models.</li>
+</ul></li>
+<li>Fit the models to the training set.</li>
+<li>Evaluate the quality of these models on the test set; and</li>
+<li>Choose the one with the best test set performance according to a certain model selection criterion.</li>
+</ol>
+<p>When the “test set” above is for <em>selecting</em> the best model and is more commonly referred to as the <strong><em>validation set</em></strong>.</p>
+<dl>
+<dt><strong>Test /Validation Set</strong></dt>
+<dd>
+<p>In many predictive modeling textbooks, the test set is where we obtain an independent measure of the prediction performance of your <strong><em>chosen model</em></strong> <strong>when</strong> it is applied to data not involved in training or <strong><em>selecting</em></strong> the final model. The test set is held out until the end.</p>
+<p>The usage in this manual conforms to what you will likely see in PA exam projects, where we are more concerned with finding the best predictive model and less with exactly how well it performs on independent data. There is usually no independent test data set aside for final evaluation.</p>
+</dd>
+</dl>
+</div>
+<div id="common-performance-metrics" class="section level5 hasAnchor" number="3.1.2.4.3">
+<h5><span class="header-section-number">3.1.2.4.3</span> Common Performance Metrics<a href="linear-models.html#common-performance-metrics" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<div class="theorem">
+<p><span id="thm:unlabeled-div-2" class="theorem"><strong>Theorem 3.1  </strong></span>For a right triangle, if <span class="math inline">\(c\)</span> denotes the length of the hypotenuse and <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> denotes the length of the other two sides, we have</p>
+<p><span class="math display">\[a^2 + b^2 = c^2\]</span></p>
+</div>
+</div>
 </div>
 <div id="stage-5-model-validation" class="section level4 hasAnchor" number="3.1.2.5">
 <h4><span class="header-section-number">3.1.2.5</span> Stage 5: Model Validation<a href="linear-models.html#stage-5-model-validation" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -622,7 +758,7 @@ Numeric, 0 to 30,451.8
 <h3><span class="header-section-number">3.3.2</span> Simple Linear Regression<a href="linear-models.html#simple-linear-regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 </div>
 <div id="multiple-linear-regression" class="section level3 hasAnchor" number="3.3.3">
-<h3><span class="header-section-number">3.3.3</span> Multiple Linear Regression<a href="linear-models.html#multiple-linear-regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<h3><span class="header-section-number">3.3.3</span> Multiple Linear Regression::::<a href="linear-models.html#multiple-linear-regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 </div>
 <div id="evaluation-of-linear-models" class="section level3 hasAnchor" number="3.3.4">
 <h3><span class="header-section-number">3.3.4</span> Evaluation of Linear Models<a href="linear-models.html#evaluation-of-linear-models" class="anchor-section" aria-label="Anchor link to header"></a></h3>

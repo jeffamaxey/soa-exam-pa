@@ -1,7 +1,7 @@
 --- 
 title: "Society of Actuaries Exam PA"
 author: "Jeff A. Maxey"
-date: "2024-10-05"
+date: "2024-10-06"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography:
@@ -21,8 +21,8 @@ description: This is a minimal example of using the bookdown package to write a 
 
 **Note**: This book follows the Actex Exam PA study manual by author Ambrose Lo, and contains only study notes from readings in the Actex manual. The online version of the Actex manual is available and highly recommended for purchase here at [actexmadriver.com](https://www.actexlearning.com/exams/pa).
 
+<a href="https://www.github.com/jeffamaxey/soa-exam-pa" target="_blank"><img src="assets/images/cover-soa-predictive-analytics.png" width="100%" style="display: block; margin: auto;" /></a>
 
-<p style="text-align: center;"><a href="https://github.com/jeffamaxey/soa-exam-pa"><img src="assets/images/cover-soa-predictive-analytics.png" class="cover" width="250" height="328"/></a></p>
 
 
 

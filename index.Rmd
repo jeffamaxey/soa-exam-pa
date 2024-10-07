@@ -21,12 +21,12 @@ source("_common.R")
 
 # Preface {-}
 
-```{asis, echo=identical(knitr:::pandoc_to(), 'html')}
 **Note**: This book follows the Actex Exam PA study manual by author Ambrose Lo, and contains only study notes from readings in the Actex manual. The online version of the Actex manual is available and highly recommended for purchase here at [actexmadriver.com](https://www.actexlearning.com/exams/pa).
 
-
-<p style="text-align: center;"><a href="https://github.com/jeffamaxey/soa-exam-pa"><img src="assets/images/cover-soa-predictive-analytics.png" class="cover" width="250" height="328"/></a></p>
+```{r fig.align='center', echo=FALSE, include=identical(knitr:::pandoc_to(), 'html'), fig.link='https://www.github.com/jeffamaxey/soa-exam-pa'}
+knitr::include_graphics('assets/images/cover-soa-predictive-analytics.png', dpi = NA)
 ```
+
 
 `r if (knitr::is_latex_output()) '<!--'`
 
