@@ -45,6 +45,4 @@ bookdown::pdf_book:
   toc_appendix: yes
   quote_footer: ["\\VA{", "}{}"]
 bookdown::epub_book: default
-  stylesheet: ["assets/css/style.css"]
-bookdown::bs4_book:
-  css: ["assets/css/style.css", "assets/css/toc.css"]
+bookdown::bs4_book: default

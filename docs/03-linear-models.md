@@ -1,4 +1,4 @@
-# (PART) Theory of and Case Studies in Predictive Analytics {-}
+# (PART) Theory of and Case Studies in Predictive Analytics {.unnumbered}
 
 # Linear Models
 
@@ -376,7 +376,7 @@ Even if a dataset is representative of the population of interest and is of suff
         Exercise 3.1.7. \*& (Detecting target leakage) Consider the persinj dataset in Chapter 2 again, and treat amt as the target variable. The data dictionary is reproduced below:
 
         | Variable | Description |
-        |----|----|
+        |------------------------------------|------------------------------------|
         | `amt` | Settled claim amount (continuous numeric variable) |
         | `inj` | Injury code, with seven levels: 1 (no injury), 2, 3, 4, 5, 6 (fatal), 9 (not recorded). |
         | `legrep` | legal representation (0 = no, 1 = yes) |
@@ -387,7 +387,7 @@ Even if a dataset is representative of the population of interest and is of suff
 
         **Solution.**
 
-        1.   The `op_time` variable may pose the problem of target leakage when amt is the target variable. According to the data dictionary, the value of op_time would not be known until a claim was settled, at which time the value of amt would be observed. Due to this timing issue, `op_time` ma not serve as a predictor of `amt` in practice.
+        1.  The `op_time` variable may pose the problem of target leakage when amt is the target variable. According to the data dictionary, the value of op_time would not be known until a claim was settled, at which time the value of amt would be observed. Due to this timing issue, `op_time` ma not serve as a predictor of `amt` in practice.
         2.  We can first build a predictive model for `op_time` based on the variables other than `amt` and then use a separate predictive model to predict the `amt` based on the predicted value of `op_time` and/or other variables.
 
 #### Stage 3: Exploratory Data Analysis
@@ -404,7 +404,7 @@ After we have collected and validated the data, the next step is to perform **Ex
 
 Having defined the problem, collected some useful data, and taken a first look at the key variables, it is time for us to move onto the modelling phase and construct our predictive models in earnest.
 
-##### **Should we use all available data to train our models?** 
+##### **Should we use all available data to train our models?**
 
 You may be tempted to fit your predictive models directly to the whole set of data. Remember that one of the main goals when doing predictive modeling is to construct models that make good predictions. The fundamental question is is:
 
@@ -412,7 +412,7 @@ How do we go about designing a predictive model that performs well when it is ap
 
 If we use all of the collected data for model fitting, that will leave no independent data for assessing the prediction performance of our models. It does not help much to evaluate the models on the same data on which they were built. After all, the models have seen those data and are not making genuine predictions. To ensure that our predictive models do a good job of describing the past data they have seen and, more importantly, prediction new, *future* observations, we need an unconventional way of leveraging our available data.
 
-##### **Training / Test Set Split** 
+##### **Training / Test Set Split**
 
 To construct a model that thrives on future data, it is common practice in predictive analytics to partition our data into a few parts, each of which plays a different role in the model development and evaluation process.
 
@@ -454,14 +454,14 @@ The relative size of the training and test sets involves a trade-off:
 If we have multiple candidate models, then we can perform the following steps:
 
 1.  Split the data into training / test sets..
-    -    The same training and test sets should be used across all candidate models.
+    -   The same training and test sets should be used across all candidate models.
 2.  Fit the models to the training set.
 3.  Evaluate the quality of these models on the test set; and
 4.  Choose the one with the best test set performance according to a certain model selection criterion.
 
 When the "test set" above is for *selecting* the best model and is more commonly referred to as the ***validation set***.
 
-**Test /Validation Set** 
+**Test /Validation Set**
 
 :   In many predictive modeling textbooks, the test set is where we obtain an independent measure of the prediction performance of your ***chosen model*** **when** it is applied to data not involved in training or ***selecting*** the final model. The test set is held out until the end.
 
@@ -469,17 +469,250 @@ When the "test set" above is for *selecting* the best model and is more commonly
 
 ##### Common Performance Metrics
 
-::: {.theorem}
-For a right triangle, if $c$ denotes the length of the hypotenuse and $a$ and $b$ denotes the length of the other two sides, we have
+After making the training / test set split and fitting the predictive model (to the training set), it is time for us to evaluate the performance of the model on the training set or test set with respect to an appropriate metric, which measures thee extent to which the model model matches the observations in the data.
 
-$$a^2 + b^2 = c^2$$
-:::
+This requires a **loss function**, which quantifies the discrepancy between the actual predicted values for each observation of the target variable mathematically. Here are the three most commonly used loss functions:
+
+| Name          | Loss Function                                   |
+|---------------|-------------------------------------------------|
+| Square Loss   | $L(y_{i},\hat{y}_{i}) = (y_{i}-\hat{y}_{i})^2$  |
+| Absolute Loss | $L(y_{i},\hat{y}_{i}) = |y_{i}-\hat{y}_{i}|$    |
+| Zero-one Loss | $L(y_{i},\hat{y}_{i}) = 1, if y <> \hat{y}_{i}$ |
+
+Here, $y_{i}$ and $\hat{y}_{i}$ are respectively the observed and predicted values (produced by a predictive model) of the target variable for the ith observation in the data at hand. In each case, the loss function is the smallest when $y_{i}$ = $\hat{y}_{i}$ , and grows with the difference between $y_{i}$ and $\hat{y}_{i}$.
+
+The precise choice of the loss function depends closely on the nature of the target variable (numerical or categorical), or equivalently the nature of the prediction problem (regression or classification).
+
+**Regression Problems:** When the target variable is numeric, we can assess the performance of a model by looking at the size of the discrepancy between each observed value of the target variable and the corresponding predicted value, $y_{i} - \hat{y}_{i}$. For a given observation, we call this discrepancy the ***residual*** if the observation is in the training set, and ***prediction error*** if the observation is in the test set. A commonly used metric that aggregates all such discrepancies is the square loss function $L(y_{i},\hat{y}_{i}) = (y_{i}-\hat{y}_{i})^2$ and provides an overall performance measure is the **Root Mean Squared Error (RMSE),** defined on the training and test sets as:
+
+![***Equation: Root Mean Squared Error Equation***](assets/images/03-figure-rsme-equation.png)
+
+By design, the individual residuals or prediction errors are squared (so that +/i discrepancies will not cancel out), summed, and averaged, followed by taking a square root, to yield the RMSE.
+
+The ***smaller*** the RMSE, the ***better*** the fit of the model to the training / test data.
+
+-   **Mean Squared Error (MSE):** In your prior studies, you may have seen the concept of **Mean Squared Error (MSE)**, which is simply the square of the RMSE:
+
+    ![](assets/images/03-figure-mse-equation.png)
+
+    Due to the square relations, whether you use RMSE or MSE does not really matter, but the advantage of the RMSE over the MSE is that the **RMSE has the same unit as the target variable, making it easier to interpret**.
+
+-   **Mean Absolute Error (MAE):** Instead of the square loss function, we could have used the absolute loss function $L(y_{i},\hat{y}_{i}) = |y_{i}-\hat{y}_{i}|$, in which case the resulting metric is called the mean absolute error (MAE) or mean absolute derivation (MAD):
+
+    ![](assets/images/03-figure-mean-absolute-error.png)
+
+    While the loss function places a much smaller weight on large loss than the square loss function and therefore makes the fitted model more robust against outliers, the square loss function is more frequently used i practice because it is differentiable and eases model fitting, which involves optimizing objective functions.
+
+-   **Fitting vs. Evaluation:** The loss function that defines the performance metric can be the same or different as the one that defines the objective function for training the model. We can for example, use the square loss function to estimate the model parameters (e.g., the method of least squares for linear models) and use the absolute loss function to measure the model performance.
+
+**Exercise 3.1.8 (Calculation of test RMSE)**
+
+You have fitted a predictive model and applied it to the following test set with five observations:
+
+| Observation Number (i) | $y_{i}$ | $\hat{y}_{i}$ |
+|:----------------------:|:-------:|:-------------:|
+|           1            |    2    |       4       |
+|           2            |    5    |       3       |
+|           3            |    6    |       9       |
+|           4            |    8    |       3       |
+|           5            |    4    |       6       |
+
+: ***Table:** Test Set of Five Observations*
+
+Calculate the test RMSE and test MAE.
+
+***Solution:*** The test RMSE is the square root of the average squared prediction error
+
+Test RMSE = $[(1/5)*((2-4)^2 + (5-3)^2 + (6-9)^2 + (8-3)^2 + (4-6)^2)]^{1/2}$ = **3.0332**
+
+Test MAE = $(1/5)*(|2-4| + |5-3| + |6-9)| + |8-3| + |4-6|)$ = **2.8**
+
+**Classification Problems:** For categorical target variables. the predictions are simply labels, or certain factor levels of the target variable, and they cannot be handled algebraically, so the difference may not be well-defined or may not make sense even if it is defined.
+
+Instead of using the square loss or absolute loss function, we use the zero-one loss function (which is actually an indicator function) to come $y_i$ and $\hat{y}_{i}$ meaningfully:
+
+![](assets/images/03-classification-error-rate.png)
+
+Both RMSE and classification error rate are universal performance metrics that apply to general regression and classification problems, respectively. They can be computed on the training set as ewll as the test set, but as discussed above, we are mainly interested in these performance metrics on the test set, because they measure how well the model fits the test observations, or equivalently how well the model makes predictions on future, unseen data. The goodness of fit of the model to the training set is usually of secondary importance.
+
+In the rest of this manual, we will use the generic term training error to mean the training RMSE or training classification error rate (depending on whether the problem is regression or classification), and test error to mean the test (R)MSE or test classification error rate, as long as there is no confusion.
+
+**Cross Validation**
+
+In predictive analytics, there is a remarkably useful and widely applicable technique, known as **Cross Validation (CV)**, that is an enhanced version of the training/test set split described above. The power of this technique is that it provides means to assess the prediction performance of a model ***without*** ***using using additional test data***. In Exam PA, it also serves an important purpose:
+
+**Purpose of Cross Validation**
+
+:   To select the values of *hyper-parameters (tuning parameters)*, which are parameters that control some aspect of the fitting process itself.
+
+As we mentioned above, model fitting typically involves optimizing a certain objective function, and hyper-parameters often play a role either in the mathematical expression of the objective function, or in the set of constraints defining the optimization problem.
+
+We will encounter concrete examples of hyperparameters in the context of GLMs and Decision Trees in later chapters.
+
+In fact, almost all predictive models in modern use contain one or more hyperparameters that serve as indices of model complexity and need to be tuned carefully to achieve optimal model performance, speaking to their importance in predictive analytics.
+
+------------------------------------------------------------------------
+
+**Example 3.1.9 (Which Types of are Hyperparameters?)**
+
+An actuary is fitting the simple linear regression model $Y = \beta_{0}+\beta_{1}X+\epsilon$ to a set of training data $n_{tr}$ observations. The estimates of $\beta_{0}$ and $\beta_{1}$ are determined by minimizing the function, where $\lambda$ is a given positive constant, for $\beta_{0}$ and $\beta_{1}$ .
+
+Determine which of the parameters is a hyperparameter.
+
+**Solution:** The estimates $\beta_{0}$ and $\beta_{1}$ are output of the minimization problem above, while $\lambda$ is an input that goes into the minimization problem. Therefore, only $\lambda$ is a hyperparameter.
+
+------------------------------------------------------------------------
+
+The tricky part of hyperparameters is that we have to provided their values in advanced; they are not optimized as part of the model fitting algorithm, so it is impossible to select their values given the training set alone.
+
+In theory, we can further divide the training data into two parts. One part for training the model for a given set of hyperparameters under consideration, and one part for evaluating the predictive performance of the model.
+
+Then we select the combination of hyperparameters that gives rise to the best performance. In practice, this will reduce the size of the training set and undesirably undermine the reliability of the model development process.
+
+**Cross Validation (CV)** is an ingenious method for tuning hyperparameters without having to further divide the training set. Given the training set, CV (more formally called ***k-fold CV***) works by performing a series of splits *repeatedly* across the dataset. The procedure is as follows:
+
+-   **Step 1:** For a given positive integer *k*, randomly split the training data into *k* folds of approximately equal size. The value of *k* can range between 2 (smallest) and $n_{tr}$ (largest). A common choice for *k* in practice is 10, which is the default value in many model fitting functions in R.
+-   **Step 2:**
+    -   One of the *k* folds is left out and the predictive model is fitted to the remaining *k-1* folds. Then the fitted model is used to make a prediction for each observation in the left-out fold and a performance metric is computed on that fold. This is a valid estimate of the prediction performance of the model because observations in the excluded fold are not part of the model training process. In other words, they are something unseen by the model, and we are really making predictions.
+
+    -   Then repeat this process with each fold left out in turn to get *k* performance values, $V_{1}, ...,V_{k}$ (e.g., RMSE for a numeric target and classification error rate for a categorical target).
+
+    -   The overall prediction performance of the model can be estimated as the average of the *k* performance values, known as the **CV error:**
+
+        $$
+        \fbox{CV error = (V_{1}+...+V_{k})/k}
+        $$
+
+If we have a set of candidate hyperparameter values, then we can perform Step 2 above for each set of values under consideration and select the combination that produces the best model performance.
+
+Then the model is fitted to the ***entire training set*** (i.e., the *k* folds together) using this optimal combination of hyperparameter values and evaluated on the test set.
+
+In fact, CV is such a useful technique that it is automatically built into some of the model fitting algorithms such as regularization and decision trees for tuning model parameters for best performance.
+
+------------------------------------------------------------------------
+
+**Exercise 3.1.10 (Mechanics of *k*-fold CV)**
+
+An actuary has a dataset with n = 50 observations and p = 22 predictors. He is using 10-fold cross-validation to select from a variety of available models.
+
+Calculate the approximate number of observations used for the training models in each round of cross-validation procedure.
+
+**Solution:** 10-fold CV involves (randomly) dividing the data into 10-folds of approximately equal size, each with about 50/10 = 5 observations. In each round, one fold is left out and the other 9 folds, with approximately 9(5) = 45 observations, are used to train a model.
+
+------------------------------------------------------------------------
+
+**Selecting the Best Model**
+
+After fitting each candidate model under consideration to the training set (possibly using CV to tune its hyperparameters) and evaluating its performance on the test set, it is time to select the model that is the "best" in a certain sense. Here are some important considerations that come into play in the selection of the best model:
+
+-   **Prediction Performance:** Choosing the model with the best prediction performance is relatively easy and objective. All we have to do is [***pick the model with the smallest test-RMSE***]{.underline} for a regression problem, or [***smallesttest classification error rate***]{.underline} for a classification problem. We can also use alternative evaluation metrics that capture more specific aspects of prediction performance if appropriate.
+-   **Interpretability:** A model that makes good predictions is not always preferable, if it is like a black box and its end users have little idea what goes into the decision-making process. For the final model to earn trust from stakeholders with no expertise in predictive analytics, it should be reasonably interpretable, meaning that the model predictions should be easily explained in terms of the predictors and lead to specific actions or insights.
+-   **Ease of Implementation:** Other things equal, the easier for a model to be implemented (computationally, financially, or logistically), the better the model. If the model requires prohibitive resources to construct and maintain (e.g., it takes forever to fit the model, or it is costly to collect values of the necessary predictors), then its end users may not afford to use it in the first place, even if it makes superb predictions.
+
+As we will see in the case studies sections, it is not uncommon for prediction performance to be in conflict with interpretability and ease oimplementation, so the selection of the best model in practice almost always involves a compromise between these conflicting criteria, and the business problem can have quite a strong influence on the "final winner".
+
+-   If the focus of the project you receive in Exam PA is on prediction, then it is worth selecting a model that produces good predictions of the target variable even if the model is rather non-transparent or costly to implement.
+
+-   If interpretation is the primary concern, then it is natural to select a relatively simple, interpretable model that clearly shows the relationship between the target variable and the predictors. Using such a model, we can better understand the association between the two groups of variables and make inference about the underlying data-generating mechanism, thereby making better decisions. Its prediction performance is of secondary importance.
 
 #### Stage 5: Model Validation
 
+After coming up with a tentative model, which appears to be the best among all models you have constructed, we should not rush to recommend it to the client. Instead, we should *validate* it by inspecting it for any obvious deficiencies and ensuring that the assumptions behind the model are largely satisfied. If found, the deficiencies can be used to improve the specification of the model and we will go back to Stage 4. As mentioned at the beginning of this subsection, model building is often an iterative process.
+
+There are different kinds of model validation techniques. They may be performed on either the training set or the test set, and they may be model-dependent in the sense that they are specific to particular types of predictive models.
+
+-   ***Training Set:*** For GLMs, there is a set of model diagnostic tools to check the model assumptions based on the training set. We will learn these tools in Subsections 3.2.2 and 4.1.4.
+
+-   ***Test Set:*** A general model validation technique applicable to both GLMs and Decision Trees is to compare the predicted values and the observed values of the target variable on the test set. The comparison can be quantitative (summarized by a number) or graphical (in form of a plot). If we use graphical means and if the model works well, then the plot of the predicted against the observed values not only should fall on the 45-degree straight line passing through the origin quite closely, the deviation from the line should have no systematic patterns. Here are two example plots:
+
+    ![Figure: Model Validation Graphs](assets/images/03-model-validation.png)
+
+**For this validation technique to be meaningful, it is vitally important that we compare the predicted values and the observed values on the test set, not the training set.**
+
+If we perform the comparison on the training set, then we are only assessing the goodness-of-fit of the model to the training data, not its prediction performance on unseen data. A model may produce actual and "predicted" values on the training set that are in close agreement simply because it is a complex and over-fitted model.
+
+Another validation technique used in some old past PA exams is to compare the selected model to an existing baseline model, again on the test set.
+
+This model is usually a primitive model, such as an Ordinary Least Squares Linear Model (if the selected model is a GLM) or a model that has no predictors and simply uses the average of the target variable on the training set for prediction. The model will provide a benchmark which any selected model should beat as a minimum requirement.
+
+After the selected model has been validated, it can be recommended to the client for their consideration and comments.
+
 #### Stage 6: Model Maintenance
 
+If the client gladly accepts the selected model, then we can put it to actual use and maintain it over time so that it remains useful in the future. Here are some of the steps we can take:
+
+-   **Adjust the Business Problem:** At times, it may help to alter the business problem to take the following into account:
+
+    -   A surprise discovery, e.g., a certain outcome turns out to be far more common or impactful than initially thought
+    -   Changes in external factors, e.g., market conditions, regulations that may cause initial assumptions to shift, and justify modifying the business problem to incorporate the new conditions.
+
+-   **Consult with Subject Matter Experts:**
+
+    -   If there are new findings that do not fit your current understanding of the business problem or modeling issues that cannot be easily resolved purely on predictive analytics
+    -   To understand the limitations on what can reasonably be implemented.
+
+-   **Gather Additional Data:**
+
+    -   Gather new observations and retrain the model to ensure that it will continue to be predictive in new environments, and to improve its robustness and prediction performance.
+    -   Gather new variables, or additional predictors.
+
+-   **Apply New Types of Models:** Try new types of models with different strengths and weaknesses when new technology or implementation possibilities are available.
+
+-   **Refine Existing Models:** Try new combinations or transformations of predictors, different training/test splits, alternative hyperparameter values, performance metrics etc.
+
+-   **Field Test Proposed Model:** Implement the recommended model in the exact way it will be used to gain users' confidence. This is particularly important when the business problem, data, or type of model is new.
+
 ### Bias-Variance Trade-Off
+
+This subsection and the next will delve into the model construction stage (Stage 4) more carefully and introduce, in a statistical framework, the technical considerations that go into designing a good predictive model.
+
+**Key Idea: A complex model does not equal a good predictive model**
+
+If you are just beginning to learn predictive analytics, you may be tempted to create a super sophisticated model with a huge number of predictors, some of which may be only marginally related to the target variable, in attempt to maximize the prediction performance of the model.
+
+After all, you don' want the model to miss any potentially useful information. To your surprise, such a complex model does not necessarily make good predictions, contrary to your original intention. As will be discussed in this subsection and substantiated in the rest of the manual, an extremely important mentality to keep in mind when doing predictive analytics is:
+
+Imporatnt Mentality for Predictive Analytics
+
+:   Complexity does ***not*** guarantee good prediction performance
+
+**Goodness of fit vs. Prediction Accuracy**
+
+While complexity does not correlate very well with prediction performance (measured by the test error), it is intimately related to the goodness of fit to the training data (measured by the training error). In other words, goodness of fit to the training data is not quite the same as prediction accuracy, and the two types of error behave very differently with complexity, as Figure 3.1.3 below shows:
+
+![](assets/images/03-figure-goodness-fit-prediction-performance.png)
+
+In terms of the training and test errors, we can describe the problems with a model that is either too simple or too complex using the following 2x2 table:
+
+| Scenario | Small Test Error | Large Test Error |
+|------------------------|------------------------|------------------------|
+| **Small Training Error** | Model is optimal | Model is overfitted |
+| **Large Training Error** | Check your code for errors, this is too good to be true and rarely happens in real life | Model is underfitted |
+
+The two undesirable scenarios in the last column of the table, both involve having a large test error, deserve a separate discussion.
+
+**Case 1: Underfitting**
+
+In the left tail of Figure 3.1.3, the model is too simple to capture the training data effectively. Without learning enough about the signal of the data, an ***underfitted*** model matches both the training and test data poorly, and is marked by relatively large training error as well as a relatively large test error. This is akin to a lazy student barely studies ("underfitted") and, not surprisingly, bombs their math test.
+
+**Case 2: Overfitting**
+
+In the right tail of Figure 3.1.3, the model, which is overwhelmingly complex, is overfitting the data. It is fitting the data too hard and goes to extraordinary lengths to capture:
+
+-   The signal, which represents general relationships between the target variable and predictors, applicable to both the trianing and test data.
+-   The noise, which represents patterns that are just caused by random chance rather than by true, general properties of the unknown function $f$. These patterns are specific to the training set (i.e., they do not exist in the test data), but are mistreated as if they were signal.
+
+------------------------------------------------------------------------
+
+**Decomposition of the Expected Test Error**
+
+To better understand the U-shape behavior that characterizes the test MSE, it is instructive to break it down into different components, and examine how each of these components behaves. Although such a decomposition is mainly of theoretical nature and you don't often calculate the individual components of the formula in Exam PA, keeping the decomposition in mind will help you understand what it takes to produce good predictions. In particular, it reinforces the practically important idea that more complex models are not necessarily superior models.
+
+For simplicity, we will consider a numeric target variable so that the **(R)MSE** is an appropriate performance metric (categorical target variables admit a similar decomposition).
+
+For a given set of predictor values $X_{0}$, the decomopsition reads:
+
+![](assets/images/03-expected-test-error-bias-variance.png)
 
 ### Feature Generation and Selection
 
@@ -487,13 +720,594 @@ $$a^2 + b^2 = c^2$$
 
 ### Model Formulation
 
+#### Model Equation
+
+-   Target variable $Y$ is **numeric**.
+-   $Y$ is related to predictors $X_1, X_2, \dots, X_p$ via the approximately **linear** relationship
+
+$$
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p + \varepsilon.
+$$
+
+-   Linear signal function $f(X)$.
+
+##### Some terms
+
+-   $p = 1$: [Simple linear regression model](#)
+-   $p \geq 2$: [Multiple linear regression model](#)
+-   $\beta_0$: Intercept
+-   $\beta_j$: Coefficient (or slope) of the $j$th predictor
+
+#### Training Data: $\{(Y_i, X_{i1}, X_{i2}, \dots, X_{ip})\}_{i=1}^{n_{tr}}$
+
+-   **Tabular (data frame) format**:
+
+| Training Observation | Target $Y$ | Predictors |
+|----------------------------|-------------------|--------------------------|
+|  | $Y$ | $X_1$ $X_2$ ... $X_p$ |
+| 1 | $Y_1$ | $X_{11}$ $X_{12}$ ... $X_{1p}$ |
+| 2 | $Y_2$ | $X_{21}$ $X_{22}$ ... $X_{2p}$ |
+| ... | ... | ... |
+| $n_{tr}$ | $Y_{n_{tr}}$ | $X_{n_{tr},1}$ $X_{n_{tr},2}$ ... $X_{n_{tr},p}$ |
+
+-   **Equation format**:
+
+$$
+Y_i = \beta_0 + \beta_1 X_{i1} + \beta_2 X_{i2} + \dots + \beta_p X_{ip} + \varepsilon_i, \quad i = 1, \dots, n_{tr}
+$$
+
+-   **A default assumption**:
+
+$$
+\varepsilon_i \sim \text{i.i.d. } N(0, \sigma^2)
+$$
+
+#### Model Quantities
+
+##### On the training set
+
+-   Fitted value $\hat{Y}_i = \beta_0 + \beta_1 X_1 + \cdots + \beta_p X_{ip}$
+-   Residual $e_i = Y_i - \hat{Y}_i$ (useful for "diagnosing" a linear model)
+-   Residual SS (RSS): $RSS = \sum_{i} e_i^2$ (the lower, the better the fit to the training set)
+
+##### On the test set
+
+-   Predicted value $\hat{Y}^* = \beta_0 + \beta_1 X_1^* + \cdots + \beta_p X_p^*$, where $(1, X_1^*, \ldots, X_p^*)$ is a vector of predictor values of interest.
+-   Prediction error $Y^* - \hat{Y}^*$ (the lower, the more predictive the model)
+
+#### Model Quantities (Cont.)
+
+##### Additional quantities computed on the training set
+
+-   **t-statistic**: $t(\hat{\beta_j}) = \frac{\hat{\beta_j}}{\text{standard error of } \hat{\beta_j}}$
+    -   Can be used to test the significance of $X_j$ in the presence of all other predictors.
+    -   The larger in magnitude, the more significant.
+-   **F-statistic**
+    -   Can be used to assess the joint significance of all of the $p$ predictors, $X_1, \ldots, X_p$.
+    -   The larger, the more significant (but it doesn’t tell which predictors are significant).
+-   **Coefficient of determination**
+    -   On a scale from 0 to 1.
+    -   The larger, the better the fit to the training set.
+
 ### Model Evaluation and Validation
+
+#### General Performance Metric
+
+-   $Y$ is numeric $\Rightarrow$ Test (R)MSE
+
+$$
+\sqrt{\frac{1}{n_{\text{test}}} \sum_{i=1}^{n_{\text{test}}} (Y_i - \hat{Y}_i)^2}
+$$
+
+can be used.
+
+##### Other metrics on the test set
+
+-   Test **loglikelihood** (Exam STAM)
+-   Test **coefficient of determination** $R^2$
+
+##### All of them are equivalent because...
+
+They are all functions of
+
+$$
+\sum_{i=1}^{n_{\text{test}}} (Y_i - \hat{Y}_i)^2.
+$$ \#### Performance Metrics based on Penalized Likelihood
+
+-   Common structure: **Model fit** (ensures good fit) + **Penalty measuring model complexity** (prevents overfitting)
+
+-   **Idea**: To balance goodness of fit to the training data with model complexity\
+
+-   **Criterion**: The smaller, the better the model
+
+##### AIC (Akaike Information Criterion)
+
+-   Definition: $\text{AIC} = -2l + 2p$ \quad $(p = \#\text{parameters})$
+
+##### BIC (Bayesian Information Criterion)
+
+-   Definition: $\text{BIC} = -2l + p \ln n_{\text{tr}}$
+-   vs. AIC: A heavier penalty per parameter ($\because \ln n_{\text{tr}} > 2 \Leftrightarrow n_{\text{tr}} \geq 8$)
+
+#### From Past PA Exams
+
+##### June 2019, Task 6: Select features using AIC or BIC
+
+AIC and BIC are among the available techniques for feature selection. Briefly **describe** them and outline the **differences** in the two criteria. Make a recommendation as to which one should be used for this problem.
+
+##### June 17, 2020, Task 7: Select features using stepwise selection
+
+When using the stepAIC function, there are two decisions to make: **forward vs. backward** and **AIC vs. BIC**. **Describe** each decision and the **implications** in choosing one option versus the other.
+
+#### Model Diagnostics based on Residuals
+
+Recall the model assumption by default:
+
+$$
+\begin{cases}
+Y = X \beta + \varepsilon \\
+\varepsilon_i \sim \text{i.i.d. } N(0, \sigma^2)
+\end{cases}
+\Rightarrow
+\begin{cases}
+e_i \approx \text{i.i.d. } N(0, \sigma^2) \\
+e_i \text{ have no systematic patterns}
+\end{cases}
+$$
+
+##### Residual analysis
+
+-   Do the residuals behave like this?
+    -   If **yes**, model looks good!
+    -   If **no**, try to **improve the model**!
+
+#### Two Particularly Useful Plots: "Residuals vs Fitted" Plot
+
+**Uses** - Check **model specification** (are the predictors entered properly?) - Check **homogeneity** of the error variance (**homoscedasticity**)
+
+##### Good {.unnumbered}
+
+![Good Residuals Plot](assets/images/good_plot.png) - No regular patterns - Same amount of variability
+
+##### Bad {.unnumbered}
+
+![Bad Residuals Plot](assets/images/bad_plot.png) - A clear funnel shape $\Rightarrow$ error variance increases with fitted value
+
+#### Two Particularly Useful Plots: Q-Q Plot
+
+**What it is**: Graphs the **empirical quantiles** of the standardized residuals against theoretical $N(0, 1)$ quantiles.
+
+**Use**: Check the **normality** of the random errors
+
+##### Good {.unnumbered}
+
+![Good Q-Q Plot](assets/images/good_qq_plot.png) - Points **fall** on 45° line closely
+
+##### Bad {.unnumbered}
+
+![Bad Q-Q Plot](assets/images/bad_qq_plot.png) - Points **deviate** from 45° line substantially
 
 ### Feature Generation
 
+#### Big Picture {.unnumbered}
+
+**Given**: A list of potentially useful predictors (given on the exam)
+
+##### Practical questions to be addressed {.unnumbered}
+
+-   How do we want these predictors to enter the model equation to achieve what effects?
+
+$$
+Y = \beta_0 + \text{[how to fill in this part?]} + \varepsilon
+$$
+
+-   How to handle **categorical** predictors in a linear model?
+
+##### Feature generation for linear models {.unnumbered}
+
+Generate **new features** to improve the **flexibility** of a linear model\
+$\Rightarrow$ prediction accuracy $\uparrow$
+
+------------------------------------------------------------------------
+
+#### Numeric Predictors
+
+Let $X_j$ be a numeric predictor.
+
+##### Simplest form: Assign a single regression coefficient {.unnumbered}
+
+-   **Model equation**:\
+    $$
+    Y = \beta_0 + \dots + \beta_j X_j + \dots + \varepsilon
+    $$
+-   **Interpretation**:
+    -   $\beta_j = \frac{\partial \mathbb{E}[Y]}{\partial X_j}$\
+    -   $\beta_j$ = the expected change in $Y$ **per unit increase** in $X_j$, holding all other predictors fixed.
+
+##### Polynomial regression {.unnumbered}
+
+-   **Motivation**: To accommodate **non-linear** relationships between $Y$ (e.g., #pedestrians) and $X_j$ (hour)
+-   **Model equation**:\
+    $$
+    Y = \beta_0 + \beta_1 X_j + \beta_2 X_j^2 + \dots + \beta_m X_j^m + \dots + \varepsilon
+    $$
+    -   $\quad \quad \quad \quad \quad \quad \uparrow \quad \quad \quad \quad \quad \quad \quad \uparrow$\
+    -   $\quad \quad \quad$ new features
+-   **Interpretation**:
+    -   $\frac{\partial \mathbb{E}[Y]}{\partial X_j} = \beta_1 + 2\beta_2 X_j + \dots + m\beta_m X_j^{m-1}$
+    -   Coefficients are **harder to interpret!**
+
+------------------------------------------------------------------------
+
+#### Categorical Predictors
+
+##### Binarization {.unnumbered}
+
+Can we assign a regression coefficient directly to a categorical predictor?
+
+For Smoking = $$
+\begin{cases}
+\text{Smoker} \\
+\text{Non-smoker} \\
+\text{Unknown}
+\end{cases}
+$$ can we use $Y = \beta_0 + \beta_1 \times \text{Smoking} + \varepsilon$?
+
+No! Because $\beta_1 \times \text{Smoker}$, $\beta_1 \times \text{Non-smoker}$, and $\beta_1 \times \text{Unknown}$ don’t make sense!
+
+##### Need an extra operation: Binarization {.unnumbered}
+
+A **categorical predictor** $\rightarrow$ A collection of **binary/dummy/indicator variables** indicating one and only one level (= 1 for that level, = 0 otherwise)
+
+Dummy variables are numeric $\Rightarrow$ we can enter them directly in model equation.
+
+------------------------------------------------------------------------
+
+##### Illustrative Example: Smoking {.unnumbered}
+
+###### 3 dummy variables {.unnumbered}
+
+| Level of Smoking | SmokingSmoker | SmokingNon-smoker | SmokingUnknown |
+|------------------|---------------|-------------------|----------------|
+| Smoker           | 1             | 0                 | 0              |
+| Non-smoker       | 0             | 1                 | 0              |
+| Unknown          | 0             | 0                 | 1              |
+
+###### Sample dataset {.unnumbered}
+
+| Obs. | Smoking    | SmokingSmoker | SmokingNon-smoker | SmokingUnknown |
+|------|------------|---------------|-------------------|----------------|
+| 1    | Smoker     | 1             | 0                 | 0              |
+| 2    | Unknown    | 0             | 0                 | 1              |
+| 3    | Non-smoker | 0             | 1                 | 0              |
+| 4    | Smoker     | 1             | 0                 | 0              |
+
+------------------------------------------------------------------------
+
+##### Illustrative Example: Smoking (Cont.) {.unnumbered}
+
+Possible model configurations:
+
+$$
+Y = \beta_0 + \beta_1 \times \text{SmokingSmoker} + \beta_2 \times \text{SmokingUnknown} + \varepsilon
+$$ $$
+Y = \beta_0 + \beta_1 \times \text{SmokingNon-smoker} + \beta_2 \times \text{SmokingUnknown} + \varepsilon
+$$ $$
+Y = \beta_0 + \beta_1 \times \text{SmokingSmoker} + \beta_2 \times \text{SmokingNon-smoker} + \varepsilon
+$$
+
+**Question**: Why not use all three dummy variables?
+
+-   **Intuitively**: When two of them are known, the third brings **no additional information**.
+-   **Technically**: Including all three results in **perfect collinearity** and a **rank-deficient model**.
+
+**General rule for a linear model**:\
+A categorical predictor with $k$ levels should be represented by $k - 1$ binary variables.\
+Left out level = **baseline level**.
+
+------------------------------------------------------------------------
+
+##### Baseline Level {.unnumbered}
+
+-   **R’s default**: The first level in **alpha-numerical order** (e.g., “Non-smoker” for smoking)\
+-   **Common practice**: The **most common** (populous) level
+
+###### Interpretation of regression coefficients {.unnumbered}
+
+Consider $$
+\mathbb{E}[Y] = \beta_0 + (\beta_1 D_1 + \dots + \beta_j D_j + \dots + \beta_{k-1} D_{k-1}) + \dots
+$$ where this represents a $k$-level categorical predictor.
+
+-   In $j$th level: $\mathbb{E}[Y] = \beta_0 + \beta_j (1)$
+-   In baseline level: $\mathbb{E}[Y] = \beta_0$
+-   **Interpretation**: $\beta_j = \mathbb{E}[Y]$ at $j$th level $- \mathbb{E}[Y]$ at baseline level.
+
+The $\beta_j$'s measure how much the target mean changes over different factor levels compared to the baseline. **They are not change in the target mean per unit change in the dummy variables**.
+
+------------------------------------------------------------------------
+
+#### What is Interaction?
+
+-   **Restriction**: In the basic model form, $Y = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p + \varepsilon$, the expected effect of each $X_j$ on $Y$ is **independent** of the values of other predictors.
+
+##### Interesting example from *Introduction to Statistical Learning* {.unnumbered}
+
+-   $Y$ = number of units produced in a factory
+-   $X_1$ = number of production lines in the factory
+-   $X_2$ = number of workers in the factory
+
+**Observation**: The effect of $X_1$ on $\mathbb{E}[Y]$ is likely to **depend on** $X_2$.
+
+**Reason**: If $X_2 = 0$, then increasing $X_1$ will not raise $Y$ much. (No one is working!)
+
+**Interaction**: When the effect of one predictor on the target variable **depends on** the value/level of another predictor.
+
+**Suggestion**: Consider $\mathbb{E}[Y] = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1 X_2$.
+
+-   **Note**:\
+    $\mathbb{E}[Y] = \beta_0 + (\beta_1 + \beta_3 X_2) X_1 + \beta_2 X_2 = \beta_0 + \beta_1 X_1 + (\beta_2 + \beta_3 X_1) X_2$
+    -   Here, $(\beta_1 + \beta_3 X_2)$ **depends on** $X_2$\
+    -   Similarly, $(\beta_2 + \beta_3 X_1)$ **depends on** $X_1$
+-   $X_1 X_2$ is the **interaction term**.
+
+------------------------------------------------------------------------
+
+#### Interactions between Continuous and Categorical Predictors {.unnumbered}
+
+##### Model equation: {.unnumbered}
+
+$$
+\mathbb{E}[Y] = \beta_0 + \beta_1 X_1 \text{ (continuous)} + \beta_2 X_2 \text{ (binary)} + \beta_3 X_1 X_2
+$$
+
+$$
+= 
+\begin{cases}
+\beta_0 + \beta_1 X_1, & \text{if } X_2 = 0, \\
+(\beta_0 + \beta_2) + (\beta_1 + \beta_3) X_1, & \text{if } X_2 = 1.
+\end{cases}
+$$
+
+##### **Graphical Illustration of Interaction** {.unnumbered}
+
+![Graphical illustration](./assets/images/interaction_plot.png)
+
+Breakdown of Graph: - If $X_2 = 0$: Slope = $\beta_1$, Intercept = $\beta_0$ - If $X_2 = 1$: Slope = $\beta_1 + \beta_3$, Intercept = $\beta_0 + \beta_2$
+
+-   **Different intercepts** due to $\beta_2 X_2$
+-   **Different slopes** due to $\beta_3 X_1 X_2$\
+    $\Rightarrow$ **interaction effect**
+
+------------------------------------------------------------------------
+
+#### Interactions between Two Categorical Predictors {.unnumbered}
+
+##### Model equation: {.unnumbered}
+
+$$
+\mathbb{E}[Y] = \beta_0 + \beta_1 X_1 \text{ (binary)} + \beta_2 X_2 \text{ (binary)} + \beta_3 X_1 X_2
+$$
+
+![Four Different Target Means](./assets/images/interactions-two-categorical-predictors.png)
+
+------------------------------------------------------------------------
+
 ### Feature Selection
 
+------------------------------------------------------------------------
+
+#### Feature/Model Selection: Big Picture {.unnumbered}
+
+-   **Given**: A full linear model of $p$ (potentially useful) features: $$
+    Y = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p + \varepsilon.
+    $$
+
+-   **Task**: Select the **really useful** features, i.e., $$
+    Y = \text{?} + \varepsilon.
+    $$
+
+-   **Motivation**:\
+    Remove features with limited predictive power\
+    $\Downarrow$\
+    Prevent overfitting and **simplify model**
+
+##### Naive suggestion {.unnumbered}
+
+-   Fit the full model and drop all insignificant features at once.
+
+##### Caveat {.unnumbered}
+
+-   Absence of one feature can affect the significance of other features.
+
+------------------------------------------------------------------------
+
+#### Best Subset Selection {.unnumbered}
+
+##### **Idea** {.unnumbered}
+
+-   Fit all possible $2^p$ linear models constructed from the $p$ features
+-   Choose the **“best subset”** of predictors (w.r.t. AIC, BIC, etc.) to form the best model
+
+##### **Merits** {.unnumbered}
+
+-   Conceptually simple
+-   Screens all $2^p$ models
+
+##### **Demerits** {.unnumbered}
+
+-   **Computationally prohibitive**; generally not feasible when $p \geq 10$\
+    (Note: $2^{10} = 1,024$, $2^{20} = 1,048,576$!!)
+
+##### **Need more efficient feature selection methods!** {.unnumbered}
+
+-   **More efficient solution**: Stepwise selection\
+    To look at a **restricted subset** of all possible models.
+
+------------------------------------------------------------------------
+
+#### Stepwise Selection Algorithms
+
+**Backward Stepwise Selection**
+
+:   Start with a **full model** with all $p$ features
+
+    $\downarrow$ Go Backward
+
+    **Drop**, one at a time, the feature to improve the model the most w.r.t. AIC or BIC
+
+    $\downarrow$ Repeat until
+
+    Stop when no features can be **dropped** to improve the model.
+
+**Forward Stepwise Selection**
+
+:   Start with a **intercept-only** model ($Y=\beta_0+\epsilon$)
+
+    $\downarrow$ Go Forward
+
+    **Add**, one at a time, the feature to improve the model the most w.r.t. AIC or BIC
+
+    $\downarrow$ Repeat until
+
+    Stop when no features can be **added** to improve the model.
+
+------------------------------------------------------------------------
+
+#### **Discussion** {.unnumbered}
+
+-   **Backward**: Once dropped, the feature will be gone forever\
+-   **Forward**: Once added, the feature will stay forever\
+-   **Max. \# models fitted**: $$
+    1 + \frac{p(p+1)}{2} \quad (p=20 \Rightarrow 211, \text{ vs. } 2^{20} > 1 \text{ million})
+    $$
+-   **Drawback**: No guarantee final model is best
+
+##### **Two important decisions: Selection criterion and selection process** {.unnumbered}
+
+###### **AIC/BIC** {.unnumbered}
+
+-   Prefer a **simpler model** $\Rightarrow$ BIC (**more conservative**)
+-   Don’t want to miss important predictors $\Rightarrow$ AIC
+-   No universally superior choice; **keep business problem in mind** (key!)
+
+###### **Backward/Forward** {.unnumbered}
+
+-   **Forward selection** tends to produce a **simpler model**.
+-   **Backward selection** tends to produce a more **complex model**.
+-   Again, no universally superior choice
+
+------------------------------------------------------------------------
+
 ### Regularization
+
+#### **How Does Regularization (a.k.a. Shrinkage) Work?** {.unnumbered}
+
+##### **Stepwise Selection** {.unnumbered}
+
+-   Search through a **list** of candidate models $\rightarrow$ final model
+-   Set $\beta_j = 0$ for non-predictive features in full model
+
+##### **Regularization** {.unnumbered}
+
+-   Fit a **single model** with all $p$ features using a “special technique”
+-   $\beta_j \approx 0$ for non-predictive features $\Rightarrow$ smaller effect on target
+
+##### **Ordinary Least Squares (OLS)** {.unnumbered}
+
+$$
+\min_{\beta_0, \beta_1, \dots, \beta_p} \sum_{i=1}^{n_{tr}} \left[ Y_i - \left( \beta_0 + \beta_1 X_{i1} + \beta_2 X_{i2} + \dots + \beta_p X_{ip} \right) \right]^2
+$$ - **RSS** (Residual Sum of Squares)
+
+##### **Loss + Penalty Formulation** {.unnumbered}
+
+$$
+\min_{\beta_0, \beta_1, \dots, \beta_p} \text{RSS} + \lambda f_R(\beta)
+$$
+
+**Where:**
+
+-   $\lambda$: **Regularization parameter**; the larger, the heavier the regularization
+-   $f_R(\cdot)$: **Penalty function**; reflects the size of slope coefficients
+-   Adds a **regularization penalty** to the loss function
+
+$Idea$**: Make a Trade-Off Between:**
+
+-   **Goodness-of-Fit to Training Data** (captured by **RSS**): Smaller $\rightarrow$ Better -
+-   **Model Complexity** (captured by **Regularization Penalty**): Smaller $\rightarrow$ Better
+
+------------------------------------------------------------------------
+
+#### **How does Regularization (a.k.a. Shrinkage) Work? (Cont.)** {.unnumbered}
+
+-   **Objective function**: $\text{RSS} + \lambda f_R(\beta)$
+-   **Output**: A **family** of coefficient estimates $\{\hat{\beta}_\lambda = (\hat{\beta}_{0,\lambda}, \hat{\beta}_{1,\lambda}, \dots, \hat{\beta}_{p,\lambda}) : \lambda \geq 0\}$
+
+##### **Effects of** $\lambda$ (Bias-Variance Trade-Off Again!) {.unnumbered}
+
+-   **Case 1**: When $\lambda = 0$, coefficient estimates = ordinary least squares estimates.
+-   **Case 2**: $\lambda \uparrow \Rightarrow |\hat{\beta}_{j,\lambda}| \downarrow \Rightarrow$ flexibility $\downarrow$
+    -   Bias$^2$ $\uparrow$
+    -   Variance $\downarrow$
+    -   **Hopefully** $\Rightarrow$ prediction performance $\uparrow$
+-   **Case 3**: When $\lambda \to \infty$, $\hat{\beta}_{j,\lambda} \to 0$ for all $j = 1, \dots, p$ (intercept-only model).
+
+##### **Different Indexes of Model Complexity** {.unnumbered}
+
+-   **Stepwise selection**: $p$ (\# features)
+-   **Regularization**: $\lambda$
+
+------------------------------------------------------------------------
+
+#### **Different Choices of** $f_R(\beta)$ (Penalty Function) {.unnumbered}
+
+-   **Ridge Regression**: $f_R(\beta) = \sum_{j=1}^{p} \beta_j^2$
+-   **Lasso**: $f_R(\beta) = \sum_{j=1}^{p} |\beta_j|$
+-   **Elastic Net**: $f_R(\beta) = (1 - \alpha) \sum_{j=1}^{p} \beta_j^2 + \alpha \sum_{j=1}^{p} |\beta_j|$
+    -   $\alpha \in [0, 1]$ is the mixing coefficient
+    -   $\alpha = 0$: Ridge regression
+    -   $\alpha = 1$: Lasso
+
+##### **Feature Selection Property of Elastic Net** {.unnumbered}
+
+-   For lasso (and elastic net with $\alpha \neq 0$):
+    -   $\lambda$ large enough $\Rightarrow$ some $\hat{\beta}_{j,\lambda} = 0$ exactly $\Rightarrow$
+        -   **features dropped**
+        -   **model simplified!**
+
+
+**Note:** Ridge regression never drops the features entirely. If the business problem wants you to identify the key factors effecting the target variable, then it makes sense to use the lasso or elastic net with a positive $\alpha$ so that your model will drop the features with limited predictive power and become easier to interpret.
+
+
+---
+
+#### **Hyperparameter Tuning** {-}
+
+$\lambda$ and $\alpha$ are hyperparameters, so they are not determined as part of the optimization procedure.
+
+##### **Tuning $\lambda$ and $\alpha$ by CV** {-}
+- Divide training data into $k$ folds (e.g., $k = 10$).
+- For each pair of candidate values of $(\lambda, \alpha)$, train the model on all but one fold and measure performance on the left-out fold.
+  - Repeat and compute the average (R)MSE.
+
+| Combination | $\alpha$ | $\lambda$ | CV error (RMSE) |
+|-------------|----------|-----------|-----------------|
+| 1           | 0.1      | 0.01      | XXX             |
+| 2           | 0.1      | 0.02      | XXX             |
+| 3           | 0.1      | 0.03      | XXX             |
+| ...         | ...      | ...       | ...             |
+
+- Choose the pair with the **lowest CV error**.
+
+
+
+
+
+
+
+
+
+
+
 
 ## Case Study 1: Fitting Linear Models in R
 
@@ -501,7 +1315,7 @@ $$a^2 + b^2 = c^2$$
 
 ### Simple Linear Regression
 
-### Multiple Linear Regression::::
+### Multiple Linear Regression
 
 ### Evaluation of Linear Models
 

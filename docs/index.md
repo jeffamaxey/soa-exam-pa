@@ -1,7 +1,7 @@
 --- 
 title: "Society of Actuaries Exam PA"
 author: "Jeff A. Maxey"
-date: "2024-10-06"
+date: "2024-10-07"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography:
