@@ -199,7 +199,7 @@
 <ul>
 <li class="chapter" data-level="4.4.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#data-exploration-and-preparation-1"><i class="fa fa-check"></i><b>4.4.1</b> Data Exploration and Preparation</a></li>
 <li class="chapter" data-level="4.4.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#model-construction-and-evaluation-1"><i class="fa fa-check"></i><b>4.4.2</b> Model Construction and Evaluation</a></li>
-<li class="chapter" data-level="4.4.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#predictions"><i class="fa fa-check"></i><b>4.4.3</b> Predictions</a></li>
+<li class="chapter" data-level="4.4.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#predictions-1"><i class="fa fa-check"></i><b>4.4.3</b> Predictions</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -374,8 +374,7 @@ g(\mu) = \eta = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p
 <h4>Link Function: Important Considerations<a href="generalized-linear-models.html#link-function-important-considerations" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <div id="consideration-1-appropriateness-of-predictions" class="section level5 unnumbered hasAnchor">
 <h5>Consideration 1: Appropriateness of predictions<a href="generalized-linear-models.html#consideration-1-appropriateness-of-predictions" class="anchor-section" aria-label="Anchor link to header"></a></h5>
-<p>Make sure model predictions <strong>match</strong> the range of values of the target mean:
-<span class="math display">\[
+<p>Make sure model predictions <strong>match</strong> the range of values of the target mean: <span class="math display">\[
 g(\mu) = \eta \quad \Rightarrow \quad \mu = g^{-1}(\eta) \quad \Rightarrow \quad \hat{\mu} = g^{-1}(\hat{\eta}) \quad \text{(prediction)}
 \]</span></p>
 <div id="example-1-positive-unbounded-target-mean" class="section level6 unnumbered hasAnchor">
@@ -405,9 +404,9 @@ g(\mu) = \eta \quad \Rightarrow \quad \mu = g^{-1}(\eta) \quad \Rightarrow \quad
 <h5>Consideration 3: Canonical Link Function<a href="generalized-linear-models.html#consideration-3-canonical-link-function" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <table>
 <colgroup>
-<col width="26%" />
-<col width="23%" />
-<col width="50%" />
+<col width="30%" />
+<col width="24%" />
+<col width="44%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -449,22 +448,457 @@ g(\mu) = \eta \quad \Rightarrow \quad \mu = g^{-1}(\eta) \quad \Rightarrow \quad
 <p>However, just because the link function is the canonical link, doesn’t mean we should always use that link function. In practice, there are much more important considerations to keep in mind, like whether the predictors are appropriate, and whether the resulting glm is easy to interpret.</p>
 <div id="example-gamma-glm" class="section level6 unnumbered hasAnchor">
 <h6>Example: Gamma GLM<a href="generalized-linear-models.html#example-gamma-glm" class="anchor-section" aria-label="Anchor link to header"></a></h6>
-<p>Because we know that for Gamma, the mean is always positive:
-- The <strong>Inverse Link</strong> doesn’t always ensure positive predictions.
-- The <strong>Log Link</strong> is much more commonly used, because it ensure positive predictions, and makes the GLM easier to interpret.</p>
+<p>Because we know that for Gamma, the mean is always positive: - The <strong>Inverse Link</strong> doesn’t always ensure positive predictions. - The <strong>Log Link</strong> is much more commonly used, because it ensure positive predictions, and makes the GLM easier to interpret.</p>
 <hr />
 </div>
+</div>
+</div>
+<div id="tweedie-distribution-for-aggregate-loss" class="section level4 unnumbered hasAnchor">
+<h4>Tweedie Distribution for Aggregate Loss<a href="generalized-linear-models.html#tweedie-distribution-for-aggregate-loss" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>A random variable <span class="math inline">\(S\)</span> follows the <strong>Tweedie distribution</strong> if <span class="math display">\[
+S = \sum_{i=1}^{N} X_i = X_1 + \dots + X_N,
+\]</span> where: - <span class="math inline">\(N\)</span> is a Poisson random variable (<strong>claim counts</strong>) - The <span class="math inline">\(X_i\)</span>’s are i.i.d. gamma random variables independent of <span class="math inline">\(N\)</span> (<strong>claim sizes</strong>)</p>
+<div id="distributional-characteristics" class="section level5 unnumbered hasAnchor">
+<h5>Distributional Characteristics<a href="generalized-linear-models.html#distributional-characteristics" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p><strong>Mixed nature</strong>: - A discrete <strong>probability mass</strong> at zero corresponding to <span class="math inline">\(N = 0\)</span> - A <strong>probability density function</strong> on the positive real line corresponding to <span class="math inline">\(N = 1, 2, \dots\)</span></p>
+</div>
+<div id="importance-in-exam-pa" class="section level5 unnumbered hasAnchor">
+<h5>Importance in Exam PA<a href="generalized-linear-models.html#importance-in-exam-pa" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li>Mentioned in <strong>one and only one slide</strong> of PA modules.</li>
+<li><strong>Package</strong> designed specifically for Tweedie will <strong>not be available</strong> on the exam.</li>
+<li>If there are exam questions on Tweedie, expect <strong>conceptual</strong> ones testing what Tweedie is and how it serves as an alternative model for loss modeling.</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="interpretation-of-glm-coefficients" class="section level4 unnumbered hasAnchor">
+<h4>Interpretation of GLM Coefficients<a href="generalized-linear-models.html#interpretation-of-glm-coefficients" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="example-1-log-link" class="section level5 unnumbered hasAnchor">
+<h5>Example 1: Log Link<a href="generalized-linear-models.html#example-1-log-link" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p><span class="math display">\[
+\ln \mu = \eta \quad \Rightarrow \quad \mu = e^{\eta} = e^{\beta_0} \times e^{\beta_1 X_1} \times \dots \times e^{\beta_j X_j} \times \dots \times e^{\beta_p X_p}
+\]</span></p>
+<ul>
+<li><strong>Case 1</strong>: If <span class="math inline">\(X_j\)</span> is numeric and <span class="math inline">\(X_j\)</span> increases by 1:
+<ul>
+<li><strong>Multiplicative change</strong>: The target mean is multiplied by a factor of <span class="math inline">\(e^{\beta_j}\)</span>.</li>
+<li>This means: <span class="math display">\[
+\text{new } \mu = e^{\beta_j} \times \text{old } \mu
+\]</span></li>
+<li><strong>% change</strong>: <span class="math display">\[
+\% \text{ change in } \mu = \frac{\text{algebraic change in } \mu}{\text{old } \mu} = \frac{(e^{\beta_j} - 1) \mu}{\mu} = e^{\beta_j} - 1
+\]</span></li>
+</ul></li>
+<li><strong>Note</strong>:
+<ul>
+<li>If <span class="math inline">\(e^{\beta_j} &gt; 1\)</span>, the mean is <strong>scaled up</strong> (when <span class="math inline">\(\beta_j &gt; 0\)</span>).</li>
+<li>If <span class="math inline">\(e^{\beta_j} &lt; 1\)</span>, the mean is <strong>scaled down</strong> (when <span class="math inline">\(\beta_j &lt; 0\)</span>).</li>
+</ul></li>
+<li><strong>Case 2</strong>: If <span class="math inline">\(X_j\)</span> is the dummy variable for a non-baseline level:
+<ul>
+<li><strong>Multiplicative change</strong>: Target mean multiplied by a factor of <span class="math inline">\(e^{\beta_j}\)</span>: <span class="math display">\[
+\mu_{\text{non-baseline level}} = e^{\beta_j} \times \mu_{\text{baseline level}}
+\]</span></li>
+<li><strong>% change</strong>: <span class="math inline">\(e^{\beta_j} - 1\)</span> from baseline to non-baseline level.</li>
+</ul></li>
+</ul>
+<hr />
+</div>
+<div id="example-2-logit-link" class="section level5 unnumbered hasAnchor">
+<h5>Example 2: Logit Link<a href="generalized-linear-models.html#example-2-logit-link" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p><em>Just another form of log link!</em></p>
+<p><span class="math display">\[
+\ln(\text{odds}) = \eta \quad \Leftrightarrow \quad \text{odds} = e^{\eta} = e^{\beta_0} \times e^{\beta_1 X_1} \times \dots \times e^{\beta_j X_j} \times \dots \times e^{\beta_p X_p}
+\]</span></p>
+<ul>
+<li><strong>Example</strong>: If <span class="math inline">\(X_j\)</span> is numeric and <span class="math inline">\(X_j \uparrow 1\)</span>:
+<ul>
+<li><strong>Multiplicative change</strong>: <span class="math display">\[
+\text{new odds} = e^{\beta_j} \times \text{old odds}
+\]</span></li>
+<li><strong>% change</strong>: <span class="math display">\[
+\% \text{ change in odds} = e^{\beta_j} - 1
+\]</span></li>
+</ul></li>
+</ul>
+<hr />
 </div>
 </div>
 </div>
 <div id="weights-and-offsets" class="section level3 hasAnchor" number="4.1.2">
 <h3><span class="header-section-number">4.1.2</span> Weights and Offsets<a href="generalized-linear-models.html#weights-and-offsets" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>So far, we have studied the two components of a GLM, the <strong>Target Distribution</strong> and the <strong>Link Function</strong>.</p>
+<p>In this subsection, we are going to look at two concepts that arise frequently when we apply generalized linear models (GLMs) in the actuarial context. The concepts are <strong>Weights</strong> and <strong>Offsets</strong>.</p>
+<p>Both concepts are related to <strong>incorporating a measure of exposure</strong> in the GLM to <strong>improve the model fit</strong>. We will look at the mechanics and mathematics</p>
+<hr />
+<div id="weights" class="section level4 unnumbered hasAnchor">
+<h4>Weights<a href="generalized-linear-models.html#weights" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>To understand how weights come up in a GLM setting lets consider the following generic dataset.</p>
+<p>There is a target variable, and some predictors, Variable 1, Variable 2, and so on. And we have an exposure variable <span class="math inline">\(E_n\)</span>.</p>
+<div id="grouped-data-structure" class="section level5 unnumbered hasAnchor">
+<h5>Grouped Data Structure<a href="generalized-linear-models.html#grouped-data-structure" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<table>
+<thead>
+<tr class="header">
+<th>Target Variable</th>
+<th>Exposure <span class="math inline">\(E\)</span></th>
+<th>Variable 1</th>
+<th>Variable 2</th>
+<th><span class="math inline">\(\dots\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(y_1\)</span></td>
+<td><span class="math inline">\(E_1\)</span></td>
+<td><span class="math inline">\(x_{11}\)</span></td>
+<td><span class="math inline">\(x_{12}\)</span></td>
+<td><span class="math inline">\(\dots\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(y_2\)</span></td>
+<td><span class="math inline">\(E_2\)</span></td>
+<td><span class="math inline">\(x_{21}\)</span></td>
+<td><span class="math inline">\(x_{22}\)</span></td>
+<td><span class="math inline">\(\dots\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\vdots\)</span></td>
+<td><span class="math inline">\(\vdots\)</span></td>
+<td><span class="math inline">\(\vdots\)</span></td>
+<td><span class="math inline">\(\vdots\)</span></td>
+<td><span class="math inline">\(\vdots\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\vdots\)</span></td>
+<td><span class="math inline">\(\vdots\)</span></td>
+<td><span class="math inline">\(\vdots\)</span></td>
+<td><span class="math inline">\(\vdots\)</span></td>
+<td><span class="math inline">\(\vdots\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Characteristic</strong>:<br />
+Each <span class="math inline">\(y\)</span> value is an outcome <strong>averaged</strong> by the corresponding <span class="math inline">\(E\)</span> value.</p>
+<p><strong>Example</strong>:<br />
+<span class="math display">\[
+y = \text{average } \#\text{ of claims for a group} = \frac{\text{total } \#\text{ claims}}{E}
+\]</span> with <span class="math inline">\(E = \#\text{policyholders in a group}\)</span>.</p>
+</div>
+<div id="motivation" class="section level5 unnumbered hasAnchor">
+<h5>Motivation<a href="generalized-linear-models.html#motivation" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li><strong>Larger exposure</strong> <span class="math inline">\(\Rightarrow\)</span> less variance, more precision</li>
+<li>Recall: <span class="math inline">\(\text{Var}(\bar{X}) = \frac{\text{Var}(X_1)}{n}\)</span> if i.i.d.</li>
+</ul>
+</div>
+<div id="suggested-approach" class="section level5 unnumbered hasAnchor">
+<h5>Suggested Approach<a href="generalized-linear-models.html#suggested-approach" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li>Attach a <strong>higher weight</strong> to observations with a <strong>larger exposure</strong> <span class="math inline">\(\Rightarrow\)</span> Improve the reliability of fitting procedure.</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="offsets" class="section level4 unnumbered hasAnchor">
+<h4>Offsets<a href="generalized-linear-models.html#offsets" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="grouped-data-structure-1" class="section level5 unnumbered hasAnchor">
+<h5>Grouped Data Structure<a href="generalized-linear-models.html#grouped-data-structure-1" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<table>
+<thead>
+<tr class="header">
+<th>Target Variable</th>
+<th>Exposure <span class="math inline">\(E\)</span></th>
+<th>Variable 1</th>
+<th>Variable 2</th>
+<th><span class="math inline">\(\dots\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(y_1\)</span></td>
+<td><span class="math inline">\(E_1\)</span></td>
+<td><span class="math inline">\(x_{11}\)</span></td>
+<td><span class="math inline">\(x_{12}\)</span></td>
+<td><span class="math inline">\(\dots\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(y_2\)</span></td>
+<td><span class="math inline">\(E_2\)</span></td>
+<td><span class="math inline">\(x_{21}\)</span></td>
+<td><span class="math inline">\(x_{22}\)</span></td>
+<td><span class="math inline">\(\dots\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\vdots\)</span></td>
+<td><span class="math inline">\(\vdots\)</span></td>
+<td><span class="math inline">\(\vdots\)</span></td>
+<td><span class="math inline">\(\vdots\)</span></td>
+<td><span class="math inline">\(\vdots\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\vdots\)</span></td>
+<td><span class="math inline">\(\vdots\)</span></td>
+<td><span class="math inline">\(\vdots\)</span></td>
+<td><span class="math inline">\(\vdots\)</span></td>
+<td><span class="math inline">\(\vdots\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Characteristic</strong>:<br />
+Each <span class="math inline">\(y\)</span> value is an outcome <strong>summed (aggregated)</strong> over <span class="math inline">\(E\)</span> units.</p>
+<p><strong>Example</strong>:<br />
+For a group, <span class="math display">\[
+y = \text{total } \#\text{claims for a group}
+\]</span> where <span class="math inline">\(E = \#\text{policyholders in a group}\)</span>.</p>
+</div>
+<div id="motivation-1" class="section level5 unnumbered hasAnchor">
+<h5>Motivation<a href="generalized-linear-models.html#motivation-1" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li><strong>Larger exposure</strong> <span class="math inline">\(\Rightarrow\)</span> larger <span class="math inline">\(y\)</span></li>
+</ul>
+</div>
+<div id="mathematics" class="section level5 unnumbered hasAnchor">
+<h5>Mathematics<a href="generalized-linear-models.html#mathematics" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Consider the following log-link Generalized Linear Model (GLM) with an offset:</p>
+<p><span class="math display">\[
+\ln \mu = \ln E_{\text{offset}} + \eta = \ln E + \left( \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p \right)
+\]</span></p>
+<div id="about-the-offset" class="section level6 unnumbered hasAnchor">
+<h6>About the Offset<a href="generalized-linear-models.html#about-the-offset" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<ul>
+<li><p>A special predictor whose regression coefficient is known to be one.</p></li>
+<li><p>Model equation equivalent to: <span class="math display">\[
+\mu = E \exp(\eta)
+\]</span></p>
+<p>i.e., <span class="math inline">\(\mu\)</span> and <span class="math inline">\(E\)</span> are in <strong>direct proportion</strong>.</p></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="example-specifying-an-appropriate-offset" class="section level5 unnumbered hasAnchor">
+<h5>Example: Specifying an Appropriate Offset<a href="generalized-linear-models.html#example-specifying-an-appropriate-offset" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li><strong>NumClaims</strong>: Number of claims of a policyholder over a time period</li>
+<li><strong>Time</strong>: The length of time (in years) a policyholder is observed</li>
+<li><strong>Age</strong>: Age of a policyholder</li>
+<li><strong>Gender</strong>: Gender of a policyholder</li>
+<li><strong>RiskCat</strong>: Risk category to which a policyholder belongs</li>
+</ul>
+<p>Use these variables to set up a GLM for <strong>NumClaims</strong> with an appropriate offset.</p>
+<div id="offset" class="section level6 unnumbered hasAnchor">
+<h6>Offset<a href="generalized-linear-models.html#offset" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<p>Expect <strong>NumClaims</strong> to be proportional to <strong>Time</strong>.</p>
+</div>
+<div id="solution" class="section level6 unnumbered hasAnchor">
+<h6>Solution<a href="generalized-linear-models.html#solution" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<ul>
+<li><strong>Target distribution</strong>: Poisson</li>
+<li><strong>Predictors</strong>: Age, Gender, RiskCat</li>
+<li><strong>Link</strong>: Log</li>
+<li><strong>Offset</strong>: <span class="math inline">\(\ln(\text{Time})\)</span> (Note: Use <span class="math inline">\(\ln(\text{Time})\)</span>, not Time itself)</li>
+</ul>
+<p>For the target distribution, we choose the Poisson distribution, because the target variable is <code>NumClaims</code> which takes only non-negative integers.</p>
+<p>The predictors are <code>Age</code>, <code>Gender</code> and <code>RiskCat</code>.</p>
+<p>For the link function, we choose the <strong>Log Link</strong>, because it ensures positive values, is easy to interpret and is the canonical link function of the Poisson distribution.</p>
+<p>The Offset should be on the same scale as the transformed target mean (e.g., Log Link Function), therefore the offset should be <span class="math inline">\(ln(Time)\)</span>. We use this offset to capture the proportional relationship between the number of claims and time.</p>
+<hr />
+</div>
+</div>
+</div>
+<div id="weights-vs.-offsets" class="section level4 unnumbered hasAnchor">
+<h4>Weights vs. Offsets<a href="generalized-linear-models.html#weights-vs.-offsets" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="similarities" class="section level5 unnumbered hasAnchor">
+<h5>Similarities<a href="generalized-linear-models.html#similarities" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p><strong>Same Purpose:</strong> Incorporate a measure of <em>exposure</em></p>
+</div>
+<div id="differences" class="section level5 unnumbered hasAnchor">
+<h5>Differences<a href="generalized-linear-models.html#differences" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<table>
+<colgroup>
+<col width="27%" />
+<col width="37%" />
+<col width="34%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Weights</strong></th>
+<th><strong>Offsets</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Nature of target variable</strong></td>
+<td>Average</td>
+<td>Aggregate</td>
+</tr>
+<tr class="even">
+<td><strong>Role of exposure</strong></td>
+<td>Affect <em>variance</em></td>
+<td>Affect <em>mean</em></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>Larger weight, lower <em>variance</em></td>
+<td>Larger offset, larger <em>mean</em></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="interesting-special-case-log-link-poisson-glm" class="section level5 unnumbered hasAnchor">
+<h5>Interesting Special Case: Log-link Poisson GLM<a href="generalized-linear-models.html#interesting-special-case-log-link-poisson-glm" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ol style="list-style-type: decimal">
+<li><strong>Model 1:</strong> A Poisson GLM for <span class="math inline">\(Y\)</span> (claim count) using <span class="math inline">\(\ln E\)</span> as the <em>offset</em></li>
+<li><strong>Model 2:</strong> A Poisson GLM for <span class="math inline">\(\frac{Y}{E}\)</span> (claim frequency) using <span class="math inline">\(E\)</span> as the <em>weight</em></li>
+</ol>
+<hr />
+</div>
+</div>
 </div>
 <div id="fitting-and-assessing-the-performance-of-a-glm" class="section level3 hasAnchor" number="4.1.3">
 <h3><span class="header-section-number">4.1.3</span> Fitting and Assessing the Performance of a GLM<a href="generalized-linear-models.html#fitting-and-assessing-the-performance-of-a-glm" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="coefficient-estimates" class="section level4 unnumbered hasAnchor">
+<h4>Coefficient Estimates<a href="generalized-linear-models.html#coefficient-estimates" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><strong>Method</strong><br />
+Least squares estimation <span class="math inline">\(\rightarrow\)</span> Maximum likelihood estimation<br />
+(for linear models)      (for GLMs)</p>
+<div id="mle-how-it-works-conceptually" class="section level5 unnumbered hasAnchor">
+<h5>MLE: How it works conceptually<a href="generalized-linear-models.html#mle-how-it-works-conceptually" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li>Form the (log)likelihood function:<br />
+<span class="math inline">\(L(\beta_0, \ldots, \beta_p) = \ldots\)</span><br />
+and <span class="math inline">\(l = \ln L\)</span><br />
+(in terms of <span class="math inline">\(\beta\)</span>’s)</li>
+<li>Choose the <span class="math inline">\(\beta\)</span>’s to maximize <span class="math inline">\(l(\beta_0, \ldots, \beta_p)\)</span></li>
+</ul>
+<p><strong>Warning</strong><br />
+Algorithm may <strong>not converge</strong> <span class="math inline">\(\Rightarrow\)</span> no estimates found</p>
+</div>
+<div id="predictions" class="section level5 unnumbered hasAnchor">
+<h5>Predictions<a href="generalized-linear-models.html#predictions" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p><span class="math display">\[
+g(\mu_i) = \beta_0 + \beta_1 X_{i1} + \ldots + \beta_p X_{ip}
+\]</span></p>
+<p><span class="math display">\[
+\mu_i = g^{-1}(\beta_0 + \beta_1 X_{i1} + \ldots + \beta_p X_{ip})
+\]</span></p>
+<p>Then we replace the <span class="math inline">\(\beta\)</span>’s with <span class="math inline">\(\hat{\beta}\)</span> to replace the coefficients with the coefficient estimates:</p>
+<p><span class="math display">\[
+g(\mu_i) = \beta_0 + \beta_1 X_{i1} + \ldots + \beta_p X_{ip}
+\]</span></p>
+<p><span class="math display">\[
+\mu_i = g^{-1}(\beta_0 + \beta_1 X_{i1} + \ldots + \beta_p X_{ip})
+\]</span></p>
+<p>That’s how we get the predicted target mean.</p>
+<hr />
+</div>
+<div id="global-goodness-of-fit-measure-deviance" class="section level5 unnumbered hasAnchor">
+<h5>Global Goodness-of-fit Measure: Deviance<a href="generalized-linear-models.html#global-goodness-of-fit-measure-deviance" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>After fitting a GLM, how do we quantify the goodness of fit to the training data?</p>
+<p>For linear models, we used the RSS or <span class="math inline">\(R^2\)</span>, however the <span class="math inline">\(R^2\)</span> is no longer a good measure, because it is no longer between 0 and 1. Therefore, we need more general goodness-of-fit measures for GLMs.</p>
+<p>That brings us to the concept of <strong>Deviance</strong>.</p>
+<p><strong>Measure</strong><br />
+RSS or <span class="math inline">\(R^2\)</span> <span class="math inline">\(\rightarrow\)</span> Deviance<br />
+(for linear models)      (for GLMs)</p>
+<div id="deviance" class="section level6 unnumbered hasAnchor">
+<h6>Deviance<a href="generalized-linear-models.html#deviance" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<ul>
+<li><strong>Idea</strong>: Compare fitted GLM with saturated GLM (perfect fit) with respect to goodness of fit.</li>
+<li><strong>Definition</strong>:<br />
+<span class="math display">\[
+\text{Deviance} = 2(l_{\text{SAT}} - l) \geq 0,
+\]</span> where:
+<ul>
+<li><span class="math inline">\(l_{\text{SAT}}\)</span> = maximized log-likelihood of the saturated GLM<br />
+</li>
+<li><span class="math inline">\(l\)</span> = maximized loglikelihood of the fitted GLM</li>
+</ul></li>
+<li><strong>Criterion</strong>: The lower, the better the fit to training data</li>
+</ul>
+<p><strong>Warning</strong><br />
+Deviance depends on the target distribution! We cannot say that one GLM is better than another GLM if the target distribution is different, even if it has a lower deviance: - Deviance of a Poisson GLM: 100 (better fit? No!) - Deviance of a gamma GLM: 200</p>
+<hr />
+</div>
+</div>
+<div id="local-goodness-of-fit-measure-deviance-residuals" class="section level5 unnumbered hasAnchor">
+<h5>Local Goodness-of-fit Measure: Deviance Residuals<a href="generalized-linear-models.html#local-goodness-of-fit-measure-deviance-residuals" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p><strong>Residuals</strong><br />
+Raw residual <span class="math inline">\(e_i = y_i - \hat{\mu}_i\)</span> <span class="math inline">\(\rightarrow\)</span> Deviance residual <span class="math inline">\(d_i\)</span><br />
+(for linear models)      (for GLMs)</p>
+<div id="definition" class="section level6 unnumbered hasAnchor">
+<h6>Definition<a href="generalized-linear-models.html#definition" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<ul>
+<li><strong>Signed square root</strong> of the <span class="math inline">\(i\)</span>th term in the deviance formula.</li>
+<li>Positive if <span class="math inline">\(y_i &gt; \hat{\mu}_i\)</span> and negative if <span class="math inline">\(y_i &lt; \hat{\mu}_i\)</span>.</li>
+</ul>
+</div>
+<div id="example" class="section level6 unnumbered hasAnchor">
+<h6>Example<a href="generalized-linear-models.html#example" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<ul>
+<li>Deviance formula for a Poisson GLM:<br />
+<span class="math display">\[
+D = 2 \sum_{i=1}^n \left[ y_i \ln \frac{y_i}{\hat{\mu}_i} - (y_i - \hat{\mu}_i) \right]
+\]</span></li>
+<li><span class="math inline">\(y_i = 59\)</span> and <span class="math inline">\(\hat{\mu}_i = 71\)</span> for the <span class="math inline">\(i\)</span>th training observation.</li>
+<li><span class="math inline">\(d_i = \text{sign}(y_i - \hat{\mu}_i) \sqrt{2 \left[ y_i \ln \frac{y_i}{\hat{\mu}_i} - (y_i - \hat{\mu}_i) \right]} = - \sqrt{2 \left[ 59 \ln \frac{59}{71} - (59 - 71) \right]} = -1.47\)</span></li>
+</ul>
+</div>
+</div>
+<div id="deviance-residuals-as-diagnostic-tools" class="section level5 unnumbered hasAnchor">
+<h5>Deviance Residuals as Diagnostic Tools<a href="generalized-linear-models.html#deviance-residuals-as-diagnostic-tools" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>If the fitted GLM is “good,” then the deviance residuals should:</p>
+<ul>
+<li>Be approximately <strong>normally distributed</strong> for most target distributions in the linear exponential family (Exception: <strong>Binomial</strong>).</li>
+<li>Have <strong>no systematic patterns</strong> when considered on their own and with respect to the predictors.</li>
+<li>Have approximately <strong>constant variance</strong> upon standardization (i.e., <strong>homoscedastic</strong>).</li>
+</ul>
+<div id="q-q-plot-for-deviance-residuals" class="section level6 unnumbered hasAnchor">
+<h6>Q-Q plot for deviance residuals<a href="generalized-linear-models.html#q-q-plot-for-deviance-residuals" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<ul>
+<li>Model is adequate <span class="math inline">\(\checkmark \Rightarrow\)</span> Points <strong>fall closely on a straight line</strong></li>
+<li>Points deviate substantially from a straight line <span class="math inline">\(\Rightarrow\)</span> Model is inadequate <span class="math inline">\(\times\)</span></li>
+</ul>
+<p><strong>Note</strong>: For this method to work, the target distribution <strong>need not be normal</strong>.</p>
+<hr />
+</div>
+</div>
+<div id="penalized-likelihood-measures-aic-and-bic" class="section level5 unnumbered hasAnchor">
+<h5>Penalized Likelihood Measures: AIC and BIC<a href="generalized-linear-models.html#penalized-likelihood-measures-aic-and-bic" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li><strong>Deviance</strong>: Goodness of fit on training data</li>
+<li><strong>AIC/BIC</strong>: Goodness of fit on training data + model complexity</li>
+</ul>
+<div id="definition-of-aic-and-bic" class="section level6 unnumbered hasAnchor">
+<h6>Definition of AIC and BIC<a href="generalized-linear-models.html#definition-of-aic-and-bic" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<ul>
+<li><span class="math inline">\(\text{AIC} = -2l + 2p\)</span>
+<ul>
+<li>where <span class="math inline">\(l\)</span> represents goodness of fit</li>
+<li>and <span class="math inline">\(p\)</span> represents complexity</li>
+</ul></li>
+<li><span class="math inline">\(\text{BIC} = -2l + p \ln(n_{\text{tr}})\)</span>
+<ul>
+<li>where <span class="math inline">\(n_{\text{tr}}\)</span> is the number of training observations</li>
+</ul></li>
+</ul>
+<p>Perform stepwise selection using forward/backward selection and <strong>AIC/BIC</strong>.</p>
+</div>
+<div id="regularization-3" class="section level6 unnumbered hasAnchor">
+<h6>Regularization<a href="generalized-linear-models.html#regularization-3" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<ul>
+<li>Find estimates by minimizing <strong>deviance</strong> (goodness of fit) + <strong>regularization penalty</strong> (complexity).</li>
+<li>Same ideas in Chapter 3 apply.</li>
+</ul>
+<hr />
+</div>
+</div>
+</div>
 </div>
 <div id="performance-metrics-for-classifiers" class="section level3 hasAnchor" number="4.1.4">
 <h3><span class="header-section-number">4.1.4</span> Performance Metrics for Classifiers<a href="generalized-linear-models.html#performance-metrics-for-classifiers" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<hr />
 </div>
 </div>
 <div id="case-study-1-glms-for-continuous-target-variables" class="section level2 hasAnchor" number="4.2">
@@ -499,8 +933,8 @@ g(\mu) = \eta \quad \Rightarrow \quad \mu = g^{-1}(\eta) \quad \Rightarrow \quad
 <div id="model-construction-and-evaluation-1" class="section level3 hasAnchor" number="4.4.2">
 <h3><span class="header-section-number">4.4.2</span> Model Construction and Evaluation<a href="generalized-linear-models.html#model-construction-and-evaluation-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 </div>
-<div id="predictions" class="section level3 hasAnchor" number="4.4.3">
-<h3><span class="header-section-number">4.4.3</span> Predictions<a href="generalized-linear-models.html#predictions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="predictions-1" class="section level3 hasAnchor" number="4.4.3">
+<h3><span class="header-section-number">4.4.3</span> Predictions<a href="generalized-linear-models.html#predictions-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 
 </div>
 </div>

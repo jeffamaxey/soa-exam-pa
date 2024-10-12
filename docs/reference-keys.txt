@@ -116,3 +116,5 @@ case-study-3-glms-for-count-and-aggregate-loss-variables
 data-exploration-and-preparation-1
 model-construction-and-evaluation-1
 predictions
+grouped-data-structure-1
+predictions-1
