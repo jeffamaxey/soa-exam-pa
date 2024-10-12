@@ -57,6 +57,70 @@
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 <style type="text/css">
   
@@ -140,6 +204,7 @@
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="linear-models.html"><a href="linear-models.html#case-study-1-fitting-linear-models-in-r"><i class="fa fa-check"></i><b>3.3</b> Case Study 1: Fitting Linear Models in R</a>
 <ul>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#about-this-case-study"><i class="fa fa-check"></i><strong>About this Case Study</strong></a></li>
 <li class="chapter" data-level="3.3.1" data-path="linear-models.html"><a href="linear-models.html#exploratory-data-analysis"><i class="fa fa-check"></i><b>3.3.1</b> Exploratory Data Analysis</a></li>
 <li class="chapter" data-level="3.3.2" data-path="linear-models.html"><a href="linear-models.html#simple-linear-regression"><i class="fa fa-check"></i><b>3.3.2</b> Simple Linear Regression</a></li>
 <li class="chapter" data-level="3.3.3" data-path="linear-models.html"><a href="linear-models.html#multiple-linear-regression"><i class="fa fa-check"></i><b>3.3.3</b> Multiple Linear Regression</a></li>
@@ -1648,7 +1713,7 @@ To look at a <strong>restricted subset</strong> of all possible models.</li>
 <h4><strong>Hyperparameter Tuning</strong><a href="linear-models.html#hyperparameter-tuning" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p><span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\alpha\)</span> are hyperparameters, so they are not determined as part of the optimization procedure.</p>
 <div id="tuning-lambda-and-alpha-by-cv" class="section level5 unnumbered hasAnchor">
-<h5><strong>Tuning <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\alpha\)</span> by CV</strong><a href="linear-models.html#tuning-lambda-and-alpha-by-cv" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<h5><strong>Tuning</strong> <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\alpha\)</span> by CV<a href="linear-models.html#tuning-lambda-and-alpha-by-cv" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <ul>
 <li>Divide training data into <span class="math inline">\(k\)</span> folds (e.g., <span class="math inline">\(k = 10\)</span>).</li>
 <li>For each pair of candidate values of <span class="math inline">\((\lambda, \alpha)\)</span>, train the model on all but one fold and measure performance on the left-out fold.
@@ -1695,23 +1760,705 @@ To look at a <strong>restricted subset</strong> of all possible models.</li>
 <ul>
 <li>Choose the pair with the <strong>lowest CV error</strong>.</li>
 </ul>
+<hr />
+</div>
+</div>
+<div id="pros-and-cons-of-regularization" class="section level4 unnumbered hasAnchor">
+<h4><strong>Pros and Cons of Regularization</strong><a href="linear-models.html#pros-and-cons-of-regularization" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="merits-1" class="section level5 unnumbered hasAnchor">
+<h5><strong>Merits</strong><a href="linear-models.html#merits-1" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ol style="list-style-type: decimal">
+<li><p><strong>Binarization</strong>: The <code>glmnet()</code> function automatically binarizes categorical predictors.</p>
+<ul>
+<li>Each factor level is treated as a separate feature to be removed.</li>
+</ul></li>
+<li><p><strong>Tuned by cross-validation</strong>: Uses the same criterion (RMSE) that will ultimately be used to judge the model against unseen test data.</p></li>
+<li><p><strong>Variable selection</strong>: For lasso (and elastic nets), increasing <span class="math inline">\(\lambda\)</span> sufficiently can perform variable selection.</p></li>
+</ol>
+</div>
+<div id="demerits-1" class="section level5 unnumbered hasAnchor">
+<h5><strong>Demerits</strong><a href="linear-models.html#demerits-1" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ol style="list-style-type: decimal">
+<li><p><strong>Restricted model forms</strong>: The <code>glmnet()</code> function can accommodate some, but not all, distributions for GLMs (e.g., gamma).</p></li>
+<li><p><strong>Interpretation</strong>: Features are standardized, making coefficient estimates for standardized features harder to interpret.</p></li>
+</ol>
+<hr />
 </div>
 </div>
 </div>
 </div>
 <div id="case-study-1-fitting-linear-models-in-r" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Case Study 1: Fitting Linear Models in R<a href="linear-models.html#case-study-1-fitting-linear-models-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="about-this-case-study" class="section level3 unnumbered hasAnchor">
+<h3><strong>About this Case Study</strong><a href="linear-models.html#about-this-case-study" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="dataset" class="section level4 unnumbered hasAnchor">
+<h4><strong>Dataset</strong><a href="linear-models.html#dataset" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li><strong>Advertising dataset</strong> from ISLR
+<ul>
+<li>Simulated (i.e., not real data)</li>
+<li>Involves a <strong>marketing</strong> context</li>
+<li>Useful for illustrating many <strong>modeling concepts</strong>, e.g., <strong>polynomial regression</strong> and <strong>interaction effects</strong>.</li>
+</ul></li>
+</ul>
+</div>
+<div id="objectives" class="section level4 unnumbered hasAnchor">
+<h4><strong>Objectives</strong><a href="linear-models.html#objectives" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>Know how to fit a linear model using the <code>lm()</code> function and <strong>interpret its output</strong>.</li>
+<li>Appreciate why variable significance may change as a result of <strong>correlations</strong> between variables.</li>
+<li>Generate additional features, e.g., <strong>interaction</strong> and <strong>polynomial</strong> terms.</li>
+<li>Generate <strong>predictions</strong> on the test set using the <code>predict()</code> function.</li>
+</ul>
+<hr />
+</div>
+<div id="setting" class="section level4 unnumbered hasAnchor">
+<h4><strong>Setting</strong><a href="linear-models.html#setting" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li><strong>Sales</strong> (target variable): The model aims to predict sales.</li>
+<li><strong>Predictors</strong>: TV, radio, and newspaper are the potential predictors.
+<ul>
+<li>The question to answer: Which of them is/are useful?</li>
+</ul></li>
+</ul>
+<div id="strategic-value-of-the-model" class="section level5 unnumbered hasAnchor">
+<h5><strong>Strategic Value of the Model</strong><a href="linear-models.html#strategic-value-of-the-model" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li>Develop a profitable <strong>marketing plan</strong> by specifying how much should be spent on the three media channels to <strong>maximize sales</strong>.</li>
+</ul>
+<p>We start off by loading the advertising dataset into a variable named <code>ad</code>. We preview the data using the <code>head()</code> function and notice there is an index column <code>X</code>, so we remove the data by setting <code>ad$X &lt;- NULL</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="linear-models.html#cb2-1" tabindex="-1"></a><span class="co"># Read and view the data</span></span>
+<span id="cb2-2"><a href="linear-models.html#cb2-2" tabindex="-1"></a>ad <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">url</span>(<span class="st">&quot;https://www.statlearning.com/s/Advertising.csv&quot;</span>))</span>
+<span id="cb2-3"><a href="linear-models.html#cb2-3" tabindex="-1"></a><span class="fu">head</span>(ad)</span>
+<span id="cb2-4"><a href="linear-models.html#cb2-4" tabindex="-1"></a><span class="co">#&gt;   X    TV radio newspaper sales</span></span>
+<span id="cb2-5"><a href="linear-models.html#cb2-5" tabindex="-1"></a><span class="co">#&gt; 1 1 230.1  37.8      69.2  22.1</span></span>
+<span id="cb2-6"><a href="linear-models.html#cb2-6" tabindex="-1"></a><span class="co">#&gt; 2 2  44.5  39.3      45.1  10.4</span></span>
+<span id="cb2-7"><a href="linear-models.html#cb2-7" tabindex="-1"></a><span class="co">#&gt; 3 3  17.2  45.9      69.3   9.3</span></span>
+<span id="cb2-8"><a href="linear-models.html#cb2-8" tabindex="-1"></a><span class="co">#&gt; 4 4 151.5  41.3      58.5  18.5</span></span>
+<span id="cb2-9"><a href="linear-models.html#cb2-9" tabindex="-1"></a><span class="co">#&gt; 5 5 180.8  10.8      58.4  12.9</span></span>
+<span id="cb2-10"><a href="linear-models.html#cb2-10" tabindex="-1"></a><span class="co">#&gt; 6 6   8.7  48.9      75.0   7.2</span></span>
+<span id="cb2-11"><a href="linear-models.html#cb2-11" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="linear-models.html#cb2-12" tabindex="-1"></a><span class="co"># We remove the column `X` as it is just an index column</span></span>
+<span id="cb2-13"><a href="linear-models.html#cb2-13" tabindex="-1"></a>ad<span class="sc">$</span>X <span class="ot">&lt;-</span> <span class="cn">NULL</span></span></code></pre></div>
+<hr />
+</div>
+</div>
+</div>
 <div id="exploratory-data-analysis" class="section level3 hasAnchor" number="3.3.1">
 <h3><span class="header-section-number">3.3.1</span> Exploratory Data Analysis<a href="linear-models.html#exploratory-data-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="task-1-explore-the-data" class="section level4 unnumbered hasAnchor">
+<h4><strong>TASK 1: Explore the Data</strong><a href="linear-models.html#task-1-explore-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><strong>Task Statement:</strong> Examine the distribution of the four variables. For each, perform the following:</p>
+<ul>
+<li>Show key <strong>descriptive statistics</strong>.</li>
+<li>Create <strong>visual representations</strong>.</li>
+<li>State your observations from the descriptive statistics and visual representations. In particular, form preliminary conclusions regarding which variables are likely to have <strong>significant predictive power</strong>.</li>
+</ul>
+<hr />
+</div>
+<div id="univariate-exploration" class="section level4 unnumbered hasAnchor">
+<h4><strong>Univariate Exploration</strong><a href="linear-models.html#univariate-exploration" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The following code creates a summary of descriptive statistics:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="linear-models.html#cb3-1" tabindex="-1"></a><span class="co"># Create a summary of the data to show the descriptive statistics</span></span>
+<span id="cb3-2"><a href="linear-models.html#cb3-2" tabindex="-1"></a><span class="fu">summary</span>(ad)</span>
+<span id="cb3-3"><a href="linear-models.html#cb3-3" tabindex="-1"></a><span class="co">#&gt;        TV            radio         newspaper    </span></span>
+<span id="cb3-4"><a href="linear-models.html#cb3-4" tabindex="-1"></a><span class="co">#&gt;  Min.   :  0.7   Min.   : 0.00   Min.   :  0.3  </span></span>
+<span id="cb3-5"><a href="linear-models.html#cb3-5" tabindex="-1"></a><span class="co">#&gt;  1st Qu.: 74.4   1st Qu.: 9.97   1st Qu.: 12.8  </span></span>
+<span id="cb3-6"><a href="linear-models.html#cb3-6" tabindex="-1"></a><span class="co">#&gt;  Median :149.8   Median :22.90   Median : 25.8  </span></span>
+<span id="cb3-7"><a href="linear-models.html#cb3-7" tabindex="-1"></a><span class="co">#&gt;  Mean   :147.0   Mean   :23.26   Mean   : 30.6  </span></span>
+<span id="cb3-8"><a href="linear-models.html#cb3-8" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:218.8   3rd Qu.:36.52   3rd Qu.: 45.1  </span></span>
+<span id="cb3-9"><a href="linear-models.html#cb3-9" tabindex="-1"></a><span class="co">#&gt;  Max.   :296.4   Max.   :49.60   Max.   :114.0  </span></span>
+<span id="cb3-10"><a href="linear-models.html#cb3-10" tabindex="-1"></a><span class="co">#&gt;      sales     </span></span>
+<span id="cb3-11"><a href="linear-models.html#cb3-11" tabindex="-1"></a><span class="co">#&gt;  Min.   : 1.6  </span></span>
+<span id="cb3-12"><a href="linear-models.html#cb3-12" tabindex="-1"></a><span class="co">#&gt;  1st Qu.:10.4  </span></span>
+<span id="cb3-13"><a href="linear-models.html#cb3-13" tabindex="-1"></a><span class="co">#&gt;  Median :12.9  </span></span>
+<span id="cb3-14"><a href="linear-models.html#cb3-14" tabindex="-1"></a><span class="co">#&gt;  Mean   :14.0  </span></span>
+<span id="cb3-15"><a href="linear-models.html#cb3-15" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:17.4  </span></span>
+<span id="cb3-16"><a href="linear-models.html#cb3-16" tabindex="-1"></a><span class="co">#&gt;  Max.   :27.0</span></span></code></pre></div>
+<p>Observations:</p>
+<ul>
+<li>The distribution of <code>sales</code> goes from 1.60 to 27.00 and the mean and median are pretty close to each other, implying that the distribution is symmetrical.</li>
+<li>The same goes for <code>TV</code> and <code>radio</code>, their mean and median are pretty close, and therefore somewhat symmetrical.</li>
+<li>For <code>newspaper</code>, the mean is greater than the median, implying that the distribution is right-skewed.</li>
+</ul>
+<p>The following code graphs the distributions of target variable and predictors using histograms. Histograms are appropriate here, because we have 4 numeric variables:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="linear-models.html#cb4-1" tabindex="-1"></a><span class="co"># CHUNK 3</span></span>
+<span id="cb4-2"><a href="linear-models.html#cb4-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb4-3"><a href="linear-models.html#cb4-3" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb4-4"><a href="linear-models.html#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="linear-models.html#cb4-5" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ad, <span class="fu">aes</span>(<span class="at">x =</span> sales)) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="linear-models.html#cb4-6" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span>
+<span id="cb4-7"><a href="linear-models.html#cb4-7" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ad, <span class="fu">aes</span>(<span class="at">x =</span> TV)) <span class="sc">+</span></span>
+<span id="cb4-8"><a href="linear-models.html#cb4-8" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span>
+<span id="cb4-9"><a href="linear-models.html#cb4-9" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ad, <span class="fu">aes</span>(<span class="at">x =</span> radio)) <span class="sc">+</span></span>
+<span id="cb4-10"><a href="linear-models.html#cb4-10" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span>
+<span id="cb4-11"><a href="linear-models.html#cb4-11" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ad, <span class="fu">aes</span>(<span class="at">x =</span> newspaper)) <span class="sc">+</span></span>
+<span id="cb4-12"><a href="linear-models.html#cb4-12" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span>
+<span id="cb4-13"><a href="linear-models.html#cb4-13" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="linear-models.html#cb4-14" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, p3, p4, <span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>Observations: - The distribution of <code>sales</code> is approximately symmetrical, which is good because a linear model implicitly assumes a normal distribution. - There is a fair amount of right-skewness for <code>newspaper</code>, so if you like, you could apply a log-transformation.</p>
+</div>
+<div id="bivariate-exploration" class="section level4 unnumbered hasAnchor">
+<h4><strong>Bivariate Exploration</strong><a href="linear-models.html#bivariate-exploration" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Because all of the variables are numeric, we will use scatterplots and correlation matrix to perform bivariate exploration.</p>
+<div id="correlation-matrix" class="section level5 unnumbered hasAnchor">
+<h5><strong>Correlation Matrix</strong><a href="linear-models.html#correlation-matrix" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>The following code creates a correlation matrix:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="linear-models.html#cb5-1" tabindex="-1"></a><span class="co"># Create a correlation matrix</span></span>
+<span id="cb5-2"><a href="linear-models.html#cb5-2" tabindex="-1"></a><span class="fu">cor</span>(ad)</span>
+<span id="cb5-3"><a href="linear-models.html#cb5-3" tabindex="-1"></a><span class="co">#&gt;                TV   radio newspaper  sales</span></span>
+<span id="cb5-4"><a href="linear-models.html#cb5-4" tabindex="-1"></a><span class="co">#&gt; TV        1.00000 0.05481   0.05665 0.7822</span></span>
+<span id="cb5-5"><a href="linear-models.html#cb5-5" tabindex="-1"></a><span class="co">#&gt; radio     0.05481 1.00000   0.35410 0.5762</span></span>
+<span id="cb5-6"><a href="linear-models.html#cb5-6" tabindex="-1"></a><span class="co">#&gt; newspaper 0.05665 0.35410   1.00000 0.2283</span></span>
+<span id="cb5-7"><a href="linear-models.html#cb5-7" tabindex="-1"></a><span class="co">#&gt; sales     0.78222 0.57622   0.22830 1.0000</span></span></code></pre></div>
+<p>Since the target variable is <code>sales</code>, the correlation coefficients in the last row or last column are of interest. If you look at the correlations of the three predictors, you can see that <code>sales</code> has a strong correlation with the predictor <code>TV</code>, and a mildly positive correlation with <code>radio</code>.</p>
+<p>So on the basis of correlations, we can say that <code>TV</code> and <code>radio</code> are likely to be important predictors of <code>sales</code>.</p>
+<p>These findings will be confirmed by the linear models we are going to construct later on. Those models will confirm the predictive power of <code>tv</code> and <code>radio</code>, but <code>newspaper</code> is not a very useful predictor of <code>sales</code>.</p>
+</div>
+<div id="scatterplots" class="section level5 unnumbered hasAnchor">
+<h5><strong>Scatterplots</strong><a href="linear-models.html#scatterplots" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>The following code creates scatterplots of the predictor variables against the target variable:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="linear-models.html#cb6-1" tabindex="-1"></a><span class="co"># Create scatterplots of the predictor variables against the target variable</span></span>
+<span id="cb6-2"><a href="linear-models.html#cb6-2" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ad, <span class="fu">aes</span>(<span class="at">x =</span> TV, <span class="at">y =</span> sales)) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="linear-models.html#cb6-3" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb6-4"><a href="linear-models.html#cb6-4" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-5"><a href="linear-models.html#cb6-5" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ad, <span class="fu">aes</span>(<span class="at">x =</span> radio, <span class="at">y =</span> sales)) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="linear-models.html#cb6-6" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb6-7"><a href="linear-models.html#cb6-7" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-8"><a href="linear-models.html#cb6-8" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ad, <span class="fu">aes</span>(<span class="at">x =</span> newspaper, <span class="at">y =</span> sales)) <span class="sc">+</span></span>
+<span id="cb6-9"><a href="linear-models.html#cb6-9" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb6-10"><a href="linear-models.html#cb6-10" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-11"><a href="linear-models.html#cb6-11" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, p3, <span class="at">ncol=</span><span class="dv">3</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>The association between <code>sales</code> and <code>TV</code> is quite strong and positive. The blue line is the linear regression line fitted to the data. If we spend more on <code>TV</code>, there is a strong tendancy for <code>sales</code> to go up as well.</p>
+<p>The same for <code>radio</code>, we can see a mild positive relationship between <code>sales</code> and <code>radio</code>. For <code>newspaper</code>, the relationship is more ambiguous, still positive, but much weaker than <code>TV</code> and <code>radio</code>.</p>
+<p>What we’ve observed in the scatterplots is consistent with the correlation matrix previously analyzed.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="linear-models.html#cb7-1" tabindex="-1"></a><span class="co"># Alternative: Create a scatterplot matrix</span></span>
+<span id="cb7-2"><a href="linear-models.html#cb7-2" tabindex="-1"></a><span class="fu">pairs</span>(ad)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-11-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+</div>
 </div>
 <div id="simple-linear-regression" class="section level3 hasAnchor" number="3.3.2">
 <h3><span class="header-section-number">3.3.2</span> Simple Linear Regression<a href="linear-models.html#simple-linear-regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="task-2-construct-simple-linear-regression-models" class="section level4 unnumbered hasAnchor">
+<h4><strong>TASK 2: Construct Simple Linear Regression Models</strong><a href="linear-models.html#task-2-construct-simple-linear-regression-models" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><strong>Task Statement</strong> - Fit three separate <strong>simple linear regression</strong> models for <strong>sales</strong> on each of <strong>TV</strong>, <strong>radio</strong>, and <strong>newspaper</strong>. Run the summary function on each model and provide the output.</p>
+<p>Using the model for sales on TV as an illustration, perform the following: - <strong>Interpret</strong> the estimated coefficient for TV. - Comment on the <strong>statistical significance</strong> of TV. - Comment on the goodness of fit of this model and interpret the value of the <strong>coefficient of determination</strong>. - <strong>Predict</strong> the value of sales when TV equals 0, 100, 200, or 300.</p>
+<p>If one and only one of the three advertising media can be included as a predictor for sales, <strong>recommend which medium</strong> you would choose.</p>
+<hr />
+<p>In CHUNK 6, we are going to fit a simple linear regression model for <code>sales</code> against <code>TV</code>. In R, linear models are fitted using the <code>lm()</code> function. In the <code>lm()</code> function, we provide an equation providing the target variable and the predictors.</p>
+<p>We use the <code>~</code> tilde character to separate the target variable on the left, and the predictors on the right. In this case, we have only one predictor, <code>TV</code>. We also have to tell R where the variables are stored, through the <code>data =</code> parameter.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="linear-models.html#cb8-1" tabindex="-1"></a><span class="co"># CHUNK 6</span></span>
+<span id="cb8-2"><a href="linear-models.html#cb8-2" tabindex="-1"></a>slr.TV <span class="ot">&lt;-</span> <span class="fu">lm</span>(sales <span class="sc">~</span> TV, <span class="at">data =</span> ad)</span>
+<span id="cb8-3"><a href="linear-models.html#cb8-3" tabindex="-1"></a>slr.TV</span>
+<span id="cb8-4"><a href="linear-models.html#cb8-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-5"><a href="linear-models.html#cb8-5" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb8-6"><a href="linear-models.html#cb8-6" tabindex="-1"></a><span class="co">#&gt; lm(formula = sales ~ TV, data = ad)</span></span>
+<span id="cb8-7"><a href="linear-models.html#cb8-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-8"><a href="linear-models.html#cb8-8" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb8-9"><a href="linear-models.html#cb8-9" tabindex="-1"></a><span class="co">#&gt; (Intercept)           TV  </span></span>
+<span id="cb8-10"><a href="linear-models.html#cb8-10" tabindex="-1"></a><span class="co">#&gt;      7.0326       0.0475</span></span></code></pre></div>
+<p>We can interpret the slope for <code>TV</code> (=0.04754) as for every unit increase in the predictor <code>TV</code>, sales is expected to go up by 0.04754.</p>
+<p>We can interpret the intercept of the linear model as, if <code>TV</code> is zero, then sales is expected to be 7.03259.</p>
+<p>To get more useful information about our fitted linear model, we can run the <code>summary()</code> function on an <code>lm()</code> object.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="linear-models.html#cb9-1" tabindex="-1"></a><span class="co"># CHUNK 7</span></span>
+<span id="cb9-2"><a href="linear-models.html#cb9-2" tabindex="-1"></a><span class="fu">summary</span>(slr.TV)</span>
+<span id="cb9-3"><a href="linear-models.html#cb9-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-4"><a href="linear-models.html#cb9-4" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb9-5"><a href="linear-models.html#cb9-5" tabindex="-1"></a><span class="co">#&gt; lm(formula = sales ~ TV, data = ad)</span></span>
+<span id="cb9-6"><a href="linear-models.html#cb9-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-7"><a href="linear-models.html#cb9-7" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb9-8"><a href="linear-models.html#cb9-8" tabindex="-1"></a><span class="co">#&gt;    Min     1Q Median     3Q    Max </span></span>
+<span id="cb9-9"><a href="linear-models.html#cb9-9" tabindex="-1"></a><span class="co">#&gt; -8.386 -1.955 -0.191  2.067  7.212 </span></span>
+<span id="cb9-10"><a href="linear-models.html#cb9-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-11"><a href="linear-models.html#cb9-11" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb9-12"><a href="linear-models.html#cb9-12" tabindex="-1"></a><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb9-13"><a href="linear-models.html#cb9-13" tabindex="-1"></a><span class="co">#&gt; (Intercept)  7.03259    0.45784    15.4   &lt;2e-16 ***</span></span>
+<span id="cb9-14"><a href="linear-models.html#cb9-14" tabindex="-1"></a><span class="co">#&gt; TV           0.04754    0.00269    17.7   &lt;2e-16 ***</span></span>
+<span id="cb9-15"><a href="linear-models.html#cb9-15" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb9-16"><a href="linear-models.html#cb9-16" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  </span></span>
+<span id="cb9-17"><a href="linear-models.html#cb9-17" tabindex="-1"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb9-18"><a href="linear-models.html#cb9-18" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-19"><a href="linear-models.html#cb9-19" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 3.26 on 198 degrees of freedom</span></span>
+<span id="cb9-20"><a href="linear-models.html#cb9-20" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.612,  Adjusted R-squared:  0.61 </span></span>
+<span id="cb9-21"><a href="linear-models.html#cb9-21" tabindex="-1"></a><span class="co">#&gt; F-statistic:  312 on 1 and 198 DF,  p-value: &lt;2e-16</span></span></code></pre></div>
+<p>This summary provides additional useful columns regarding the coefficients, the <code>Std. Error</code> column and the <code>t value</code> column, which is the ratio of <code>Estimates</code> column to the <code>Std. Error</code> column. The last column, <code>Pr(&gt;|t|)</code> is the p-value for testing hypothesis of whether the true coefficient is zero or not.</p>
+<p>Here the p-values are very small and close to zero, and the smaller the p-value, the more evidence we have against the null hypothesis in favor of the alternative.</p>
+<p>So in this case, we have very strong evidence to say that <code>TV</code> is extremely significant due to having a lot of <code>***</code> next to it. The more <code>*</code> next to a variable, the more significant the variable is.</p>
+<p>The last three lines contain information on more global aspects of the linear model. The most important one is the <strong>Multiple R-Squared</strong> which is the <strong>Coefficient of Determination</strong>.</p>
+<p>For this fitted model, the <strong>Multiple R-Squared</strong> or <strong>Coefficient of Determination</strong> = 0.6119, therefore 61.19% of the variation in <code>sales</code> is explained by the presence of <code>TV</code>.</p>
+<p>The next code chunk provides a confidence interval for the intercept and coefficients:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="linear-models.html#cb10-1" tabindex="-1"></a><span class="co"># CHUNK 8</span></span>
+<span id="cb10-2"><a href="linear-models.html#cb10-2" tabindex="-1"></a><span class="fu">confint</span>(slr.TV)</span>
+<span id="cb10-3"><a href="linear-models.html#cb10-3" tabindex="-1"></a><span class="co">#&gt;               2.5 %  97.5 %</span></span>
+<span id="cb10-4"><a href="linear-models.html#cb10-4" tabindex="-1"></a><span class="co">#&gt; (Intercept) 6.12972 7.93547</span></span>
+<span id="cb10-5"><a href="linear-models.html#cb10-5" tabindex="-1"></a><span class="co">#&gt; TV          0.04223 0.05284</span></span></code></pre></div>
+<p>The next code chunk uses the <code>predict()</code> function on the simple linear regression model of <code>sales</code> on <code>TV</code> and use the <code>head()</code> function to look at the first six predictions:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="linear-models.html#cb11-1" tabindex="-1"></a><span class="co"># CHUNK 9</span></span>
+<span id="cb11-2"><a href="linear-models.html#cb11-2" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">predict</span>(slr.TV))</span>
+<span id="cb11-3"><a href="linear-models.html#cb11-3" tabindex="-1"></a><span class="co">#&gt;      1      2      3      4      5      6 </span></span>
+<span id="cb11-4"><a href="linear-models.html#cb11-4" tabindex="-1"></a><span class="co">#&gt; 17.971  9.148  7.850 14.234 15.627  7.446</span></span></code></pre></div>
+<p>When the <code>predict()</code> function is used on a model without any additional arguments, what we will get are the predicted values on the training set.</p>
+<p>In the next code chunk, we supply some new data where we want to make some predictions, using the simple linear model. This is done by supplying the <code>newdata</code> argument.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="linear-models.html#cb12-1" tabindex="-1"></a><span class="co"># CHUNK 10</span></span>
+<span id="cb12-2"><a href="linear-models.html#cb12-2" tabindex="-1"></a><span class="fu">predict</span>(slr.TV, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">TV =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">300</span>, <span class="at">by =</span> <span class="dv">100</span>)))</span>
+<span id="cb12-3"><a href="linear-models.html#cb12-3" tabindex="-1"></a><span class="co">#&gt;      1      2      3      4 </span></span>
+<span id="cb12-4"><a href="linear-models.html#cb12-4" tabindex="-1"></a><span class="co">#&gt;  7.033 11.786 16.540 21.294</span></span></code></pre></div>
+<p>Similarly, we create simple linear regression models for <code>radio</code> and <code>newspaper</code>, and print the model summaries of both:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="linear-models.html#cb13-1" tabindex="-1"></a><span class="co"># CHUNK 11</span></span>
+<span id="cb13-2"><a href="linear-models.html#cb13-2" tabindex="-1"></a>slr.radio <span class="ot">&lt;-</span> <span class="fu">lm</span>(sales <span class="sc">~</span> radio, <span class="at">data =</span> ad)</span>
+<span id="cb13-3"><a href="linear-models.html#cb13-3" tabindex="-1"></a>slr.newspaper <span class="ot">&lt;-</span> <span class="fu">lm</span>(sales <span class="sc">~</span> newspaper, <span class="at">data =</span> ad)</span>
+<span id="cb13-4"><a href="linear-models.html#cb13-4" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="linear-models.html#cb13-5" tabindex="-1"></a><span class="fu">summary</span>(slr.radio)</span>
+<span id="cb13-6"><a href="linear-models.html#cb13-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-7"><a href="linear-models.html#cb13-7" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb13-8"><a href="linear-models.html#cb13-8" tabindex="-1"></a><span class="co">#&gt; lm(formula = sales ~ radio, data = ad)</span></span>
+<span id="cb13-9"><a href="linear-models.html#cb13-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-10"><a href="linear-models.html#cb13-10" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb13-11"><a href="linear-models.html#cb13-11" tabindex="-1"></a><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
+<span id="cb13-12"><a href="linear-models.html#cb13-12" tabindex="-1"></a><span class="co">#&gt; -15.730  -2.132   0.771   2.778   8.181 </span></span>
+<span id="cb13-13"><a href="linear-models.html#cb13-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-14"><a href="linear-models.html#cb13-14" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb13-15"><a href="linear-models.html#cb13-15" tabindex="-1"></a><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb13-16"><a href="linear-models.html#cb13-16" tabindex="-1"></a><span class="co">#&gt; (Intercept)   9.3116     0.5629   16.54   &lt;2e-16 ***</span></span>
+<span id="cb13-17"><a href="linear-models.html#cb13-17" tabindex="-1"></a><span class="co">#&gt; radio         0.2025     0.0204    9.92   &lt;2e-16 ***</span></span>
+<span id="cb13-18"><a href="linear-models.html#cb13-18" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb13-19"><a href="linear-models.html#cb13-19" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  </span></span>
+<span id="cb13-20"><a href="linear-models.html#cb13-20" tabindex="-1"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb13-21"><a href="linear-models.html#cb13-21" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-22"><a href="linear-models.html#cb13-22" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 4.27 on 198 degrees of freedom</span></span>
+<span id="cb13-23"><a href="linear-models.html#cb13-23" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.332,  Adjusted R-squared:  0.329 </span></span>
+<span id="cb13-24"><a href="linear-models.html#cb13-24" tabindex="-1"></a><span class="co">#&gt; F-statistic: 98.4 on 1 and 198 DF,  p-value: &lt;2e-16</span></span>
+<span id="cb13-25"><a href="linear-models.html#cb13-25" tabindex="-1"></a><span class="fu">summary</span>(slr.newspaper)</span>
+<span id="cb13-26"><a href="linear-models.html#cb13-26" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-27"><a href="linear-models.html#cb13-27" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb13-28"><a href="linear-models.html#cb13-28" tabindex="-1"></a><span class="co">#&gt; lm(formula = sales ~ newspaper, data = ad)</span></span>
+<span id="cb13-29"><a href="linear-models.html#cb13-29" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-30"><a href="linear-models.html#cb13-30" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb13-31"><a href="linear-models.html#cb13-31" tabindex="-1"></a><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
+<span id="cb13-32"><a href="linear-models.html#cb13-32" tabindex="-1"></a><span class="co">#&gt; -11.227  -3.387  -0.839   3.506  12.775 </span></span>
+<span id="cb13-33"><a href="linear-models.html#cb13-33" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-34"><a href="linear-models.html#cb13-34" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb13-35"><a href="linear-models.html#cb13-35" tabindex="-1"></a><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb13-36"><a href="linear-models.html#cb13-36" tabindex="-1"></a><span class="co">#&gt; (Intercept)  12.3514     0.6214    19.9   &lt;2e-16 ***</span></span>
+<span id="cb13-37"><a href="linear-models.html#cb13-37" tabindex="-1"></a><span class="co">#&gt; newspaper     0.0547     0.0166     3.3   0.0011 ** </span></span>
+<span id="cb13-38"><a href="linear-models.html#cb13-38" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb13-39"><a href="linear-models.html#cb13-39" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  </span></span>
+<span id="cb13-40"><a href="linear-models.html#cb13-40" tabindex="-1"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb13-41"><a href="linear-models.html#cb13-41" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-42"><a href="linear-models.html#cb13-42" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 5.09 on 198 degrees of freedom</span></span>
+<span id="cb13-43"><a href="linear-models.html#cb13-43" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.0521, Adjusted R-squared:  0.0473 </span></span>
+<span id="cb13-44"><a href="linear-models.html#cb13-44" tabindex="-1"></a><span class="co">#&gt; F-statistic: 10.9 on 1 and 198 DF,  p-value: 0.00115</span></span></code></pre></div>
+<p>The model summaries show that both <code>radio</code> and <code>newspaper</code> are statistically significant, however, the <strong>Multiple R-Squared</strong> or <strong>Coefficient of Determination</strong> is only 33.20% for <code>radio</code> and 5.212% for <code>newspaper</code>, which means a smaller amount of variation in <code>sales</code> is explained by the presence of <code>radio</code> and <code>newspaper</code>, then is for <code>TV</code>.</p>
+<p>Since all three models have the same level of complexity, if we had to choose one, then we would choose the SLR model for <code>TV</code>, since it has the highest Multiple R-Squared, because it has the best fit to the training data.</p>
+<hr />
+</div>
 </div>
 <div id="multiple-linear-regression" class="section level3 hasAnchor" number="3.3.3">
 <h3><span class="header-section-number">3.3.3</span> Multiple Linear Regression<a href="linear-models.html#multiple-linear-regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="task-3-construct-a-basic-multiple-linear-regression-model" class="section level4 unnumbered hasAnchor">
+<h4><strong>TASK 3: Construct a Basic Multiple Linear Regression Model</strong><a href="linear-models.html#task-3-construct-a-basic-multiple-linear-regression-model" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><strong>Task Statement</strong></p>
+<p>Fit a multiple linear regression model for <strong>sales</strong> on <strong>TV</strong>, <strong>radio</strong>, and <strong>newspaper</strong>. Then do the following:</p>
+<ul>
+<li><strong>Interpret</strong> the estimated coefficients.</li>
+<li>Comment on the <strong>goodness of fit</strong> of this model.</li>
+<li>Discuss how the statistical significance of <strong>newspaper</strong> in this model <strong>differs</strong> from that in the simple linear regression model in Task 2. Based on your observations in Task 1, explain why this might be the case.</li>
+<li>Refit the model by <strong>dropping the insignificant variable(s)</strong>.</li>
+</ul>
+<p>In the following code chunk, we will fit the linear model for <code>sales</code> on all of the three advertising mediums.</p>
+<p>There are two ways to specify the model formula. The longer method uses the addition sign <code>~ X1 + ... + Xn</code> to include each of the predictors, while the shorter method uses the period character, <code>~ .</code>, to mean “all other variables”.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="linear-models.html#cb14-1" tabindex="-1"></a><span class="co"># CHUNK 12</span></span>
+<span id="cb14-2"><a href="linear-models.html#cb14-2" tabindex="-1"></a><span class="co"># Long way</span></span>
+<span id="cb14-3"><a href="linear-models.html#cb14-3" tabindex="-1"></a>model<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">lm</span>(sales <span class="sc">~</span> TV <span class="sc">+</span> radio <span class="sc">+</span> newspaper, <span class="at">data =</span> ad)</span>
+<span id="cb14-4"><a href="linear-models.html#cb14-4" tabindex="-1"></a><span class="co"># OR the shorthand...</span></span>
+<span id="cb14-5"><a href="linear-models.html#cb14-5" tabindex="-1"></a>model<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">lm</span>(sales <span class="sc">~</span> ., <span class="at">data =</span> ad)</span>
+<span id="cb14-6"><a href="linear-models.html#cb14-6" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="linear-models.html#cb14-7" tabindex="-1"></a><span class="co"># View summary of linear model</span></span>
+<span id="cb14-8"><a href="linear-models.html#cb14-8" tabindex="-1"></a><span class="fu">summary</span>(model<span class="fl">.1</span>)</span>
+<span id="cb14-9"><a href="linear-models.html#cb14-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-10"><a href="linear-models.html#cb14-10" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb14-11"><a href="linear-models.html#cb14-11" tabindex="-1"></a><span class="co">#&gt; lm(formula = sales ~ ., data = ad)</span></span>
+<span id="cb14-12"><a href="linear-models.html#cb14-12" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-13"><a href="linear-models.html#cb14-13" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb14-14"><a href="linear-models.html#cb14-14" tabindex="-1"></a><span class="co">#&gt;    Min     1Q Median     3Q    Max </span></span>
+<span id="cb14-15"><a href="linear-models.html#cb14-15" tabindex="-1"></a><span class="co">#&gt; -8.828 -0.891  0.242  1.189  2.829 </span></span>
+<span id="cb14-16"><a href="linear-models.html#cb14-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-17"><a href="linear-models.html#cb14-17" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb14-18"><a href="linear-models.html#cb14-18" tabindex="-1"></a><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb14-19"><a href="linear-models.html#cb14-19" tabindex="-1"></a><span class="co">#&gt; (Intercept)  2.93889    0.31191    9.42   &lt;2e-16 ***</span></span>
+<span id="cb14-20"><a href="linear-models.html#cb14-20" tabindex="-1"></a><span class="co">#&gt; TV           0.04576    0.00139   32.81   &lt;2e-16 ***</span></span>
+<span id="cb14-21"><a href="linear-models.html#cb14-21" tabindex="-1"></a><span class="co">#&gt; radio        0.18853    0.00861   21.89   &lt;2e-16 ***</span></span>
+<span id="cb14-22"><a href="linear-models.html#cb14-22" tabindex="-1"></a><span class="co">#&gt; newspaper   -0.00104    0.00587   -0.18     0.86    </span></span>
+<span id="cb14-23"><a href="linear-models.html#cb14-23" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb14-24"><a href="linear-models.html#cb14-24" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  </span></span>
+<span id="cb14-25"><a href="linear-models.html#cb14-25" tabindex="-1"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb14-26"><a href="linear-models.html#cb14-26" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-27"><a href="linear-models.html#cb14-27" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 1.69 on 196 degrees of freedom</span></span>
+<span id="cb14-28"><a href="linear-models.html#cb14-28" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.897,  Adjusted R-squared:  0.896 </span></span>
+<span id="cb14-29"><a href="linear-models.html#cb14-29" tabindex="-1"></a><span class="co">#&gt; F-statistic:  570 on 3 and 196 DF,  p-value: &lt;2e-16</span></span></code></pre></div>
+<p>The Multiple R-Squared, or Coefficient of Determination, is 0.8972. Therefore, 89.72% of the variation in <code>sales</code> can be explained by the presence of <code>TV</code>, <code>radio</code>, and <code>newspaper</code> together.</p>
+<p>Compared to the Multiple R-Squared from the individual simple linear regression models, where the highest Multiple R-Squared was 61.19%, there is a <strong>huge improvement in the goodness-of-fit</strong>. The information contributed from providing the two additional advertisement mediums is useful for explaining the behavior of <code>sales</code>.</p>
+<p>In the summary output, we can see that now only two of the predictors, <code>TV</code> and <code>radio</code> are statistically significant (indicated by the <code>***</code>), while <code>newspaper</code> is not. The multiple linear regression model and the simple linear regression model disagree on the significance of <code>newspaper</code>.</p>
+<p><strong>Question:</strong> Is <code>newspaper</code> significant or insignificant for sales after all?</p>
+<ul>
+<li><strong>Different Conditions</strong>:
+<ul>
+<li><strong>Simple Linear Regression:</strong> <code>newspaper</code> is an important predictor of sales <strong>without</strong> accounting for effects of <code>TV</code> and <code>radio</code> (i.e., their values are <strong>not fixed</strong>).</li>
+<li><strong>Multiple Linear Regression:</strong> <code>newspaper</code> is an unimportant predictor of sales <strong>after</strong> accounting for effects of <code>TV</code> and <code>radio</code> (i.e., their values are <strong>fixed</strong>).</li>
+</ul></li>
+<li><strong>From the Correlation Matrix</strong>:
+<ul>
+<li><strong><code>radio</code></strong> <span class="math inline">\(\uparrow\)</span> <span class="math inline">\(\Rightarrow\)</span> <strong><code>sales</code></strong> <span class="math inline">\(\uparrow\)</span> (based on multiple linear regression)</li>
+<li><strong><code>radio</code></strong> <span class="math inline">\(\uparrow\)</span> <span class="math inline">\(\Rightarrow\)</span> <strong><code>newpaper</code></strong> <span class="math inline">\(\uparrow\)</span> (based on correlation matrix)</li>
+<li><span class="math inline">\(\therefore\)</span> <strong><code>sales</code></strong> and <strong><code>newspaper</code></strong> (“surrogate” for radio) tend to <span class="math inline">\(\uparrow\)</span> together</li>
+</ul></li>
+</ul>
+<p>This can be seen calculating the correlation of residuals between a linear model with of <code>sales</code> on <code>TV</code> and <code>radio</code> against a linear model of <code>newspaper</code> on <code>TV</code> and <code>radio</code>:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="linear-models.html#cb15-1" tabindex="-1"></a><span class="co"># CHUNK 13</span></span>
+<span id="cb15-2"><a href="linear-models.html#cb15-2" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(sales <span class="sc">~</span> TV <span class="sc">+</span> radio, <span class="at">data =</span> ad)</span>
+<span id="cb15-3"><a href="linear-models.html#cb15-3" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(newspaper <span class="sc">~</span> TV <span class="sc">+</span> radio, <span class="at">data =</span> ad)</span>
+<span id="cb15-4"><a href="linear-models.html#cb15-4" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="linear-models.html#cb15-5" tabindex="-1"></a><span class="fu">cor</span>(m1<span class="sc">$</span>residuals, m2<span class="sc">$</span>residuals)</span>
+<span id="cb15-6"><a href="linear-models.html#cb15-6" tabindex="-1"></a><span class="co">#&gt; [1] -0.01262</span></span></code></pre></div>
+<p>The next code chunk drops the insignificant variable (<code>newspaper</code>) and refits the model, then prints a summary of the new linear model:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="linear-models.html#cb16-1" tabindex="-1"></a><span class="co"># CHUNK 14</span></span>
+<span id="cb16-2"><a href="linear-models.html#cb16-2" tabindex="-1"></a>model<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="fu">lm</span>(sales <span class="sc">~</span> TV <span class="sc">+</span> radio, <span class="at">data =</span> ad)</span>
+<span id="cb16-3"><a href="linear-models.html#cb16-3" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="linear-models.html#cb16-4" tabindex="-1"></a><span class="co"># OR regress sales on all media except newspaper</span></span>
+<span id="cb16-5"><a href="linear-models.html#cb16-5" tabindex="-1"></a><span class="co"># model.2 &lt;- lm(sales ~ . - newspaper, data = ad)</span></span>
+<span id="cb16-6"><a href="linear-models.html#cb16-6" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="linear-models.html#cb16-7" tabindex="-1"></a><span class="fu">summary</span>(model<span class="fl">.2</span>)</span>
+<span id="cb16-8"><a href="linear-models.html#cb16-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb16-9"><a href="linear-models.html#cb16-9" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb16-10"><a href="linear-models.html#cb16-10" tabindex="-1"></a><span class="co">#&gt; lm(formula = sales ~ TV + radio, data = ad)</span></span>
+<span id="cb16-11"><a href="linear-models.html#cb16-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb16-12"><a href="linear-models.html#cb16-12" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb16-13"><a href="linear-models.html#cb16-13" tabindex="-1"></a><span class="co">#&gt;    Min     1Q Median     3Q    Max </span></span>
+<span id="cb16-14"><a href="linear-models.html#cb16-14" tabindex="-1"></a><span class="co">#&gt; -8.798 -0.875  0.242  1.171  2.833 </span></span>
+<span id="cb16-15"><a href="linear-models.html#cb16-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb16-16"><a href="linear-models.html#cb16-16" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb16-17"><a href="linear-models.html#cb16-17" tabindex="-1"></a><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb16-18"><a href="linear-models.html#cb16-18" tabindex="-1"></a><span class="co">#&gt; (Intercept)  2.92110    0.29449    9.92   &lt;2e-16 ***</span></span>
+<span id="cb16-19"><a href="linear-models.html#cb16-19" tabindex="-1"></a><span class="co">#&gt; TV           0.04575    0.00139   32.91   &lt;2e-16 ***</span></span>
+<span id="cb16-20"><a href="linear-models.html#cb16-20" tabindex="-1"></a><span class="co">#&gt; radio        0.18799    0.00804   23.38   &lt;2e-16 ***</span></span>
+<span id="cb16-21"><a href="linear-models.html#cb16-21" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb16-22"><a href="linear-models.html#cb16-22" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  </span></span>
+<span id="cb16-23"><a href="linear-models.html#cb16-23" tabindex="-1"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb16-24"><a href="linear-models.html#cb16-24" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb16-25"><a href="linear-models.html#cb16-25" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 1.68 on 197 degrees of freedom</span></span>
+<span id="cb16-26"><a href="linear-models.html#cb16-26" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.897,  Adjusted R-squared:  0.896 </span></span>
+<span id="cb16-27"><a href="linear-models.html#cb16-27" tabindex="-1"></a><span class="co">#&gt; F-statistic:  860 on 2 and 197 DF,  p-value: &lt;2e-16</span></span></code></pre></div>
+<p>The model summary for <code>model.2</code> shows that <code>TV</code> and <code>radio</code> continue to be significant predictors of <code>sales</code> based on the very small p-values (indicated by <code>***</code> in the coefficient summary).</p>
+<p>The Multiple R-Squared or Coefficient of Determination is 89.72%, which is the same as the previous model up to four decimal places <span class="math inline">\(\Rightarrow\)</span> Removing <code>newspaper</code> has a negligible impact on the goodness-of-fit of the linear model.</p>
+<p>In the rest of this case study, we will use <code>model.2</code> as the starting point and add new features to make the model more flexible and more predictive.</p>
+<hr />
+</div>
+<div id="task-4-construct-a-multiple-linear-model-with-interaction" class="section level4 unnumbered hasAnchor">
+<h4><strong>TASK 4: Construct a Multiple Linear Model with Interaction</strong><a href="linear-models.html#task-4-construct-a-multiple-linear-model-with-interaction" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><strong>Task Statement</strong></p>
+<p>CHUNK 15 shows a three-dimensional scatterplot for sales against TV and radio.</p>
+<ul>
+<li>Explain why the scatterplot suggests that there may be an interaction between TV and radio.</li>
+<li>Fit a multiple linear regression model for sales against TV and radio <em>with interaction</em>. Provide the summary output.</li>
+<li>Interpret the estimated coefficient for the interaction term.</li>
+<li>Provide evidence that the interaction is significant.</li>
+</ul>
+<p>The following code chunk creates a three-dimensional scatterplot the linear model of <code>sales</code> against <code>TV</code> and <code>radio</code>:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="linear-models.html#cb17-1" tabindex="-1"></a><span class="co"># CHUNK 15</span></span>
+<span id="cb17-2"><a href="linear-models.html#cb17-2" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="linear-models.html#cb17-3" tabindex="-1"></a><span class="co"># Uncomment these lines the first time you run this chunk</span></span>
+<span id="cb17-4"><a href="linear-models.html#cb17-4" tabindex="-1"></a><span class="co">#install.packages(&quot;car&quot;)  </span></span>
+<span id="cb17-5"><a href="linear-models.html#cb17-5" tabindex="-1"></a><span class="co">#install.packages(&quot;rgl&quot;)</span></span>
+<span id="cb17-6"><a href="linear-models.html#cb17-6" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="linear-models.html#cb17-7" tabindex="-1"></a><span class="co"># Load the car and rgl packages</span></span>
+<span id="cb17-8"><a href="linear-models.html#cb17-8" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb17-9"><a href="linear-models.html#cb17-9" tabindex="-1"></a><span class="fu">library</span>(rgl)</span>
+<span id="cb17-10"><a href="linear-models.html#cb17-10" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="linear-models.html#cb17-11" tabindex="-1"></a><span class="co"># Create a 3D scatterplot of the linear model `sales` on `TV` and `radio`</span></span>
+<span id="cb17-12"><a href="linear-models.html#cb17-12" tabindex="-1"></a><span class="fu">scatter3d</span>(sales <span class="sc">~</span> TV <span class="sc">+</span> radio, <span class="at">data =</span> ad)</span></code></pre></div>
+<p>In the plot, purple plane is the signal function and the dots are the data from the <code>ad</code> dataset.</p>
+<p>If we rotate the three-dimensional plot to a birds-eye view, the observations above the regression plane are represented by the yellow-colored dots and have a positive residual and display a systematic pattern – they lie along the 45-degree line on the x-y plane and represent the instances where the company allocates advertising expenditures to <strong>both</strong> <code>TV</code> and <code>radio</code> and are under-predicted.</p>
+<p>The observations below the regression plane are represented by the gray-colored dots and have a negative residual, and represent observations where the marketing company allocates advertising expenditures to either <code>TV</code> or <code>radio</code>, but not both, and are over-predicted.</p>
+<p>These findings suggest that there may be a synergy effect between <code>TV</code> and <code>radio</code>. If the company combines both <code>TV</code> and <code>radio</code>, it may lead to a bigger boost in <code>sales</code> than using just one advertising medium.</p>
+<p>However, this synergy is not taken into consideration by <code>model.2</code> which assumes that <code>TV</code> and <code>radio</code> contribute to <code>sales</code> independently. We know that <code>model.2</code> is fairly good, considering that the Multiple R-Squared is 89.72%, but we may be able to adapt it to include interaction effects to make it even better.</p>
+<p>In the next code chunk, we fit the linear model for <code>sales</code> against <code>TV</code> and <code>radio</code>, together with the interaction term <code>TV * radio</code>. Two methods in R for doing so are provided:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="linear-models.html#cb18-1" tabindex="-1"></a><span class="co"># CHUNK 16</span></span>
+<span id="cb18-2"><a href="linear-models.html#cb18-2" tabindex="-1"></a>model<span class="fl">.3</span> <span class="ot">&lt;-</span> <span class="fu">lm</span>(sales <span class="sc">~</span> TV <span class="sc">*</span> radio, <span class="at">data =</span> ad)</span>
+<span id="cb18-3"><a href="linear-models.html#cb18-3" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="linear-models.html#cb18-4" tabindex="-1"></a><span class="co"># OR</span></span>
+<span id="cb18-5"><a href="linear-models.html#cb18-5" tabindex="-1"></a><span class="co"># model.3 &lt;- lm(sales ~ TV + radio + TV:radio, data = ad)</span></span>
+<span id="cb18-6"><a href="linear-models.html#cb18-6" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="linear-models.html#cb18-7" tabindex="-1"></a><span class="fu">summary</span>(model<span class="fl">.3</span>)</span>
+<span id="cb18-8"><a href="linear-models.html#cb18-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-9"><a href="linear-models.html#cb18-9" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb18-10"><a href="linear-models.html#cb18-10" tabindex="-1"></a><span class="co">#&gt; lm(formula = sales ~ TV * radio, data = ad)</span></span>
+<span id="cb18-11"><a href="linear-models.html#cb18-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-12"><a href="linear-models.html#cb18-12" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb18-13"><a href="linear-models.html#cb18-13" tabindex="-1"></a><span class="co">#&gt;    Min     1Q Median     3Q    Max </span></span>
+<span id="cb18-14"><a href="linear-models.html#cb18-14" tabindex="-1"></a><span class="co">#&gt; -6.337 -0.403  0.183  0.595  1.525 </span></span>
+<span id="cb18-15"><a href="linear-models.html#cb18-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-16"><a href="linear-models.html#cb18-16" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb18-17"><a href="linear-models.html#cb18-17" tabindex="-1"></a><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb18-18"><a href="linear-models.html#cb18-18" tabindex="-1"></a><span class="co">#&gt; (Intercept) 6.75e+00   2.48e-01   27.23   &lt;2e-16 ***</span></span>
+<span id="cb18-19"><a href="linear-models.html#cb18-19" tabindex="-1"></a><span class="co">#&gt; TV          1.91e-02   1.50e-03   12.70   &lt;2e-16 ***</span></span>
+<span id="cb18-20"><a href="linear-models.html#cb18-20" tabindex="-1"></a><span class="co">#&gt; radio       2.89e-02   8.91e-03    3.24   0.0014 ** </span></span>
+<span id="cb18-21"><a href="linear-models.html#cb18-21" tabindex="-1"></a><span class="co">#&gt; TV:radio    1.09e-03   5.24e-05   20.73   &lt;2e-16 ***</span></span>
+<span id="cb18-22"><a href="linear-models.html#cb18-22" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb18-23"><a href="linear-models.html#cb18-23" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  </span></span>
+<span id="cb18-24"><a href="linear-models.html#cb18-24" tabindex="-1"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb18-25"><a href="linear-models.html#cb18-25" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-26"><a href="linear-models.html#cb18-26" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 0.944 on 196 degrees of freedom</span></span>
+<span id="cb18-27"><a href="linear-models.html#cb18-27" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.968,  Adjusted R-squared:  0.967 </span></span>
+<span id="cb18-28"><a href="linear-models.html#cb18-28" tabindex="-1"></a><span class="co">#&gt; F-statistic: 1.96e+03 on 3 and 196 DF,  p-value: &lt;2e-16</span></span></code></pre></div>
+<p>Based on the model summary for <code>model.3</code>, all of the terms (<code>TV</code>, <code>radio</code>, and <code>TV:radio</code>) are statistically significant (indicated by the <code>***</code> and the small p-values).</p>
+<p>The interaction term <code>TV:radio</code> has a larger <code>t-value</code> (20.727) than the individual terms <code>TV</code> (12.699) and <code>radio</code> (3.241), so it’s the most statistically significant term in the model.</p>
+<p><strong>How can we interpret the coefficient estimate of the interaction term <code>TV:radio</code> (1.086e-03)?</strong></p>
+<p>If you differentiate the expected value of <code>sales</code> with respect to <code>radio</code> (e.g., you want to look at the effect of radio on sales), then this expression involves <code>TV</code> because of the interaction term:</p>
+<p><span class="math display">\[
+\frac{\partial}{\partial \text{radio}} \hat{\text{sales}} = 0.02886 + 0.001086 \times \text{TV}
+\]</span></p>
+<p><span class="math inline">\(\Rightarrow\)</span> For every unit increase in <code>TV</code>, the effect of <code>radio</code> on <code>sales</code> will increase by <span class="math inline">\(\fbox{0.001086}\)</span>.</p>
+<p>Similarly, we can say that the effect of <code>TV</code> on <code>sales</code> will increase by <span class="math inline">\(\fbox{0.001086}\)</span> for every unit increase of <code>radio</code>:</p>
+<p><span class="math display">\[
+\frac{\partial}{\partial \text{TV}} \hat{\text{sales}} = 0.02886 + 0.001086 \times \text{radio}
+\]</span></p>
+<p>In addition, the Multiple R-Squared or Coefficient of Determination is 0.9678 or 96.78%, which is a significant improvement from <code>model.2</code>, which only had an <span class="math inline">\(R^2 = 89.72\)</span>% <span class="math inline">\(\Rightarrow\)</span> We can say that <code>model.3</code> fits the training data much better than <code>model.2</code>. The improvement in the goodness-of-fit is remarkable when including the interaction term.</p>
+<p>In the remainder of the case study, we will see that the interaction term will improve the prediction performance of the linear model quite substantially.</p>
+<hr />
+</div>
 </div>
 <div id="evaluation-of-linear-models" class="section level3 hasAnchor" number="3.3.4">
 <h3><span class="header-section-number">3.3.4</span> Evaluation of Linear Models<a href="linear-models.html#evaluation-of-linear-models" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="task-5-evaluate-three-marketing-plans" class="section level4 unnumbered hasAnchor">
+<h4>TASK 5: Evaluate Three Marketing Plans<a href="linear-models.html#task-5-evaluate-three-marketing-plans" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="task-statement" class="section level5 unnumbered hasAnchor">
+<h5><strong>Task statement</strong><a href="linear-models.html#task-statement" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Suppose that as the manager of the company, you are given a total of $100,000 to spend on advertising. Three ways to allocate the budget between TV and radio advertising:</p>
+<ol style="list-style-type: decimal">
+<li>Spending the <strong>entire amount</strong> on radio advertising.</li>
+<li><strong>Splitting</strong> the budget <strong>evenly</strong> between TV and radio advertising.</li>
+<li>Spending <strong>$70,000</strong> on radio advertising and <strong>$30,000</strong> on TV advertising.</li>
+</ol>
+<p>Evaluate these three marketing plans using the interaction model constructed in Task 4.</p>
+<table>
+<caption><strong>Task 5 Table:</strong> Combinations of <code>TV</code> and <code>radio</code> to use in <code>model.3</code></caption>
+<thead>
+<tr class="header">
+<th align="center">Plan</th>
+<th align="center"><code>TV</code></th>
+<th align="center"><code>radio</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">100</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">50</td>
+<td align="center">50</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">30</td>
+<td align="center">70</td>
+</tr>
+</tbody>
+</table>
+<p>In the following code chunk, we first set up a data frame containing the three pairs of predictor values. Then we put this data frame in the <code>newdata</code> argument of the <code>predict()</code> function and make predictions:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="linear-models.html#cb19-1" tabindex="-1"></a><span class="co"># CHUNK 17</span></span>
+<span id="cb19-2"><a href="linear-models.html#cb19-2" tabindex="-1"></a>dat.budget <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">TV =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">30</span>), <span class="at">radio =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">50</span>, <span class="dv">70</span>))</span>
+<span id="cb19-3"><a href="linear-models.html#cb19-3" tabindex="-1"></a><span class="fu">predict</span>(model<span class="fl">.3</span>, <span class="at">newdata =</span> dat.budget)</span>
+<span id="cb19-4"><a href="linear-models.html#cb19-4" tabindex="-1"></a><span class="co">#&gt;      1      2      3 </span></span>
+<span id="cb19-5"><a href="linear-models.html#cb19-5" tabindex="-1"></a><span class="co">#&gt;  9.636 11.865 11.625</span></span></code></pre></div>
+<p>Based on the predicted sales amount, the marketing strategy consisting of splitting the budget evenly between <code>TV</code> and <code>radio</code> results in the largest predicted value of <code>sales</code> <span class="math inline">\(\Rightarrow\)</span> Our recommendation is to use the second marketing plan.</p>
+<hr />
+</div>
+</div>
+<div id="task-6-construct-a-model-with-interaction-and-polynomial-terms" class="section level4 unnumbered hasAnchor">
+<h4>TASK 6: Construct a Model with Interaction and Polynomial Terms<a href="linear-models.html#task-6-construct-a-model-with-interaction-and-polynomial-terms" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="task-statement-1" class="section level5 unnumbered hasAnchor">
+<h5>Task statement<a href="linear-models.html#task-statement-1" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Your supervisor has suggested that adding the <strong>square of TV</strong> as a feature may improve the multiple linear regression model.</p>
+<ul>
+<li>Explain, without running any models, why this is or is not a reasonable suggestion.</li>
+<li>Regardless of your conclusion, fit a multiple linear regression model for sales against TV and radio with interaction and the <strong>square of TV</strong> added. Provide the summary output.</li>
+</ul>
+</div>
+<div id="model-4" class="section level5 unnumbered hasAnchor">
+<h5>Model 4<a href="linear-models.html#model-4" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p><span class="math display">\[
+\text{sales} = \beta_0 + \beta_1 \times \text{TV} + \beta_2 \times \text{radio} + \beta_3 \times \text{TV}^2 + \beta_4 \times \text{TV} \times \text{radio} + \epsilon
+\]</span></p>
+<p>In the following code chunk, we will refine <code>model.3</code> by adding the square of <code>TV</code> added as an additional feature:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="linear-models.html#cb20-1" tabindex="-1"></a>model<span class="fl">.4</span> <span class="ot">&lt;-</span> <span class="fu">lm</span>(sales <span class="sc">~</span> TV <span class="sc">*</span> radio <span class="sc">+</span> <span class="fu">I</span>(TV<span class="sc">^</span><span class="dv">2</span>), <span class="at">data=</span>ad)</span>
+<span id="cb20-2"><a href="linear-models.html#cb20-2" tabindex="-1"></a><span class="fu">summary</span>(model<span class="fl">.4</span>)</span>
+<span id="cb20-3"><a href="linear-models.html#cb20-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb20-4"><a href="linear-models.html#cb20-4" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb20-5"><a href="linear-models.html#cb20-5" tabindex="-1"></a><span class="co">#&gt; lm(formula = sales ~ TV * radio + I(TV^2), data = ad)</span></span>
+<span id="cb20-6"><a href="linear-models.html#cb20-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb20-7"><a href="linear-models.html#cb20-7" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb20-8"><a href="linear-models.html#cb20-8" tabindex="-1"></a><span class="co">#&gt;    Min     1Q Median     3Q    Max </span></span>
+<span id="cb20-9"><a href="linear-models.html#cb20-9" tabindex="-1"></a><span class="co">#&gt; -4.995 -0.297 -0.007  0.380  1.169 </span></span>
+<span id="cb20-10"><a href="linear-models.html#cb20-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb20-11"><a href="linear-models.html#cb20-11" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb20-12"><a href="linear-models.html#cb20-12" tabindex="-1"></a><span class="co">#&gt;              Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb20-13"><a href="linear-models.html#cb20-13" tabindex="-1"></a><span class="co">#&gt; (Intercept)  5.14e+00   1.93e-01   26.66  &lt; 2e-16 ***</span></span>
+<span id="cb20-14"><a href="linear-models.html#cb20-14" tabindex="-1"></a><span class="co">#&gt; TV           5.09e-02   2.23e-03   22.81  &lt; 2e-16 ***</span></span>
+<span id="cb20-15"><a href="linear-models.html#cb20-15" tabindex="-1"></a><span class="co">#&gt; radio        3.52e-02   5.90e-03    5.96  1.2e-08 ***</span></span>
+<span id="cb20-16"><a href="linear-models.html#cb20-16" tabindex="-1"></a><span class="co">#&gt; I(TV^2)     -1.10e-04   6.89e-06  -15.92  &lt; 2e-16 ***</span></span>
+<span id="cb20-17"><a href="linear-models.html#cb20-17" tabindex="-1"></a><span class="co">#&gt; TV:radio     1.08e-03   3.47e-05   31.06  &lt; 2e-16 ***</span></span>
+<span id="cb20-18"><a href="linear-models.html#cb20-18" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb20-19"><a href="linear-models.html#cb20-19" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  </span></span>
+<span id="cb20-20"><a href="linear-models.html#cb20-20" tabindex="-1"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb20-21"><a href="linear-models.html#cb20-21" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb20-22"><a href="linear-models.html#cb20-22" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 0.624 on 195 degrees of freedom</span></span>
+<span id="cb20-23"><a href="linear-models.html#cb20-23" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.986,  Adjusted R-squared:  0.986 </span></span>
+<span id="cb20-24"><a href="linear-models.html#cb20-24" tabindex="-1"></a><span class="co">#&gt; F-statistic: 3.43e+03 on 4 and 195 DF,  p-value: &lt;2e-16</span></span></code></pre></div>
+<p><strong>Note:</strong> The <code>I()</code> function in R will process its interior contents in arithmetic manner.</p>
+<p>Based on the output of the model summary, all terms of the linear model are statistically significant (indicated by the <code>***</code> and small p-values).</p>
+<p>The coefficient of <code>I(TV^2)</code> is negative (-1.097e-04), so <code>sales</code> and <code>TV</code> are related by a downward parabola in <code>model.4</code>, consistent with what we saw in CHUNK 5.</p>
+<p>The Multiple R-Squared or Coefficient of Determination for <code>model.4</code> is 0.986 or 98.6%, which is higher than the Multiple R-Squared produced by <code>model.3</code> <span class="math inline">\(\Rightarrow\)</span> The goodness-of-fit of <code>model.4</code> is almost perfect (e.g., the <span class="math inline">\(R^2\)</span> is almost 1) thanks to including the interaction term and the square term.</p>
+<p>So in this case study, both the interaction term and square term are useful features for describing the data, and we will further confirm their usefulness in the last task of the case study.</p>
+<hr />
+</div>
+</div>
+<div id="task-7-choose-a-model" class="section level4 unnumbered hasAnchor">
+<h4>TASK 7: Choose a Model<a href="linear-models.html#task-7-choose-a-model" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><strong>Task statement</strong></p>
+<ol style="list-style-type: decimal">
+<li>Split the data into <strong>training</strong> and <strong>test</strong> sets.</li>
+<li>Evaluate the <strong>prediction performance</strong> of the models in Tasks 3, 4, and 6. Recommend which model should be used.</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Task</th>
+<th>Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>2</td>
+<td>sales ~ TV + radio + newspaper</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>3</td>
+<td>sales ~ TV + radio</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>4</td>
+<td>sales ~ TV * radio</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>6</td>
+<td>sales ~ TV * radio + I(TV^2)</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>–</td>
+<td>sales ~ TV * radio + I(TV^2) + I(radio^2)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Note:</strong> The <code>I()</code> function is used in R to indicate mathematical operations within formulas.</li>
+</ul>
+<p><strong>Steps</strong></p>
+<ul>
+<li><strong>Data Split:</strong> Use a predefined split ratio (e.g., 70/30) to separate the data into training and test sets.</li>
+<li><strong>Model Evaluation:</strong> Use a metric such as RMSE to compare prediction accuracy on the test set across the models.</li>
+<li><strong>Model Recommendation:</strong> Select the model with the best balance between complexity and predictive accuracy.</li>
+</ul>
+<p>In the following code chunk, we use the <code>caret</code> package to split the data into a training and test set:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="linear-models.html#cb21-1" tabindex="-1"></a><span class="co"># CHUNK 19</span></span>
+<span id="cb21-2"><a href="linear-models.html#cb21-2" tabindex="-1"></a><span class="co"># Install packages</span></span>
+<span id="cb21-3"><a href="linear-models.html#cb21-3" tabindex="-1"></a><span class="co"># Uncomment this line the first time you use caret</span></span>
+<span id="cb21-4"><a href="linear-models.html#cb21-4" tabindex="-1"></a><span class="co">#install.packages(&quot;caret&quot;)</span></span>
+<span id="cb21-5"><a href="linear-models.html#cb21-5" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="linear-models.html#cb21-6" tabindex="-1"></a><span class="co"># Load packages</span></span>
+<span id="cb21-7"><a href="linear-models.html#cb21-7" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb21-8"><a href="linear-models.html#cb21-8" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="linear-models.html#cb21-9" tabindex="-1"></a><span class="co"># Set the random seed so that the results are reproducible</span></span>
+<span id="cb21-10"><a href="linear-models.html#cb21-10" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb21-11"><a href="linear-models.html#cb21-11" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="linear-models.html#cb21-12" tabindex="-1"></a><span class="co"># Create a data partition</span></span>
+<span id="cb21-13"><a href="linear-models.html#cb21-13" tabindex="-1"></a>partition <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(ad<span class="sc">$</span>sales, <span class="at">p =</span> <span class="fl">0.7</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb21-14"><a href="linear-models.html#cb21-14" tabindex="-1"></a></span>
+<span id="cb21-15"><a href="linear-models.html#cb21-15" tabindex="-1"></a><span class="co"># Split the data into training and test sets</span></span>
+<span id="cb21-16"><a href="linear-models.html#cb21-16" tabindex="-1"></a>data.train <span class="ot">&lt;-</span> ad[partition, ]</span>
+<span id="cb21-17"><a href="linear-models.html#cb21-17" tabindex="-1"></a>data.test <span class="ot">&lt;-</span> ad[<span class="sc">-</span>partition, ]</span></code></pre></div>
+<p>You can see that there are 142 observations in the training set (~70%), and 58 observations in the test set (~30%).</p>
+<p>The <code>createDataPartition()</code> function from the <code>caret</code> package has built-in functionality to ensure that the target variable follows the same distribution both the training set and the test set. This way the two sets will be representative of the target variable.</p>
+<p>We can check this by applying the <code>summary()</code> function on the target variable in each of the two sets:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="linear-models.html#cb22-1" tabindex="-1"></a><span class="co"># CHUNK 20</span></span>
+<span id="cb22-2"><a href="linear-models.html#cb22-2" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;TRAIN&quot;</span>)</span>
+<span id="cb22-3"><a href="linear-models.html#cb22-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;TRAIN&quot;</span></span>
+<span id="cb22-4"><a href="linear-models.html#cb22-4" tabindex="-1"></a><span class="fu">summary</span>(data.train<span class="sc">$</span>sales)</span>
+<span id="cb22-5"><a href="linear-models.html#cb22-5" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb22-6"><a href="linear-models.html#cb22-6" tabindex="-1"></a><span class="co">#&gt;     1.6    10.4    12.9    14.0    17.3    26.2</span></span>
+<span id="cb22-7"><a href="linear-models.html#cb22-7" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="linear-models.html#cb22-8" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;TEST&quot;</span>)</span>
+<span id="cb22-9"><a href="linear-models.html#cb22-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;TEST&quot;</span></span>
+<span id="cb22-10"><a href="linear-models.html#cb22-10" tabindex="-1"></a><span class="fu">summary</span>(data.test<span class="sc">$</span>sales)</span>
+<span id="cb22-11"><a href="linear-models.html#cb22-11" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb22-12"><a href="linear-models.html#cb22-12" tabindex="-1"></a><span class="co">#&gt;     3.2    10.3    12.6    14.2    17.4    27.0</span></span></code></pre></div>
+<p>In the following code chunk, we will fit all models considered on the training set of data:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="linear-models.html#cb23-1" tabindex="-1"></a>model.<span class="fl">1.</span>tr <span class="ot">&lt;-</span> <span class="fu">lm</span>(sales <span class="sc">~</span> TV <span class="sc">+</span> radio <span class="sc">+</span> newspaper, <span class="at">data=</span>data.train)</span>
+<span id="cb23-2"><a href="linear-models.html#cb23-2" tabindex="-1"></a>model.<span class="fl">2.</span>tr <span class="ot">&lt;-</span> <span class="fu">lm</span>(sales <span class="sc">~</span> TV <span class="sc">+</span> radio, <span class="at">data=</span>data.train)</span>
+<span id="cb23-3"><a href="linear-models.html#cb23-3" tabindex="-1"></a>model.<span class="fl">3.</span>tr <span class="ot">&lt;-</span> <span class="fu">lm</span>(sales <span class="sc">~</span> TV <span class="sc">*</span> radio <span class="sc">+</span> newspaper, <span class="at">data=</span>data.train)</span>
+<span id="cb23-4"><a href="linear-models.html#cb23-4" tabindex="-1"></a>model.<span class="fl">4.</span>tr <span class="ot">&lt;-</span> <span class="fu">lm</span>(sales <span class="sc">~</span> TV <span class="sc">*</span> radio <span class="sc">+</span> <span class="fu">I</span>(TV<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> newspaper, <span class="at">data=</span>data.train)</span>
+<span id="cb23-5"><a href="linear-models.html#cb23-5" tabindex="-1"></a>model.<span class="fl">5.</span>tr <span class="ot">&lt;-</span> <span class="fu">lm</span>(sales <span class="sc">~</span> TV <span class="sc">*</span> radio <span class="sc">+</span> <span class="fu">I</span>(TV<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(radio<span class="sc">^</span><span class="dv">2</span>), <span class="at">data=</span>data.train)</span></code></pre></div>
+<p><strong>Training RMSE</strong></p>
+<p>In the following code chunk, we will use the <code>RMSE()</code> function in the <code>caret</code> package to calculate the training RMSE for each of the five trained models.</p>
+<p>The <code>RMSE()</code> function takes a vector of target variable values, and a vector of predicted fitted-values, and we will see what we can observe from the results:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="linear-models.html#cb24-1" tabindex="-1"></a><span class="co"># CHUNK 22</span></span>
+<span id="cb24-2"><a href="linear-models.html#cb24-2" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;TRAIN&quot;</span>)</span>
+<span id="cb24-3"><a href="linear-models.html#cb24-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;TRAIN&quot;</span></span>
+<span id="cb24-4"><a href="linear-models.html#cb24-4" tabindex="-1"></a><span class="fu">RMSE</span>(data.train<span class="sc">$</span>sales, <span class="fu">predict</span>(model.<span class="fl">1.</span>tr))</span>
+<span id="cb24-5"><a href="linear-models.html#cb24-5" tabindex="-1"></a><span class="co">#&gt; [1] 1.702</span></span>
+<span id="cb24-6"><a href="linear-models.html#cb24-6" tabindex="-1"></a><span class="fu">RMSE</span>(data.train<span class="sc">$</span>sales, <span class="fu">predict</span>(model.<span class="fl">2.</span>tr))</span>
+<span id="cb24-7"><a href="linear-models.html#cb24-7" tabindex="-1"></a><span class="co">#&gt; [1] 1.704</span></span>
+<span id="cb24-8"><a href="linear-models.html#cb24-8" tabindex="-1"></a><span class="fu">RMSE</span>(data.train<span class="sc">$</span>sales, <span class="fu">predict</span>(model.<span class="fl">3.</span>tr))</span>
+<span id="cb24-9"><a href="linear-models.html#cb24-9" tabindex="-1"></a><span class="co">#&gt; [1] 0.9613</span></span>
+<span id="cb24-10"><a href="linear-models.html#cb24-10" tabindex="-1"></a><span class="fu">RMSE</span>(data.train<span class="sc">$</span>sales, <span class="fu">predict</span>(model.<span class="fl">4.</span>tr))</span>
+<span id="cb24-11"><a href="linear-models.html#cb24-11" tabindex="-1"></a><span class="co">#&gt; [1] 0.641</span></span>
+<span id="cb24-12"><a href="linear-models.html#cb24-12" tabindex="-1"></a><span class="fu">RMSE</span>(data.train<span class="sc">$</span>sales, <span class="fu">predict</span>(model.<span class="fl">5.</span>tr))</span>
+<span id="cb24-13"><a href="linear-models.html#cb24-13" tabindex="-1"></a><span class="co">#&gt; [1] 0.6394</span></span></code></pre></div>
+<p>Based on the results of the <code>RMSE()</code> function, the RMSE decreases as we go from <code>model.2.tr</code> to <code>model.5.tr</code>. This makes sense, as <code>model.2.tr</code> is the simplest model, and become more complex as we move to <code>model.1.tr</code> and then <code>model.3.tr</code>, <code>model.4.tr</code>, and finally <code>model.5.tr</code>.</p>
+<p>The more complex the model, the smaller the training error in general.</p>
+<p><strong>What about the Test RMSE?</strong></p>
+<p>We know that performance in the test set is what we actually care about. We generate the five test RMSE statistics in the following code chunk.</p>
+<p>Note that we use the <code>data.test$sales</code> as the vector of target variable values, and use <code>predict(model.#.tr, newdata=data.test)</code> as the vector of predicted fitted-values, specifying the <code>newdata</code> argument to use the <code>data.test</code> test set observations:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="linear-models.html#cb25-1" tabindex="-1"></a><span class="co"># CHUNK 23</span></span>
+<span id="cb25-2"><a href="linear-models.html#cb25-2" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;TEST&quot;</span>)</span>
+<span id="cb25-3"><a href="linear-models.html#cb25-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;TEST&quot;</span></span>
+<span id="cb25-4"><a href="linear-models.html#cb25-4" tabindex="-1"></a><span class="fu">RMSE</span>(data.test<span class="sc">$</span>sales, <span class="fu">predict</span>(model.<span class="fl">1.</span>tr, <span class="at">newdata =</span> data.test))</span>
+<span id="cb25-5"><a href="linear-models.html#cb25-5" tabindex="-1"></a><span class="co">#&gt; [1] 1.603</span></span>
+<span id="cb25-6"><a href="linear-models.html#cb25-6" tabindex="-1"></a><span class="fu">RMSE</span>(data.test<span class="sc">$</span>sales, <span class="fu">predict</span>(model.<span class="fl">2.</span>tr, <span class="at">newdata =</span> data.test))</span>
+<span id="cb25-7"><a href="linear-models.html#cb25-7" tabindex="-1"></a><span class="co">#&gt; [1] 1.582</span></span>
+<span id="cb25-8"><a href="linear-models.html#cb25-8" tabindex="-1"></a><span class="fu">RMSE</span>(data.test<span class="sc">$</span>sales, <span class="fu">predict</span>(model.<span class="fl">3.</span>tr, <span class="at">newdata =</span> data.test))</span>
+<span id="cb25-9"><a href="linear-models.html#cb25-9" tabindex="-1"></a><span class="co">#&gt; [1] 0.8765</span></span>
+<span id="cb25-10"><a href="linear-models.html#cb25-10" tabindex="-1"></a><span class="fu">RMSE</span>(data.test<span class="sc">$</span>sales, <span class="fu">predict</span>(model.<span class="fl">4.</span>tr, <span class="at">newdata =</span> data.test))</span>
+<span id="cb25-11"><a href="linear-models.html#cb25-11" tabindex="-1"></a><span class="co">#&gt; [1] 0.5383</span></span>
+<span id="cb25-12"><a href="linear-models.html#cb25-12" tabindex="-1"></a><span class="fu">RMSE</span>(data.test<span class="sc">$</span>sales, <span class="fu">predict</span>(model.<span class="fl">5.</span>tr, <span class="at">newdata =</span> data.test))</span>
+<span id="cb25-13"><a href="linear-models.html#cb25-13" tabindex="-1"></a><span class="co">#&gt; [1] 0.5589</span></span></code></pre></div>
+<p>Based on the results of the above code chunk, the lowest test RMSE is achieved by <code>model.4.tr</code>, and therefore has the best perdiction performance.</p>
+<p>The most complex model, <code>model.5.tr</code>, is not the best prediction performance and may have overfitted the data, so don’t think that using the most complex model is always the best idea as far as prediction is concerned.</p>
+<p>If we have to recommend one model out of these five models, our recommendation would be to use <code>model.4.tr</code> as it produces the best prediction performance on the test set, is flexible enough to capture the signal in the data, but is not too complex.</p>
+<hr />
+</div>
 </div>
 </div>
 <div id="case-study-2-feature-selection-and-regularization" class="section level2 hasAnchor" number="3.4">

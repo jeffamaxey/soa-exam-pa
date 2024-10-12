@@ -1282,20 +1282,19 @@ $Idea$**: Make a Trade-Off Between:**
         -   **features dropped**
         -   **model simplified!**
 
-
 **Note:** Ridge regression never drops the features entirely. If the business problem wants you to identify the key factors effecting the target variable, then it makes sense to use the lasso or elastic net with a positive $\alpha$ so that your model will drop the features with limited predictive power and become easier to interpret.
 
+------------------------------------------------------------------------
 
----
-
-#### **Hyperparameter Tuning** {-}
+#### **Hyperparameter Tuning** {.unnumbered}
 
 $\lambda$ and $\alpha$ are hyperparameters, so they are not determined as part of the optimization procedure.
 
-##### **Tuning $\lambda$ and $\alpha$ by CV** {-}
-- Divide training data into $k$ folds (e.g., $k = 10$).
-- For each pair of candidate values of $(\lambda, \alpha)$, train the model on all but one fold and measure performance on the left-out fold.
-  - Repeat and compute the average (R)MSE.
+##### **Tuning** $\lambda$ and $\alpha$ by CV {.unnumbered}
+
+-   Divide training data into $k$ folds (e.g., $k = 10$).
+-   For each pair of candidate values of $(\lambda, \alpha)$, train the model on all but one fold and measure performance on the left-out fold.
+    -   Repeat and compute the average (R)MSE.
 
 | Combination | $\alpha$ | $\lambda$ | CV error (RMSE) |
 |-------------|----------|-----------|-----------------|
@@ -1304,30 +1303,591 @@ $\lambda$ and $\alpha$ are hyperparameters, so they are not determined as part o
 | 3           | 0.1      | 0.03      | XXX             |
 | ...         | ...      | ...       | ...             |
 
-- Choose the pair with the **lowest CV error**.
+-   Choose the pair with the **lowest CV error**.
 
+------------------------------------------------------------------------
 
+#### **Pros and Cons of Regularization** {.unnumbered}
 
+##### **Merits** {.unnumbered}
 
+1.  **Binarization**: The `glmnet()` function automatically binarizes categorical predictors.
 
+    -   Each factor level is treated as a separate feature to be removed.
 
+2.  **Tuned by cross-validation**: Uses the same criterion (RMSE) that will ultimately be used to judge the model against unseen test data.
 
+3.  **Variable selection**: For lasso (and elastic nets), increasing $\lambda$ sufficiently can perform variable selection.
 
+##### **Demerits** {.unnumbered}
 
+1.  **Restricted model forms**: The `glmnet()` function can accommodate some, but not all, distributions for GLMs (e.g., gamma).
 
+2.  **Interpretation**: Features are standardized, making coefficient estimates for standardized features harder to interpret.
 
+------------------------------------------------------------------------
 
 ## Case Study 1: Fitting Linear Models in R
 
+### **About this Case Study** {.unnumbered}
+
+#### **Dataset** {.unnumbered}
+
+-   **Advertising dataset** from ISLR
+    -   Simulated (i.e., not real data)
+    -   Involves a **marketing** context
+    -   Useful for illustrating many **modeling concepts**, e.g., **polynomial regression** and **interaction effects**.
+
+#### **Objectives** {.unnumbered}
+
+-   Know how to fit a linear model using the `lm()` function and **interpret its output**.
+-   Appreciate why variable significance may change as a result of **correlations** between variables.
+-   Generate additional features, e.g., **interaction** and **polynomial** terms.
+-   Generate **predictions** on the test set using the `predict()` function.
+
+------------------------------------------------------------------------
+
+#### **Setting** {.unnumbered}
+
+-   **Sales** (target variable): The model aims to predict sales.
+-   **Predictors**: TV, radio, and newspaper are the potential predictors.
+    -   The question to answer: Which of them is/are useful?
+
+##### **Strategic Value of the Model** {.unnumbered}
+
+-   Develop a profitable **marketing plan** by specifying how much should be spent on the three media channels to **maximize sales**.
+
+We start off by loading the advertising dataset into a variable named `ad`. We preview the data using the `head()` function and notice there is an index column `X`, so we remove the data by setting `ad$X <- NULL`.
+
+```{r echo=TRUE}
+# Read and view the data
+ad <- read.csv(url("https://www.statlearning.com/s/Advertising.csv"))
+head(ad)
+
+# We remove the column `X` as it is just an index column
+ad$X <- NULL
+```
+
+------------------------------------------------------------------------
+
 ### Exploratory Data Analysis
+
+#### **TASK 1: Explore the Data** {.unnumbered}
+
+**Task Statement:** Examine the distribution of the four variables. For each, perform the following:
+
+-   Show key **descriptive statistics**.
+-   Create **visual representations**.
+-   State your observations from the descriptive statistics and visual representations. In particular, form preliminary conclusions regarding which variables are likely to have **significant predictive power**.
+
+------------------------------------------------------------------------
+
+#### **Univariate Exploration** {.unnumbered}
+
+The following code creates a summary of descriptive statistics:
+
+```{r echo=TRUE}
+# Create a summary of the data to show the descriptive statistics
+summary(ad)
+```
+
+Observations:
+
+-   The distribution of `sales` goes from 1.60 to 27.00 and the mean and median are pretty close to each other, implying that the distribution is symmetrical.
+-   The same goes for `TV` and `radio`, their mean and median are pretty close, and therefore somewhat symmetrical.
+-   For `newspaper`, the mean is greater than the median, implying that the distribution is right-skewed.
+
+The following code graphs the distributions of target variable and predictors using histograms. Histograms are appropriate here, because we have 4 numeric variables:
+
+```{r echo=TRUE}
+# CHUNK 3
+library(ggplot2)
+library(gridExtra)
+
+p1 <- ggplot(ad, aes(x = sales)) +
+  geom_histogram()
+p2 <- ggplot(ad, aes(x = TV)) +
+  geom_histogram()
+p3 <- ggplot(ad, aes(x = radio)) +
+  geom_histogram()
+p4 <- ggplot(ad, aes(x = newspaper)) +
+  geom_histogram()
+
+grid.arrange(p1, p2, p3, p4, ncol=2)
+
+```
+
+Observations: - The distribution of `sales` is approximately symmetrical, which is good because a linear model implicitly assumes a normal distribution. - There is a fair amount of right-skewness for `newspaper`, so if you like, you could apply a log-transformation.
+
+#### **Bivariate Exploration** {.unnumbered}
+
+Because all of the variables are numeric, we will use scatterplots and correlation matrix to perform bivariate exploration.
+
+##### **Correlation Matrix** {.unnumbered}
+
+The following code creates a correlation matrix:
+
+```{r echo=TRUE}
+# Create a correlation matrix
+cor(ad)
+```
+
+Since the target variable is `sales`, the correlation coefficients in the last row or last column are of interest. If you look at the correlations of the three predictors, you can see that `sales` has a strong correlation with the predictor `TV`, and a mildly positive correlation with `radio`.
+
+So on the basis of correlations, we can say that `TV` and `radio` are likely to be important predictors of `sales`.
+
+These findings will be confirmed by the linear models we are going to construct later on. Those models will confirm the predictive power of `tv` and `radio`, but `newspaper` is not a very useful predictor of `sales`.
+
+##### **Scatterplots** {.unnumbered}
+
+The following code creates scatterplots of the predictor variables against the target variable:
+
+```{r, echo=TRUE}
+# Create scatterplots of the predictor variables against the target variable
+p1 <- ggplot(ad, aes(x = TV, y = sales)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+p2 <- ggplot(ad, aes(x = radio, y = sales)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+p3 <- ggplot(ad, aes(x = newspaper, y = sales)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+grid.arrange(p1, p2, p3, ncol=3)
+```
+
+The association between `sales` and `TV` is quite strong and positive. The blue line is the linear regression line fitted to the data. If we spend more on `TV`, there is a strong tendancy for `sales` to go up as well.
+
+The same for `radio`, we can see a mild positive relationship between `sales` and `radio`. For `newspaper`, the relationship is more ambiguous, still positive, but much weaker than `TV` and `radio`.
+
+What we've observed in the scatterplots is consistent with the correlation matrix previously analyzed.
+
+```{r, echo=TRUE}
+# Alternative: Create a scatterplot matrix
+pairs(ad)
+```
+
+------------------------------------------------------------------------
 
 ### Simple Linear Regression
 
+#### **TASK 2: Construct Simple Linear Regression Models** {.unnumbered}
+
+**Task Statement** - Fit three separate **simple linear regression** models for **sales** on each of **TV**, **radio**, and **newspaper**. Run the summary function on each model and provide the output.
+
+Using the model for sales on TV as an illustration, perform the following: - **Interpret** the estimated coefficient for TV. - Comment on the **statistical significance** of TV. - Comment on the goodness of fit of this model and interpret the value of the **coefficient of determination**. - **Predict** the value of sales when TV equals 0, 100, 200, or 300.
+
+If one and only one of the three advertising media can be included as a predictor for sales, **recommend which medium** you would choose.
+
+------------------------------------------------------------------------
+
+In CHUNK 6, we are going to fit a simple linear regression model for `sales` against `TV`. In R, linear models are fitted using the `lm()` function. In the `lm()` function, we provide an equation providing the target variable and the predictors.
+
+We use the `~` tilde character to separate the target variable on the left, and the predictors on the right. In this case, we have only one predictor, `TV`. We also have to tell R where the variables are stored, through the `data =` parameter.
+
+```{r echo=TRUE, include=TRUE, message=TRUE}
+# CHUNK 6
+slr.TV <- lm(sales ~ TV, data = ad)
+slr.TV
+```
+
+We can interpret the slope for `TV` (=0.04754) as for every unit increase in the predictor `TV`, sales is expected to go up by 0.04754.
+
+We can interpret the intercept of the linear model as, if `TV` is zero, then sales is expected to be 7.03259.
+
+To get more useful information about our fitted linear model, we can run the `summary()` function on an `lm()` object.
+
+```{r echo=TRUE, message=TRUE}
+# CHUNK 7
+summary(slr.TV)
+```
+
+This summary provides additional useful columns regarding the coefficients, the `Std. Error` column and the `t value` column, which is the ratio of `Estimates` column to the `Std. Error` column. The last column, `Pr(>|t|)` is the p-value for testing hypothesis of whether the true coefficient is zero or not.
+
+Here the p-values are very small and close to zero, and the smaller the p-value, the more evidence we have against the null hypothesis in favor of the alternative.
+
+So in this case, we have very strong evidence to say that `TV` is extremely significant due to having a lot of `***` next to it. The more `*` next to a variable, the more significant the variable is.
+
+The last three lines contain information on more global aspects of the linear model. The most important one is the **Multiple R-Squared** which is the **Coefficient of Determination**.
+
+For this fitted model, the **Multiple R-Squared** or **Coefficient of Determination** = 0.6119, therefore 61.19% of the variation in `sales` is explained by the presence of `TV`.
+
+The next code chunk provides a confidence interval for the intercept and coefficients:
+
+```{r echo=TRUE}
+# CHUNK 8
+confint(slr.TV)
+```
+
+The next code chunk uses the `predict()` function on the simple linear regression model of `sales` on `TV` and use the `head()` function to look at the first six predictions:
+
+```{r echo=TRUE}
+# CHUNK 9
+head(predict(slr.TV))
+```
+
+When the `predict()` function is used on a model without any additional arguments, what we will get are the predicted values on the training set.
+
+In the next code chunk, we supply some new data where we want to make some predictions, using the simple linear model. This is done by supplying the `newdata` argument.
+
+```{r echo=TRUE}
+# CHUNK 10
+predict(slr.TV, newdata = data.frame(TV = seq(0, 300, by = 100)))
+```
+
+Similarly, we create simple linear regression models for `radio` and `newspaper`, and print the model summaries of both:
+
+```{r echo=TRUE}
+# CHUNK 11
+slr.radio <- lm(sales ~ radio, data = ad)
+slr.newspaper <- lm(sales ~ newspaper, data = ad)
+
+summary(slr.radio)
+summary(slr.newspaper)
+```
+
+The model summaries show that both `radio` and `newspaper` are statistically significant, however, the **Multiple R-Squared** or **Coefficient of Determination** is only 33.20% for `radio` and 5.212% for `newspaper`, which means a smaller amount of variation in `sales` is explained by the presence of `radio` and `newspaper`, then is for `TV`.
+
+Since all three models have the same level of complexity, if we had to choose one, then we would choose the SLR model for `TV`, since it has the highest Multiple R-Squared, because it has the best fit to the training data.
+
+------------------------------------------------------------------------
+
 ### Multiple Linear Regression
+
+#### **TASK 3: Construct a Basic Multiple Linear Regression Model** {.unnumbered}
+
+**Task Statement**
+
+Fit a multiple linear regression model for **sales** on **TV**, **radio**, and **newspaper**. Then do the following:
+
+-   **Interpret** the estimated coefficients.
+-   Comment on the **goodness of fit** of this model.
+-   Discuss how the statistical significance of **newspaper** in this model **differs** from that in the simple linear regression model in Task 2. Based on your observations in Task 1, explain why this might be the case.
+-   Refit the model by **dropping the insignificant variable(s)**.
+
+In the following code chunk, we will fit the linear model for `sales` on all of the three advertising mediums.
+
+There are two ways to specify the model formula. The longer method uses the addition sign `~ X1 + ... + Xn` to include each of the predictors, while the shorter method uses the period character, `~ .`, to mean "all other variables".
+
+```{r echo=TRUE}
+# CHUNK 12
+# Long way
+model.1 <- lm(sales ~ TV + radio + newspaper, data = ad)
+# OR the shorthand...
+model.1 <- lm(sales ~ ., data = ad)
+
+# View summary of linear model
+summary(model.1)
+```
+
+The Multiple R-Squared, or Coefficient of Determination, is 0.8972. Therefore, 89.72% of the variation in `sales` can be explained by the presence of `TV`, `radio`, and `newspaper` together.
+
+Compared to the Multiple R-Squared from the individual simple linear regression models, where the highest Multiple R-Squared was 61.19%, there is a **huge improvement in the goodness-of-fit**. The information contributed from providing the two additional advertisement mediums is useful for explaining the behavior of `sales`.
+
+In the summary output, we can see that now only two of the predictors, `TV` and `radio` are statistically significant (indicated by the `***`), while `newspaper` is not. The multiple linear regression model and the simple linear regression model disagree on the significance of `newspaper`.
+
+**Question:** Is `newspaper` significant or insignificant for sales after all?
+
+-   **Different Conditions**:
+    -   **Simple Linear Regression:** `newspaper` is an important predictor of sales **without** accounting for effects of `TV` and `radio` (i.e., their values are **not fixed**).
+    -   **Multiple Linear Regression:** `newspaper` is an unimportant predictor of sales **after** accounting for effects of `TV` and `radio` (i.e., their values are **fixed**).
+-   **From the Correlation Matrix**:
+    -   **`radio`** $\uparrow$ $\Rightarrow$ **`sales`** $\uparrow$ (based on multiple linear regression)
+    -   **`radio`** $\uparrow$ $\Rightarrow$ **`newpaper`** $\uparrow$ (based on correlation matrix)
+    -   $\therefore$ **`sales`** and **`newspaper`** ("surrogate" for radio) tend to $\uparrow$ together
+
+This can be seen calculating the correlation of residuals between a linear model with of `sales` on `TV` and `radio` against a linear model of `newspaper` on `TV` and `radio`:
+
+```{r echo=TRUE}
+# CHUNK 13
+m1 <- lm(sales ~ TV + radio, data = ad)
+m2 <- lm(newspaper ~ TV + radio, data = ad)
+
+cor(m1$residuals, m2$residuals)
+```
+
+The next code chunk drops the insignificant variable (`newspaper`) and refits the model, then prints a summary of the new linear model:
+
+```{r echo=TRUE}
+# CHUNK 14
+model.2 <- lm(sales ~ TV + radio, data = ad)
+
+# OR regress sales on all media except newspaper
+# model.2 <- lm(sales ~ . - newspaper, data = ad)
+
+summary(model.2)
+```
+
+The model summary for `model.2` shows that `TV` and `radio` continue to be significant predictors of `sales` based on the very small p-values (indicated by `***` in the coefficient summary).
+
+The Multiple R-Squared or Coefficient of Determination is 89.72%, which is the same as the previous model up to four decimal places $\Rightarrow$ Removing `newspaper` has a negligible impact on the goodness-of-fit of the linear model.
+
+In the rest of this case study, we will use `model.2` as the starting point and add new features to make the model more flexible and more predictive.
+
+------------------------------------------------------------------------
+
+#### **TASK 4: Construct a Multiple Linear Model with Interaction** {.unnumbered}
+
+**Task Statement**
+
+CHUNK 15 shows a three-dimensional scatterplot for sales against TV and radio.
+
+-   Explain why the scatterplot suggests that there may be an interaction between TV and radio.
+-   Fit a multiple linear regression model for sales against TV and radio *with interaction*. Provide the summary output.
+-   Interpret the estimated coefficient for the interaction term.
+-   Provide evidence that the interaction is significant.
+
+The following code chunk creates a three-dimensional scatterplot the linear model of `sales` against `TV` and `radio`:
+
+```{r echo=TRUE}
+# CHUNK 15
+
+# Uncomment these lines the first time you run this chunk
+#install.packages("car")  
+#install.packages("rgl")
+
+# Load the car and rgl packages
+library(car)
+library(rgl)
+
+# Create a 3D scatterplot of the linear model `sales` on `TV` and `radio`
+scatter3d(sales ~ TV + radio, data = ad)
+```
+
+In the plot, purple plane is the signal function and the dots are the data from the `ad` dataset.
+
+If we rotate the three-dimensional plot to a birds-eye view, the observations above the regression plane are represented by the yellow-colored dots and have a positive residual and display a systematic pattern – they lie along the 45-degree line on the x-y plane and represent the instances where the company allocates advertising expenditures to **both** `TV` and `radio` and are under-predicted.
+
+The observations below the regression plane are represented by the gray-colored dots and have a negative residual, and represent observations where the marketing company allocates advertising expenditures to either `TV` or `radio`, but not both, and are over-predicted.
+
+These findings suggest that there may be a synergy effect between `TV` and `radio`. If the company combines both `TV` and `radio`, it may lead to a bigger boost in `sales` than using just one advertising medium.
+
+However, this synergy is not taken into consideration by `model.2` which assumes that `TV` and `radio` contribute to `sales` independently. We know that `model.2` is fairly good, considering that the Multiple R-Squared is 89.72%, but we may be able to adapt it to include interaction effects to make it even better.
+
+In the next code chunk, we fit the linear model for `sales` against `TV` and `radio`, together with the interaction term `TV * radio`. Two methods in R for doing so are provided:
+
+```{r echo=TRUE}
+# CHUNK 16
+model.3 <- lm(sales ~ TV * radio, data = ad)
+
+# OR
+# model.3 <- lm(sales ~ TV + radio + TV:radio, data = ad)
+
+summary(model.3)
+```
+
+Based on the model summary for `model.3`, all of the terms (`TV`, `radio`, and `TV:radio`) are statistically significant (indicated by the `***` and the small p-values).
+
+The interaction term `TV:radio` has a larger `t-value` (20.727) than the individual terms `TV` (12.699) and `radio` (3.241), so it's the most statistically significant term in the model.
+
+**How can we interpret the coefficient estimate of the interaction term `TV:radio` (1.086e-03)?**
+
+If you differentiate the expected value of `sales` with respect to `radio` (e.g., you want to look at the effect of radio on sales), then this expression involves `TV` because of the interaction term:
+
+$$
+\frac{\partial}{\partial \text{radio}} \hat{\text{sales}} = 0.02886 + 0.001086 \times \text{TV}
+$$
+
+$\Rightarrow$ For every unit increase in `TV`, the effect of `radio` on `sales` will increase by $\fbox{0.001086}$.
+
+Similarly, we can say that the effect of `TV` on `sales` will increase by $\fbox{0.001086}$ for every unit increase of `radio`:
+
+$$
+\frac{\partial}{\partial \text{TV}} \hat{\text{sales}} = 0.02886 + 0.001086 \times \text{radio}
+$$
+
+In addition, the Multiple R-Squared or Coefficient of Determination is 0.9678 or 96.78%, which is a significant improvement from `model.2`, which only had an $R^2 = 89.72$% $\Rightarrow$ We can say that `model.3` fits the training data much better than `model.2`. The improvement in the goodness-of-fit is remarkable when including the interaction term.
+
+In the remainder of the case study, we will see that the interaction term will improve the prediction performance of the linear model quite substantially.
+
+------------------------------------------------------------------------
 
 ### Evaluation of Linear Models
 
+#### TASK 5: Evaluate Three Marketing Plans {.unnumbered}
+
+##### **Task statement** {.unnumbered}
+
+Suppose that as the manager of the company, you are given a total of \$100,000 to spend on advertising. Three ways to allocate the budget between TV and radio advertising:
+
+1.  Spending the **entire amount** on radio advertising.
+2.  **Splitting** the budget **evenly** between TV and radio advertising.
+3.  Spending **\$70,000** on radio advertising and **\$30,000** on TV advertising.
+
+Evaluate these three marketing plans using the interaction model constructed in Task 4.
+
+| Plan | `TV` | `radio` |
+|:----:|:----:|:-------:|
+|  1   |  0   |   100   |
+|  2   |  50  |   50    |
+|  3   |  30  |   70    |
+
+: **Task 5 Table:** Combinations of `TV` and `radio` to use in `model.3`
+
+In the following code chunk, we first set up a data frame containing the three pairs of predictor values. Then we put this data frame in the `newdata` argument of the `predict()` function and make predictions:
+
+```{r echo=TRUE}
+# CHUNK 17
+dat.budget <- data.frame(TV = c(0, 50, 30), radio = c(100, 50, 70))
+predict(model.3, newdata = dat.budget)
+```
+
+Based on the predicted sales amount, the marketing strategy consisting of splitting the budget evenly between `TV` and `radio` results in the largest predicted value of `sales` $\Rightarrow$ Our recommendation is to use the second marketing plan.
+
+------------------------------------------------------------------------
+
+#### TASK 6: Construct a Model with Interaction and Polynomial Terms {.unnumbered}
+
+##### Task statement {.unnumbered}
+
+Your supervisor has suggested that adding the **square of TV** as a feature may improve the multiple linear regression model.
+
+-   Explain, without running any models, why this is or is not a reasonable suggestion.
+-   Regardless of your conclusion, fit a multiple linear regression model for sales against TV and radio with interaction and the **square of TV** added. Provide the summary output.
+
+##### Model 4 {.unnumbered}
+
+$$
+\text{sales} = \beta_0 + \beta_1 \times \text{TV} + \beta_2 \times \text{radio} + \beta_3 \times \text{TV}^2 + \beta_4 \times \text{TV} \times \text{radio} + \epsilon
+$$
+
+In the following code chunk, we will refine `model.3` by adding the square of `TV` added as an additional feature:
+
+```{r echo=TRUE}
+model.4 <- lm(sales ~ TV * radio + I(TV^2), data=ad)
+summary(model.4)
+```
+
+**Note:** The `I()` function in R will process its interior contents in arithmetic manner.
+
+Based on the output of the model summary, all terms of the linear model are statistically significant (indicated by the `***` and small p-values).
+
+The coefficient of `I(TV^2)` is negative (-1.097e-04), so `sales` and `TV` are related by a downward parabola in `model.4`, consistent with what we saw in CHUNK 5.
+
+The Multiple R-Squared or Coefficient of Determination for `model.4` is 0.986 or 98.6%, which is higher than the Multiple R-Squared produced by `model.3` $\Rightarrow$ The goodness-of-fit of `model.4` is almost perfect (e.g., the $R^2$ is almost 1) thanks to including the interaction term and the square term.
+
+So in this case study, both the interaction term and square term are useful features for describing the data, and we will further confirm their usefulness in the last task of the case study.
+
+------------------------------------------------------------------------
+
+#### TASK 7: Choose a Model {.unnumbered}
+
+**Task statement**
+
+1.  Split the data into **training** and **test** sets.
+2.  Evaluate the **prediction performance** of the models in Tasks 3, 4, and 6. Recommend which model should be used.
+
+| Model | Task | Formula                                       |
+|-------|------|-----------------------------------------------|
+| 1     | 2    | sales \~ TV + radio + newspaper               |
+| 2     | 3    | sales \~ TV + radio                           |
+| 3     | 4    | sales \~ TV \* radio                          |
+| 4     | 6    | sales \~ TV \* radio + I(TV\^2)               |
+| 5     | –    | sales \~ TV \* radio + I(TV\^2) + I(radio\^2) |
+
+-   **Note:** The `I()` function is used in R to indicate mathematical operations within formulas.
+
+**Steps**
+
+-   **Data Split:** Use a predefined split ratio (e.g., 70/30) to separate the data into training and test sets.
+-   **Model Evaluation:** Use a metric such as RMSE to compare prediction accuracy on the test set across the models.
+-   **Model Recommendation:** Select the model with the best balance between complexity and predictive accuracy.
+
+
+In the following code chunk, we use the `caret` package to split the data into a training and test set:
+
+
+```{r echo=TRUE}
+# CHUNK 19
+# Install packages
+# Uncomment this line the first time you use caret
+#install.packages("caret")
+
+# Load packages
+library(caret)
+
+# Set the random seed so that the results are reproducible
+set.seed(1)
+
+# Create a data partition
+partition <- createDataPartition(ad$sales, p = 0.7, list = FALSE)
+
+# Split the data into training and test sets
+data.train <- ad[partition, ]
+data.test <- ad[-partition, ]
+```
+
+You can see that there are 142 observations in the training set (~70%), and 58 observations in the test set (~30%). 
+
+The `createDataPartition()` function from the `caret` package has built-in functionality to ensure that the target variable follows the same distribution both the training set and the test set. This way the two sets will be representative of the target variable.
+
+We can check this by applying the `summary()` function on the target variable in each of the two sets:
+
+```{r echo=TRUE}
+# CHUNK 20
+print("TRAIN")
+summary(data.train$sales)
+
+print("TEST")
+summary(data.test$sales)
+```
+
+In the following code chunk, we will fit all models considered on the training set of data:
+
+```{r, echo=TRUE}
+model.1.tr <- lm(sales ~ TV + radio + newspaper, data=data.train)
+model.2.tr <- lm(sales ~ TV + radio, data=data.train)
+model.3.tr <- lm(sales ~ TV * radio + newspaper, data=data.train)
+model.4.tr <- lm(sales ~ TV * radio + I(TV^2) + newspaper, data=data.train)
+model.5.tr <- lm(sales ~ TV * radio + I(TV^2) + I(radio^2), data=data.train)
+```
+
+**Training RMSE**
+
+In the following code chunk, we will use the `RMSE()` function in the `caret` package to calculate the training RMSE for each of the five trained models.
+
+The `RMSE()` function takes a vector of target variable values, and a vector of predicted fitted-values, and we will see what we can observe from the results:
+
+```{r echo=TRUE}
+# CHUNK 22
+print("TRAIN")
+RMSE(data.train$sales, predict(model.1.tr))
+RMSE(data.train$sales, predict(model.2.tr))
+RMSE(data.train$sales, predict(model.3.tr))
+RMSE(data.train$sales, predict(model.4.tr))
+RMSE(data.train$sales, predict(model.5.tr))
+```
+
+Based on the results of the `RMSE()` function, the RMSE decreases as we go from `model.2.tr` to `model.5.tr`. This makes sense, as `model.2.tr` is the simplest model, and become more complex as we move to `model.1.tr` and then `model.3.tr`, `model.4.tr`, and finally `model.5.tr`. 
+
+The more complex the model, the smaller the training error in general.
+
+**What about the Test RMSE?**
+
+We know that performance in the test set is what we actually care about. We generate the five test RMSE statistics in the following code chunk.
+
+Note that we use the `data.test$sales` as the vector of target variable values, and use `predict(model.#.tr, newdata=data.test)` as the vector of predicted fitted-values, specifying the `newdata` argument to use the `data.test` test set observations:
+
+```{r echo=TRUE}
+# CHUNK 23
+print("TEST")
+RMSE(data.test$sales, predict(model.1.tr, newdata = data.test))
+RMSE(data.test$sales, predict(model.2.tr, newdata = data.test))
+RMSE(data.test$sales, predict(model.3.tr, newdata = data.test))
+RMSE(data.test$sales, predict(model.4.tr, newdata = data.test))
+RMSE(data.test$sales, predict(model.5.tr, newdata = data.test))
+```
+
+Based on the results of the above code chunk, the lowest test RMSE is achieved by `model.4.tr`, and therefore has the best perdiction performance. 
+
+The most complex model, `model.5.tr`, is not the best prediction performance and may have overfitted the data, so don't think that using the most complex model is always the best idea as far as prediction is concerned.
+
+If we have to recommend one model out of these five models, our recommendation would be to use `model.4.tr` as it produces the best prediction performance on the test set, is flexible enough to capture the signal in the data, but is not too complex.
+
+---
+
 ## Case Study 2: Feature Selection and Regularization
+
 
 ### Preparatory Work
 
