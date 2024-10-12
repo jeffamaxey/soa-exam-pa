@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Generalized Linear Models | Society of Actuaries Exam PA</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Generalized Linear Models | Society of Actuaries Exam PA" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="github-repo" content="jeffamaxey/soa-exam-pa" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Generalized Linear Models | Society of Actuaries Exam PA" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Jeff A. Maxey" />
+
+
+<meta name="date" content="2024-10-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="linear-models.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="assets/css/style.css" type="text/css" />
+<link rel="stylesheet" href="assets/css/toc.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Society of Actuaries Exam PA</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i>Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#getting-started"><i class="fa fa-check"></i>Getting Started</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#system-requirements"><i class="fa fa-check"></i>System Requirements</a></li>
+</ul></li>
+<li class="part"><span><b>I A Crash Course in R</b></span></li>
+<li class="chapter" data-level="1" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html"><i class="fa fa-check"></i><b>1</b> Basics of R Programming</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#data-types-in-r"><i class="fa fa-check"></i><b>1.1</b> Data Types in R</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#exercise-1.2.2---calculating-least-squares-estimates-by-matrix-manipulation"><i class="fa fa-check"></i><b>1.1.1</b> Exercise 1.2.2 - Calculating least squares estimates by matrix manipulation</a></li>
+<li class="chapter" data-level="1.1.2" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#data-frames"><i class="fa fa-check"></i><b>1.1.2</b> Data Frames</a></li>
+<li class="chapter" data-level="1.1.3" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#exercise-1.2.3---listing-the-components-of-a-list"><i class="fa fa-check"></i><b>1.1.3</b> Exercise 1.2.3 - Listing the components of a list</a></li>
+<li class="chapter" data-level="1.1.4" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#functions"><i class="fa fa-check"></i><b>1.1.4</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#basic-data-management"><i class="fa fa-check"></i><b>1.2</b> Basic Data Management</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#task-1-removing-unimportant-variables"><i class="fa fa-check"></i><b>1.2.1</b> Task 1: Removing Unimportant Variables</a></li>
+<li class="chapter" data-level="1.2.2" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#task-2-missing-values"><i class="fa fa-check"></i><b>1.2.2</b> Task 2: Missing Values</a></li>
+<li class="chapter" data-level="1.2.3" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#task-3-adding-new-variables"><i class="fa fa-check"></i><b>1.2.3</b> Task 3: Adding New Variables</a></li>
+<li class="chapter" data-level="1.2.4" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#task-4-using-logical-tests-to-identify-observations-with-certain-characteristics"><i class="fa fa-check"></i><b>1.2.4</b> Task 4: Using Logical Tests to Identify Observations with Certain Characteristics</a></li>
+<li class="chapter" data-level="1.2.5" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html#end-of-chapter-1-practice-problems"><i class="fa fa-check"></i><b>1.2.5</b> End of Chapter 1 Practice Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html"><i class="fa fa-check"></i><b>2</b> Data Exploration and Visualization</a>
+<ul>
+<li class="chapter" data-level="" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#chapter-02-overview"><i class="fa fa-check"></i>Chapter Overview</a></li>
+<li class="chapter" data-level="2.1" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#chapter-02-making-ggplots"><i class="fa fa-check"></i><b>2.1</b> Making <code>ggplots</code></a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#chapter-02-making-ggplots-basic-features"><i class="fa fa-check"></i><b>2.1.1</b> Basic Features</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#chapter-02-making-ggplots-customizing-your-plots"><i class="fa fa-check"></i><b>2.1.2</b> Customizing Your Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#chapter-02-data-exploration"><i class="fa fa-check"></i><b>2.2</b> Data Exploration</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#chapter-02-data-exploration-univariate"><i class="fa fa-check"></i><b>2.2.1</b> Univariate Data Exploration</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#chapter-02-data-exploration-bivariate"><i class="fa fa-check"></i><b>2.2.2</b> Bivariate Data Exploration</a></li>
+<li class="chapter" data-level="2.2.3" data-path="data-exploration-and-visualization.html"><a href="data-exploration-and-visualization.html#end-of-chapter-practice-problems"><i class="fa fa-check"></i><b>2.2.3</b> End-of-Chapter Practice Problems</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Theory of and Case Studies in Predictive Analytics</b></span></li>
+<li class="chapter" data-level="3" data-path="linear-models.html"><a href="linear-models.html"><i class="fa fa-check"></i><b>3</b> Linear Models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="linear-models.html"><a href="linear-models.html#a-primer-on-predictive-analytics"><i class="fa fa-check"></i><b>3.1</b> A Primer on Predictive Analytics</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="linear-models.html"><a href="linear-models.html#basic-terminology"><i class="fa fa-check"></i><b>3.1.1</b> Basic Terminology</a></li>
+<li class="chapter" data-level="3.1.2" data-path="linear-models.html"><a href="linear-models.html#the-model-building-process"><i class="fa fa-check"></i><b>3.1.2</b> The Model Building Process</a></li>
+<li class="chapter" data-level="3.1.3" data-path="linear-models.html"><a href="linear-models.html#bias-variance-trade-off"><i class="fa fa-check"></i><b>3.1.3</b> Bias-Variance Trade-Off</a></li>
+<li class="chapter" data-level="3.1.4" data-path="linear-models.html"><a href="linear-models.html#feature-generation-and-selection"><i class="fa fa-check"></i><b>3.1.4</b> Feature Generation and Selection</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="linear-models.html"><a href="linear-models.html#linear-models-conceptual-foundation"><i class="fa fa-check"></i><b>3.2</b> Linear Models: Conceptual Foundation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="linear-models.html"><a href="linear-models.html#model-formulation"><i class="fa fa-check"></i><b>3.2.1</b> Model Formulation</a></li>
+<li class="chapter" data-level="3.2.2" data-path="linear-models.html"><a href="linear-models.html#model-evaluation-and-validation"><i class="fa fa-check"></i><b>3.2.2</b> Model Evaluation and Validation</a></li>
+<li class="chapter" data-level="3.2.3" data-path="linear-models.html"><a href="linear-models.html#feature-generation"><i class="fa fa-check"></i><b>3.2.3</b> Feature Generation</a></li>
+<li class="chapter" data-level="3.2.4" data-path="linear-models.html"><a href="linear-models.html#feature-selection"><i class="fa fa-check"></i><b>3.2.4</b> Feature Selection</a></li>
+<li class="chapter" data-level="3.2.5" data-path="linear-models.html"><a href="linear-models.html#regularization"><i class="fa fa-check"></i><b>3.2.5</b> Regularization</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="linear-models.html"><a href="linear-models.html#case-study-1-fitting-linear-models-in-r"><i class="fa fa-check"></i><b>3.3</b> Case Study 1: Fitting Linear Models in R</a>
+<ul>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#about-this-case-study"><i class="fa fa-check"></i><strong>About this Case Study</strong></a></li>
+<li class="chapter" data-level="3.3.1" data-path="linear-models.html"><a href="linear-models.html#exploratory-data-analysis"><i class="fa fa-check"></i><b>3.3.1</b> Exploratory Data Analysis</a></li>
+<li class="chapter" data-level="3.3.2" data-path="linear-models.html"><a href="linear-models.html#simple-linear-regression"><i class="fa fa-check"></i><b>3.3.2</b> Simple Linear Regression</a></li>
+<li class="chapter" data-level="3.3.3" data-path="linear-models.html"><a href="linear-models.html#multiple-linear-regression"><i class="fa fa-check"></i><b>3.3.3</b> Multiple Linear Regression</a></li>
+<li class="chapter" data-level="3.3.4" data-path="linear-models.html"><a href="linear-models.html#evaluation-of-linear-models"><i class="fa fa-check"></i><b>3.3.4</b> Evaluation of Linear Models</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="linear-models.html"><a href="linear-models.html#case-study-2-feature-selection-and-regularization"><i class="fa fa-check"></i><b>3.4</b> Case Study 2: Feature Selection and Regularization</a>
+<ul>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#about-this-case-study-1"><i class="fa fa-check"></i>About this Case Study</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#data-dictionary"><i class="fa fa-check"></i>Data Dictionary</a></li>
+<li class="chapter" data-level="3.4.1" data-path="linear-models.html"><a href="linear-models.html#preparatory-work"><i class="fa fa-check"></i><b>3.4.1</b> Preparatory Work</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-1-consider-a-data-issue"><i class="fa fa-check"></i>TASK 1: Consider a Data Issue</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-2-explore-the-numeric-variables"><i class="fa fa-check"></i>TASK 2: Explore the Numeric Variables</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-3-explore-the-factor-variables"><i class="fa fa-check"></i>TASK 3: Explore the Factor Variables</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-4-consider-two-graphs"><i class="fa fa-check"></i>TASK 4: Consider Two Graphs</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-5-explore-the-effect-of-releveling-factor-variables"><i class="fa fa-check"></i>TASK 5: Explore the Effect of Releveling Factor Variables</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-6-binarize-factor-variables-manually"><i class="fa fa-check"></i>TASK 6: Binarize Factor Variables Manually</a></li>
+<li class="chapter" data-level="3.4.2" data-path="linear-models.html"><a href="linear-models.html#model-construction-and-feature-selection"><i class="fa fa-check"></i><b>3.4.2</b> Model Construction and Feature Selection</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-7-select-features-using-stepwise-selection"><i class="fa fa-check"></i>TASK 7: Select Features using Stepwise Selection</a></li>
+<li class="chapter" data-level="3.4.3" data-path="linear-models.html"><a href="linear-models.html#model-validation"><i class="fa fa-check"></i><b>3.4.3</b> Model Validation</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-8-select-and-validate-the-recommended-model"><i class="fa fa-check"></i>TASK 8: Select and Validate the Recommended Model</a></li>
+<li class="chapter" data-level="3.4.4" data-path="linear-models.html"><a href="linear-models.html#regularization-2"><i class="fa fa-check"></i><b>3.4.4</b> Regularization</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-9-effect-of-regularization"><i class="fa fa-check"></i>TASK 9: Effect of Regularization</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-10-perform-feature-selection-with-regularization"><i class="fa fa-check"></i>TASK 10: Perform Feature Selection with Regularization</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#conceptual-review-questions-for-chapter-3"><i class="fa fa-check"></i>Conceptual Review: Questions for Chapter 3</a>
+<ul>
+<li class="chapter" data-level="3.4.5" data-path="linear-models.html"><a href="linear-models.html#q3.1-explain-the-objectives-of-descriptive-predictive-and-prescriptive-modeling."><i class="fa fa-check"></i><b>3.4.5</b> Q3.1: Explain the objectives of descriptive, predictive and prescriptive modeling.</a></li>
+<li class="chapter" data-level="3.4.6" data-path="linear-models.html"><a href="linear-models.html#q3.2-explain-two-differences-between-supervised-and-unsupervised-learning."><i class="fa fa-check"></i><b>3.4.6</b> Q3.2: Explain two differences between supervised and unsupervised learning.</a></li>
+<li class="chapter" data-level="3.4.7" data-path="linear-models.html"><a href="linear-models.html#q3.3-explain-the-main-difference-between-regression-and-classification-problems."><i class="fa fa-check"></i><b>3.4.7</b> Q3.3: Explain the main difference between regression and classification problems.</a></li>
+<li class="chapter" data-level="3.4.8" data-path="linear-models.html"><a href="linear-models.html#q3.4-explain-three-characteristics-of-predictive-modeling-problems."><i class="fa fa-check"></i><b>3.4.8</b> Q3.4: Explain three characteristics of predictive modeling problems.</a></li>
+<li class="chapter" data-level="3.4.9" data-path="linear-models.html"><a href="linear-models.html#q3.4-explain-three-characteristics-of-predictive-modeling-problems.-1"><i class="fa fa-check"></i><b>3.4.9</b> Q3.4: Explain three characteristics of predictive modeling problems.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>4</b> Generalized Linear Models</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#conceptual-foundations-of-glms"><i class="fa fa-check"></i><b>4.1</b> Conceptual Foundations of GLMs</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#selection-of-target-distributions-and-link-functions"><i class="fa fa-check"></i><b>4.1.1</b> Selection of Target Distributions and Link Functions</a></li>
+<li class="chapter" data-level="4.1.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#weights-and-offsets"><i class="fa fa-check"></i><b>4.1.2</b> Weights and Offsets</a></li>
+<li class="chapter" data-level="4.1.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#fitting-and-assessing-the-performance-of-a-glm"><i class="fa fa-check"></i><b>4.1.3</b> Fitting and Assessing the Performance of a GLM</a></li>
+<li class="chapter" data-level="4.1.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#performance-metrics-for-classifiers"><i class="fa fa-check"></i><b>4.1.4</b> Performance Metrics for Classifiers</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#case-study-1-glms-for-continuous-target-variables"><i class="fa fa-check"></i><b>4.2</b> Case Study 1: GLMs for Continuous Target Variables</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#data-preparation"><i class="fa fa-check"></i><b>4.2.1</b> Data Preparation</a></li>
+<li class="chapter" data-level="4.2.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#model-construction-and-evaluation"><i class="fa fa-check"></i><b>4.2.2</b> Model Construction and Evaluation</a></li>
+<li class="chapter" data-level="4.2.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#model-validation-and-interpretation"><i class="fa fa-check"></i><b>4.2.3</b> Model Validation and Interpretation</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#case-study-2-glms-for-binary-target-variables"><i class="fa fa-check"></i><b>4.3</b> Case Study 2: GLMs for Binary Target Variables</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#data-exploration-and-preparation"><i class="fa fa-check"></i><b>4.3.1</b> Data Exploration and Preparation</a></li>
+<li class="chapter" data-level="4.3.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#model-construction-and-selection"><i class="fa fa-check"></i><b>4.3.2</b> Model Construction and Selection</a></li>
+<li class="chapter" data-level="4.3.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#interpretation-of-model-results"><i class="fa fa-check"></i><b>4.3.3</b> Interpretation of Model Results</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#case-study-3-glms-for-count-and-aggregate-loss-variables"><i class="fa fa-check"></i><b>4.4</b> Case Study 3: GLMs for Count and Aggregate Loss Variables</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#data-exploration-and-preparation-1"><i class="fa fa-check"></i><b>4.4.1</b> Data Exploration and Preparation</a></li>
+<li class="chapter" data-level="4.4.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#model-construction-and-evaluation-1"><i class="fa fa-check"></i><b>4.4.2</b> Model Construction and Evaluation</a></li>
+<li class="chapter" data-level="4.4.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#predictions"><i class="fa fa-check"></i><b>4.4.3</b> Predictions</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/jeffamaxey/soa-exam-pa" target="blank">Github Repository</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Society of Actuaries Exam PA</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="generalized-linear-models" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Generalized Linear Models<a href="generalized-linear-models.html#generalized-linear-models" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="conceptual-foundations-of-glms" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Conceptual Foundations of GLMs<a href="generalized-linear-models.html#conceptual-foundations-of-glms" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Motivating Examples in Insurance</strong></p>
+<ol style="list-style-type: decimal">
+<li><strong>Binary variables</strong>
+<ul>
+<li><strong>Examples</strong>: yes/no, claim/no claim, alive/dead, solvent/insolvent</li>
+<li><strong>Problem</strong>: Can take only two values, zero (non-event) or one (event)</li>
+</ul></li>
+<li><strong>Count variables</strong>
+<ul>
+<li><strong>Examples</strong>: No. of claims, accidents, deaths</li>
+<li><strong>Problem</strong>: Can take the value of any non-negative integers</li>
+</ul></li>
+<li><strong>Positive continuous variables</strong>
+<ul>
+<li><strong>Examples</strong>: Income and claim severity</li>
+<li><strong>Problem</strong>: Takes only positive values and may be highly skewed</li>
+</ul></li>
+</ol>
+<p><strong>Question</strong>: Generalize a linear model to analyze these variables?</p>
+<hr />
+<p><strong>GLM Component 1: Target Distributions</strong></p>
+<ul>
+<li><strong>Linear Models (LMs)</strong>: <span class="math inline">\(Y \sim \text{normal}\)</span></li>
+<li><strong>Generalized Linear Models (GLMs)</strong>: <span class="math inline">\(Y \sim \text{linear exponential family}\)</span></li>
+</ul>
+<p><strong>A “monster” revisited…</strong></p>
+<ul>
+<li><strong>Probability function</strong>: <span class="math display">\[
+f(y; \theta, \phi) = \exp \left( \frac{y \theta - b(\theta)}{\phi} + S(y, \phi) \right)
+\]</span> <em>No need to memorize for PA!</em></li>
+</ul>
+<p><strong>Things to keep in mind:</strong></p>
+<ul>
+<li>A <strong>rich class of distributions</strong> that includes a number of common <strong>discrete</strong> and <strong>continuous</strong> distributions</li>
+<li><strong>Examples</strong>: Normal, gamma, inverse Gaussian, Poisson, binomial</li>
+<li>Provides a <strong>unifying approach</strong> to modeling binary, discrete, and continuous target variables, all within the <strong>same statistical framework</strong></li>
+</ul>
+<hr />
+<p><strong>GLM Component 2: Link Functions</strong></p>
+<ul>
+<li><strong>Linear Models (LMs)</strong>: <span class="math display">\[
+\mu = \eta = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p
+\]</span></li>
+<li><strong>Generalized Linear Models (GLMs)</strong>: <span class="math display">\[
+g(\mu) = \eta = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p
+\]</span></li>
+</ul>
+<p><strong>Link Functions</strong></p>
+<ul>
+<li>Equate a <strong>function</strong> of the target mean with the linear predictor.</li>
+<li><span class="math inline">\(g\)</span> can be any <strong>monotonic function</strong> (e.g., identity, log, inverse, square root).</li>
+<li>Allows analysis of situations where the <strong>effects</strong> of the predictors on the target mean are <strong>more complex</strong> than additive.</li>
+</ul>
+<p><strong>Special Case: Linear Models</strong></p>
+<ul>
+<li><strong>Target distribution</strong>: Normal</li>
+<li><strong>Link function</strong>: Identity, <span class="math inline">\(g(\mu) = \mu\)</span></li>
+</ul>
+<hr />
+<p><strong>Warning: GLMs do NOT Transform Target Variables!</strong></p>
+<p><strong>A common misconception about GLMs:</strong></p>
+<blockquote>
+<p>“GLMs transform the (non-normal) target variable so that it can be reasonably described by a linear model.”</p>
+<p><strong>WRONG!!!</strong></p>
+</blockquote>
+<p><strong>Truth:</strong></p>
+<ul>
+<li>The <strong>link function</strong> <span class="math inline">\(g\)</span> is applied to the <strong>target mean</strong> <span class="math inline">\(\mu\)</span>.</li>
+<li>The <strong>target variable</strong> <span class="math inline">\(Y\)</span> is left <strong>untransformed</strong>.</li>
+</ul>
+<hr />
+<p><strong>Two Examples with the Log Transformation</strong></p>
+<p><strong>Model 1 (Transformed target)</strong></p>
+<ul>
+<li><strong>Definition</strong>: <span class="math inline">\(\ln Y = \eta + \epsilon\)</span> or <span class="math inline">\(Y = \exp(\eta + \epsilon)\)</span></li>
+<li><strong>What kind of model</strong>: Linear model fitted to <span class="math inline">\(\ln Y\)</span> (i.e., log-transformed)</li>
+<li><strong>Behavior of target</strong>: Lognormal; target must be positive</li>
+</ul>
+<p><strong>Model 2 (Transformed mean)</strong></p>
+<ul>
+<li><strong>Definition</strong>:
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(Y \sim \text{normal}\)</span></li>
+<li><span class="math inline">\(\ln \mu = \eta\)</span> or <span class="math inline">\(\mu = \exp(\eta)\)</span></li>
+</ol></li>
+<li><strong>What kind of model</strong>: GLM with normal target and log link</li>
+<li><strong>Behavior of target</strong>: Mean is positive; target can take any real values</li>
+</ul>
+<hr />
+<div id="selection-of-target-distributions-and-link-functions" class="section level3 hasAnchor" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Selection of Target Distributions and Link Functions<a href="generalized-linear-models.html#selection-of-target-distributions-and-link-functions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="from-past-pa-exams-1" class="section level4 unnumbered hasAnchor">
+<h4>From Past PA Exams<a href="generalized-linear-models.html#from-past-pa-exams-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="december-7-2020-exam-task-8" class="section level5 unnumbered hasAnchor">
+<h5>December 7, 2020 Exam, Task 8<a href="generalized-linear-models.html#december-7-2020-exam-task-8" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li>Your assistant has prepared code to fit two GLMs to the data, using the <strong>Poisson</strong> and <strong>gamma</strong> distributions, each with its <strong>canonical link function</strong>.</li>
+<li>Explain whether each choice for distribution and link function is <strong>reasonable</strong> for this data and business problem.</li>
+</ul>
+</div>
+<div id="december-8-2020-exam-task-7" class="section level5 unnumbered hasAnchor">
+<h5>December 8, 2020 Exam, Task 7<a href="generalized-linear-models.html#december-8-2020-exam-task-7" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li>Explain why <strong>Poisson</strong> is a <strong>reasonable distribution choice</strong> for this problem.</li>
+<li>State <strong>two other reasonable choices of distribution</strong>.</li>
+</ul>
+</div>
+<div id="december-2019-exam-task-7" class="section level5 unnumbered hasAnchor">
+<h5>December 2019 Exam, Task 7<a href="generalized-linear-models.html#december-2019-exam-task-7" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li>Determine a <strong>distribution and link function</strong> to use.</li>
+<li>Justify your choice of distribution based on the business problem and data.</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="target-distribution" class="section level4 unnumbered hasAnchor">
+<h4>Target Distribution<a href="generalized-linear-models.html#target-distribution" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="general-principle" class="section level5 unnumbered hasAnchor">
+<h5>General Principle<a href="generalized-linear-models.html#general-principle" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Choose a distribution from the linear exponential family that <strong>best aligns</strong> with the <strong>characteristics</strong> of the target.</p>
+</div>
+<div id="examples" class="section level5 unnumbered hasAnchor">
+<h5>Examples<a href="generalized-linear-models.html#examples" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ol style="list-style-type: decimal">
+<li><strong>Positive, right-skewed variable:</strong>
+<ul>
+<li>Examples: Claim amounts, income</li>
+<li>Candidate distributions: <strong>Gamma</strong>, <strong>inverse Gaussian</strong></li>
+</ul></li>
+<li><strong>Binary variable:</strong>
+<ul>
+<li>Example: Indicator (0/1)</li>
+<li>Distribution: <strong>Binomial (Bernoulli)</strong></li>
+</ul></li>
+<li><strong>Count variable:</strong>
+<ul>
+<li>Examples: No. of claims, accidents, etc.</li>
+<li>Candidate distribution: <strong>Poisson</strong></li>
+</ul></li>
+</ol>
+<hr />
+</div>
+</div>
+<div id="link-function-important-considerations" class="section level4 unnumbered hasAnchor">
+<h4>Link Function: Important Considerations<a href="generalized-linear-models.html#link-function-important-considerations" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="consideration-1-appropriateness-of-predictions" class="section level5 unnumbered hasAnchor">
+<h5>Consideration 1: Appropriateness of predictions<a href="generalized-linear-models.html#consideration-1-appropriateness-of-predictions" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Make sure model predictions <strong>match</strong> the range of values of the target mean:
+<span class="math display">\[
+g(\mu) = \eta \quad \Rightarrow \quad \mu = g^{-1}(\eta) \quad \Rightarrow \quad \hat{\mu} = g^{-1}(\hat{\eta}) \quad \text{(prediction)}
+\]</span></p>
+<div id="example-1-positive-unbounded-target-mean" class="section level6 unnumbered hasAnchor">
+<h6>Example 1: Positive, unbounded target mean<a href="generalized-linear-models.html#example-1-positive-unbounded-target-mean" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<ul>
+<li><strong>Good link:</strong> Log link <span class="math inline">\(g(\mu) = \ln \mu \Rightarrow \hat{\mu} = e^{\hat{\eta}} \geq 0\)</span></li>
+<li><strong>Bad link:</strong> Identity link <span class="math inline">\(g(\mu) = \mu \Rightarrow \hat{\mu} = \hat{\eta} \in \mathbb{R}\)</span></li>
+</ul>
+</div>
+<div id="example-2-unit-valued-target-mean-probability" class="section level6 unnumbered hasAnchor">
+<h6>Example 2: Unit-valued target mean (= probability)<a href="generalized-linear-models.html#example-2-unit-valued-target-mean-probability" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<ul>
+<li><strong>Logit link:</strong> <span class="math inline">\(g(\mu) = \ln \left( \frac{\mu}{1 - \mu} \right) \Rightarrow \hat{\mu} = \frac{e^{\hat{\eta}}}{1 + e^{\hat{\eta}}} \in [0, 1]\)</span></li>
+</ul>
+</div>
+</div>
+<div id="consideration-2-interpretability" class="section level5 unnumbered hasAnchor">
+<h5>Consideration 2: Interpretability<a href="generalized-linear-models.html#consideration-2-interpretability" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Choose the link function such that the GLM is <strong>easy to interpret</strong> (= interpretable), making it straightforward to describe the <strong>effects of predictors</strong> on the target mean.</p>
+<div id="example-statement" class="section level6 unnumbered hasAnchor">
+<h6>Example statement<a href="generalized-linear-models.html#example-statement" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<p>If a continuous predictor <span class="math inline">\(X\)</span> increases by 1 unit, by how much will the target mean change?</p>
+<hr />
+</div>
+</div>
+<div id="consideration-3-canonical-link-function" class="section level5 unnumbered hasAnchor">
+<h5>Consideration 3: Canonical Link Function<a href="generalized-linear-models.html#consideration-3-canonical-link-function" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<table>
+<colgroup>
+<col width="26%" />
+<col width="23%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Target Distribution</th>
+<th>Canonical Link</th>
+<th>Mathematical Form</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Normal</td>
+<td>Identity</td>
+<td><span class="math inline">\(g(\mu) = \mu\)</span></td>
+</tr>
+<tr class="even">
+<td>Binomial</td>
+<td>Logit</td>
+<td><span class="math inline">\(g(\pi) = \ln[\pi/(1 - \pi)]\)</span></td>
+</tr>
+<tr class="odd">
+<td>Poisson</td>
+<td>Log</td>
+<td><span class="math inline">\(g(\mu) = \ln \mu\)</span></td>
+</tr>
+<tr class="even">
+<td>Gamma</td>
+<td>Inverse</td>
+<td><span class="math inline">\(g(\mu) = 1/\mu\)</span></td>
+</tr>
+<tr class="odd">
+<td>Inverse Gaussian</td>
+<td>Squared inverse</td>
+<td><span class="math inline">\(g(\mu) = 1/\mu^2\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><em>Motivation:</em> To facilitate convergence.</p>
+<p>Using the canonical Link function will tend to make convergence faster, and more likely to occur.</p>
+<p>However, just because the link function is the canonical link, doesn’t mean we should always use that link function. In practice, there are much more important considerations to keep in mind, like whether the predictors are appropriate, and whether the resulting glm is easy to interpret.</p>
+<div id="example-gamma-glm" class="section level6 unnumbered hasAnchor">
+<h6>Example: Gamma GLM<a href="generalized-linear-models.html#example-gamma-glm" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<p>Because we know that for Gamma, the mean is always positive:
+- The <strong>Inverse Link</strong> doesn’t always ensure positive predictions.
+- The <strong>Log Link</strong> is much more commonly used, because it ensure positive predictions, and makes the GLM easier to interpret.</p>
+<hr />
+</div>
+</div>
+</div>
+</div>
+<div id="weights-and-offsets" class="section level3 hasAnchor" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> Weights and Offsets<a href="generalized-linear-models.html#weights-and-offsets" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="fitting-and-assessing-the-performance-of-a-glm" class="section level3 hasAnchor" number="4.1.3">
+<h3><span class="header-section-number">4.1.3</span> Fitting and Assessing the Performance of a GLM<a href="generalized-linear-models.html#fitting-and-assessing-the-performance-of-a-glm" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="performance-metrics-for-classifiers" class="section level3 hasAnchor" number="4.1.4">
+<h3><span class="header-section-number">4.1.4</span> Performance Metrics for Classifiers<a href="generalized-linear-models.html#performance-metrics-for-classifiers" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+</div>
+<div id="case-study-1-glms-for-continuous-target-variables" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Case Study 1: GLMs for Continuous Target Variables<a href="generalized-linear-models.html#case-study-1-glms-for-continuous-target-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="data-preparation" class="section level3 hasAnchor" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Data Preparation<a href="generalized-linear-models.html#data-preparation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="model-construction-and-evaluation" class="section level3 hasAnchor" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> Model Construction and Evaluation<a href="generalized-linear-models.html#model-construction-and-evaluation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="model-validation-and-interpretation" class="section level3 hasAnchor" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> Model Validation and Interpretation<a href="generalized-linear-models.html#model-validation-and-interpretation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+</div>
+<div id="case-study-2-glms-for-binary-target-variables" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Case Study 2: GLMs for Binary Target Variables<a href="generalized-linear-models.html#case-study-2-glms-for-binary-target-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="data-exploration-and-preparation" class="section level3 hasAnchor" number="4.3.1">
+<h3><span class="header-section-number">4.3.1</span> Data Exploration and Preparation<a href="generalized-linear-models.html#data-exploration-and-preparation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="model-construction-and-selection" class="section level3 hasAnchor" number="4.3.2">
+<h3><span class="header-section-number">4.3.2</span> Model Construction and Selection<a href="generalized-linear-models.html#model-construction-and-selection" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="interpretation-of-model-results" class="section level3 hasAnchor" number="4.3.3">
+<h3><span class="header-section-number">4.3.3</span> Interpretation of Model Results<a href="generalized-linear-models.html#interpretation-of-model-results" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+</div>
+<div id="case-study-3-glms-for-count-and-aggregate-loss-variables" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Case Study 3: GLMs for Count and Aggregate Loss Variables<a href="generalized-linear-models.html#case-study-3-glms-for-count-and-aggregate-loss-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="data-exploration-and-preparation-1" class="section level3 hasAnchor" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> Data Exploration and Preparation<a href="generalized-linear-models.html#data-exploration-and-preparation-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="model-construction-and-evaluation-1" class="section level3 hasAnchor" number="4.4.2">
+<h3><span class="header-section-number">4.4.2</span> Model Construction and Evaluation<a href="generalized-linear-models.html#model-construction-and-evaluation-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="predictions" class="section level3 hasAnchor" number="4.4.3">
+<h3><span class="header-section-number">4.4.3</span> Predictions<a href="generalized-linear-models.html#predictions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="linear-models.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": {}
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["soa-exam-pa.pdf", "soa-exam-pa.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"theme": "journal",
+"toolbar": {
+"position": "fixed"
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

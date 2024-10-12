@@ -17,8 +17,8 @@ rmd_files:
     "00-introduction.Rmd",
     "01-basics-of-r-programming.Rmd",
     "02-data-exploration-and-visualization.Rmd",
-    "03-linear-models.Rmd"
-    #"04-generalized-linear-models.Rmd",
+    "03-linear-models.Rmd",
+    "04-generalized-linear-models.Rmd"
     #"05-tree-based-models.Rmd",
     #"06-unsupervised-learning-techniques.Rmd",
     #"07-discussions-on-past-pa-exams.Rmd",

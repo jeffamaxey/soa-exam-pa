@@ -1,4 +1,4 @@
-# (PART) Theory of and Case Studies in Predictive Analytics {.unnumbered}
+# (PART) Theory of and Case Studies in Predictive Analytics {-}
 
 # Linear Models
 
@@ -743,7 +743,7 @@ $$
 -   **Tabular (data frame) format**:
 
 | Training Observation | Target $Y$ | Predictors |
-|----------------------------|-------------------|--------------------------|
+|------------------------|------------------------|------------------------|
 |  | $Y$ | $X_1$ $X_2$ ... $X_p$ |
 | 1 | $Y_1$ | $X_{11}$ $X_{12}$ ... $X_{1p}$ |
 | 2 | $Y_2$ | $X_{21}$ $X_{22}$ ... $X_{2p}$ |
@@ -2461,20 +2461,22 @@ From what we have previously learned, there may be an **interaction** between `I
 
 In the later part of this case study, we will consider the interaction between `Income` and `Student` into account when we construct linear models.
 
----
+------------------------------------------------------------------------
 
-### TASK 5: Explore the Effect of Releveling Factor Variables {-}
+### TASK 5: Explore the Effect of Releveling Factor Variables {.unnumbered}
 
-#### Task Statement {-}
-- Split the data into training and test sets.
-- Fit a multiple linear regression model for **Balance** on all variables (except **Limit**) on the training set. Be sure to take note of the implications in Task 4. Interpret the **coefficient estimates** for **Married** and for the **Asian** level of **Ethnicity**.
-- **Relevel** the factor variables so that the most frequent level becomes the baseline level and refit the multiple linear regression model. Interpret the coefficient estimates for **Married** and for the **Asian** level of **Ethnicity** again.
+#### Task Statement {.unnumbered}
 
-##### Overall Objective {-}
+-   Split the data into training and test sets.
+-   Fit a multiple linear regression model for **Balance** on all variables (except **Limit**) on the training set. Be sure to take note of the implications in Task 4. Interpret the **coefficient estimates** for **Married** and for the **Asian** level of **Ethnicity**.
+-   **Relevel** the factor variables so that the most frequent level becomes the baseline level and refit the multiple linear regression model. Interpret the coefficient estimates for **Married** and for the **Asian** level of **Ethnicity** again.
+
+##### Overall Objective {.unnumbered}
+
 To understand how **categorical predictors** are handled by the `lm()` function.
 
-
 We'll start this task by performing the training/test set split and comparing the mean of the target variable `Balance` in each of the data sets:
+
 
 ``` r
 # CHUNK 9
@@ -2558,7 +2560,7 @@ By default, R will use alphabetical ordering of factor levels to determine the b
 
 Based on the coefficients of the factor variables, we can see that the `Balance` is, on average, 20.46469 lower for married observations than the balance for unmarried observations.
 
-We can also say that the `Balance` for Asian is higher than the `Balance` of African (the baseline level), by an average of 6.53269, all else equal. 
+We can also say that the `Balance` for Asian is higher than the `Balance` of African (the baseline level), by an average of 6.53269, all else equal.
 
 **For factor variables, the comparisons of coefficients are always with respect to the baseline level.**
 
@@ -2647,25 +2649,25 @@ summary(model.full)
 
 We can see in the new summary output, the coefficients for `Married` and `Ethnicity` have flipped as there is a new baseline level of these factor variables.
 
----
+------------------------------------------------------------------------
 
-### TASK 6: Binarize Factor Variables Manually {-}
+### TASK 6: Binarize Factor Variables Manually {.unnumbered}
 
-#### Task Statement {-}
-- Describe the **advantages and disadvantages** of **manually binarizing** the factor variables before performing feature selection.
-- Regardless, **binarize the factor variables manually** and refit the multiple linear regression model in Task 5.
+#### Task Statement {.unnumbered}
 
-#### Advantage: To avoid "all or nothing" {-}
-Many feature selection functions treat factor variables as a **single feature** and either:
-  - Retain the variable with **all of its levels**
-  - Remove the variable **completely**
+-   Describe the **advantages and disadvantages** of **manually binarizing** the factor variables before performing feature selection.
+-   Regardless, **binarize the factor variables manually** and refit the multiple linear regression model in Task 5.
+
+#### Advantage: To avoid "all or nothing" {.unnumbered}
+
+Many feature selection functions treat factor variables as a **single feature** and either: - Retain the variable with **all of its levels** - Remove the variable **completely**
 
 Binarization allows the ability to **drop individual factor levels** if not significant with respect to the baseline.
 
-#### Disadvantages {-}
-1. Each factor level is considered a **separate feature** to add/drop, which can make **stepwise selection** take considerably longer to complete.
-2. (Less important; see Dec 2019 Task 8) It’s possible to have **nonsensical results** when only a **handful of levels** of a categorical predictor are selected.
+#### Disadvantages {.unnumbered}
 
+1.  Each factor level is considered a **separate feature** to add/drop, which can make **stepwise selection** take considerably longer to complete.
+2.  (Less important; see Dec 2019 Task 8) It’s possible to have **nonsensical results** when only a **handful of levels** of a categorical predictor are selected.
 
 In the following code chunk, we start the binarization process by generating the dummary variables for the four factor variables in the data.
 
@@ -2817,23 +2819,25 @@ summary(model.full.bin)
 
 We see a similar summary output for the model as we did before.
 
----
+------------------------------------------------------------------------
 
 ### Model Construction and Feature Selection
 
-### TASK 7: Select Features using Stepwise Selection {-}
+### TASK 7: Select Features using Stepwise Selection {.unnumbered}
 
-#### Task Statement {-}
+#### Task Statement {.unnumbered}
+
 **Motivation**: Some features in the full model may lack predictive power and result in overfitting.
 
-- Perform **stepwise selection** using the `stepAIC()` function to determine which features should be retained.
-  - Two decisions to make:
-    1. **Forward** (`direction = "forward"`) vs. **backward** (`direction = "backward"`) (default)
-    2. **AIC** (`k = 2`) (default) vs. **BIC** (`k = log(nrow(data.train.bin))`)
+-   Perform **stepwise selection** using the `stepAIC()` function to determine which features should be retained.
 
-- Employ **forward selection** using **BIC**.
-  
-- Run the `summary` function on the linear model selected by this process. Provide the summary output and **list the variables selected**.
+    -   Two decisions to make:
+        1.  **Forward** (`direction = "forward"`) vs. **backward** (`direction = "backward"`) (default)
+        2.  **AIC** (`k = 2`) (default) vs. **BIC** (`k = log(nrow(data.train.bin))`)
+
+-   Employ **forward selection** using **BIC**.
+
+-   Run the `summary` function on the linear model selected by this process. Provide the summary output and **list the variables selected**.
 
 We load the `MASS` package to perform stepwise AIC. The default for stepAIC() is to use "backward" selection and "AIC" as the criteria (e.g., $k=2$).
 
@@ -3001,7 +3005,6 @@ summary(model.backward.AIC)
 #> F-statistic:  965 on 6 and 294 DF,  p-value: <2e-16
 ```
 
-
 If we look at using the `stepAIC()` function on a non-binarized dataset, at just the first iteration, we can see that the stepwise selection would drop the entire `Ethnicity` factor variable, rather than just some factor levels of it:
 
 
@@ -3028,7 +3031,7 @@ model.no.binarize <- stepAIC(model.full, steps = 1)
 #>     Student + Married + Income:Student
 ```
 
-In the next code chunk, we will perform "forward" stepwise selection on the BIC. In this approach, we need to specify the `direction` parameter as "foward", and define the penalty argument `k` as the log(size of training dataset), and the `scope` argument with the most complex and least complex forms of the model: 
+In the next code chunk, we will perform "forward" stepwise selection on the BIC. In this approach, we need to specify the `direction` parameter as "foward", and define the penalty argument `k` as the log(size of training dataset), and the `scope` argument with the most complex and least complex forms of the model:
 
 
 ``` r
@@ -3151,19 +3154,19 @@ Based on forward selection and BIC, the final model will only have three predict
 
 If you do stepwise selection with BIC, your final model will tend to be simpler.
 
----
+------------------------------------------------------------------------
 
 ### Model Validation
 
-### TASK 8: Select and Validate the Recommended Model {-}
+### TASK 8: Select and Validate the Recommended Model {.unnumbered}
 
-#### Task Statement {-}
-- Evaluate the **RMSE** of the models in the preceding subsection against the **test set**.
-- Make a **recommendation** as to which model should be used.
-- Generate and interpret **diagnostic plots** for the recommended model to check the model assumptions.
+#### Task Statement {.unnumbered}
 
+-   Evaluate the **RMSE** of the models in the preceding subsection against the **test set**.
+-   Make a **recommendation** as to which model should be used.
+-   Generate and interpret **diagnostic plots** for the recommended model to check the model assumptions.
 
-Here we will evaluate the RMSE of the models in the preceding subsection against the test set using the `RMSE()` function in the `caret` package. The `RMSE()` function takes a vector of target values for the first parameter, and a vector of predicted fitted-values as the second parameter. We specify the `newdata=data.test.bin` to calculate the prediction performance on the test data.  
+Here we will evaluate the RMSE of the models in the preceding subsection against the test set using the `RMSE()` function in the `caret` package. The `RMSE()` function takes a vector of target values for the first parameter, and a vector of predicted fitted-values as the second parameter. We specify the `newdata=data.test.bin` to calculate the prediction performance on the test data.
 
 
 ``` r
@@ -3192,30 +3195,32 @@ plot(model.forward.BIC)
 
 <img src="figures/unnamed-chunk-52-1.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-52-2.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-52-3.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-52-4.png" width="100%" style="display: block; margin: auto;" />
 
-
-The first plot is the **Residuals vs. Fitted Values** on the training set. If the model has captured the signal effectively, then the residuals should behave randomly and there should be no systematic patterns in the plot. But that is not the case here, you can see a clear U-shape in the plot. That means there may be non-linear relationships not captured by the linear model. To remedy the problem, we may try to add non-linear terms (polynomial terms) or interaction terms to the model equation. 
-
+The first plot is the **Residuals vs. Fitted Values** on the training set. If the model has captured the signal effectively, then the residuals should behave randomly and there should be no systematic patterns in the plot. But that is not the case here, you can see a clear U-shape in the plot. That means there may be non-linear relationships not captured by the linear model. To remedy the problem, we may try to add non-linear terms (polynomial terms) or interaction terms to the model equation.
 
 The **Q-Q Plot** plots the standardized empirical residuals against the theoretical quantiles. This plot is intended to check the normality of the standard errors. If the points lie on the 45-degree line, the normality assumption should be fine. In this plot, the points lie quite closely in the middle part, but not in the two extreme tails. The points above the 45-degree line in the right tail suggest a heavy tail or right-skew.
 
-Overall, the predictive performance of the model is good, however the  diagnostic plots suggest some room for improvement.
+Overall, the predictive performance of the model is good, however the diagnostic plots suggest some room for improvement.
 
 ### Regularization
 
-### TASK 9: Effect of Regularization {-}
+### TASK 9: Effect of Regularization {.unnumbered}
 
-#### Task Statement {-}
-- Explain whether using `alpha = 0` is appropriate for this case study.
-- Regardless of your conclusion, use elastic net with `alpha = 0.5` to fit a regularized regression model with the following values of `lambda`: 0, 10, 100, 500, 1000.
-- State your **observations**.
+#### Task Statement {.unnumbered}
 
-#### Notes {-}
-- Remember `alpha = 0` corresponds to **ridge regression** (no features dropped).
-- **Goal**: To identify key factors affecting **Balance**.
+-   Explain whether using `alpha = 0` is appropriate for this case study.
+-   Regardless of your conclusion, use elastic net with `alpha = 0.5` to fit a regularized regression model with the following values of `lambda`: 0, 10, 100, 500, 1000.
+-   State your **observations**.
 
+#### Notes {.unnumbered}
 
-To perform regularization, we will use the `glmnet` package. The `glmnet` function takes a model matrix (design matrix) as the `x` parameter and a vector of target variable values as the `y` parameter. In addition, you must specify the `family` distribution of the target variable, and provide candidates for the `lambda` and `alpha` hyperparameters.
+-   Remember `alpha = 0` corresponds to **ridge regression** (no features dropped).
+-   **Goal**: To identify key factors affecting **Balance**.
 
+To perform regularization in R, we will use the `glmnet` package.
+
+The main function in this package is the `glmnet()` function. The syntax of this function is different from the `lm()` function we have been using. It does not take a "model formula" as a parameter. Instead it takes a model matrix, or design matrix.
+
+We can setup this matrix by using the `model.matrix()` function, which takes the model formula and data argument, like the `lm()` function.
 
 
 ``` r
@@ -3252,6 +3257,9 @@ head(X.train)  # print out a few rows of the design matrix
 #> 9                 0
 ```
 
+We can see that the model matrix contains a constant 1 for intercept, columns for the 5 numeric variables, and the factor variables have been binarized automatically; there is a dummary variable for each non-baseline level.
+
+Once we have set up the model matrix, we can pass it as the `x` argument to the `glmnet()` function. We also pass a vector of the target variable values, and the value of `alpha`
 
 
 ``` r
@@ -3334,7 +3342,20 @@ mean(data.train$Balance)
 #> [1] 520.4
 ```
 
+We can view the model assigned to the `glmnet()` function as a list. The `a0` component contains the intercept estimate, and the `beta` component contains the slope coefficients.
+
+Because we have 5 lambda values, there are 5 sets of coefficient estimates; one column for each lambda value.
+
+The lambda values are arranged in **descending order** (e.g., `s0` corresponds to the lambda value of 1000, ..., `s4` corresponds to the lambda value of 0).
+
+The `.` in the `beta` output represent features dropped in the model because of shrinkage. As you can see, the larger the value of `lambda`, the more shrinkage that occurs and the more features that are dropped.
+
+In `s1`, `Rating` is the only feature that remains, implying that it is the most significant feature in the model. In `s0`, if we increase the value of lambda to 1000, the shrinkage becomes overwhelming and all the features are dropped, resulting in just the intercept term remaining.
+
 Next we'll construct a ridge model, an elastic net model, and a lasso model:
+
+**Ridge Model:**
+
 
 ``` r
 # CHUNK 23
@@ -3359,7 +3380,12 @@ coef(m.ridge)
 #> EthnicityAfrican American  -10.0939
 #> EthnicityAsian              -4.4601
 #> Income:StudentYes            0.4123
+```
 
+**Elastic-Net Model:**
+
+
+``` r
 m.elastic.net <- glmnet(x = X.train,
                         y = data.train$Balance,
                         family = "gaussian",
@@ -3381,7 +3407,12 @@ coef(m.elastic.net)
 #> EthnicityAfrican American    .      
 #> EthnicityAsian               .      
 #> Income:StudentYes            0.01376
+```
 
+**Lasso Model:**
+
+
+``` r
 m.lasso <- glmnet(x = X.train,
                   y = data.train$Balance,
                   family = "gaussian",
@@ -3405,19 +3436,19 @@ coef(m.lasso)
 #> Income:StudentYes            .
 ```
 
----
+------------------------------------------------------------------------
 
-### TASK 10: Perform Feature Selection with Regularization {-}
+### TASK 10: Perform Feature Selection with Regularization {.unnumbered}
 
-#### Task Statement {-}
-- Use **cross-validation** to set the value of `lambda` for fitting the regularized model (`alpha = 0.5`) in Task 9.
-  - **List** the features used in the resulting model.
-  - **Calculate** the RMSE on the test set.
-  - **Recommend** which model should be used and **justify** your choice.
-- Suggest **another method** to set the value of `lambda`.
+#### Task Statement {.unnumbered}
 
+-   Use **cross-validation** to set the value of `lambda` for fitting the regularized model (`alpha = 0.5`) in Task 9.
+    -   **List** the features used in the resulting model.
+    -   **Calculate** the RMSE on the test set.
+    -   **Recommend** which model should be used and **justify** your choice.
+-   Suggest **another method** to set the value of `lambda`.
 
-We use cross-validation using the `cv.glmnet()` function to systematically determine the appropriate or optimal value of the `lambda` hyperparameter:
+We use cross-validation using the `cv.glmnet()` function to systematically determine the appropriate or optimal value of the `lambda` hyperparameter. This function calculates the **cross-validation error** for different values of `lambda` under consideration:
 
 
 ``` r
@@ -3436,9 +3467,13 @@ m$lambda.1se
 #> [1] 7.551
 ```
 
-<img src="figures/unnamed-chunk-56-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="figures/unnamed-chunk-58-1.png" width="100%" style="display: block; margin: auto;" />
 
-We refit the regularized elastic-net (`alpha=0.5`) model using the optimal value of the `lambda` parameter that resulted in the lowest mean squared error (MSE). Using this model, we set up the design matrix for the test data, and make predictions on the test data. We then calculate the test RMSE to determine the prediction performance: 
+Using the `plot()` function will show you the cross-validation error for various values of `log(lambda)`. The numbers across the top are the number of features, and the two veritcal lines correspond to the `m$lambda.min` and the `m$lambda.1se` which denote the lambda that gives you the smallest cross validation error, and the lambda within 1 standard deviation (standard error) of it.
+
+One way to choose the value of lambda is to take the `m.lambda$min`
+
+We refit the regularized elastic-net (`alpha=0.5`) model using the value of the `lambda` that minimized the cross validation curve. Using this model, we set up the design matrix for the test data, and make predictions on the test data. We then calculate the test RMSE to determine the prediction performance:
 
 
 ``` r
@@ -3476,7 +3511,7 @@ RMSE(data.test$Balance, m.min.pred)
 #> [1] 103.9
 ```
 
-We again refit the model using `lambda.1se` as the lambda hyperparameter, make predictions again, and evaluate the RMSE: 
+We again refit the model using `lambda.1se` as the lambda hyperparameter, make predictions again, and evaluate the RMSE, and compare it to the previous model:
 
 
 ``` r
@@ -3511,6 +3546,56 @@ RMSE(data.test$Balance, m.1se.pred)
 #> [1] 102.8
 ```
 
-
+------------------------------------------------------------------------
 
 ## Conceptual Review: Questions for Chapter 3 {.unnumbered}
+
+### Q3.1: Explain the objectives of descriptive, predictive and prescriptive modeling.
+
+-   **Descriptive:** Descriptive analytics focuses on what happened in the ***past*** and aims to "describe" or explain the observed trends by identifying the relationships between variables in the data.
+    -   **Example:** If you saw an increase in the lapse rate among policyholders of a certain line of business, what kind of policyholders had the highest tendency to lapse?
+-   **Predictive:** Predictive analytics focuses on what will happen in the ***future*** and is concerned with making accurate predictions.
+    -   **Example:** For a prospective policholder with certain characteristics, what is their predicted probability of lapse?
+-   **Prescriptive:** Prescriptive analytics uses a combination of optimization and simulation to investigate and quantify the impact of different "prescribed" actions in different scenarios.
+    -   **Example:** If we reduce the premium by a certain amount, how will this affect the lapse rate?
+
+------------------------------------------------------------------------
+
+### Q3.2: Explain two differences between supervised and unsupervised learning.
+
+Predictive analytics problems can be classified into ***supervised*** and ***unsupervised learning*** problems, depending on the presence of a target variable and the objective of the analysis.
+
+-   **Supervised Learning:**
+    -   There is a target variable "supervising" or guiding our analysis.
+    -   The goal is to understand the relationship between target variabe and the predictors. and/or make accurate predictions for the target variable based on the predictors.
+-   **Unsupervised Learning:**
+    -   There is no target variable supervising our analysis.
+    -   We are interested in extracting relationships and structures between different variables in our data.
+
+------------------------------------------------------------------------
+
+### Q3.3: Explain the main difference between regression and classification problems.
+
+-   **Regression:** Has a numeric (or binary) target variable.
+-   **Classification:** Has a target variable that is categorical in nature.
+
+------------------------------------------------------------------------
+
+### Q3.4: Explain three characteristics of predictive modeling problems.
+
+Some common characteristics of predictive modeling problems include:
+
+| **Characteristic** | **Description** |
+|------------------------------------|------------------------------------|
+| **Issue** | There is a clearly identified and defined business issue that needs to be addressed. |
+| **Questions** | The issue can be addressed with a few well-defined questions (What data do we need? What is the target or outcome? What is the success criteria / how will the model performance be evaluated?) |
+| **Data** | Good and useful data is available for answering the questions above. |
+| **Impact** | The predictions will likely drive actions or increase understanding. |
+| **Better Solution** | Predictive analytics likely produces a solution better than any existing approach. |
+| **Update** | We can continue to monitor and update the models when new data becomes available. |
+
+------------------------------------------------------------------------
+
+### Q3.4: Explain three characteristics of predictive modeling problems.
+
+Some common characteristics of predictive modeling problems include:

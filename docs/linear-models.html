@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="data-exploration-and-visualization.html"/>
-
+<link rel="next" href="generalized-linear-models.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -229,7 +229,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-9-effect-of-regularization"><i class="fa fa-check"></i>TASK 9: Effect of Regularization</a></li>
 <li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-10-perform-feature-selection-with-regularization"><i class="fa fa-check"></i>TASK 10: Perform Feature Selection with Regularization</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#conceptual-review-questions-for-chapter-3"><i class="fa fa-check"></i>Conceptual Review: Questions for Chapter 3</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#conceptual-review-questions-for-chapter-3"><i class="fa fa-check"></i>Conceptual Review: Questions for Chapter 3</a>
+<ul>
+<li class="chapter" data-level="3.4.5" data-path="linear-models.html"><a href="linear-models.html#q3.1-explain-the-objectives-of-descriptive-predictive-and-prescriptive-modeling."><i class="fa fa-check"></i><b>3.4.5</b> Q3.1: Explain the objectives of descriptive, predictive and prescriptive modeling.</a></li>
+<li class="chapter" data-level="3.4.6" data-path="linear-models.html"><a href="linear-models.html#q3.2-explain-two-differences-between-supervised-and-unsupervised-learning."><i class="fa fa-check"></i><b>3.4.6</b> Q3.2: Explain two differences between supervised and unsupervised learning.</a></li>
+<li class="chapter" data-level="3.4.7" data-path="linear-models.html"><a href="linear-models.html#q3.3-explain-the-main-difference-between-regression-and-classification-problems."><i class="fa fa-check"></i><b>3.4.7</b> Q3.3: Explain the main difference between regression and classification problems.</a></li>
+<li class="chapter" data-level="3.4.8" data-path="linear-models.html"><a href="linear-models.html#q3.4-explain-three-characteristics-of-predictive-modeling-problems."><i class="fa fa-check"></i><b>3.4.8</b> Q3.4: Explain three characteristics of predictive modeling problems.</a></li>
+<li class="chapter" data-level="3.4.9" data-path="linear-models.html"><a href="linear-models.html#q3.4-explain-three-characteristics-of-predictive-modeling-problems.-1"><i class="fa fa-check"></i><b>3.4.9</b> Q3.4: Explain three characteristics of predictive modeling problems.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>4</b> Generalized Linear Models</a>
+<ul>
+<li class="chapter" data-level="" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#motivating-examples-in-insurance"><i class="fa fa-check"></i>Motivating Examples in Insurance</a></li>
+<li class="chapter" data-level="" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#glm-component-1-target-distributions"><i class="fa fa-check"></i>GLM Component 1: Target Distributions</a>
+<ul>
+<li class="chapter" data-level="4.0.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#a-monster-revisited"><i class="fa fa-check"></i><b>4.0.1</b> A “monster” revisited…</a></li>
+<li class="chapter" data-level="" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#things-to-keep-in-mind"><i class="fa fa-check"></i>Things to keep in mind:</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#glm-component-2-link-functions"><i class="fa fa-check"></i>GLM Component 2: Link Functions</a>
+<ul>
+<li class="chapter" data-level="" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#link-functions"><i class="fa fa-check"></i>Link Functions</a></li>
+<li class="chapter" data-level="" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#special-case-linear-models"><i class="fa fa-check"></i>Special Case: Linear Models</a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/jeffamaxey/soa-exam-pa" target="blank">Github Repository</a></li>
@@ -1006,11 +1027,11 @@ Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p + \varepsilon.
 <ul>
 <li><strong>Tabular (data frame) format</strong>:</li>
 </ul>
-<table style="width:100%;">
+<table>
 <colgroup>
-<col width="38%" />
-<col width="26%" />
-<col width="35%" />
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2969,9 +2990,7 @@ To look at a <strong>restricted subset</strong> of all possible models.</li>
 </div>
 <div id="advantage-to-avoid-all-or-nothing" class="section level4 unnumbered hasAnchor">
 <h4>Advantage: To avoid “all or nothing”<a href="linear-models.html#advantage-to-avoid-all-or-nothing" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>Many feature selection functions treat factor variables as a <strong>single feature</strong> and either:
-- Retain the variable with <strong>all of its levels</strong>
-- Remove the variable <strong>completely</strong></p>
+<p>Many feature selection functions treat factor variables as a <strong>single feature</strong> and either: - Retain the variable with <strong>all of its levels</strong> - Remove the variable <strong>completely</strong></p>
 <p>Binarization allows the ability to <strong>drop individual factor levels</strong> if not significant with respect to the baseline.</p>
 </div>
 <div id="disadvantages" class="section level4 unnumbered hasAnchor">
@@ -3490,7 +3509,9 @@ To look at a <strong>restricted subset</strong> of all possible models.</li>
 <li>Remember <code>alpha = 0</code> corresponds to <strong>ridge regression</strong> (no features dropped).</li>
 <li><strong>Goal</strong>: To identify key factors affecting <strong>Balance</strong>.</li>
 </ul>
-<p>To perform regularization, we will use the <code>glmnet</code> package. The <code>glmnet</code> function takes a model matrix (design matrix) as the <code>x</code> parameter and a vector of target variable values as the <code>y</code> parameter. In addition, you must specify the <code>family</code> distribution of the target variable, and provide candidates for the <code>lambda</code> and <code>alpha</code> hyperparameters.</p>
+<p>To perform regularization in R, we will use the <code>glmnet</code> package.</p>
+<p>The main function in this package is the <code>glmnet()</code> function. The syntax of this function is different from the <code>lm()</code> function we have been using. It does not take a “model formula” as a parameter. Instead it takes a model matrix, or design matrix.</p>
+<p>We can setup this matrix by using the <code>model.matrix()</code> function, which takes the model formula and data argument, like the <code>lm()</code> function.</p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="linear-models.html#cb49-1" tabindex="-1"></a><span class="co"># CHUNK 21</span></span>
 <span id="cb49-2"><a href="linear-models.html#cb49-2" tabindex="-1"></a>X.train <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(Balance <span class="sc">~</span> . <span class="sc">+</span> Income<span class="sc">:</span>Student, <span class="at">data =</span> data.train)</span>
 <span id="cb49-3"><a href="linear-models.html#cb49-3" tabindex="-1"></a><span class="fu">head</span>(X.train)  <span class="co"># print out a few rows of the design matrix</span></span>
@@ -3522,6 +3543,8 @@ To look at a <strong>restricted subset</strong> of all possible models.</li>
 <span id="cb49-29"><a href="linear-models.html#cb49-29" tabindex="-1"></a><span class="co">#&gt; 6                 0</span></span>
 <span id="cb49-30"><a href="linear-models.html#cb49-30" tabindex="-1"></a><span class="co">#&gt; 8                 0</span></span>
 <span id="cb49-31"><a href="linear-models.html#cb49-31" tabindex="-1"></a><span class="co">#&gt; 9                 0</span></span></code></pre></div>
+<p>We can see that the model matrix contains a constant 1 for intercept, columns for the 5 numeric variables, and the factor variables have been binarized automatically; there is a dummary variable for each non-baseline level.</p>
+<p>Once we have set up the model matrix, we can pass it as the <code>x</code> argument to the <code>glmnet()</code> function. We also pass a vector of the target variable values, and the value of <code>alpha</code></p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="linear-models.html#cb50-1" tabindex="-1"></a><span class="co"># CHUNK 22</span></span>
 <span id="cb50-2"><a href="linear-models.html#cb50-2" tabindex="-1"></a><span class="co">#install.packages(&quot;glmnet&quot;)  # uncomment this line the first time you use glmnet</span></span>
 <span id="cb50-3"><a href="linear-models.html#cb50-3" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
@@ -3599,7 +3622,13 @@ To look at a <strong>restricted subset</strong> of all possible models.</li>
 <span id="cb50-75"><a href="linear-models.html#cb50-75" tabindex="-1"></a></span>
 <span id="cb50-76"><a href="linear-models.html#cb50-76" tabindex="-1"></a><span class="fu">mean</span>(data.train<span class="sc">$</span>Balance)</span>
 <span id="cb50-77"><a href="linear-models.html#cb50-77" tabindex="-1"></a><span class="co">#&gt; [1] 520.4</span></span></code></pre></div>
+<p>We can view the model assigned to the <code>glmnet()</code> function as a list. The <code>a0</code> component contains the intercept estimate, and the <code>beta</code> component contains the slope coefficients.</p>
+<p>Because we have 5 lambda values, there are 5 sets of coefficient estimates; one column for each lambda value.</p>
+<p>The lambda values are arranged in <strong>descending order</strong> (e.g., <code>s0</code> corresponds to the lambda value of 1000, …, <code>s4</code> corresponds to the lambda value of 0).</p>
+<p>The <code>.</code> in the <code>beta</code> output represent features dropped in the model because of shrinkage. As you can see, the larger the value of <code>lambda</code>, the more shrinkage that occurs and the more features that are dropped.</p>
+<p>In <code>s1</code>, <code>Rating</code> is the only feature that remains, implying that it is the most significant feature in the model. In <code>s0</code>, if we increase the value of lambda to 1000, the shrinkage becomes overwhelming and all the features are dropped, resulting in just the intercept term remaining.</p>
 <p>Next we’ll construct a ridge model, an elastic net model, and a lasso model:</p>
+<p><strong>Ridge Model:</strong></p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="linear-models.html#cb51-1" tabindex="-1"></a><span class="co"># CHUNK 23</span></span>
 <span id="cb51-2"><a href="linear-models.html#cb51-2" tabindex="-1"></a>m.ridge <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X.train,</span>
 <span id="cb51-3"><a href="linear-models.html#cb51-3" tabindex="-1"></a>                  <span class="at">y =</span> data.train<span class="sc">$</span>Balance,</span>
@@ -3621,51 +3650,51 @@ To look at a <strong>restricted subset</strong> of all possible models.</li>
 <span id="cb51-19"><a href="linear-models.html#cb51-19" tabindex="-1"></a><span class="co">#&gt; MarriedNo                   20.1062</span></span>
 <span id="cb51-20"><a href="linear-models.html#cb51-20" tabindex="-1"></a><span class="co">#&gt; EthnicityAfrican American  -10.0939</span></span>
 <span id="cb51-21"><a href="linear-models.html#cb51-21" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian              -4.4601</span></span>
-<span id="cb51-22"><a href="linear-models.html#cb51-22" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes            0.4123</span></span>
-<span id="cb51-23"><a href="linear-models.html#cb51-23" tabindex="-1"></a></span>
-<span id="cb51-24"><a href="linear-models.html#cb51-24" tabindex="-1"></a>m.elastic.net <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X.train,</span>
-<span id="cb51-25"><a href="linear-models.html#cb51-25" tabindex="-1"></a>                        <span class="at">y =</span> data.train<span class="sc">$</span>Balance,</span>
-<span id="cb51-26"><a href="linear-models.html#cb51-26" tabindex="-1"></a>                        <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
-<span id="cb51-27"><a href="linear-models.html#cb51-27" tabindex="-1"></a>                        <span class="at">lambda =</span> <span class="dv">10</span>,</span>
-<span id="cb51-28"><a href="linear-models.html#cb51-28" tabindex="-1"></a>                        <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
-<span id="cb51-29"><a href="linear-models.html#cb51-29" tabindex="-1"></a><span class="fu">coef</span>(m.elastic.net)</span>
-<span id="cb51-30"><a href="linear-models.html#cb51-30" tabindex="-1"></a><span class="co">#&gt; 13 x 1 sparse Matrix of class &quot;dgCMatrix&quot;</span></span>
-<span id="cb51-31"><a href="linear-models.html#cb51-31" tabindex="-1"></a><span class="co">#&gt;                                   s0</span></span>
-<span id="cb51-32"><a href="linear-models.html#cb51-32" tabindex="-1"></a><span class="co">#&gt; (Intercept)               -506.12459</span></span>
-<span id="cb51-33"><a href="linear-models.html#cb51-33" tabindex="-1"></a><span class="co">#&gt; (Intercept)                  .      </span></span>
-<span id="cb51-34"><a href="linear-models.html#cb51-34" tabindex="-1"></a><span class="co">#&gt; Income                      -6.63607</span></span>
-<span id="cb51-35"><a href="linear-models.html#cb51-35" tabindex="-1"></a><span class="co">#&gt; Rating                       3.71092</span></span>
-<span id="cb51-36"><a href="linear-models.html#cb51-36" tabindex="-1"></a><span class="co">#&gt; Cards                        0.51137</span></span>
-<span id="cb51-37"><a href="linear-models.html#cb51-37" tabindex="-1"></a><span class="co">#&gt; Age                         -0.70476</span></span>
-<span id="cb51-38"><a href="linear-models.html#cb51-38" tabindex="-1"></a><span class="co">#&gt; Education                    .      </span></span>
-<span id="cb51-39"><a href="linear-models.html#cb51-39" tabindex="-1"></a><span class="co">#&gt; Gender Male                  3.09012</span></span>
-<span id="cb51-40"><a href="linear-models.html#cb51-40" tabindex="-1"></a><span class="co">#&gt; StudentYes                 396.73966</span></span>
-<span id="cb51-41"><a href="linear-models.html#cb51-41" tabindex="-1"></a><span class="co">#&gt; MarriedNo                    9.36636</span></span>
-<span id="cb51-42"><a href="linear-models.html#cb51-42" tabindex="-1"></a><span class="co">#&gt; EthnicityAfrican American    .      </span></span>
-<span id="cb51-43"><a href="linear-models.html#cb51-43" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian               .      </span></span>
-<span id="cb51-44"><a href="linear-models.html#cb51-44" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes            0.01376</span></span>
-<span id="cb51-45"><a href="linear-models.html#cb51-45" tabindex="-1"></a></span>
-<span id="cb51-46"><a href="linear-models.html#cb51-46" tabindex="-1"></a>m.lasso <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X.train,</span>
-<span id="cb51-47"><a href="linear-models.html#cb51-47" tabindex="-1"></a>                  <span class="at">y =</span> data.train<span class="sc">$</span>Balance,</span>
-<span id="cb51-48"><a href="linear-models.html#cb51-48" tabindex="-1"></a>                  <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
-<span id="cb51-49"><a href="linear-models.html#cb51-49" tabindex="-1"></a>                  <span class="at">lambda =</span> <span class="dv">10</span>,</span>
-<span id="cb51-50"><a href="linear-models.html#cb51-50" tabindex="-1"></a>                  <span class="at">alpha =</span> <span class="dv">1</span>)</span>
-<span id="cb51-51"><a href="linear-models.html#cb51-51" tabindex="-1"></a><span class="fu">coef</span>(m.lasso)</span>
-<span id="cb51-52"><a href="linear-models.html#cb51-52" tabindex="-1"></a><span class="co">#&gt; 13 x 1 sparse Matrix of class &quot;dgCMatrix&quot;</span></span>
-<span id="cb51-53"><a href="linear-models.html#cb51-53" tabindex="-1"></a><span class="co">#&gt;                                  s0</span></span>
-<span id="cb51-54"><a href="linear-models.html#cb51-54" tabindex="-1"></a><span class="co">#&gt; (Intercept)               -512.8489</span></span>
-<span id="cb51-55"><a href="linear-models.html#cb51-55" tabindex="-1"></a><span class="co">#&gt; (Intercept)                  .     </span></span>
-<span id="cb51-56"><a href="linear-models.html#cb51-56" tabindex="-1"></a><span class="co">#&gt; Income                      -6.5545</span></span>
-<span id="cb51-57"><a href="linear-models.html#cb51-57" tabindex="-1"></a><span class="co">#&gt; Rating                       3.6995</span></span>
-<span id="cb51-58"><a href="linear-models.html#cb51-58" tabindex="-1"></a><span class="co">#&gt; Cards                        .     </span></span>
-<span id="cb51-59"><a href="linear-models.html#cb51-59" tabindex="-1"></a><span class="co">#&gt; Age                         -0.4336</span></span>
-<span id="cb51-60"><a href="linear-models.html#cb51-60" tabindex="-1"></a><span class="co">#&gt; Education                    .     </span></span>
-<span id="cb51-61"><a href="linear-models.html#cb51-61" tabindex="-1"></a><span class="co">#&gt; Gender Male                  .     </span></span>
-<span id="cb51-62"><a href="linear-models.html#cb51-62" tabindex="-1"></a><span class="co">#&gt; StudentYes                 386.5700</span></span>
-<span id="cb51-63"><a href="linear-models.html#cb51-63" tabindex="-1"></a><span class="co">#&gt; MarriedNo                    .     </span></span>
-<span id="cb51-64"><a href="linear-models.html#cb51-64" tabindex="-1"></a><span class="co">#&gt; EthnicityAfrican American    .     </span></span>
-<span id="cb51-65"><a href="linear-models.html#cb51-65" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian               .     </span></span>
-<span id="cb51-66"><a href="linear-models.html#cb51-66" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes            .</span></span></code></pre></div>
+<span id="cb51-22"><a href="linear-models.html#cb51-22" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes            0.4123</span></span></code></pre></div>
+<p><strong>Elastic-Net Model:</strong></p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="linear-models.html#cb52-1" tabindex="-1"></a>m.elastic.net <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X.train,</span>
+<span id="cb52-2"><a href="linear-models.html#cb52-2" tabindex="-1"></a>                        <span class="at">y =</span> data.train<span class="sc">$</span>Balance,</span>
+<span id="cb52-3"><a href="linear-models.html#cb52-3" tabindex="-1"></a>                        <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb52-4"><a href="linear-models.html#cb52-4" tabindex="-1"></a>                        <span class="at">lambda =</span> <span class="dv">10</span>,</span>
+<span id="cb52-5"><a href="linear-models.html#cb52-5" tabindex="-1"></a>                        <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
+<span id="cb52-6"><a href="linear-models.html#cb52-6" tabindex="-1"></a><span class="fu">coef</span>(m.elastic.net)</span>
+<span id="cb52-7"><a href="linear-models.html#cb52-7" tabindex="-1"></a><span class="co">#&gt; 13 x 1 sparse Matrix of class &quot;dgCMatrix&quot;</span></span>
+<span id="cb52-8"><a href="linear-models.html#cb52-8" tabindex="-1"></a><span class="co">#&gt;                                   s0</span></span>
+<span id="cb52-9"><a href="linear-models.html#cb52-9" tabindex="-1"></a><span class="co">#&gt; (Intercept)               -506.12459</span></span>
+<span id="cb52-10"><a href="linear-models.html#cb52-10" tabindex="-1"></a><span class="co">#&gt; (Intercept)                  .      </span></span>
+<span id="cb52-11"><a href="linear-models.html#cb52-11" tabindex="-1"></a><span class="co">#&gt; Income                      -6.63607</span></span>
+<span id="cb52-12"><a href="linear-models.html#cb52-12" tabindex="-1"></a><span class="co">#&gt; Rating                       3.71092</span></span>
+<span id="cb52-13"><a href="linear-models.html#cb52-13" tabindex="-1"></a><span class="co">#&gt; Cards                        0.51137</span></span>
+<span id="cb52-14"><a href="linear-models.html#cb52-14" tabindex="-1"></a><span class="co">#&gt; Age                         -0.70476</span></span>
+<span id="cb52-15"><a href="linear-models.html#cb52-15" tabindex="-1"></a><span class="co">#&gt; Education                    .      </span></span>
+<span id="cb52-16"><a href="linear-models.html#cb52-16" tabindex="-1"></a><span class="co">#&gt; Gender Male                  3.09012</span></span>
+<span id="cb52-17"><a href="linear-models.html#cb52-17" tabindex="-1"></a><span class="co">#&gt; StudentYes                 396.73966</span></span>
+<span id="cb52-18"><a href="linear-models.html#cb52-18" tabindex="-1"></a><span class="co">#&gt; MarriedNo                    9.36636</span></span>
+<span id="cb52-19"><a href="linear-models.html#cb52-19" tabindex="-1"></a><span class="co">#&gt; EthnicityAfrican American    .      </span></span>
+<span id="cb52-20"><a href="linear-models.html#cb52-20" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian               .      </span></span>
+<span id="cb52-21"><a href="linear-models.html#cb52-21" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes            0.01376</span></span></code></pre></div>
+<p><strong>Lasso Model:</strong></p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="linear-models.html#cb53-1" tabindex="-1"></a>m.lasso <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X.train,</span>
+<span id="cb53-2"><a href="linear-models.html#cb53-2" tabindex="-1"></a>                  <span class="at">y =</span> data.train<span class="sc">$</span>Balance,</span>
+<span id="cb53-3"><a href="linear-models.html#cb53-3" tabindex="-1"></a>                  <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb53-4"><a href="linear-models.html#cb53-4" tabindex="-1"></a>                  <span class="at">lambda =</span> <span class="dv">10</span>,</span>
+<span id="cb53-5"><a href="linear-models.html#cb53-5" tabindex="-1"></a>                  <span class="at">alpha =</span> <span class="dv">1</span>)</span>
+<span id="cb53-6"><a href="linear-models.html#cb53-6" tabindex="-1"></a><span class="fu">coef</span>(m.lasso)</span>
+<span id="cb53-7"><a href="linear-models.html#cb53-7" tabindex="-1"></a><span class="co">#&gt; 13 x 1 sparse Matrix of class &quot;dgCMatrix&quot;</span></span>
+<span id="cb53-8"><a href="linear-models.html#cb53-8" tabindex="-1"></a><span class="co">#&gt;                                  s0</span></span>
+<span id="cb53-9"><a href="linear-models.html#cb53-9" tabindex="-1"></a><span class="co">#&gt; (Intercept)               -512.8489</span></span>
+<span id="cb53-10"><a href="linear-models.html#cb53-10" tabindex="-1"></a><span class="co">#&gt; (Intercept)                  .     </span></span>
+<span id="cb53-11"><a href="linear-models.html#cb53-11" tabindex="-1"></a><span class="co">#&gt; Income                      -6.5545</span></span>
+<span id="cb53-12"><a href="linear-models.html#cb53-12" tabindex="-1"></a><span class="co">#&gt; Rating                       3.6995</span></span>
+<span id="cb53-13"><a href="linear-models.html#cb53-13" tabindex="-1"></a><span class="co">#&gt; Cards                        .     </span></span>
+<span id="cb53-14"><a href="linear-models.html#cb53-14" tabindex="-1"></a><span class="co">#&gt; Age                         -0.4336</span></span>
+<span id="cb53-15"><a href="linear-models.html#cb53-15" tabindex="-1"></a><span class="co">#&gt; Education                    .     </span></span>
+<span id="cb53-16"><a href="linear-models.html#cb53-16" tabindex="-1"></a><span class="co">#&gt; Gender Male                  .     </span></span>
+<span id="cb53-17"><a href="linear-models.html#cb53-17" tabindex="-1"></a><span class="co">#&gt; StudentYes                 386.5700</span></span>
+<span id="cb53-18"><a href="linear-models.html#cb53-18" tabindex="-1"></a><span class="co">#&gt; MarriedNo                    .     </span></span>
+<span id="cb53-19"><a href="linear-models.html#cb53-19" tabindex="-1"></a><span class="co">#&gt; EthnicityAfrican American    .     </span></span>
+<span id="cb53-20"><a href="linear-models.html#cb53-20" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian               .     </span></span>
+<span id="cb53-21"><a href="linear-models.html#cb53-21" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes            .</span></span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -3682,90 +3711,183 @@ To look at a <strong>restricted subset</strong> of all possible models.</li>
 </ul></li>
 <li>Suggest <strong>another method</strong> to set the value of <code>lambda</code>.</li>
 </ul>
-<p>We use cross-validation using the <code>cv.glmnet()</code> function to systematically determine the appropriate or optimal value of the <code>lambda</code> hyperparameter:</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="linear-models.html#cb52-1" tabindex="-1"></a><span class="co"># CHUNK 24</span></span>
-<span id="cb52-2"><a href="linear-models.html#cb52-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1111</span>)</span>
-<span id="cb52-3"><a href="linear-models.html#cb52-3" tabindex="-1"></a></span>
-<span id="cb52-4"><a href="linear-models.html#cb52-4" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(<span class="at">x =</span> X.train,</span>
-<span id="cb52-5"><a href="linear-models.html#cb52-5" tabindex="-1"></a>               <span class="at">y =</span> data.train<span class="sc">$</span>Balance,</span>
-<span id="cb52-6"><a href="linear-models.html#cb52-6" tabindex="-1"></a>               <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
-<span id="cb52-7"><a href="linear-models.html#cb52-7" tabindex="-1"></a>               <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
-<span id="cb52-8"><a href="linear-models.html#cb52-8" tabindex="-1"></a><span class="fu">plot</span>(m)</span>
-<span id="cb52-9"><a href="linear-models.html#cb52-9" tabindex="-1"></a></span>
-<span id="cb52-10"><a href="linear-models.html#cb52-10" tabindex="-1"></a>m<span class="sc">$</span>lambda.min</span>
-<span id="cb52-11"><a href="linear-models.html#cb52-11" tabindex="-1"></a><span class="co">#&gt; [1] 0.8886</span></span>
-<span id="cb52-12"><a href="linear-models.html#cb52-12" tabindex="-1"></a>m<span class="sc">$</span>lambda<span class="fl">.1</span>se</span>
-<span id="cb52-13"><a href="linear-models.html#cb52-13" tabindex="-1"></a><span class="co">#&gt; [1] 7.551</span></span></code></pre></div>
-<p><img src="figures/unnamed-chunk-56-1.png" width="100%" style="display: block; margin: auto;" /></p>
-<p>We refit the regularized elastic-net (<code>alpha=0.5</code>) model using the optimal value of the <code>lambda</code> parameter that resulted in the lowest mean squared error (MSE). Using this model, we set up the design matrix for the test data, and make predictions on the test data. We then calculate the test RMSE to determine the prediction performance:</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="linear-models.html#cb53-1" tabindex="-1"></a><span class="co"># CHUNK 25</span></span>
-<span id="cb53-2"><a href="linear-models.html#cb53-2" tabindex="-1"></a><span class="co"># Fit the regularized model using lambda.min</span></span>
-<span id="cb53-3"><a href="linear-models.html#cb53-3" tabindex="-1"></a>m.min <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X.train,</span>
-<span id="cb53-4"><a href="linear-models.html#cb53-4" tabindex="-1"></a>                <span class="at">y =</span> data.train<span class="sc">$</span>Balance,</span>
-<span id="cb53-5"><a href="linear-models.html#cb53-5" tabindex="-1"></a>                <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
-<span id="cb53-6"><a href="linear-models.html#cb53-6" tabindex="-1"></a>                <span class="at">lambda =</span> m<span class="sc">$</span>lambda.min,</span>
-<span id="cb53-7"><a href="linear-models.html#cb53-7" tabindex="-1"></a>                <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
-<span id="cb53-8"><a href="linear-models.html#cb53-8" tabindex="-1"></a></span>
-<span id="cb53-9"><a href="linear-models.html#cb53-9" tabindex="-1"></a><span class="co"># List the coefficient estimates</span></span>
-<span id="cb53-10"><a href="linear-models.html#cb53-10" tabindex="-1"></a>m.min<span class="sc">$</span>beta</span>
-<span id="cb53-11"><a href="linear-models.html#cb53-11" tabindex="-1"></a><span class="co">#&gt; 12 x 1 sparse Matrix of class &quot;dgCMatrix&quot;</span></span>
-<span id="cb53-12"><a href="linear-models.html#cb53-12" tabindex="-1"></a><span class="co">#&gt;                                 s0</span></span>
-<span id="cb53-13"><a href="linear-models.html#cb53-13" tabindex="-1"></a><span class="co">#&gt; (Intercept)                 .     </span></span>
-<span id="cb53-14"><a href="linear-models.html#cb53-14" tabindex="-1"></a><span class="co">#&gt; Income                     -7.8132</span></span>
-<span id="cb53-15"><a href="linear-models.html#cb53-15" tabindex="-1"></a><span class="co">#&gt; Rating                      3.9840</span></span>
-<span id="cb53-16"><a href="linear-models.html#cb53-16" tabindex="-1"></a><span class="co">#&gt; Cards                       2.6915</span></span>
-<span id="cb53-17"><a href="linear-models.html#cb53-17" tabindex="-1"></a><span class="co">#&gt; Age                        -0.7829</span></span>
-<span id="cb53-18"><a href="linear-models.html#cb53-18" tabindex="-1"></a><span class="co">#&gt; Education                   0.7558</span></span>
-<span id="cb53-19"><a href="linear-models.html#cb53-19" tabindex="-1"></a><span class="co">#&gt; Gender Male                17.0049</span></span>
-<span id="cb53-20"><a href="linear-models.html#cb53-20" tabindex="-1"></a><span class="co">#&gt; StudentYes                396.3329</span></span>
-<span id="cb53-21"><a href="linear-models.html#cb53-21" tabindex="-1"></a><span class="co">#&gt; MarriedNo                  19.4182</span></span>
-<span id="cb53-22"><a href="linear-models.html#cb53-22" tabindex="-1"></a><span class="co">#&gt; EthnicityAfrican American  -9.9708</span></span>
-<span id="cb53-23"><a href="linear-models.html#cb53-23" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian             -3.6479</span></span>
-<span id="cb53-24"><a href="linear-models.html#cb53-24" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes           0.4458</span></span>
-<span id="cb53-25"><a href="linear-models.html#cb53-25" tabindex="-1"></a></span>
-<span id="cb53-26"><a href="linear-models.html#cb53-26" tabindex="-1"></a><span class="co"># Set up the design matrix for the test set</span></span>
-<span id="cb53-27"><a href="linear-models.html#cb53-27" tabindex="-1"></a>X.test <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(Balance <span class="sc">~</span> . <span class="sc">+</span> Income<span class="sc">:</span>Student, <span class="at">data =</span> data.test)</span>
-<span id="cb53-28"><a href="linear-models.html#cb53-28" tabindex="-1"></a></span>
-<span id="cb53-29"><a href="linear-models.html#cb53-29" tabindex="-1"></a><span class="co"># Make predictions on the test set and calculate test RMSE</span></span>
-<span id="cb53-30"><a href="linear-models.html#cb53-30" tabindex="-1"></a>m.min.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(m.min, <span class="at">newx =</span> X.test)</span>
-<span id="cb53-31"><a href="linear-models.html#cb53-31" tabindex="-1"></a><span class="fu">RMSE</span>(data.test<span class="sc">$</span>Balance, m.min.pred)</span>
-<span id="cb53-32"><a href="linear-models.html#cb53-32" tabindex="-1"></a><span class="co">#&gt; [1] 103.9</span></span></code></pre></div>
-<p>We again refit the model using <code>lambda.1se</code> as the lambda hyperparameter, make predictions again, and evaluate the RMSE:</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="linear-models.html#cb54-1" tabindex="-1"></a><span class="co"># CHUNK 26</span></span>
-<span id="cb54-2"><a href="linear-models.html#cb54-2" tabindex="-1"></a><span class="co"># Fit the regularized model using lambda.1se</span></span>
-<span id="cb54-3"><a href="linear-models.html#cb54-3" tabindex="-1"></a>m<span class="fl">.1</span>se <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X.train,</span>
-<span id="cb54-4"><a href="linear-models.html#cb54-4" tabindex="-1"></a>                <span class="at">y =</span> data.train<span class="sc">$</span>Balance,</span>
-<span id="cb54-5"><a href="linear-models.html#cb54-5" tabindex="-1"></a>                <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
-<span id="cb54-6"><a href="linear-models.html#cb54-6" tabindex="-1"></a>                <span class="at">lambda =</span> m<span class="sc">$</span>lambda<span class="fl">.1</span>se,</span>
-<span id="cb54-7"><a href="linear-models.html#cb54-7" tabindex="-1"></a>                <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
-<span id="cb54-8"><a href="linear-models.html#cb54-8" tabindex="-1"></a></span>
-<span id="cb54-9"><a href="linear-models.html#cb54-9" tabindex="-1"></a><span class="co"># List the coefficient estimates</span></span>
-<span id="cb54-10"><a href="linear-models.html#cb54-10" tabindex="-1"></a>m<span class="fl">.1</span>se<span class="sc">$</span>beta</span>
-<span id="cb54-11"><a href="linear-models.html#cb54-11" tabindex="-1"></a><span class="co">#&gt; 12 x 1 sparse Matrix of class &quot;dgCMatrix&quot;</span></span>
-<span id="cb54-12"><a href="linear-models.html#cb54-12" tabindex="-1"></a><span class="co">#&gt;                                 s0</span></span>
-<span id="cb54-13"><a href="linear-models.html#cb54-13" tabindex="-1"></a><span class="co">#&gt; (Intercept)                 .     </span></span>
-<span id="cb54-14"><a href="linear-models.html#cb54-14" tabindex="-1"></a><span class="co">#&gt; Income                     -6.9378</span></span>
-<span id="cb54-15"><a href="linear-models.html#cb54-15" tabindex="-1"></a><span class="co">#&gt; Rating                      3.7814</span></span>
-<span id="cb54-16"><a href="linear-models.html#cb54-16" tabindex="-1"></a><span class="co">#&gt; Cards                       1.1075</span></span>
-<span id="cb54-17"><a href="linear-models.html#cb54-17" tabindex="-1"></a><span class="co">#&gt; Age                        -0.7306</span></span>
-<span id="cb54-18"><a href="linear-models.html#cb54-18" tabindex="-1"></a><span class="co">#&gt; Education                   .     </span></span>
-<span id="cb54-19"><a href="linear-models.html#cb54-19" tabindex="-1"></a><span class="co">#&gt; Gender Male                 6.7717</span></span>
-<span id="cb54-20"><a href="linear-models.html#cb54-20" tabindex="-1"></a><span class="co">#&gt; StudentYes                397.5199</span></span>
-<span id="cb54-21"><a href="linear-models.html#cb54-21" tabindex="-1"></a><span class="co">#&gt; MarriedNo                  11.6768</span></span>
-<span id="cb54-22"><a href="linear-models.html#cb54-22" tabindex="-1"></a><span class="co">#&gt; EthnicityAfrican American   .     </span></span>
-<span id="cb54-23"><a href="linear-models.html#cb54-23" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian              .     </span></span>
-<span id="cb54-24"><a href="linear-models.html#cb54-24" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes           0.1148</span></span>
-<span id="cb54-25"><a href="linear-models.html#cb54-25" tabindex="-1"></a></span>
-<span id="cb54-26"><a href="linear-models.html#cb54-26" tabindex="-1"></a><span class="co"># Make predictions on the test set and calculate test RMSE</span></span>
-<span id="cb54-27"><a href="linear-models.html#cb54-27" tabindex="-1"></a>m<span class="fl">.1</span>se.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(m<span class="fl">.1</span>se, <span class="at">newx =</span> X.test)</span>
-<span id="cb54-28"><a href="linear-models.html#cb54-28" tabindex="-1"></a><span class="fu">RMSE</span>(data.test<span class="sc">$</span>Balance, m<span class="fl">.1</span>se.pred)</span>
-<span id="cb54-29"><a href="linear-models.html#cb54-29" tabindex="-1"></a><span class="co">#&gt; [1] 102.8</span></span></code></pre></div>
+<p>We use cross-validation using the <code>cv.glmnet()</code> function to systematically determine the appropriate or optimal value of the <code>lambda</code> hyperparameter. This function calculates the <strong>cross-validation error</strong> for different values of <code>lambda</code> under consideration:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="linear-models.html#cb54-1" tabindex="-1"></a><span class="co"># CHUNK 24</span></span>
+<span id="cb54-2"><a href="linear-models.html#cb54-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1111</span>)</span>
+<span id="cb54-3"><a href="linear-models.html#cb54-3" tabindex="-1"></a></span>
+<span id="cb54-4"><a href="linear-models.html#cb54-4" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(<span class="at">x =</span> X.train,</span>
+<span id="cb54-5"><a href="linear-models.html#cb54-5" tabindex="-1"></a>               <span class="at">y =</span> data.train<span class="sc">$</span>Balance,</span>
+<span id="cb54-6"><a href="linear-models.html#cb54-6" tabindex="-1"></a>               <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb54-7"><a href="linear-models.html#cb54-7" tabindex="-1"></a>               <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
+<span id="cb54-8"><a href="linear-models.html#cb54-8" tabindex="-1"></a><span class="fu">plot</span>(m)</span>
+<span id="cb54-9"><a href="linear-models.html#cb54-9" tabindex="-1"></a></span>
+<span id="cb54-10"><a href="linear-models.html#cb54-10" tabindex="-1"></a>m<span class="sc">$</span>lambda.min</span>
+<span id="cb54-11"><a href="linear-models.html#cb54-11" tabindex="-1"></a><span class="co">#&gt; [1] 0.8886</span></span>
+<span id="cb54-12"><a href="linear-models.html#cb54-12" tabindex="-1"></a>m<span class="sc">$</span>lambda<span class="fl">.1</span>se</span>
+<span id="cb54-13"><a href="linear-models.html#cb54-13" tabindex="-1"></a><span class="co">#&gt; [1] 7.551</span></span></code></pre></div>
+<p><img src="figures/unnamed-chunk-58-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>Using the <code>plot()</code> function will show you the cross-validation error for various values of <code>log(lambda)</code>. The numbers across the top are the number of features, and the two veritcal lines correspond to the <code>m$lambda.min</code> and the <code>m$lambda.1se</code> which denote the lambda that gives you the smallest cross validation error, and the lambda within 1 standard deviation (standard error) of it.</p>
+<p>One way to choose the value of lambda is to take the <code>m.lambda$min</code></p>
+<p>We refit the regularized elastic-net (<code>alpha=0.5</code>) model using the value of the <code>lambda</code> that minimized the cross validation curve. Using this model, we set up the design matrix for the test data, and make predictions on the test data. We then calculate the test RMSE to determine the prediction performance:</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="linear-models.html#cb55-1" tabindex="-1"></a><span class="co"># CHUNK 25</span></span>
+<span id="cb55-2"><a href="linear-models.html#cb55-2" tabindex="-1"></a><span class="co"># Fit the regularized model using lambda.min</span></span>
+<span id="cb55-3"><a href="linear-models.html#cb55-3" tabindex="-1"></a>m.min <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X.train,</span>
+<span id="cb55-4"><a href="linear-models.html#cb55-4" tabindex="-1"></a>                <span class="at">y =</span> data.train<span class="sc">$</span>Balance,</span>
+<span id="cb55-5"><a href="linear-models.html#cb55-5" tabindex="-1"></a>                <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb55-6"><a href="linear-models.html#cb55-6" tabindex="-1"></a>                <span class="at">lambda =</span> m<span class="sc">$</span>lambda.min,</span>
+<span id="cb55-7"><a href="linear-models.html#cb55-7" tabindex="-1"></a>                <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
+<span id="cb55-8"><a href="linear-models.html#cb55-8" tabindex="-1"></a></span>
+<span id="cb55-9"><a href="linear-models.html#cb55-9" tabindex="-1"></a><span class="co"># List the coefficient estimates</span></span>
+<span id="cb55-10"><a href="linear-models.html#cb55-10" tabindex="-1"></a>m.min<span class="sc">$</span>beta</span>
+<span id="cb55-11"><a href="linear-models.html#cb55-11" tabindex="-1"></a><span class="co">#&gt; 12 x 1 sparse Matrix of class &quot;dgCMatrix&quot;</span></span>
+<span id="cb55-12"><a href="linear-models.html#cb55-12" tabindex="-1"></a><span class="co">#&gt;                                 s0</span></span>
+<span id="cb55-13"><a href="linear-models.html#cb55-13" tabindex="-1"></a><span class="co">#&gt; (Intercept)                 .     </span></span>
+<span id="cb55-14"><a href="linear-models.html#cb55-14" tabindex="-1"></a><span class="co">#&gt; Income                     -7.8132</span></span>
+<span id="cb55-15"><a href="linear-models.html#cb55-15" tabindex="-1"></a><span class="co">#&gt; Rating                      3.9840</span></span>
+<span id="cb55-16"><a href="linear-models.html#cb55-16" tabindex="-1"></a><span class="co">#&gt; Cards                       2.6915</span></span>
+<span id="cb55-17"><a href="linear-models.html#cb55-17" tabindex="-1"></a><span class="co">#&gt; Age                        -0.7829</span></span>
+<span id="cb55-18"><a href="linear-models.html#cb55-18" tabindex="-1"></a><span class="co">#&gt; Education                   0.7558</span></span>
+<span id="cb55-19"><a href="linear-models.html#cb55-19" tabindex="-1"></a><span class="co">#&gt; Gender Male                17.0049</span></span>
+<span id="cb55-20"><a href="linear-models.html#cb55-20" tabindex="-1"></a><span class="co">#&gt; StudentYes                396.3329</span></span>
+<span id="cb55-21"><a href="linear-models.html#cb55-21" tabindex="-1"></a><span class="co">#&gt; MarriedNo                  19.4182</span></span>
+<span id="cb55-22"><a href="linear-models.html#cb55-22" tabindex="-1"></a><span class="co">#&gt; EthnicityAfrican American  -9.9708</span></span>
+<span id="cb55-23"><a href="linear-models.html#cb55-23" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian             -3.6479</span></span>
+<span id="cb55-24"><a href="linear-models.html#cb55-24" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes           0.4458</span></span>
+<span id="cb55-25"><a href="linear-models.html#cb55-25" tabindex="-1"></a></span>
+<span id="cb55-26"><a href="linear-models.html#cb55-26" tabindex="-1"></a><span class="co"># Set up the design matrix for the test set</span></span>
+<span id="cb55-27"><a href="linear-models.html#cb55-27" tabindex="-1"></a>X.test <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(Balance <span class="sc">~</span> . <span class="sc">+</span> Income<span class="sc">:</span>Student, <span class="at">data =</span> data.test)</span>
+<span id="cb55-28"><a href="linear-models.html#cb55-28" tabindex="-1"></a></span>
+<span id="cb55-29"><a href="linear-models.html#cb55-29" tabindex="-1"></a><span class="co"># Make predictions on the test set and calculate test RMSE</span></span>
+<span id="cb55-30"><a href="linear-models.html#cb55-30" tabindex="-1"></a>m.min.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(m.min, <span class="at">newx =</span> X.test)</span>
+<span id="cb55-31"><a href="linear-models.html#cb55-31" tabindex="-1"></a><span class="fu">RMSE</span>(data.test<span class="sc">$</span>Balance, m.min.pred)</span>
+<span id="cb55-32"><a href="linear-models.html#cb55-32" tabindex="-1"></a><span class="co">#&gt; [1] 103.9</span></span></code></pre></div>
+<p>We again refit the model using <code>lambda.1se</code> as the lambda hyperparameter, make predictions again, and evaluate the RMSE, and compare it to the previous model:</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="linear-models.html#cb56-1" tabindex="-1"></a><span class="co"># CHUNK 26</span></span>
+<span id="cb56-2"><a href="linear-models.html#cb56-2" tabindex="-1"></a><span class="co"># Fit the regularized model using lambda.1se</span></span>
+<span id="cb56-3"><a href="linear-models.html#cb56-3" tabindex="-1"></a>m<span class="fl">.1</span>se <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X.train,</span>
+<span id="cb56-4"><a href="linear-models.html#cb56-4" tabindex="-1"></a>                <span class="at">y =</span> data.train<span class="sc">$</span>Balance,</span>
+<span id="cb56-5"><a href="linear-models.html#cb56-5" tabindex="-1"></a>                <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb56-6"><a href="linear-models.html#cb56-6" tabindex="-1"></a>                <span class="at">lambda =</span> m<span class="sc">$</span>lambda<span class="fl">.1</span>se,</span>
+<span id="cb56-7"><a href="linear-models.html#cb56-7" tabindex="-1"></a>                <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
+<span id="cb56-8"><a href="linear-models.html#cb56-8" tabindex="-1"></a></span>
+<span id="cb56-9"><a href="linear-models.html#cb56-9" tabindex="-1"></a><span class="co"># List the coefficient estimates</span></span>
+<span id="cb56-10"><a href="linear-models.html#cb56-10" tabindex="-1"></a>m<span class="fl">.1</span>se<span class="sc">$</span>beta</span>
+<span id="cb56-11"><a href="linear-models.html#cb56-11" tabindex="-1"></a><span class="co">#&gt; 12 x 1 sparse Matrix of class &quot;dgCMatrix&quot;</span></span>
+<span id="cb56-12"><a href="linear-models.html#cb56-12" tabindex="-1"></a><span class="co">#&gt;                                 s0</span></span>
+<span id="cb56-13"><a href="linear-models.html#cb56-13" tabindex="-1"></a><span class="co">#&gt; (Intercept)                 .     </span></span>
+<span id="cb56-14"><a href="linear-models.html#cb56-14" tabindex="-1"></a><span class="co">#&gt; Income                     -6.9378</span></span>
+<span id="cb56-15"><a href="linear-models.html#cb56-15" tabindex="-1"></a><span class="co">#&gt; Rating                      3.7814</span></span>
+<span id="cb56-16"><a href="linear-models.html#cb56-16" tabindex="-1"></a><span class="co">#&gt; Cards                       1.1075</span></span>
+<span id="cb56-17"><a href="linear-models.html#cb56-17" tabindex="-1"></a><span class="co">#&gt; Age                        -0.7306</span></span>
+<span id="cb56-18"><a href="linear-models.html#cb56-18" tabindex="-1"></a><span class="co">#&gt; Education                   .     </span></span>
+<span id="cb56-19"><a href="linear-models.html#cb56-19" tabindex="-1"></a><span class="co">#&gt; Gender Male                 6.7717</span></span>
+<span id="cb56-20"><a href="linear-models.html#cb56-20" tabindex="-1"></a><span class="co">#&gt; StudentYes                397.5199</span></span>
+<span id="cb56-21"><a href="linear-models.html#cb56-21" tabindex="-1"></a><span class="co">#&gt; MarriedNo                  11.6768</span></span>
+<span id="cb56-22"><a href="linear-models.html#cb56-22" tabindex="-1"></a><span class="co">#&gt; EthnicityAfrican American   .     </span></span>
+<span id="cb56-23"><a href="linear-models.html#cb56-23" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian              .     </span></span>
+<span id="cb56-24"><a href="linear-models.html#cb56-24" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes           0.1148</span></span>
+<span id="cb56-25"><a href="linear-models.html#cb56-25" tabindex="-1"></a></span>
+<span id="cb56-26"><a href="linear-models.html#cb56-26" tabindex="-1"></a><span class="co"># Make predictions on the test set and calculate test RMSE</span></span>
+<span id="cb56-27"><a href="linear-models.html#cb56-27" tabindex="-1"></a>m<span class="fl">.1</span>se.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(m<span class="fl">.1</span>se, <span class="at">newx =</span> X.test)</span>
+<span id="cb56-28"><a href="linear-models.html#cb56-28" tabindex="-1"></a><span class="fu">RMSE</span>(data.test<span class="sc">$</span>Balance, m<span class="fl">.1</span>se.pred)</span>
+<span id="cb56-29"><a href="linear-models.html#cb56-29" tabindex="-1"></a><span class="co">#&gt; [1] 102.8</span></span></code></pre></div>
+<hr />
 </div>
 </div>
 </div>
 <div id="conceptual-review-questions-for-chapter-3" class="section level2 unnumbered hasAnchor">
 <h2>Conceptual Review: Questions for Chapter 3<a href="linear-models.html#conceptual-review-questions-for-chapter-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="q3.1-explain-the-objectives-of-descriptive-predictive-and-prescriptive-modeling." class="section level3 hasAnchor" number="3.4.5">
+<h3><span class="header-section-number">3.4.5</span> Q3.1: Explain the objectives of descriptive, predictive and prescriptive modeling.<a href="linear-models.html#q3.1-explain-the-objectives-of-descriptive-predictive-and-prescriptive-modeling." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><strong>Descriptive:</strong> Descriptive analytics focuses on what happened in the <strong><em>past</em></strong> and aims to “describe” or explain the observed trends by identifying the relationships between variables in the data.
+<ul>
+<li><strong>Example:</strong> If you saw an increase in the lapse rate among policyholders of a certain line of business, what kind of policyholders had the highest tendency to lapse?</li>
+</ul></li>
+<li><strong>Predictive:</strong> Predictive analytics focuses on what will happen in the <strong><em>future</em></strong> and is concerned with making accurate predictions.
+<ul>
+<li><strong>Example:</strong> For a prospective policholder with certain characteristics, what is their predicted probability of lapse?</li>
+</ul></li>
+<li><strong>Prescriptive:</strong> Prescriptive analytics uses a combination of optimization and simulation to investigate and quantify the impact of different “prescribed” actions in different scenarios.
+<ul>
+<li><strong>Example:</strong> If we reduce the premium by a certain amount, how will this affect the lapse rate?</li>
+</ul></li>
+</ul>
+<hr />
+</div>
+<div id="q3.2-explain-two-differences-between-supervised-and-unsupervised-learning." class="section level3 hasAnchor" number="3.4.6">
+<h3><span class="header-section-number">3.4.6</span> Q3.2: Explain two differences between supervised and unsupervised learning.<a href="linear-models.html#q3.2-explain-two-differences-between-supervised-and-unsupervised-learning." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Predictive analytics problems can be classified into <strong><em>supervised</em></strong> and <strong><em>unsupervised learning</em></strong> problems, depending on the presence of a target variable and the objective of the analysis.</p>
+<ul>
+<li><strong>Supervised Learning:</strong>
+<ul>
+<li>There is a target variable “supervising” or guiding our analysis.</li>
+<li>The goal is to understand the relationship between target variabe and the predictors. and/or make accurate predictions for the target variable based on the predictors.</li>
+</ul></li>
+<li><strong>Unsupervised Learning:</strong>
+<ul>
+<li>There is no target variable supervising our analysis.</li>
+<li>We are interested in extracting relationships and structures between different variables in our data.</li>
+</ul></li>
+</ul>
+<hr />
+</div>
+<div id="q3.3-explain-the-main-difference-between-regression-and-classification-problems." class="section level3 hasAnchor" number="3.4.7">
+<h3><span class="header-section-number">3.4.7</span> Q3.3: Explain the main difference between regression and classification problems.<a href="linear-models.html#q3.3-explain-the-main-difference-between-regression-and-classification-problems." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><strong>Regression:</strong> Has a numeric (or binary) target variable.</li>
+<li><strong>Classification:</strong> Has a target variable that is categorical in nature.</li>
+</ul>
+<hr />
+</div>
+<div id="q3.4-explain-three-characteristics-of-predictive-modeling-problems." class="section level3 hasAnchor" number="3.4.8">
+<h3><span class="header-section-number">3.4.8</span> Q3.4: Explain three characteristics of predictive modeling problems.<a href="linear-models.html#q3.4-explain-three-characteristics-of-predictive-modeling-problems." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Some common characteristics of predictive modeling problems include:</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Characteristic</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Issue</strong></td>
+<td>There is a clearly identified and defined business issue that needs to be addressed.</td>
+</tr>
+<tr class="even">
+<td><strong>Questions</strong></td>
+<td>The issue can be addressed with a few well-defined questions (What data do we need? What is the target or outcome? What is the success criteria / how will the model performance be evaluated?)</td>
+</tr>
+<tr class="odd">
+<td><strong>Data</strong></td>
+<td>Good and useful data is available for answering the questions above.</td>
+</tr>
+<tr class="even">
+<td><strong>Impact</strong></td>
+<td>The predictions will likely drive actions or increase understanding.</td>
+</tr>
+<tr class="odd">
+<td><strong>Better Solution</strong></td>
+<td>Predictive analytics likely produces a solution better than any existing approach.</td>
+</tr>
+<tr class="even">
+<td><strong>Update</strong></td>
+<td>We can continue to monitor and update the models when new data becomes available.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+<div id="q3.4-explain-three-characteristics-of-predictive-modeling-problems.-1" class="section level3 hasAnchor" number="3.4.9">
+<h3><span class="header-section-number">3.4.9</span> Q3.4: Explain three characteristics of predictive modeling problems.<a href="linear-models.html#q3.4-explain-three-characteristics-of-predictive-modeling-problems.-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Some common characteristics of predictive modeling problems include:</p>
 
+</div>
 </div>
 </div>
             </section>
@@ -3773,8 +3895,8 @@ To look at a <strong>restricted subset</strong> of all possible models.</li>
           </div>
         </div>
       </div>
-<a href="data-exploration-and-visualization.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="data-exploration-and-visualization.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="generalized-linear-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
