@@ -1994,9 +1994,7 @@ So in this case study, both the interaction term and square term are useful feat
 -   **Model Evaluation:** Use a metric such as RMSE to compare prediction accuracy on the test set across the models.
 -   **Model Recommendation:** Select the model with the best balance between complexity and predictive accuracy.
 
-
 In the following code chunk, we use the `caret` package to split the data into a training and test set:
-
 
 
 ``` r
@@ -2019,7 +2017,7 @@ data.train <- ad[partition, ]
 data.test <- ad[-partition, ]
 ```
 
-You can see that there are 142 observations in the training set (~70%), and 58 observations in the test set (~30%). 
+You can see that there are 142 observations in the training set (\~70%), and 58 observations in the test set (\~30%).
 
 The `createDataPartition()` function from the `caret` package has built-in functionality to ensure that the target variable follows the same distribution both the training set and the test set. This way the two sets will be representative of the target variable.
 
@@ -2075,7 +2073,7 @@ RMSE(data.train$sales, predict(model.5.tr))
 #> [1] 0.6394
 ```
 
-Based on the results of the `RMSE()` function, the RMSE decreases as we go from `model.2.tr` to `model.5.tr`. This makes sense, as `model.2.tr` is the simplest model, and become more complex as we move to `model.1.tr` and then `model.3.tr`, `model.4.tr`, and finally `model.5.tr`. 
+Based on the results of the `RMSE()` function, the RMSE decreases as we go from `model.2.tr` to `model.5.tr`. This makes sense, as `model.2.tr` is the simplest model, and become more complex as we move to `model.1.tr` and then `model.3.tr`, `model.4.tr`, and finally `model.5.tr`.
 
 The more complex the model, the smaller the training error in general.
 
@@ -2102,23 +2100,1417 @@ RMSE(data.test$sales, predict(model.5.tr, newdata = data.test))
 #> [1] 0.5589
 ```
 
-Based on the results of the above code chunk, the lowest test RMSE is achieved by `model.4.tr`, and therefore has the best perdiction performance. 
+Based on the results of the above code chunk, the lowest test RMSE is achieved by `model.4.tr`, and therefore has the best perdiction performance.
 
 The most complex model, `model.5.tr`, is not the best prediction performance and may have overfitted the data, so don't think that using the most complex model is always the best idea as far as prediction is concerned.
 
 If we have to recommend one model out of these five models, our recommendation would be to use `model.4.tr` as it produces the best prediction performance on the test set, is flexible enough to capture the signal in the data, but is not too complex.
 
----
+------------------------------------------------------------------------
 
 ## Case Study 2: Feature Selection and Regularization
 
+### About this Case Study {.unnumbered}
+
+**Dataset:**
+
+-   **Credit dataset from ISLR**
+    -   More predictors (numeric + **categorical**)
+    -   **Feature selection** is important
+
+**Objectives**:
+
+-   Know how to fit a linear model with **categorical** predictors in R.
+-   Perform **explicit binarization** of categorical predictors in R and understand why doing so may be beneficial.
+-   Perform **stepwise selection** using the `stepAIC()` function and be familiar with the options of this function.
+-   Generate and interpret **diagnostic plots** for a linear model.
+-   Fit **regularized linear models** in R.
+
+------------------------------------------------------------------------
+
+### Data Dictionary {.unnumbered}
+
+| Variable  | Description                                   |
+|-----------|-----------------------------------------------|
+| Income    | Income (\$10,000's)                           |
+| Limit     | Credit limit                                  |
+| Rating    | Credit rating                                 |
+| Cards     | Number of credit cards                        |
+| Age       | Age in years                                  |
+| Education | Number of years of education                  |
+| Gender    | Indicator of the individual's gender          |
+| Student   | Indicator of whether individual was a student |
+| Married   | Indicator of whether individual was married   |
+| Ethnicity | Indicator of the individual's ethnicity       |
+| Balance   | Average credit card balance (\$) (target)     |
+
+**Objective**: To identify and interpret **key factors** for Balance via appropriate linear models.
+
+------------------------------------------------------------------------
 
 ### Preparatory Work
 
+### TASK 1: Consider a Data Issue {.unnumbered}
+
+#### Task Statement {.unnumbered}
+
+Identify a variable that may have potential **ethical concerns**. - Discuss the **considerations** (pros and cons) related to using this variable in a model for this business problem. - Regardless of any concerns, continue to use this variable in subsequent analyses.
+
+#### Example: Ethnicity {.unnumbered}
+
+-   **Pros**: May provide potentially **useful information** for understanding/predicting credit card balance.
+-   **Cons**: Making ethnicity-based predictions may be criticized on grounds of **discrimination** and raise **legal concerns**.
+
+------------------------------------------------------------------------
+
+### TASK 2: Explore the Numeric Variables {.unnumbered}
+
+#### Task Statement {.unnumbered}
+
+-   Investigate the distribution of the **target variable**.
+-   Create a **correlation matrix**.
+    -   Examine the pairwise correlations.
+    -   Explain whether it is reasonable to delete the **Limit** variable. Regardless, delete this variable.
+-   Create **visual representations** to identify variables most likely to predict the target.
+
+In CHUNK 1, we load the `ISLR` package and attach the `Credit` data. We observe that the `Credit$ID` is an index column, so we set its values to `NULL` to remove it from the data. Then we print a summary of the dataset to preview key statistics about the fields in the data.
+
+
+``` r
+# CHUNK 1
+# Uncomment the next line the first time you use ISLR
+#install.packages("ISLR")
+library(ISLR)
+data(Credit)
+
+# Delete the first column containing row indices
+Credit$ID <- NULL
+
+summary(Credit)
+#>      Income          Limit           Rating   
+#>  Min.   : 10.3   Min.   :  855   Min.   : 93  
+#>  1st Qu.: 21.0   1st Qu.: 3088   1st Qu.:247  
+#>  Median : 33.1   Median : 4622   Median :344  
+#>  Mean   : 45.2   Mean   : 4736   Mean   :355  
+#>  3rd Qu.: 57.5   3rd Qu.: 5873   3rd Qu.:437  
+#>  Max.   :186.6   Max.   :13913   Max.   :982  
+#>      Cards           Age         Education   
+#>  Min.   :1.00   Min.   :23.0   Min.   : 5.0  
+#>  1st Qu.:2.00   1st Qu.:41.8   1st Qu.:11.0  
+#>  Median :3.00   Median :56.0   Median :14.0  
+#>  Mean   :2.96   Mean   :55.7   Mean   :13.4  
+#>  3rd Qu.:4.00   3rd Qu.:70.0   3rd Qu.:16.0  
+#>  Max.   :9.00   Max.   :98.0   Max.   :20.0  
+#>     Gender    Student   Married  
+#>   Male :193   No :360   No :155  
+#>  Female:207   Yes: 40   Yes:245  
+#>                                  
+#>                                  
+#>                                  
+#>                                  
+#>             Ethnicity      Balance      
+#>  African American: 99   Min.   :   0.0  
+#>  Asian           :102   1st Qu.:  68.8  
+#>  Caucasian       :199   Median : 459.5  
+#>                         Mean   : 520.0  
+#>                         3rd Qu.: 863.0  
+#>                         Max.   :1999.0
+```
+
+The summary output shows key statistics of the numeric variables, and counts of observations in each factor level for categorical variables.
+
+The target variable, `balance`, ranges from 0.00 to 1999.00 and the mean is higher than the median by quite a lot. From these two numbers, you can deduce that the distribution of `balance` has a heavy tail.
+
+We can visualize the distribution of `balance` by creating a histogram.
+
+
+``` r
+# CHUNK 2
+library(ggplot2)
+ggplot(Credit, aes(x = Balance)) +
+  geom_histogram()
+```
+
+<img src="figures/unnamed-chunk-31-1.png" width="100%" style="display: block; margin: auto;" />
+
+From the histogram, we see there are an abundance of observations where `balance` is zero. We can check the number of observations with `balance` of zero by running the following code chunk:
+
+
+``` r
+nrow(Credit[Credit$Balance == 0, ])  # OR sum(Credit$Balance == 0)
+#> [1] 90
+```
+
+Your first instinct may be to perform a log-transformation on `balance` since the histogram shows a severe right-skew, however, we cannot perform a log-transformation, since there are quite a lot of observations that have a `balance` of zero.
+
+For this case study, we will not adjust `balance` -- we will take it as is. If you are interested, you can take a transformation like square-root to reduce the right-skew of the `balance` target variable and repeat the whole case study.
+
+Next, we will turn to the relationship of each numeric predictor and the target variable by performing bivariate exploration. We create a correlation matrix on the numeric variables.
+
+
+``` r
+# CHUNK 3
+# Calculate the correlation matrix for numeric variables
+# The numeric predictors are in the first 6 columns
+cor.matrix <- cor(Credit[, c(1:6, 11)])
+print("Correlation Matrix")
+#> [1] "Correlation Matrix"
+round(cor.matrix, digits = 4)
+#>            Income   Limit  Rating   Cards    Age
+#> Income     1.0000  0.7921  0.7914 -0.0183 0.1753
+#> Limit      0.7921  1.0000  0.9969  0.0102 0.1009
+#> Rating     0.7914  0.9969  1.0000  0.0532 0.1032
+#> Cards     -0.0183  0.0102  0.0532  1.0000 0.0429
+#> Age        0.1753  0.1009  0.1032  0.0429 1.0000
+#> Education -0.0277 -0.0235 -0.0301 -0.0511 0.0036
+#> Balance    0.4637  0.8617  0.8636  0.0865 0.0018
+#>           Education Balance
+#> Income      -0.0277  0.4637
+#> Limit       -0.0235  0.8617
+#> Rating      -0.0301  0.8636
+#> Cards       -0.0511  0.0865
+#> Age          0.0036  0.0018
+#> Education    1.0000 -0.0081
+#> Balance     -0.0081  1.0000
+```
+
+**What can we tell from the correlations between the target and predictors?**
+
+Based on the correlation matrix, we can see that the variables `Limit`, and `Rating` have a strong linear positive relationship with `Balance` since those predictors have a large correlation in absolute value that is close to 1, and `Income` is moderately related to `Balance`.
+
+At this point, we can conjecture that `Income`, `Rating` and `Limit` are important predictors of `Balance`.
+
+**What about the correlations between the predictors?**
+
+Some correlations between predictors, such as `Limit` and `Rating` which is almost 1 $\Rightarrow$ `Limit` and `Rating` are almost perfectly linearly related.
+
+We can confirm this by making a scatterplot for these two variables, which is done in the following code chunk:
+
+
+``` r
+# CHUNK 4
+ggplot(Credit, aes(x = Limit, y = Rating)) +
+  geom_point()
+```
+
+<img src="figures/unnamed-chunk-34-1.png" width="100%" style="display: block; margin: auto;" />
+
+Since the scatterplot almost perfectly follows the 45-degree line. If we know the value of one variable, we know the value of the other variable almost exactly. The other variable does not contribute that much extra information. Therefore, it is reasonable to keep only one of the variables and we can remove the other variables to avoid **collinearity**, or duplication of information.
+
+If you go back to correlation matrix, `Rating` has a slightly higher correlation with `Balance`, so we remove the `Limit` variable from the dataset:
+
+
+``` r
+# Delete Limit
+Credit$Limit <- NULL
+```
+
+Correlations are only a summary of the linear relationship between the target variable and each of the numeric predictors.
+
+We can use scatterplots to visualize the relationships. If the relationships are more complex, and far from linear, the scatterplots can also help review that much more effectively than the correlation matrix.
+
+In the following code chunk, we use a `for-loop` to make a scatterplot for `Balance` against each of the numeric predictors:
+
+
+``` r
+# CHUNK 5
+# first save the names of the numeric predictors as a vector
+vars.numeric <- colnames(Credit[, 1:5])
+for (i in vars.numeric) {
+  plot <- ggplot(Credit, aes(x = Credit[, i], y = Balance)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE) +
+    labs(x = i)
+  print(plot)
+}
+```
+
+<img src="figures/unnamed-chunk-36-1.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-36-2.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-36-3.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-36-4.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-36-5.png" width="100%" style="display: block; margin: auto;" />
+
+From these scatterplots, you can have a sense of which predictors have a strong effect on `Balance`:
+
+-   `Income` is strong; slight upward trend.
+-   `Rating` is very strong; strong upward trend.
+-   The other three do not seem that strong; almost flat. That means that balance doesn't respond much to these three predictors.
+
+These graphs suggest that only `Income` and `Rating` seem to be important predictors of `Balance`, which is consistent with what we saw in the correlation matrix.
+
+------------------------------------------------------------------------
+
+### TASK 3: Explore the Factor Variables {.unnumbered}
+
+#### Task Statement {.unnumbered}
+
+Identify a **factor** variable that is likely to predict the target. For this factor variable, perform the following:
+
+-   Show key **descriptive statistics**.
+-   Create **visual representations** (e.g., graphs, charts).
+-   Explain why you selected this variable and how the variable relates to the target variable.
+
+In the following code chunk, we produce the summary statistics in relation to the target variable for each factor level of the categorical variables. These means and medians will tell us which factor variables are likely to have predictive power:
+
+
+``` r
+# CHUNK 6
+library(tidyverse)
+
+# Save the names of the categorical predictors as a vector
+vars.categorical <- c("Gender", "Student", "Married", "Ethnicity")
+for (i in vars.categorical) {
+  x <- Credit %>%
+    group_by_(i) %>%
+    summarize(
+      mean = mean(Balance),
+      median = median(Balance),
+      n = n()
+      )
+  print(x)
+}
+#> # A tibble: 2 × 4
+#>   Gender    mean median     n
+#>   <fct>    <dbl>  <int> <int>
+#> 1 " Male"   510.    463   193
+#> 2 "Female"  530.    456   207
+#> # A tibble: 2 × 4
+#>   Student  mean median     n
+#>   <fct>   <dbl>  <dbl> <int>
+#> 1 No       480.    424   360
+#> 2 Yes      877.    953    40
+#> # A tibble: 2 × 4
+#>   Married  mean median     n
+#>   <fct>   <dbl>  <int> <int>
+#> 1 No       523.    467   155
+#> 2 Yes      518.    454   245
+#> # A tibble: 3 × 4
+#>   Ethnicity         mean median     n
+#>   <fct>            <dbl>  <dbl> <int>
+#> 1 African American  531     480    99
+#> 2 Asian             512.    414   102
+#> 3 Caucasian         518.    465   199
+```
+
+From the summary output, you can see the mean and median for `Student` is much higher for those that are students than for those who are not students. The characteristic of being a student says a lot about the behavior of the target variable `Balance`. This demonstrates the predictive power of `Student` as a predictor.
+
+For the other three factor variables, `Gender`, `Married` and `Ethnicity`, the mean and median are relatively close across factor levels. That means the information contained in these variablesis not very effective for understanding or predicting the target variable `Balance`.
+
+We can reinforce our observations by constructing boxplots for `Balance` split by the factor variables, which is performed in the next code chunk:
+
+
+``` r
+# CHUNK 7
+for (i in vars.categorical) {
+  plot <- ggplot(Credit, aes(x = Credit[, i], y = Balance)) +
+    geom_boxplot() +
+    labs(x = i)
+  print(plot)
+}
+```
+
+<img src="figures/unnamed-chunk-38-1.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-38-2.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-38-3.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-38-4.png" width="100%" style="display: block; margin: auto;" />
+
+From the boxplots, you can see that for `Student`, the boxplot is situated much higher for those observations that are students than for those who are non-students.
+
+For the other factor variables, the boxes have very similar levels and very close medians. These variables cannot differentiate high and low values of balance effectively.
+
+So out of the four factor variables, only `Student` seems to be a significant predictor for `Balance`.
+
+------------------------------------------------------------------------
+
+### TASK 4: Consider Two Graphs {.unnumbered}
+
+#### Task Statement {.unnumbered}
+
+Your assistant has built the following two plots and asked for your comments:
+
+1.  A boxplot of **Age** by **Student**.
+2.  A scatterplot of **Balance** against **Income** colored by **Student**.
+    -   Run the code to make them.
+    -   Include them in your response.
+    -   State your **observations** and discuss the **impact**, if any, of each plot on your later modeling.
+
+In the following code chunk, we create a boxplot of `Student` against `Age`:
+
+
+``` r
+# CHUNK 8
+ggplot(Credit, aes(x = Student, y = Age)) +
+  geom_boxplot()
+```
+
+<img src="figures/unnamed-chunk-39-1.png" width="100%" style="display: block; margin: auto;" />
+
+From the boxplot, we can see that `Age` [does not]{.underline} seem to be an important predictor of `Balance` since the boxplots do not show much information being gained. This was also confirmed in our correlation matrix.
+
+If we use both `Age` and `Student` variables at the same time, then our model may have difficulty separating the individual effects of the two variables on `Balance`.
+
+In the following code chunk, we make a scatterplot of `Balance` against `Income` colored by `Student`:
+
+
+``` r
+ggplot(Credit, aes(x = Income, y = Balance, color = Student)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+
+```
+
+<img src="figures/unnamed-chunk-40-1.png" width="100%" style="display: block; margin: auto;" />
+
+We can see that the two slopes for the different factor levels of `Student` are quite different from each other. This graph suggests that `Income` has a different effect on `Balance` for students and non-students.
+
+From what we have previously learned, there may be an **interaction** between `Income` and `Student` when they serve as predictors for `Balance`.
+
+In the later part of this case study, we will consider the interaction between `Income` and `Student` into account when we construct linear models.
+
+---
+
+### TASK 5: Explore the Effect of Releveling Factor Variables {-}
+
+#### Task Statement {-}
+- Split the data into training and test sets.
+- Fit a multiple linear regression model for **Balance** on all variables (except **Limit**) on the training set. Be sure to take note of the implications in Task 4. Interpret the **coefficient estimates** for **Married** and for the **Asian** level of **Ethnicity**.
+- **Relevel** the factor variables so that the most frequent level becomes the baseline level and refit the multiple linear regression model. Interpret the coefficient estimates for **Married** and for the **Asian** level of **Ethnicity** again.
+
+##### Overall Objective {-}
+To understand how **categorical predictors** are handled by the `lm()` function.
+
+
+We'll start this task by performing the training/test set split and comparing the mean of the target variable `Balance` in each of the data sets:
+
+``` r
+# CHUNK 9
+# Load packages
+library(caret)
+
+# Set a random seed
+set.seed(8964)
+
+# Split the data into training and test sets
+partition <- createDataPartition(Credit$Balance, p = 0.75, list = FALSE)
+data.train <- Credit[partition, ]
+data.test <- Credit[-partition, ]
+
+# Compare the distribution of the target variable in each set
+print("TRAIN")
+#> [1] "TRAIN"
+mean(data.train$Balance)
+#> [1] 520.4
+
+print("TEST")
+#> [1] "TEST"
+mean(data.test$Balance)
+#> [1] 518.7
+```
+
+Next, we fit a multiple linear regression model for **Balance** on all variables (except **Limit**) on the training set and take note of the implications in Task 4. We then Interpret the **coefficient estimates** for **Married** and for the **Asian** level of **Ethnicity**.
+
+
+``` r
+# CHUNK 10
+model.full <- lm(Balance ~ . + Income:Student, data = data.train)
+summary(model.full)
+#> 
+#> Call:
+#> lm(formula = Balance ~ . + Income:Student, data = data.train)
+#> 
+#> Residuals:
+#>    Min     1Q Median     3Q    Max 
+#> -189.2  -76.5  -15.6   66.7  296.2 
+#> 
+#> Coefficients:
+#>                     Estimate Std. Error t value
+#> (Intercept)        -552.3435    40.3454  -13.69
+#> Income               -7.9386     0.2946  -26.94
+#> Rating                4.0125     0.0642   62.54
+#> Cards                 2.8977     4.6917    0.62
+#> Age                  -0.7878     0.3599   -2.19
+#> Education             0.8892     1.9204    0.46
+#> GenderFemale        -18.3703    12.0087   -1.53
+#> StudentYes          395.6774    30.7230   12.88
+#> MarriedYes          -20.4647    12.3974   -1.65
+#> EthnicityAsian        6.5327    17.1379    0.38
+#> EthnicityCaucasian   11.9539    14.8244    0.81
+#> Income:StudentYes     0.5010     0.5003    1.00
+#>                    Pr(>|t|)    
+#> (Intercept)          <2e-16 ***
+#> Income               <2e-16 ***
+#> Rating               <2e-16 ***
+#> Cards                 0.537    
+#> Age                   0.029 *  
+#> Education             0.644    
+#> GenderFemale          0.127    
+#> StudentYes           <2e-16 ***
+#> MarriedYes            0.100 .  
+#> EthnicityAsian        0.703    
+#> EthnicityCaucasian    0.421    
+#> Income:StudentYes     0.317    
+#> ---
+#> Signif. codes:  
+#> 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+#> 
+#> Residual standard error: 103 on 289 degrees of freedom
+#> Multiple R-squared:  0.952,	Adjusted R-squared:  0.95 
+#> F-statistic:  521 on 11 and 289 DF,  p-value: <2e-16
+```
+
+Based on the summary out, the `Income`, `Rating`, `Age` and/or `Student` variables are statistically signifcant. The Multiple R-Squared for `model.full` is 0.952 or 95.2% which means the goodness-of-fit is fairly high.
+
+By default, R will use alphabetical ordering of factor levels to determine the baseline level for each factor variable.
+
+Based on the coefficients of the factor variables, we can see that the `Balance` is, on average, 20.46469 lower for married observations than the balance for unmarried observations.
+
+We can also say that the `Balance` for Asian is higher than the `Balance` of African (the baseline level), by an average of 6.53269, all else equal. 
+
+**For factor variables, the comparisons of coefficients are always with respect to the baseline level.**
+
+The following code chunk relevels the factor variables by making the most common factor level the baseline level:
+
+
+``` r
+# CHUNK 11
+for (i in vars.categorical){
+  # Use the table() function to calculate the frequencies for each factor
+  table <- as.data.frame(table(Credit[, i]))
+  # Determine the level with the highest frequency
+  max <- which.max(table[, 2])
+  # Save the name of the level with the highest frequency
+  level.name <- as.character(table[max, 1])
+  # Set the baseline level to the most populous level
+  Credit[, i] <- relevel(Credit[, i], ref = level.name)
+}
+
+summary(Credit[, vars.categorical])
+#>     Gender    Student   Married  
+#>  Female:207   No :360   Yes:245  
+#>   Male :193   Yes: 40   No :155  
+#>                                  
+#>             Ethnicity  
+#>  Caucasian       :199  
+#>  African American: 99  
+#>  Asian           :102
+```
+
+When the summary function is called, the baseline level is always printed first.
+
+We then refit the linear model after doing the releveling and observe the differences in summary output:
+
+
+``` r
+# CHUNK 12
+# To make sure factors in the training set are releveled
+data.train <- Credit[partition, ]
+
+model.full <- lm(Balance ~ . + Income:Student, data = data.train)
+summary(model.full)
+#> 
+#> Call:
+#> lm(formula = Balance ~ . + Income:Student, data = data.train)
+#> 
+#> Residuals:
+#>    Min     1Q Median     3Q    Max 
+#> -189.2  -76.5  -15.6   66.7  296.2 
+#> 
+#> Coefficients:
+#>                            Estimate Std. Error t value
+#> (Intercept)               -579.2247    40.0860  -14.45
+#> Income                      -7.9386     0.2946  -26.94
+#> Rating                       4.0125     0.0642   62.54
+#> Cards                        2.8977     4.6917    0.62
+#> Age                         -0.7878     0.3599   -2.19
+#> Education                    0.8892     1.9204    0.46
+#> Gender Male                 18.3703    12.0087    1.53
+#> StudentYes                 395.6774    30.7230   12.88
+#> MarriedNo                   20.4647    12.3974    1.65
+#> EthnicityAfrican American  -11.9539    14.8244   -0.81
+#> EthnicityAsian              -5.4212    14.6852   -0.37
+#> Income:StudentYes            0.5010     0.5003    1.00
+#>                           Pr(>|t|)    
+#> (Intercept)                 <2e-16 ***
+#> Income                      <2e-16 ***
+#> Rating                      <2e-16 ***
+#> Cards                        0.537    
+#> Age                          0.029 *  
+#> Education                    0.644    
+#> Gender Male                  0.127    
+#> StudentYes                  <2e-16 ***
+#> MarriedNo                    0.100 .  
+#> EthnicityAfrican American    0.421    
+#> EthnicityAsian               0.712    
+#> Income:StudentYes            0.317    
+#> ---
+#> Signif. codes:  
+#> 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+#> 
+#> Residual standard error: 103 on 289 degrees of freedom
+#> Multiple R-squared:  0.952,	Adjusted R-squared:  0.95 
+#> F-statistic:  521 on 11 and 289 DF,  p-value: <2e-16
+```
+
+We can see in the new summary output, the coefficients for `Married` and `Ethnicity` have flipped as there is a new baseline level of these factor variables.
+
+---
+
+### TASK 6: Binarize Factor Variables Manually {-}
+
+#### Task Statement {-}
+- Describe the **advantages and disadvantages** of **manually binarizing** the factor variables before performing feature selection.
+- Regardless, **binarize the factor variables manually** and refit the multiple linear regression model in Task 5.
+
+#### Advantage: To avoid "all or nothing" {-}
+Many feature selection functions treat factor variables as a **single feature** and either:
+  - Retain the variable with **all of its levels**
+  - Remove the variable **completely**
+
+Binarization allows the ability to **drop individual factor levels** if not significant with respect to the baseline.
+
+#### Disadvantages {-}
+1. Each factor level is considered a **separate feature** to add/drop, which can make **stepwise selection** take considerably longer to complete.
+2. (Less important; see Dec 2019 Task 8) It’s possible to have **nonsensical results** when only a **handful of levels** of a categorical predictor are selected.
+
+
+In the following code chunk, we start the binarization process by generating the dummary variables for the four factor variables in the data.
+
+
+``` r
+# CHUNK 13
+library(caret)
+binarizer <- dummyVars(paste("~", paste(vars.categorical, collapse = "+")),
+                       data = Credit, fullRank = TRUE)
+# OR type out the categorical predictors one by one
+#binarizer <- dummyVars(~ Gender + Student + Married + Ethnicity,
+#                       data = Credit, fullRank = TRUE)
+binarized_vars <- data.frame(predict(binarizer, newdata = Credit))
+head(binarized_vars)
+#>   Gender..Male Student.Yes Married.No
+#> 1            1           0          0
+#> 2            0           1          0
+#> 3            1           0          1
+#> 4            0           0          1
+#> 5            1           0          0
+#> 6            1           0          1
+#>   Ethnicity.African.American Ethnicity.Asian
+#> 1                          0               0
+#> 2                          0               1
+#> 3                          0               1
+#> 4                          0               1
+#> 5                          0               0
+#> 6                          0               0
+```
+
+Then we attach the binarized variables to the dataset and set the original variables to `NULL` to remove them, and create training/test sets on the new dataset:
+
+
+``` r
+# CHUNK 14
+Credit.bin <- cbind(Credit, binarized_vars)
+head(Credit.bin)
+#>   Income Rating Cards Age Education Gender Student
+#> 1  14.89    283     2  34        11   Male      No
+#> 2 106.03    483     3  82        15 Female     Yes
+#> 3 104.59    514     4  71        11   Male      No
+#> 4 148.92    681     3  36        11 Female      No
+#> 5  55.88    357     2  68        16   Male      No
+#> 6  80.18    569     4  77        10   Male      No
+#>   Married Ethnicity Balance Gender..Male Student.Yes
+#> 1     Yes Caucasian     333            1           0
+#> 2     Yes     Asian     903            0           1
+#> 3      No     Asian     580            1           0
+#> 4      No     Asian     964            0           0
+#> 5     Yes Caucasian     331            1           0
+#> 6      No Caucasian    1151            1           0
+#>   Married.No Ethnicity.African.American
+#> 1          0                          0
+#> 2          0                          0
+#> 3          1                          0
+#> 4          1                          0
+#> 5          0                          0
+#> 6          1                          0
+#>   Ethnicity.Asian
+#> 1               0
+#> 2               1
+#> 3               1
+#> 4               1
+#> 5               0
+#> 6               0
+
+Credit.bin$Gender <- NULL
+Credit.bin$Student <- NULL
+Credit.bin$Married <- NULL
+Credit.bin$Ethnicity <- NULL
+head(Credit.bin)
+#>   Income Rating Cards Age Education Balance
+#> 1  14.89    283     2  34        11     333
+#> 2 106.03    483     3  82        15     903
+#> 3 104.59    514     4  71        11     580
+#> 4 148.92    681     3  36        11     964
+#> 5  55.88    357     2  68        16     331
+#> 6  80.18    569     4  77        10    1151
+#>   Gender..Male Student.Yes Married.No
+#> 1            1           0          0
+#> 2            0           1          0
+#> 3            1           0          1
+#> 4            0           0          1
+#> 5            1           0          0
+#> 6            1           0          1
+#>   Ethnicity.African.American Ethnicity.Asian
+#> 1                          0               0
+#> 2                          0               1
+#> 3                          0               1
+#> 4                          0               1
+#> 5                          0               0
+#> 6                          0               0
+
+data.train.bin <- Credit.bin[partition, ]
+data.test.bin <- Credit.bin[-partition, ]
+```
+
+We then fit a model on the binzared dataset and print a model summary:
+
+
+``` r
+# CHUNK 15
+# The interaction term is now Income:Student.Yes, not Income:Student
+model.full.bin <- lm(Balance ~ . + Income:Student.Yes, data = data.train.bin)
+summary(model.full.bin)
+#> 
+#> Call:
+#> lm(formula = Balance ~ . + Income:Student.Yes, data = data.train.bin)
+#> 
+#> Residuals:
+#>    Min     1Q Median     3Q    Max 
+#> -189.2  -76.5  -15.6   66.7  296.2 
+#> 
+#> Coefficients:
+#>                             Estimate Std. Error
+#> (Intercept)                -579.2247    40.0860
+#> Income                       -7.9386     0.2946
+#> Rating                        4.0125     0.0642
+#> Cards                         2.8977     4.6917
+#> Age                          -0.7878     0.3599
+#> Education                     0.8892     1.9204
+#> Gender..Male                 18.3703    12.0087
+#> Student.Yes                 395.6774    30.7230
+#> Married.No                   20.4647    12.3974
+#> Ethnicity.African.American  -11.9539    14.8244
+#> Ethnicity.Asian              -5.4212    14.6852
+#> Income:Student.Yes            0.5010     0.5003
+#>                            t value Pr(>|t|)    
+#> (Intercept)                 -14.45   <2e-16 ***
+#> Income                      -26.94   <2e-16 ***
+#> Rating                       62.54   <2e-16 ***
+#> Cards                         0.62    0.537    
+#> Age                          -2.19    0.029 *  
+#> Education                     0.46    0.644    
+#> Gender..Male                  1.53    0.127    
+#> Student.Yes                  12.88   <2e-16 ***
+#> Married.No                    1.65    0.100 .  
+#> Ethnicity.African.American   -0.81    0.421    
+#> Ethnicity.Asian              -0.37    0.712    
+#> Income:Student.Yes            1.00    0.317    
+#> ---
+#> Signif. codes:  
+#> 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+#> 
+#> Residual standard error: 103 on 289 degrees of freedom
+#> Multiple R-squared:  0.952,	Adjusted R-squared:  0.95 
+#> F-statistic:  521 on 11 and 289 DF,  p-value: <2e-16
+```
+
+We see a similar summary output for the model as we did before.
+
+---
+
 ### Model Construction and Feature Selection
+
+### TASK 7: Select Features using Stepwise Selection {-}
+
+#### Task Statement {-}
+**Motivation**: Some features in the full model may lack predictive power and result in overfitting.
+
+- Perform **stepwise selection** using the `stepAIC()` function to determine which features should be retained.
+  - Two decisions to make:
+    1. **Forward** (`direction = "forward"`) vs. **backward** (`direction = "backward"`) (default)
+    2. **AIC** (`k = 2`) (default) vs. **BIC** (`k = log(nrow(data.train.bin))`)
+
+- Employ **forward selection** using **BIC**.
+  
+- Run the `summary` function on the linear model selected by this process. Provide the summary output and **list the variables selected**.
+
+We load the `MASS` package to perform stepwise AIC. The default for stepAIC() is to use "backward" selection and "AIC" as the criteria (e.g., $k=2$).
+
+Alternatively, we can specify `direction="forward"` and `k=log(nrow(data.train.bin))` for BIC.
+
+
+``` r
+# CHUNK 16
+# Uncomment this line the first time you use MASS
+#install.packages("MASS")
+
+# Load packages
+library(MASS)
+
+# Perform backward stepwise selection using the stepAIC() function
+model.backward.AIC <- stepAIC(model.full.bin)
+#> Start:  AIC=2802
+#> Balance ~ Income + Rating + Cards + Age + Education + Gender..Male + 
+#>     Student.Yes + Married.No + Ethnicity.African.American + Ethnicity.Asian + 
+#>     Income:Student.Yes
+#> 
+#>                              Df Sum of Sq      RSS
+#> - Ethnicity.Asian             1      1448  3071419
+#> - Education                   1      2278  3072249
+#> - Cards                       1      4052  3074024
+#> - Ethnicity.African.American  1      6907  3076879
+#> - Income:Student.Yes          1     10654  3080626
+#> <none>                                     3069972
+#> - Gender..Male                1     24859  3094830
+#> - Married.No                  1     28946  3098918
+#> - Age                         1     50885  3120857
+#> - Rating                      1  41548705 44618677
+#>                               AIC
+#> - Ethnicity.Asian            2800
+#> - Education                  2800
+#> - Cards                      2801
+#> - Ethnicity.African.American 2801
+#> - Income:Student.Yes         2801
+#> <none>                       2802
+#> - Gender..Male               2803
+#> - Married.No                 2803
+#> - Age                        2805
+#> - Rating                     3606
+#> 
+#> Step:  AIC=2800
+#> Balance ~ Income + Rating + Cards + Age + Education + Gender..Male + 
+#>     Student.Yes + Married.No + Ethnicity.African.American + Income:Student.Yes
+#> 
+#>                              Df Sum of Sq      RSS
+#> - Education                   1      2255  3073675
+#> - Cards                       1      3911  3075331
+#> - Ethnicity.African.American  1      5595  3077014
+#> - Income:Student.Yes          1     10176  3081595
+#> <none>                                     3071419
+#> - Gender..Male                1     25165  3096584
+#> - Married.No                  1     29351  3100771
+#> - Age                         1     51462  3122881
+#> - Rating                      1  41550276 44621695
+#>                               AIC
+#> - Education                  2799
+#> - Cards                      2799
+#> - Ethnicity.African.American 2799
+#> - Income:Student.Yes         2799
+#> <none>                       2800
+#> - Gender..Male               2801
+#> - Married.No                 2801
+#> - Age                        2803
+#> - Rating                     3604
+#> 
+#> Step:  AIC=2799
+#> Balance ~ Income + Rating + Cards + Age + Gender..Male + Student.Yes + 
+#>     Married.No + Ethnicity.African.American + Income:Student.Yes
+#> 
+#>                              Df Sum of Sq      RSS
+#> - Cards                       1      3865  3077540
+#> - Ethnicity.African.American  1      5586  3079261
+#> - Income:Student.Yes          1     10214  3083888
+#> <none>                                     3073675
+#> - Gender..Male                1     25155  3098830
+#> - Married.No                  1     28499  3102174
+#> - Age                         1     51652  3125327
+#> - Rating                      1  41550265 44623939
+#>                               AIC
+#> - Cards                      2797
+#> - Ethnicity.African.American 2797
+#> - Income:Student.Yes         2798
+#> <none>                       2799
+#> - Gender..Male               2799
+#> - Married.No                 2799
+#> - Age                        2802
+#> - Rating                     3602
+#> 
+#> Step:  AIC=2797
+#> Balance ~ Income + Rating + Age + Gender..Male + Student.Yes + 
+#>     Married.No + Ethnicity.African.American + Income:Student.Yes
+#> 
+#>                              Df Sum of Sq      RSS
+#> - Ethnicity.African.American  1      5579  3083119
+#> - Income:Student.Yes          1     10767  3088307
+#> <none>                                     3077540
+#> - Gender..Male                1     23659  3101198
+#> - Married.No                  1     27917  3105457
+#> - Age                         1     49660  3127200
+#> - Rating                      1  42161655 45239195
+#>                               AIC
+#> - Ethnicity.African.American 2796
+#> - Income:Student.Yes         2796
+#> <none>                       2797
+#> - Gender..Male               2797
+#> - Married.No                 2798
+#> - Age                        2800
+#> - Rating                     3604
+#> 
+#> Step:  AIC=2796
+#> Balance ~ Income + Rating + Age + Gender..Male + Student.Yes + 
+#>     Married.No + Income:Student.Yes
+#> 
+#>                      Df Sum of Sq      RSS  AIC
+#> - Income:Student.Yes  1      9873  3092992 2794
+#> <none>                             3083119 2796
+#> - Gender..Male        1     23435  3106554 2796
+#> - Married.No          1     24716  3107835 2796
+#> - Age                 1     50672  3133791 2798
+#> - Rating              1  42165674 45248793 3602
+#> 
+#> Step:  AIC=2794
+#> Balance ~ Income + Rating + Age + Gender..Male + Student.Yes + 
+#>     Married.No
+#> 
+#>                Df Sum of Sq      RSS  AIC
+#> <none>                       3092992 2794
+#> - Gender..Male  1     22314  3115306 2795
+#> - Married.No    1     25027  3118019 2795
+#> - Age           1     49133  3142125 2797
+#> - Student.Yes   1   4931600  8024592 3079
+#> - Income        1   8357794 11450786 3186
+#> - Rating        1  42247226 45340218 3601
+
+# Print a summary of the stepwise selection
+summary(model.backward.AIC)
+#> 
+#> Call:
+#> lm(formula = Balance ~ Income + Rating + Age + Gender..Male + 
+#>     Student.Yes + Married.No, data = data.train.bin)
+#> 
+#> Residuals:
+#>    Min     1Q Median     3Q    Max 
+#> -195.2  -76.5  -14.0   65.3  285.3 
+#> 
+#> Coefficients:
+#>               Estimate Std. Error t value Pr(>|t|)    
+#> (Intercept)  -565.2227    26.7378  -21.14   <2e-16 ***
+#> Income         -7.8767     0.2795  -28.19   <2e-16 ***
+#> Rating          4.0118     0.0633   63.37   <2e-16 ***
+#> Age            -0.7702     0.3564   -2.16    0.031 *  
+#> Gender..Male   17.3210    11.8933    1.46    0.146    
+#> Student.Yes   418.8703    19.3465   21.65   <2e-16 ***
+#> Married.No     18.7377    12.1486    1.54    0.124    
+#> ---
+#> Signif. codes:  
+#> 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+#> 
+#> Residual standard error: 103 on 294 degrees of freedom
+#> Multiple R-squared:  0.952,	Adjusted R-squared:  0.951 
+#> F-statistic:  965 on 6 and 294 DF,  p-value: <2e-16
+```
+
+
+If we look at using the `stepAIC()` function on a non-binarized dataset, at just the first iteration, we can see that the stepwise selection would drop the entire `Ethnicity` factor variable, rather than just some factor levels of it:
+
+
+``` r
+# CHUNK 17
+model.no.binarize <- stepAIC(model.full, steps = 1)
+#> Start:  AIC=2802
+#> Balance ~ Income + Rating + Cards + Age + Education + Gender + 
+#>     Student + Married + Ethnicity + Income:Student
+#> 
+#>                  Df Sum of Sq      RSS  AIC
+#> - Ethnicity       2      7042  3077014 2799
+#> - Education       1      2278  3072249 2800
+#> - Cards           1      4052  3074024 2801
+#> - Income:Student  1     10654  3080626 2801
+#> <none>                         3069972 2802
+#> - Gender          1     24859  3094830 2803
+#> - Married         1     28946  3098918 2803
+#> - Age             1     50885  3120857 2805
+#> - Rating          1  41548705 44618677 3606
+#> 
+#> Step:  AIC=2799
+#> Balance ~ Income + Rating + Cards + Age + Education + Gender + 
+#>     Student + Married + Income:Student
+```
+
+In the next code chunk, we will perform "forward" stepwise selection on the BIC. In this approach, we need to specify the `direction` parameter as "foward", and define the penalty argument `k` as the log(size of training dataset), and the `scope` argument with the most complex and least complex forms of the model: 
+
+
+``` r
+# CHUNK 18
+# first fit the null model (i.e., model with no predictors)
+model.null <- lm(Balance ~ 1, data = data.train.bin)
+
+model.forward.BIC <- stepAIC(model.null,
+                             direction = "forward",
+                             scope = list(upper = model.full.bin,
+                                          lower = model.null),
+                             k = log(nrow(data.train.bin)))
+#> Start:  AIC=3698
+#> Balance ~ 1
+#> 
+#>                              Df Sum of Sq      RSS
+#> + Rating                      1  47082983 16908423
+#> + Income                      1  12910007 51081399
+#> + Student.Yes                 1   5425335 58566071
+#> <none>                                    63991406
+#> + Cards                       1    163291 63828115
+#> + Gender..Male                1    127201 63864205
+#> + Age                         1     79880 63911526
+#> + Education                   1     13121 63978284
+#> + Married.No                  1     10920 63980486
+#> + Ethnicity.Asian             1      3049 63988357
+#> + Ethnicity.African.American  1         0 63991406
+#>                               AIC
+#> + Rating                     3303
+#> + Income                     3636
+#> + Student.Yes                3677
+#> <none>                       3698
+#> + Cards                      3703
+#> + Gender..Male               3703
+#> + Age                        3703
+#> + Education                  3704
+#> + Married.No                 3704
+#> + Ethnicity.Asian            3704
+#> + Ethnicity.African.American 3704
+#> 
+#> Step:  AIC=3303
+#> Balance ~ Rating
+#> 
+#>                              Df Sum of Sq      RSS
+#> + Income                      1   8650956  8257467
+#> + Student.Yes                 1   4817765 12090659
+#> + Age                         1    707560 16200863
+#> <none>                                    16908423
+#> + Married.No                  1    174547 16733876
+#> + Education                   1     71402 16837022
+#> + Ethnicity.Asian             1     49620 16858804
+#> + Gender..Male                1     31887 16876536
+#> + Cards                       1     30049 16878374
+#> + Ethnicity.African.American  1      4304 16904120
+#>                               AIC
+#> + Income                     3093
+#> + Student.Yes                3208
+#> + Age                        3296
+#> <none>                       3303
+#> + Married.No                 3306
+#> + Education                  3308
+#> + Ethnicity.Asian            3308
+#> + Gender..Male               3308
+#> + Cards                      3308
+#> + Ethnicity.African.American 3309
+#> 
+#> Step:  AIC=3093
+#> Balance ~ Rating + Income
+#> 
+#>                              Df Sum of Sq     RSS  AIC
+#> + Student.Yes                 1   5069114 3188353 2812
+#> <none>                                    8257467 3093
+#> + Married.No                  1    127904 8129563 3094
+#> + Age                         1     95208 8162259 3095
+#> + Education                   1     44496 8212971 3097
+#> + Ethnicity.Asian             1     40115 8217352 3097
+#> + Cards                       1     22019 8235448 3098
+#> + Ethnicity.African.American  1      9464 8248003 3099
+#> + Gender..Male                1       244 8257223 3099
+#> 
+#> Step:  AIC=2812
+#> Balance ~ Rating + Income + Student.Yes
+#> 
+#>                              Df Sum of Sq     RSS  AIC
+#> <none>                                    3188353 2812
+#> + Age                         1     46257 3142096 2814
+#> + Gender..Male                1     24128 3164225 2816
+#> + Married.No                  1     23759 3164595 2816
+#> + Income:Student.Yes          1      7569 3180784 2817
+#> + Ethnicity.African.American  1      2346 3186007 2818
+#> + Education                   1      1600 3186753 2818
+#> + Cards                       1       865 3187488 2818
+#> + Ethnicity.Asian             1       747 3187606 2818
+
+summary(model.forward.BIC)
+#> 
+#> Call:
+#> lm(formula = Balance ~ Rating + Income + Student.Yes, data = data.train.bin)
+#> 
+#> Residuals:
+#>     Min      1Q  Median      3Q     Max 
+#> -220.29  -78.12   -7.47   63.27  299.90 
+#> 
+#> Coefficients:
+#>              Estimate Std. Error t value Pr(>|t|)    
+#> (Intercept) -589.1664    16.1101   -36.6   <2e-16 ***
+#> Rating         4.0163     0.0635    63.2   <2e-16 ***
+#> Income        -7.9741     0.2769   -28.8   <2e-16 ***
+#> Student.Yes  421.1734    19.3821    21.7   <2e-16 ***
+#> ---
+#> Signif. codes:  
+#> 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+#> 
+#> Residual standard error: 104 on 297 degrees of freedom
+#> Multiple R-squared:  0.95,	Adjusted R-squared:  0.95 
+#> F-statistic: 1.89e+03 on 3 and 297 DF,  p-value: <2e-16
+```
+
+Based on forward selection and BIC, the final model will only have three predictor terms, `Rating`, `Income` and `Student.Yes`.
+
+If you do stepwise selection with BIC, your final model will tend to be simpler.
+
+---
 
 ### Model Validation
 
+### TASK 8: Select and Validate the Recommended Model {-}
+
+#### Task Statement {-}
+- Evaluate the **RMSE** of the models in the preceding subsection against the **test set**.
+- Make a **recommendation** as to which model should be used.
+- Generate and interpret **diagnostic plots** for the recommended model to check the model assumptions.
+
+
+Here we will evaluate the RMSE of the models in the preceding subsection against the test set using the `RMSE()` function in the `caret` package. The `RMSE()` function takes a vector of target values for the first parameter, and a vector of predicted fitted-values as the second parameter. We specify the `newdata=data.test.bin` to calculate the prediction performance on the test data.  
+
+
+``` r
+# CHUNK 19
+library(caret)
+
+RMSE(data.test$Balance, predict(model.null, newdata = data.test.bin))
+#> [1] 453.4
+RMSE(data.test$Balance, predict(model.full.bin, newdata = data.test.bin))
+#> [1] 105.1
+RMSE(data.test$Balance, predict(model.backward.AIC, newdata = data.test.bin))
+#> [1] 104.2
+RMSE(data.test$Balance, predict(model.forward.BIC, newdata = data.test.bin))
+#> [1] 102.7
+```
+
+Based on the output, the fourth model `model.forward.BIC` achieves the lowest RMSE and therefore has the greatest prediction performance on the test data.
+
+We plot the model below:
+
+
+``` r
+# CHUNK 20
+plot(model.forward.BIC)
+```
+
+<img src="figures/unnamed-chunk-52-1.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-52-2.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-52-3.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-52-4.png" width="100%" style="display: block; margin: auto;" />
+
+
+The first plot is the **Residuals vs. Fitted Values** on the training set. If the model has captured the signal effectively, then the residuals should behave randomly and there should be no systematic patterns in the plot. But that is not the case here, you can see a clear U-shape in the plot. That means there may be non-linear relationships not captured by the linear model. To remedy the problem, we may try to add non-linear terms (polynomial terms) or interaction terms to the model equation. 
+
+
+The **Q-Q Plot** plots the standardized empirical residuals against the theoretical quantiles. This plot is intended to check the normality of the standard errors. If the points lie on the 45-degree line, the normality assumption should be fine. In this plot, the points lie quite closely in the middle part, but not in the two extreme tails. The points above the 45-degree line in the right tail suggest a heavy tail or right-skew.
+
+Overall, the predictive performance of the model is good, however the  diagnostic plots suggest some room for improvement.
+
 ### Regularization
+
+### TASK 9: Effect of Regularization {-}
+
+#### Task Statement {-}
+- Explain whether using `alpha = 0` is appropriate for this case study.
+- Regardless of your conclusion, use elastic net with `alpha = 0.5` to fit a regularized regression model with the following values of `lambda`: 0, 10, 100, 500, 1000.
+- State your **observations**.
+
+#### Notes {-}
+- Remember `alpha = 0` corresponds to **ridge regression** (no features dropped).
+- **Goal**: To identify key factors affecting **Balance**.
+
+
+To perform regularization, we will use the `glmnet` package. The `glmnet` function takes a model matrix (design matrix) as the `x` parameter and a vector of target variable values as the `y` parameter. In addition, you must specify the `family` distribution of the target variable, and provide candidates for the `lambda` and `alpha` hyperparameters.
+
+
+
+``` r
+# CHUNK 21
+X.train <- model.matrix(Balance ~ . + Income:Student, data = data.train)
+head(X.train)  # print out a few rows of the design matrix
+#>   (Intercept) Income Rating Cards Age Education
+#> 1           1  14.89    283     2  34        11
+#> 2           1 106.03    483     3  82        15
+#> 3           1 104.59    514     4  71        11
+#> 6           1  80.18    569     4  77        10
+#> 8           1  71.41    512     2  87         9
+#> 9           1  15.12    266     5  66        13
+#>   Gender Male StudentYes MarriedNo
+#> 1           1          0         0
+#> 2           0          1         0
+#> 3           1          0         1
+#> 6           1          0         1
+#> 8           1          0         1
+#> 9           0          0         1
+#>   EthnicityAfrican American EthnicityAsian
+#> 1                         0              0
+#> 2                         0              1
+#> 3                         0              1
+#> 6                         0              0
+#> 8                         0              1
+#> 9                         0              0
+#>   Income:StudentYes
+#> 1                 0
+#> 2               106
+#> 3                 0
+#> 6                 0
+#> 8                 0
+#> 9                 0
+```
+
+
+
+``` r
+# CHUNK 22
+#install.packages("glmnet")  # uncomment this line the first time you use glmnet
+library(glmnet)
+
+m.lambda <- glmnet(x = X.train,
+                   y = data.train$Balance,
+                   family = "gaussian",
+                   lambda = c(0, 10, 100, 500, 1000),
+                   alpha = 0.5)
+
+# first way to extract coefficient estimates
+m.lambda$a0
+#>     s0     s1     s2     s3     s4 
+#>  520.4  301.3 -225.0 -506.0 -579.2
+m.lambda$beta
+#> 12 x 5 sparse Matrix of class "dgCMatrix"
+#>                           s0     s1      s2        s3
+#> (Intercept)                . .        .       .      
+#> Income                     . .        .      -6.63361
+#> Rating                     . 0.6183   2.034   3.71043
+#> Cards                      . .        .       0.51434
+#> Age                        . .        .      -0.70551
+#> Education                  . .        .       .      
+#> Gender Male                . .        .       3.08510
+#> StudentYes                 . .      228.763 396.62015
+#> MarriedNo                  . .        .       9.36968
+#> EthnicityAfrican American  . .        .       .      
+#> EthnicityAsian             . .        .       .      
+#> Income:StudentYes          . .        .       0.01473
+#>                                 s4
+#> (Intercept)                 .     
+#> Income                     -7.9321
+#> Rating                      4.0115
+#> Cards                       2.9162
+#> Age                        -0.7885
+#> Education                   0.8875
+#> Gender Male                18.3671
+#> StudentYes                396.2181
+#> MarriedNo                  20.4647
+#> EthnicityAfrican American -11.9281
+#> EthnicityAsian             -5.3983
+#> Income:StudentYes           0.4929
+
+# second way
+coef(m.lambda)
+#> 13 x 5 sparse Matrix of class "dgCMatrix"
+#>                              s0       s1       s2
+#> (Intercept)               520.4 301.2973 -224.967
+#> (Intercept)                 .     .         .    
+#> Income                      .     .         .    
+#> Rating                      .     0.6183    2.034
+#> Cards                       .     .         .    
+#> Age                         .     .         .    
+#> Education                   .     .         .    
+#> Gender Male                 .     .         .    
+#> StudentYes                  .     .       228.763
+#> MarriedNo                   .     .         .    
+#> EthnicityAfrican American   .     .         .    
+#> EthnicityAsian              .     .         .    
+#> Income:StudentYes           .     .         .    
+#>                                   s3        s4
+#> (Intercept)               -506.01795 -579.1925
+#> (Intercept)                  .          .     
+#> Income                      -6.63361   -7.9321
+#> Rating                       3.71043    4.0115
+#> Cards                        0.51434    2.9162
+#> Age                         -0.70551   -0.7885
+#> Education                    .          0.8875
+#> Gender Male                  3.08510   18.3671
+#> StudentYes                 396.62015  396.2181
+#> MarriedNo                    9.36968   20.4647
+#> EthnicityAfrican American    .        -11.9281
+#> EthnicityAsian               .         -5.3983
+#> Income:StudentYes            0.01473    0.4929
+
+mean(data.train$Balance)
+#> [1] 520.4
+```
+
+Next we'll construct a ridge model, an elastic net model, and a lasso model:
+
+``` r
+# CHUNK 23
+m.ridge <- glmnet(x = X.train,
+                  y = data.train$Balance,
+                  family = "gaussian",
+                  lambda = 10,
+                  alpha = 0)
+coef(m.ridge)
+#> 13 x 1 sparse Matrix of class "dgCMatrix"
+#>                                  s0
+#> (Intercept)               -523.1426
+#> (Intercept)                  .     
+#> Income                      -6.7528
+#> Rating                       3.7207
+#> Cards                        5.1458
+#> Age                         -0.9952
+#> Education                    0.9866
+#> Gender Male                 14.7247
+#> StudentYes                 390.5753
+#> MarriedNo                   20.1062
+#> EthnicityAfrican American  -10.0939
+#> EthnicityAsian              -4.4601
+#> Income:StudentYes            0.4123
+
+m.elastic.net <- glmnet(x = X.train,
+                        y = data.train$Balance,
+                        family = "gaussian",
+                        lambda = 10,
+                        alpha = 0.5)
+coef(m.elastic.net)
+#> 13 x 1 sparse Matrix of class "dgCMatrix"
+#>                                   s0
+#> (Intercept)               -506.12459
+#> (Intercept)                  .      
+#> Income                      -6.63607
+#> Rating                       3.71092
+#> Cards                        0.51137
+#> Age                         -0.70476
+#> Education                    .      
+#> Gender Male                  3.09012
+#> StudentYes                 396.73966
+#> MarriedNo                    9.36636
+#> EthnicityAfrican American    .      
+#> EthnicityAsian               .      
+#> Income:StudentYes            0.01376
+
+m.lasso <- glmnet(x = X.train,
+                  y = data.train$Balance,
+                  family = "gaussian",
+                  lambda = 10,
+                  alpha = 1)
+coef(m.lasso)
+#> 13 x 1 sparse Matrix of class "dgCMatrix"
+#>                                  s0
+#> (Intercept)               -512.8489
+#> (Intercept)                  .     
+#> Income                      -6.5545
+#> Rating                       3.6995
+#> Cards                        .     
+#> Age                         -0.4336
+#> Education                    .     
+#> Gender Male                  .     
+#> StudentYes                 386.5700
+#> MarriedNo                    .     
+#> EthnicityAfrican American    .     
+#> EthnicityAsian               .     
+#> Income:StudentYes            .
+```
+
+---
+
+### TASK 10: Perform Feature Selection with Regularization {-}
+
+#### Task Statement {-}
+- Use **cross-validation** to set the value of `lambda` for fitting the regularized model (`alpha = 0.5`) in Task 9.
+  - **List** the features used in the resulting model.
+  - **Calculate** the RMSE on the test set.
+  - **Recommend** which model should be used and **justify** your choice.
+- Suggest **another method** to set the value of `lambda`.
+
+
+We use cross-validation using the `cv.glmnet()` function to systematically determine the appropriate or optimal value of the `lambda` hyperparameter:
+
+
+``` r
+# CHUNK 24
+set.seed(1111)
+
+m <- cv.glmnet(x = X.train,
+               y = data.train$Balance,
+               family = "gaussian",
+               alpha = 0.5)
+plot(m)
+
+m$lambda.min
+#> [1] 0.8886
+m$lambda.1se
+#> [1] 7.551
+```
+
+<img src="figures/unnamed-chunk-56-1.png" width="100%" style="display: block; margin: auto;" />
+
+We refit the regularized elastic-net (`alpha=0.5`) model using the optimal value of the `lambda` parameter that resulted in the lowest mean squared error (MSE). Using this model, we set up the design matrix for the test data, and make predictions on the test data. We then calculate the test RMSE to determine the prediction performance: 
+
+
+``` r
+# CHUNK 25
+# Fit the regularized model using lambda.min
+m.min <- glmnet(x = X.train,
+                y = data.train$Balance,
+                family = "gaussian",
+                lambda = m$lambda.min,
+                alpha = 0.5)
+
+# List the coefficient estimates
+m.min$beta
+#> 12 x 1 sparse Matrix of class "dgCMatrix"
+#>                                 s0
+#> (Intercept)                 .     
+#> Income                     -7.8132
+#> Rating                      3.9840
+#> Cards                       2.6915
+#> Age                        -0.7829
+#> Education                   0.7558
+#> Gender Male                17.0049
+#> StudentYes                396.3329
+#> MarriedNo                  19.4182
+#> EthnicityAfrican American  -9.9708
+#> EthnicityAsian             -3.6479
+#> Income:StudentYes           0.4458
+
+# Set up the design matrix for the test set
+X.test <- model.matrix(Balance ~ . + Income:Student, data = data.test)
+
+# Make predictions on the test set and calculate test RMSE
+m.min.pred <- predict(m.min, newx = X.test)
+RMSE(data.test$Balance, m.min.pred)
+#> [1] 103.9
+```
+
+We again refit the model using `lambda.1se` as the lambda hyperparameter, make predictions again, and evaluate the RMSE: 
+
+
+``` r
+# CHUNK 26
+# Fit the regularized model using lambda.1se
+m.1se <- glmnet(x = X.train,
+                y = data.train$Balance,
+                family = "gaussian",
+                lambda = m$lambda.1se,
+                alpha = 0.5)
+
+# List the coefficient estimates
+m.1se$beta
+#> 12 x 1 sparse Matrix of class "dgCMatrix"
+#>                                 s0
+#> (Intercept)                 .     
+#> Income                     -6.9378
+#> Rating                      3.7814
+#> Cards                       1.1075
+#> Age                        -0.7306
+#> Education                   .     
+#> Gender Male                 6.7717
+#> StudentYes                397.5199
+#> MarriedNo                  11.6768
+#> EthnicityAfrican American   .     
+#> EthnicityAsian              .     
+#> Income:StudentYes           0.1148
+
+# Make predictions on the test set and calculate test RMSE
+m.1se.pred <- predict(m.1se, newx = X.test)
+RMSE(data.test$Balance, m.1se.pred)
+#> [1] 102.8
+```
+
+
 
 ## Conceptual Review: Questions for Chapter 3 {.unnumbered}

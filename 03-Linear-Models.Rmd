@@ -1793,9 +1793,7 @@ So in this case study, both the interaction term and square term are useful feat
 -   **Model Evaluation:** Use a metric such as RMSE to compare prediction accuracy on the test set across the models.
 -   **Model Recommendation:** Select the model with the best balance between complexity and predictive accuracy.
 
-
 In the following code chunk, we use the `caret` package to split the data into a training and test set:
-
 
 ```{r echo=TRUE}
 # CHUNK 19
@@ -1817,7 +1815,7 @@ data.train <- ad[partition, ]
 data.test <- ad[-partition, ]
 ```
 
-You can see that there are 142 observations in the training set (~70%), and 58 observations in the test set (~30%). 
+You can see that there are 142 observations in the training set (\~70%), and 58 observations in the test set (\~30%).
 
 The `createDataPartition()` function from the `caret` package has built-in functionality to ensure that the target variable follows the same distribution both the training set and the test set. This way the two sets will be representative of the target variable.
 
@@ -1858,7 +1856,7 @@ RMSE(data.train$sales, predict(model.4.tr))
 RMSE(data.train$sales, predict(model.5.tr))
 ```
 
-Based on the results of the `RMSE()` function, the RMSE decreases as we go from `model.2.tr` to `model.5.tr`. This makes sense, as `model.2.tr` is the simplest model, and become more complex as we move to `model.1.tr` and then `model.3.tr`, `model.4.tr`, and finally `model.5.tr`. 
+Based on the results of the `RMSE()` function, the RMSE decreases as we go from `model.2.tr` to `model.5.tr`. This makes sense, as `model.2.tr` is the simplest model, and become more complex as we move to `model.1.tr` and then `model.3.tr`, `model.4.tr`, and finally `model.5.tr`.
 
 The more complex the model, the smaller the training error in general.
 
@@ -1878,23 +1876,670 @@ RMSE(data.test$sales, predict(model.4.tr, newdata = data.test))
 RMSE(data.test$sales, predict(model.5.tr, newdata = data.test))
 ```
 
-Based on the results of the above code chunk, the lowest test RMSE is achieved by `model.4.tr`, and therefore has the best perdiction performance. 
+Based on the results of the above code chunk, the lowest test RMSE is achieved by `model.4.tr`, and therefore has the best perdiction performance.
 
 The most complex model, `model.5.tr`, is not the best prediction performance and may have overfitted the data, so don't think that using the most complex model is always the best idea as far as prediction is concerned.
 
 If we have to recommend one model out of these five models, our recommendation would be to use `model.4.tr` as it produces the best prediction performance on the test set, is flexible enough to capture the signal in the data, but is not too complex.
 
----
+------------------------------------------------------------------------
 
 ## Case Study 2: Feature Selection and Regularization
 
+### About this Case Study {.unnumbered}
+
+**Dataset:**
+
+-   **Credit dataset from ISLR**
+    -   More predictors (numeric + **categorical**)
+    -   **Feature selection** is important
+
+**Objectives**:
+
+-   Know how to fit a linear model with **categorical** predictors in R.
+-   Perform **explicit binarization** of categorical predictors in R and understand why doing so may be beneficial.
+-   Perform **stepwise selection** using the `stepAIC()` function and be familiar with the options of this function.
+-   Generate and interpret **diagnostic plots** for a linear model.
+-   Fit **regularized linear models** in R.
+
+------------------------------------------------------------------------
+
+### Data Dictionary {.unnumbered}
+
+| Variable  | Description                                   |
+|-----------|-----------------------------------------------|
+| Income    | Income (\$10,000's)                           |
+| Limit     | Credit limit                                  |
+| Rating    | Credit rating                                 |
+| Cards     | Number of credit cards                        |
+| Age       | Age in years                                  |
+| Education | Number of years of education                  |
+| Gender    | Indicator of the individual's gender          |
+| Student   | Indicator of whether individual was a student |
+| Married   | Indicator of whether individual was married   |
+| Ethnicity | Indicator of the individual's ethnicity       |
+| Balance   | Average credit card balance (\$) (target)     |
+
+**Objective**: To identify and interpret **key factors** for Balance via appropriate linear models.
+
+------------------------------------------------------------------------
 
 ### Preparatory Work
 
+### TASK 1: Consider a Data Issue {.unnumbered}
+
+#### Task Statement {.unnumbered}
+
+Identify a variable that may have potential **ethical concerns**. - Discuss the **considerations** (pros and cons) related to using this variable in a model for this business problem. - Regardless of any concerns, continue to use this variable in subsequent analyses.
+
+#### Example: Ethnicity {.unnumbered}
+
+-   **Pros**: May provide potentially **useful information** for understanding/predicting credit card balance.
+-   **Cons**: Making ethnicity-based predictions may be criticized on grounds of **discrimination** and raise **legal concerns**.
+
+------------------------------------------------------------------------
+
+### TASK 2: Explore the Numeric Variables {.unnumbered}
+
+#### Task Statement {.unnumbered}
+
+-   Investigate the distribution of the **target variable**.
+-   Create a **correlation matrix**.
+    -   Examine the pairwise correlations.
+    -   Explain whether it is reasonable to delete the **Limit** variable. Regardless, delete this variable.
+-   Create **visual representations** to identify variables most likely to predict the target.
+
+In CHUNK 1, we load the `ISLR` package and attach the `Credit` data. We observe that the `Credit$ID` is an index column, so we set its values to `NULL` to remove it from the data. Then we print a summary of the dataset to preview key statistics about the fields in the data.
+
+```{r echo=TRUE}
+# CHUNK 1
+# Uncomment the next line the first time you use ISLR
+#install.packages("ISLR")
+library(ISLR)
+data(Credit)
+
+# Delete the first column containing row indices
+Credit$ID <- NULL
+
+summary(Credit)
+```
+
+The summary output shows key statistics of the numeric variables, and counts of observations in each factor level for categorical variables.
+
+The target variable, `balance`, ranges from 0.00 to 1999.00 and the mean is higher than the median by quite a lot. From these two numbers, you can deduce that the distribution of `balance` has a heavy tail.
+
+We can visualize the distribution of `balance` by creating a histogram.
+
+```{r, echo=TRUE}
+# CHUNK 2
+library(ggplot2)
+ggplot(Credit, aes(x = Balance)) +
+  geom_histogram()
+```
+
+From the histogram, we see there are an abundance of observations where `balance` is zero. We can check the number of observations with `balance` of zero by running the following code chunk:
+
+```{r, echo=TRUE}
+nrow(Credit[Credit$Balance == 0, ])  # OR sum(Credit$Balance == 0)
+```
+
+Your first instinct may be to perform a log-transformation on `balance` since the histogram shows a severe right-skew, however, we cannot perform a log-transformation, since there are quite a lot of observations that have a `balance` of zero.
+
+For this case study, we will not adjust `balance` -- we will take it as is. If you are interested, you can take a transformation like square-root to reduce the right-skew of the `balance` target variable and repeat the whole case study.
+
+Next, we will turn to the relationship of each numeric predictor and the target variable by performing bivariate exploration. We create a correlation matrix on the numeric variables.
+
+```{r echo=TRUE}
+# CHUNK 3
+# Calculate the correlation matrix for numeric variables
+# The numeric predictors are in the first 6 columns
+cor.matrix <- cor(Credit[, c(1:6, 11)])
+print("Correlation Matrix")
+round(cor.matrix, digits = 4)
+```
+
+**What can we tell from the correlations between the target and predictors?**
+
+Based on the correlation matrix, we can see that the variables `Limit`, and `Rating` have a strong linear positive relationship with `Balance` since those predictors have a large correlation in absolute value that is close to 1, and `Income` is moderately related to `Balance`.
+
+At this point, we can conjecture that `Income`, `Rating` and `Limit` are important predictors of `Balance`.
+
+**What about the correlations between the predictors?**
+
+Some correlations between predictors, such as `Limit` and `Rating` which is almost 1 $\Rightarrow$ `Limit` and `Rating` are almost perfectly linearly related.
+
+We can confirm this by making a scatterplot for these two variables, which is done in the following code chunk:
+
+```{r, echo=TRUE}
+# CHUNK 4
+ggplot(Credit, aes(x = Limit, y = Rating)) +
+  geom_point()
+```
+
+Since the scatterplot almost perfectly follows the 45-degree line. If we know the value of one variable, we know the value of the other variable almost exactly. The other variable does not contribute that much extra information. Therefore, it is reasonable to keep only one of the variables and we can remove the other variables to avoid **collinearity**, or duplication of information.
+
+If you go back to correlation matrix, `Rating` has a slightly higher correlation with `Balance`, so we remove the `Limit` variable from the dataset:
+
+```{r, echo=TRUE}
+# Delete Limit
+Credit$Limit <- NULL
+```
+
+Correlations are only a summary of the linear relationship between the target variable and each of the numeric predictors.
+
+We can use scatterplots to visualize the relationships. If the relationships are more complex, and far from linear, the scatterplots can also help review that much more effectively than the correlation matrix.
+
+In the following code chunk, we use a `for-loop` to make a scatterplot for `Balance` against each of the numeric predictors:
+
+```{r echo=TRUE}
+# CHUNK 5
+# first save the names of the numeric predictors as a vector
+vars.numeric <- colnames(Credit[, 1:5])
+for (i in vars.numeric) {
+  plot <- ggplot(Credit, aes(x = Credit[, i], y = Balance)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE) +
+    labs(x = i)
+  print(plot)
+}
+```
+
+From these scatterplots, you can have a sense of which predictors have a strong effect on `Balance`:
+
+-   `Income` is strong; slight upward trend.
+-   `Rating` is very strong; strong upward trend.
+-   The other three do not seem that strong; almost flat. That means that balance doesn't respond much to these three predictors.
+
+These graphs suggest that only `Income` and `Rating` seem to be important predictors of `Balance`, which is consistent with what we saw in the correlation matrix.
+
+------------------------------------------------------------------------
+
+### TASK 3: Explore the Factor Variables {.unnumbered}
+
+#### Task Statement {.unnumbered}
+
+Identify a **factor** variable that is likely to predict the target. For this factor variable, perform the following:
+
+-   Show key **descriptive statistics**.
+-   Create **visual representations** (e.g., graphs, charts).
+-   Explain why you selected this variable and how the variable relates to the target variable.
+
+In the following code chunk, we produce the summary statistics in relation to the target variable for each factor level of the categorical variables. These means and medians will tell us which factor variables are likely to have predictive power:
+
+```{r, echo=TRUE}
+# CHUNK 6
+library(tidyverse)
+
+# Save the names of the categorical predictors as a vector
+vars.categorical <- c("Gender", "Student", "Married", "Ethnicity")
+for (i in vars.categorical) {
+  x <- Credit %>%
+    group_by_(i) %>%
+    summarize(
+      mean = mean(Balance),
+      median = median(Balance),
+      n = n()
+      )
+  print(x)
+}
+```
+
+From the summary output, you can see the mean and median for `Student` is much higher for those that are students than for those who are not students. The characteristic of being a student says a lot about the behavior of the target variable `Balance`. This demonstrates the predictive power of `Student` as a predictor.
+
+For the other three factor variables, `Gender`, `Married` and `Ethnicity`, the mean and median are relatively close across factor levels. That means the information contained in these variablesis not very effective for understanding or predicting the target variable `Balance`.
+
+We can reinforce our observations by constructing boxplots for `Balance` split by the factor variables, which is performed in the next code chunk:
+
+```{r, echo=TRUE}
+# CHUNK 7
+for (i in vars.categorical) {
+  plot <- ggplot(Credit, aes(x = Credit[, i], y = Balance)) +
+    geom_boxplot() +
+    labs(x = i)
+  print(plot)
+}
+```
+
+From the boxplots, you can see that for `Student`, the boxplot is situated much higher for those observations that are students than for those who are non-students.
+
+For the other factor variables, the boxes have very similar levels and very close medians. These variables cannot differentiate high and low values of balance effectively.
+
+So out of the four factor variables, only `Student` seems to be a significant predictor for `Balance`.
+
+------------------------------------------------------------------------
+
+### TASK 4: Consider Two Graphs {.unnumbered}
+
+#### Task Statement {.unnumbered}
+
+Your assistant has built the following two plots and asked for your comments:
+
+1.  A boxplot of **Age** by **Student**.
+2.  A scatterplot of **Balance** against **Income** colored by **Student**.
+    -   Run the code to make them.
+    -   Include them in your response.
+    -   State your **observations** and discuss the **impact**, if any, of each plot on your later modeling.
+
+In the following code chunk, we create a boxplot of `Student` against `Age`:
+
+```{r, echo=TRUE}
+# CHUNK 8
+ggplot(Credit, aes(x = Student, y = Age)) +
+  geom_boxplot()
+```
+
+From the boxplot, we can see that `Age` [does not]{.underline} seem to be an important predictor of `Balance` since the boxplots do not show much information being gained. This was also confirmed in our correlation matrix.
+
+If we use both `Age` and `Student` variables at the same time, then our model may have difficulty separating the individual effects of the two variables on `Balance`.
+
+In the following code chunk, we make a scatterplot of `Balance` against `Income` colored by `Student`:
+
+```{r, echo=TRUE}
+ggplot(Credit, aes(x = Income, y = Balance, color = Student)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+
+```
+
+We can see that the two slopes for the different factor levels of `Student` are quite different from each other. This graph suggests that `Income` has a different effect on `Balance` for students and non-students.
+
+From what we have previously learned, there may be an **interaction** between `Income` and `Student` when they serve as predictors for `Balance`.
+
+In the later part of this case study, we will consider the interaction between `Income` and `Student` into account when we construct linear models.
+
+---
+
+### TASK 5: Explore the Effect of Releveling Factor Variables {-}
+
+#### Task Statement {-}
+- Split the data into training and test sets.
+- Fit a multiple linear regression model for **Balance** on all variables (except **Limit**) on the training set. Be sure to take note of the implications in Task 4. Interpret the **coefficient estimates** for **Married** and for the **Asian** level of **Ethnicity**.
+- **Relevel** the factor variables so that the most frequent level becomes the baseline level and refit the multiple linear regression model. Interpret the coefficient estimates for **Married** and for the **Asian** level of **Ethnicity** again.
+
+##### Overall Objective {-}
+To understand how **categorical predictors** are handled by the `lm()` function.
+
+
+We'll start this task by performing the training/test set split and comparing the mean of the target variable `Balance` in each of the data sets:
+```{r, echo=TRUE}
+# CHUNK 9
+# Load packages
+library(caret)
+
+# Set a random seed
+set.seed(8964)
+
+# Split the data into training and test sets
+partition <- createDataPartition(Credit$Balance, p = 0.75, list = FALSE)
+data.train <- Credit[partition, ]
+data.test <- Credit[-partition, ]
+
+# Compare the distribution of the target variable in each set
+print("TRAIN")
+mean(data.train$Balance)
+
+print("TEST")
+mean(data.test$Balance)
+```
+
+Next, we fit a multiple linear regression model for **Balance** on all variables (except **Limit**) on the training set and take note of the implications in Task 4. We then Interpret the **coefficient estimates** for **Married** and for the **Asian** level of **Ethnicity**.
+
+```{r, echo=TRUE}
+# CHUNK 10
+model.full <- lm(Balance ~ . + Income:Student, data = data.train)
+summary(model.full)
+```
+
+Based on the summary out, the `Income`, `Rating`, `Age` and/or `Student` variables are statistically signifcant. The Multiple R-Squared for `model.full` is 0.952 or 95.2% which means the goodness-of-fit is fairly high.
+
+By default, R will use alphabetical ordering of factor levels to determine the baseline level for each factor variable.
+
+Based on the coefficients of the factor variables, we can see that the `Balance` is, on average, 20.46469 lower for married observations than the balance for unmarried observations.
+
+We can also say that the `Balance` for Asian is higher than the `Balance` of African (the baseline level), by an average of 6.53269, all else equal. 
+
+**For factor variables, the comparisons of coefficients are always with respect to the baseline level.**
+
+The following code chunk relevels the factor variables by making the most common factor level the baseline level:
+
+```{r, echo=TRUE}
+# CHUNK 11
+for (i in vars.categorical){
+  # Use the table() function to calculate the frequencies for each factor
+  table <- as.data.frame(table(Credit[, i]))
+  # Determine the level with the highest frequency
+  max <- which.max(table[, 2])
+  # Save the name of the level with the highest frequency
+  level.name <- as.character(table[max, 1])
+  # Set the baseline level to the most populous level
+  Credit[, i] <- relevel(Credit[, i], ref = level.name)
+}
+
+summary(Credit[, vars.categorical])
+```
+
+When the summary function is called, the baseline level is always printed first.
+
+We then refit the linear model after doing the releveling and observe the differences in summary output:
+
+```{r, echo=TRUE}
+# CHUNK 12
+# To make sure factors in the training set are releveled
+data.train <- Credit[partition, ]
+
+model.full <- lm(Balance ~ . + Income:Student, data = data.train)
+summary(model.full)
+```
+
+We can see in the new summary output, the coefficients for `Married` and `Ethnicity` have flipped as there is a new baseline level of these factor variables.
+
+---
+
+### TASK 6: Binarize Factor Variables Manually {-}
+
+#### Task Statement {-}
+- Describe the **advantages and disadvantages** of **manually binarizing** the factor variables before performing feature selection.
+- Regardless, **binarize the factor variables manually** and refit the multiple linear regression model in Task 5.
+
+#### Advantage: To avoid "all or nothing" {-}
+Many feature selection functions treat factor variables as a **single feature** and either:
+  - Retain the variable with **all of its levels**
+  - Remove the variable **completely**
+
+Binarization allows the ability to **drop individual factor levels** if not significant with respect to the baseline.
+
+#### Disadvantages {-}
+1. Each factor level is considered a **separate feature** to add/drop, which can make **stepwise selection** take considerably longer to complete.
+2. (Less important; see Dec 2019 Task 8) It’s possible to have **nonsensical results** when only a **handful of levels** of a categorical predictor are selected.
+
+
+In the following code chunk, we start the binarization process by generating the dummary variables for the four factor variables in the data.
+
+```{r echo=TRUE}
+# CHUNK 13
+library(caret)
+binarizer <- dummyVars(paste("~", paste(vars.categorical, collapse = "+")),
+                       data = Credit, fullRank = TRUE)
+# OR type out the categorical predictors one by one
+#binarizer <- dummyVars(~ Gender + Student + Married + Ethnicity,
+#                       data = Credit, fullRank = TRUE)
+binarized_vars <- data.frame(predict(binarizer, newdata = Credit))
+head(binarized_vars)
+```
+
+Then we attach the binarized variables to the dataset and set the original variables to `NULL` to remove them, and create training/test sets on the new dataset:
+
+```{r echo=TRUE}
+# CHUNK 14
+Credit.bin <- cbind(Credit, binarized_vars)
+head(Credit.bin)
+
+Credit.bin$Gender <- NULL
+Credit.bin$Student <- NULL
+Credit.bin$Married <- NULL
+Credit.bin$Ethnicity <- NULL
+head(Credit.bin)
+
+data.train.bin <- Credit.bin[partition, ]
+data.test.bin <- Credit.bin[-partition, ]
+```
+
+We then fit a model on the binzared dataset and print a model summary:
+
+```{r echo=TRUE}
+# CHUNK 15
+# The interaction term is now Income:Student.Yes, not Income:Student
+model.full.bin <- lm(Balance ~ . + Income:Student.Yes, data = data.train.bin)
+summary(model.full.bin)
+```
+
+We see a similar summary output for the model as we did before.
+
+---
+
 ### Model Construction and Feature Selection
+
+### TASK 7: Select Features using Stepwise Selection {-}
+
+#### Task Statement {-}
+**Motivation**: Some features in the full model may lack predictive power and result in overfitting.
+
+- Perform **stepwise selection** using the `stepAIC()` function to determine which features should be retained.
+  - Two decisions to make:
+    1. **Forward** (`direction = "forward"`) vs. **backward** (`direction = "backward"`) (default)
+    2. **AIC** (`k = 2`) (default) vs. **BIC** (`k = log(nrow(data.train.bin))`)
+
+- Employ **forward selection** using **BIC**.
+  
+- Run the `summary` function on the linear model selected by this process. Provide the summary output and **list the variables selected**.
+
+We load the `MASS` package to perform stepwise AIC. The default for stepAIC() is to use "backward" selection and "AIC" as the criteria (e.g., $k=2$).
+
+Alternatively, we can specify `direction="forward"` and `k=log(nrow(data.train.bin))` for BIC.
+
+```{r echo=TRUE}
+# CHUNK 16
+# Uncomment this line the first time you use MASS
+#install.packages("MASS")
+
+# Load packages
+library(MASS)
+
+# Perform backward stepwise selection using the stepAIC() function
+model.backward.AIC <- stepAIC(model.full.bin)
+
+# Print a summary of the stepwise selection
+summary(model.backward.AIC)
+```
+
+
+If we look at using the `stepAIC()` function on a non-binarized dataset, at just the first iteration, we can see that the stepwise selection would drop the entire `Ethnicity` factor variable, rather than just some factor levels of it:
+
+```{r echo=TRUE}
+# CHUNK 17
+model.no.binarize <- stepAIC(model.full, steps = 1)
+```
+
+In the next code chunk, we will perform "forward" stepwise selection on the BIC. In this approach, we need to specify the `direction` parameter as "foward", and define the penalty argument `k` as the log(size of training dataset), and the `scope` argument with the most complex and least complex forms of the model: 
+
+```{r, echo=TRUE}
+# CHUNK 18
+# first fit the null model (i.e., model with no predictors)
+model.null <- lm(Balance ~ 1, data = data.train.bin)
+
+model.forward.BIC <- stepAIC(model.null,
+                             direction = "forward",
+                             scope = list(upper = model.full.bin,
+                                          lower = model.null),
+                             k = log(nrow(data.train.bin)))
+
+summary(model.forward.BIC)
+```
+
+Based on forward selection and BIC, the final model will only have three predictor terms, `Rating`, `Income` and `Student.Yes`.
+
+If you do stepwise selection with BIC, your final model will tend to be simpler.
+
+---
 
 ### Model Validation
 
+### TASK 8: Select and Validate the Recommended Model {-}
+
+#### Task Statement {-}
+- Evaluate the **RMSE** of the models in the preceding subsection against the **test set**.
+- Make a **recommendation** as to which model should be used.
+- Generate and interpret **diagnostic plots** for the recommended model to check the model assumptions.
+
+
+Here we will evaluate the RMSE of the models in the preceding subsection against the test set using the `RMSE()` function in the `caret` package. The `RMSE()` function takes a vector of target values for the first parameter, and a vector of predicted fitted-values as the second parameter. We specify the `newdata=data.test.bin` to calculate the prediction performance on the test data.  
+
+```{r echo=TRUE}
+# CHUNK 19
+library(caret)
+
+RMSE(data.test$Balance, predict(model.null, newdata = data.test.bin))
+RMSE(data.test$Balance, predict(model.full.bin, newdata = data.test.bin))
+RMSE(data.test$Balance, predict(model.backward.AIC, newdata = data.test.bin))
+RMSE(data.test$Balance, predict(model.forward.BIC, newdata = data.test.bin))
+```
+
+Based on the output, the fourth model `model.forward.BIC` achieves the lowest RMSE and therefore has the greatest prediction performance on the test data.
+
+We plot the model below:
+
+```{r echo=TRUE}
+# CHUNK 20
+plot(model.forward.BIC)
+```
+
+
+The first plot is the **Residuals vs. Fitted Values** on the training set. If the model has captured the signal effectively, then the residuals should behave randomly and there should be no systematic patterns in the plot. But that is not the case here, you can see a clear U-shape in the plot. That means there may be non-linear relationships not captured by the linear model. To remedy the problem, we may try to add non-linear terms (polynomial terms) or interaction terms to the model equation. 
+
+
+The **Q-Q Plot** plots the standardized empirical residuals against the theoretical quantiles. This plot is intended to check the normality of the standard errors. If the points lie on the 45-degree line, the normality assumption should be fine. In this plot, the points lie quite closely in the middle part, but not in the two extreme tails. The points above the 45-degree line in the right tail suggest a heavy tail or right-skew.
+
+Overall, the predictive performance of the model is good, however the  diagnostic plots suggest some room for improvement.
+
 ### Regularization
+
+### TASK 9: Effect of Regularization {-}
+
+#### Task Statement {-}
+- Explain whether using `alpha = 0` is appropriate for this case study.
+- Regardless of your conclusion, use elastic net with `alpha = 0.5` to fit a regularized regression model with the following values of `lambda`: 0, 10, 100, 500, 1000.
+- State your **observations**.
+
+#### Notes {-}
+- Remember `alpha = 0` corresponds to **ridge regression** (no features dropped).
+- **Goal**: To identify key factors affecting **Balance**.
+
+
+To perform regularization, we will use the `glmnet` package. The `glmnet` function takes a model matrix (design matrix) as the `x` parameter and a vector of target variable values as the `y` parameter. In addition, you must specify the `family` distribution of the target variable, and provide candidates for the `lambda` and `alpha` hyperparameters.
+
+
+```{r echo=TRUE}
+# CHUNK 21
+X.train <- model.matrix(Balance ~ . + Income:Student, data = data.train)
+head(X.train)  # print out a few rows of the design matrix
+```
+
+
+```{r echo=TRUE}
+# CHUNK 22
+#install.packages("glmnet")  # uncomment this line the first time you use glmnet
+library(glmnet)
+
+m.lambda <- glmnet(x = X.train,
+                   y = data.train$Balance,
+                   family = "gaussian",
+                   lambda = c(0, 10, 100, 500, 1000),
+                   alpha = 0.5)
+
+# first way to extract coefficient estimates
+m.lambda$a0
+m.lambda$beta
+
+# second way
+coef(m.lambda)
+
+mean(data.train$Balance)
+```
+
+Next we'll construct a ridge model, an elastic net model, and a lasso model:
+```{r echo=TRUE}
+# CHUNK 23
+m.ridge <- glmnet(x = X.train,
+                  y = data.train$Balance,
+                  family = "gaussian",
+                  lambda = 10,
+                  alpha = 0)
+coef(m.ridge)
+
+m.elastic.net <- glmnet(x = X.train,
+                        y = data.train$Balance,
+                        family = "gaussian",
+                        lambda = 10,
+                        alpha = 0.5)
+coef(m.elastic.net)
+
+m.lasso <- glmnet(x = X.train,
+                  y = data.train$Balance,
+                  family = "gaussian",
+                  lambda = 10,
+                  alpha = 1)
+coef(m.lasso)
+```
+
+---
+
+### TASK 10: Perform Feature Selection with Regularization {-}
+
+#### Task Statement {-}
+- Use **cross-validation** to set the value of `lambda` for fitting the regularized model (`alpha = 0.5`) in Task 9.
+  - **List** the features used in the resulting model.
+  - **Calculate** the RMSE on the test set.
+  - **Recommend** which model should be used and **justify** your choice.
+- Suggest **another method** to set the value of `lambda`.
+
+
+We use cross-validation using the `cv.glmnet()` function to systematically determine the appropriate or optimal value of the `lambda` hyperparameter:
+
+```{r echo=TRUE}
+# CHUNK 24
+set.seed(1111)
+
+m <- cv.glmnet(x = X.train,
+               y = data.train$Balance,
+               family = "gaussian",
+               alpha = 0.5)
+plot(m)
+
+m$lambda.min
+m$lambda.1se
+```
+
+We refit the regularized elastic-net (`alpha=0.5`) model using the optimal value of the `lambda` parameter that resulted in the lowest mean squared error (MSE). Using this model, we set up the design matrix for the test data, and make predictions on the test data. We then calculate the test RMSE to determine the prediction performance: 
+
+```{r echo=TRUE}
+# CHUNK 25
+# Fit the regularized model using lambda.min
+m.min <- glmnet(x = X.train,
+                y = data.train$Balance,
+                family = "gaussian",
+                lambda = m$lambda.min,
+                alpha = 0.5)
+
+# List the coefficient estimates
+m.min$beta
+
+# Set up the design matrix for the test set
+X.test <- model.matrix(Balance ~ . + Income:Student, data = data.test)
+
+# Make predictions on the test set and calculate test RMSE
+m.min.pred <- predict(m.min, newx = X.test)
+RMSE(data.test$Balance, m.min.pred)
+```
+
+We again refit the model using `lambda.1se` as the lambda hyperparameter, make predictions again, and evaluate the RMSE: 
+
+```{r echo=TRUE}
+# CHUNK 26
+# Fit the regularized model using lambda.1se
+m.1se <- glmnet(x = X.train,
+                y = data.train$Balance,
+                family = "gaussian",
+                lambda = m$lambda.1se,
+                alpha = 0.5)
+
+# List the coefficient estimates
+m.1se$beta
+
+# Make predictions on the test set and calculate test RMSE
+m.1se.pred <- predict(m.1se, newx = X.test)
+RMSE(data.test$Balance, m.1se.pred)
+```
+
+
 
 ## Conceptual Review: Questions for Chapter 3 {.unnumbered}

@@ -212,10 +212,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3.4" data-path="linear-models.html"><a href="linear-models.html#case-study-2-feature-selection-and-regularization"><i class="fa fa-check"></i><b>3.4</b> Case Study 2: Feature Selection and Regularization</a>
 <ul>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#about-this-case-study-1"><i class="fa fa-check"></i>About this Case Study</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#data-dictionary"><i class="fa fa-check"></i>Data Dictionary</a></li>
 <li class="chapter" data-level="3.4.1" data-path="linear-models.html"><a href="linear-models.html#preparatory-work"><i class="fa fa-check"></i><b>3.4.1</b> Preparatory Work</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-1-consider-a-data-issue"><i class="fa fa-check"></i>TASK 1: Consider a Data Issue</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-2-explore-the-numeric-variables"><i class="fa fa-check"></i>TASK 2: Explore the Numeric Variables</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-3-explore-the-factor-variables"><i class="fa fa-check"></i>TASK 3: Explore the Factor Variables</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-4-consider-two-graphs"><i class="fa fa-check"></i>TASK 4: Consider Two Graphs</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-5-explore-the-effect-of-releveling-factor-variables"><i class="fa fa-check"></i>TASK 5: Explore the Effect of Releveling Factor Variables</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-6-binarize-factor-variables-manually"><i class="fa fa-check"></i>TASK 6: Binarize Factor Variables Manually</a></li>
 <li class="chapter" data-level="3.4.2" data-path="linear-models.html"><a href="linear-models.html#model-construction-and-feature-selection"><i class="fa fa-check"></i><b>3.4.2</b> Model Construction and Feature Selection</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-7-select-features-using-stepwise-selection"><i class="fa fa-check"></i>TASK 7: Select Features using Stepwise Selection</a></li>
 <li class="chapter" data-level="3.4.3" data-path="linear-models.html"><a href="linear-models.html#model-validation"><i class="fa fa-check"></i><b>3.4.3</b> Model Validation</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-8-select-and-validate-the-recommended-model"><i class="fa fa-check"></i>TASK 8: Select and Validate the Recommended Model</a></li>
 <li class="chapter" data-level="3.4.4" data-path="linear-models.html"><a href="linear-models.html#regularization-2"><i class="fa fa-check"></i><b>3.4.4</b> Regularization</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-9-effect-of-regularization"><i class="fa fa-check"></i>TASK 9: Effect of Regularization</a></li>
+<li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#task-10-perform-feature-selection-with-regularization"><i class="fa fa-check"></i>TASK 10: Perform Feature Selection with Regularization</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="linear-models.html"><a href="linear-models.html#conceptual-review-questions-for-chapter-3"><i class="fa fa-check"></i>Conceptual Review: Questions for Chapter 3</a></li>
 </ul></li>
@@ -2463,17 +2475,1292 @@ To look at a <strong>restricted subset</strong> of all possible models.</li>
 </div>
 <div id="case-study-2-feature-selection-and-regularization" class="section level2 hasAnchor" number="3.4">
 <h2><span class="header-section-number">3.4</span> Case Study 2: Feature Selection and Regularization<a href="linear-models.html#case-study-2-feature-selection-and-regularization" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="about-this-case-study-1" class="section level3 unnumbered hasAnchor">
+<h3>About this Case Study<a href="linear-models.html#about-this-case-study-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>Dataset:</strong></p>
+<ul>
+<li><strong>Credit dataset from ISLR</strong>
+<ul>
+<li>More predictors (numeric + <strong>categorical</strong>)</li>
+<li><strong>Feature selection</strong> is important</li>
+</ul></li>
+</ul>
+<p><strong>Objectives</strong>:</p>
+<ul>
+<li>Know how to fit a linear model with <strong>categorical</strong> predictors in R.</li>
+<li>Perform <strong>explicit binarization</strong> of categorical predictors in R and understand why doing so may be beneficial.</li>
+<li>Perform <strong>stepwise selection</strong> using the <code>stepAIC()</code> function and be familiar with the options of this function.</li>
+<li>Generate and interpret <strong>diagnostic plots</strong> for a linear model.</li>
+<li>Fit <strong>regularized linear models</strong> in R.</li>
+</ul>
+<hr />
+</div>
+<div id="data-dictionary" class="section level3 unnumbered hasAnchor">
+<h3>Data Dictionary<a href="linear-models.html#data-dictionary" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<table>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Income</td>
+<td>Income ($10,000’s)</td>
+</tr>
+<tr class="even">
+<td>Limit</td>
+<td>Credit limit</td>
+</tr>
+<tr class="odd">
+<td>Rating</td>
+<td>Credit rating</td>
+</tr>
+<tr class="even">
+<td>Cards</td>
+<td>Number of credit cards</td>
+</tr>
+<tr class="odd">
+<td>Age</td>
+<td>Age in years</td>
+</tr>
+<tr class="even">
+<td>Education</td>
+<td>Number of years of education</td>
+</tr>
+<tr class="odd">
+<td>Gender</td>
+<td>Indicator of the individual’s gender</td>
+</tr>
+<tr class="even">
+<td>Student</td>
+<td>Indicator of whether individual was a student</td>
+</tr>
+<tr class="odd">
+<td>Married</td>
+<td>Indicator of whether individual was married</td>
+</tr>
+<tr class="even">
+<td>Ethnicity</td>
+<td>Indicator of the individual’s ethnicity</td>
+</tr>
+<tr class="odd">
+<td>Balance</td>
+<td>Average credit card balance ($) (target)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Objective</strong>: To identify and interpret <strong>key factors</strong> for Balance via appropriate linear models.</p>
+<hr />
+</div>
 <div id="preparatory-work" class="section level3 hasAnchor" number="3.4.1">
 <h3><span class="header-section-number">3.4.1</span> Preparatory Work<a href="linear-models.html#preparatory-work" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="task-1-consider-a-data-issue" class="section level3 unnumbered hasAnchor">
+<h3>TASK 1: Consider a Data Issue<a href="linear-models.html#task-1-consider-a-data-issue" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="task-statement-2" class="section level4 unnumbered hasAnchor">
+<h4>Task Statement<a href="linear-models.html#task-statement-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Identify a variable that may have potential <strong>ethical concerns</strong>. - Discuss the <strong>considerations</strong> (pros and cons) related to using this variable in a model for this business problem. - Regardless of any concerns, continue to use this variable in subsequent analyses.</p>
+</div>
+<div id="example-ethnicity" class="section level4 unnumbered hasAnchor">
+<h4>Example: Ethnicity<a href="linear-models.html#example-ethnicity" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li><strong>Pros</strong>: May provide potentially <strong>useful information</strong> for understanding/predicting credit card balance.</li>
+<li><strong>Cons</strong>: Making ethnicity-based predictions may be criticized on grounds of <strong>discrimination</strong> and raise <strong>legal concerns</strong>.</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="task-2-explore-the-numeric-variables" class="section level3 unnumbered hasAnchor">
+<h3>TASK 2: Explore the Numeric Variables<a href="linear-models.html#task-2-explore-the-numeric-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="task-statement-3" class="section level4 unnumbered hasAnchor">
+<h4>Task Statement<a href="linear-models.html#task-statement-3" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>Investigate the distribution of the <strong>target variable</strong>.</li>
+<li>Create a <strong>correlation matrix</strong>.
+<ul>
+<li>Examine the pairwise correlations.</li>
+<li>Explain whether it is reasonable to delete the <strong>Limit</strong> variable. Regardless, delete this variable.</li>
+</ul></li>
+<li>Create <strong>visual representations</strong> to identify variables most likely to predict the target.</li>
+</ul>
+<p>In CHUNK 1, we load the <code>ISLR</code> package and attach the <code>Credit</code> data. We observe that the <code>Credit$ID</code> is an index column, so we set its values to <code>NULL</code> to remove it from the data. Then we print a summary of the dataset to preview key statistics about the fields in the data.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="linear-models.html#cb26-1" tabindex="-1"></a><span class="co"># CHUNK 1</span></span>
+<span id="cb26-2"><a href="linear-models.html#cb26-2" tabindex="-1"></a><span class="co"># Uncomment the next line the first time you use ISLR</span></span>
+<span id="cb26-3"><a href="linear-models.html#cb26-3" tabindex="-1"></a><span class="co">#install.packages(&quot;ISLR&quot;)</span></span>
+<span id="cb26-4"><a href="linear-models.html#cb26-4" tabindex="-1"></a><span class="fu">library</span>(ISLR)</span>
+<span id="cb26-5"><a href="linear-models.html#cb26-5" tabindex="-1"></a><span class="fu">data</span>(Credit)</span>
+<span id="cb26-6"><a href="linear-models.html#cb26-6" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="linear-models.html#cb26-7" tabindex="-1"></a><span class="co"># Delete the first column containing row indices</span></span>
+<span id="cb26-8"><a href="linear-models.html#cb26-8" tabindex="-1"></a>Credit<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb26-9"><a href="linear-models.html#cb26-9" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="linear-models.html#cb26-10" tabindex="-1"></a><span class="fu">summary</span>(Credit)</span>
+<span id="cb26-11"><a href="linear-models.html#cb26-11" tabindex="-1"></a><span class="co">#&gt;      Income          Limit           Rating   </span></span>
+<span id="cb26-12"><a href="linear-models.html#cb26-12" tabindex="-1"></a><span class="co">#&gt;  Min.   : 10.3   Min.   :  855   Min.   : 93  </span></span>
+<span id="cb26-13"><a href="linear-models.html#cb26-13" tabindex="-1"></a><span class="co">#&gt;  1st Qu.: 21.0   1st Qu.: 3088   1st Qu.:247  </span></span>
+<span id="cb26-14"><a href="linear-models.html#cb26-14" tabindex="-1"></a><span class="co">#&gt;  Median : 33.1   Median : 4622   Median :344  </span></span>
+<span id="cb26-15"><a href="linear-models.html#cb26-15" tabindex="-1"></a><span class="co">#&gt;  Mean   : 45.2   Mean   : 4736   Mean   :355  </span></span>
+<span id="cb26-16"><a href="linear-models.html#cb26-16" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.: 57.5   3rd Qu.: 5873   3rd Qu.:437  </span></span>
+<span id="cb26-17"><a href="linear-models.html#cb26-17" tabindex="-1"></a><span class="co">#&gt;  Max.   :186.6   Max.   :13913   Max.   :982  </span></span>
+<span id="cb26-18"><a href="linear-models.html#cb26-18" tabindex="-1"></a><span class="co">#&gt;      Cards           Age         Education   </span></span>
+<span id="cb26-19"><a href="linear-models.html#cb26-19" tabindex="-1"></a><span class="co">#&gt;  Min.   :1.00   Min.   :23.0   Min.   : 5.0  </span></span>
+<span id="cb26-20"><a href="linear-models.html#cb26-20" tabindex="-1"></a><span class="co">#&gt;  1st Qu.:2.00   1st Qu.:41.8   1st Qu.:11.0  </span></span>
+<span id="cb26-21"><a href="linear-models.html#cb26-21" tabindex="-1"></a><span class="co">#&gt;  Median :3.00   Median :56.0   Median :14.0  </span></span>
+<span id="cb26-22"><a href="linear-models.html#cb26-22" tabindex="-1"></a><span class="co">#&gt;  Mean   :2.96   Mean   :55.7   Mean   :13.4  </span></span>
+<span id="cb26-23"><a href="linear-models.html#cb26-23" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:4.00   3rd Qu.:70.0   3rd Qu.:16.0  </span></span>
+<span id="cb26-24"><a href="linear-models.html#cb26-24" tabindex="-1"></a><span class="co">#&gt;  Max.   :9.00   Max.   :98.0   Max.   :20.0  </span></span>
+<span id="cb26-25"><a href="linear-models.html#cb26-25" tabindex="-1"></a><span class="co">#&gt;     Gender    Student   Married  </span></span>
+<span id="cb26-26"><a href="linear-models.html#cb26-26" tabindex="-1"></a><span class="co">#&gt;   Male :193   No :360   No :155  </span></span>
+<span id="cb26-27"><a href="linear-models.html#cb26-27" tabindex="-1"></a><span class="co">#&gt;  Female:207   Yes: 40   Yes:245  </span></span>
+<span id="cb26-28"><a href="linear-models.html#cb26-28" tabindex="-1"></a><span class="co">#&gt;                                  </span></span>
+<span id="cb26-29"><a href="linear-models.html#cb26-29" tabindex="-1"></a><span class="co">#&gt;                                  </span></span>
+<span id="cb26-30"><a href="linear-models.html#cb26-30" tabindex="-1"></a><span class="co">#&gt;                                  </span></span>
+<span id="cb26-31"><a href="linear-models.html#cb26-31" tabindex="-1"></a><span class="co">#&gt;                                  </span></span>
+<span id="cb26-32"><a href="linear-models.html#cb26-32" tabindex="-1"></a><span class="co">#&gt;             Ethnicity      Balance      </span></span>
+<span id="cb26-33"><a href="linear-models.html#cb26-33" tabindex="-1"></a><span class="co">#&gt;  African American: 99   Min.   :   0.0  </span></span>
+<span id="cb26-34"><a href="linear-models.html#cb26-34" tabindex="-1"></a><span class="co">#&gt;  Asian           :102   1st Qu.:  68.8  </span></span>
+<span id="cb26-35"><a href="linear-models.html#cb26-35" tabindex="-1"></a><span class="co">#&gt;  Caucasian       :199   Median : 459.5  </span></span>
+<span id="cb26-36"><a href="linear-models.html#cb26-36" tabindex="-1"></a><span class="co">#&gt;                         Mean   : 520.0  </span></span>
+<span id="cb26-37"><a href="linear-models.html#cb26-37" tabindex="-1"></a><span class="co">#&gt;                         3rd Qu.: 863.0  </span></span>
+<span id="cb26-38"><a href="linear-models.html#cb26-38" tabindex="-1"></a><span class="co">#&gt;                         Max.   :1999.0</span></span></code></pre></div>
+<p>The summary output shows key statistics of the numeric variables, and counts of observations in each factor level for categorical variables.</p>
+<p>The target variable, <code>balance</code>, ranges from 0.00 to 1999.00 and the mean is higher than the median by quite a lot. From these two numbers, you can deduce that the distribution of <code>balance</code> has a heavy tail.</p>
+<p>We can visualize the distribution of <code>balance</code> by creating a histogram.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="linear-models.html#cb27-1" tabindex="-1"></a><span class="co"># CHUNK 2</span></span>
+<span id="cb27-2"><a href="linear-models.html#cb27-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb27-3"><a href="linear-models.html#cb27-3" tabindex="-1"></a><span class="fu">ggplot</span>(Credit, <span class="fu">aes</span>(<span class="at">x =</span> Balance)) <span class="sc">+</span></span>
+<span id="cb27-4"><a href="linear-models.html#cb27-4" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-31-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>From the histogram, we see there are an abundance of observations where <code>balance</code> is zero. We can check the number of observations with <code>balance</code> of zero by running the following code chunk:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="linear-models.html#cb28-1" tabindex="-1"></a><span class="fu">nrow</span>(Credit[Credit<span class="sc">$</span>Balance <span class="sc">==</span> <span class="dv">0</span>, ])  <span class="co"># OR sum(Credit$Balance == 0)</span></span>
+<span id="cb28-2"><a href="linear-models.html#cb28-2" tabindex="-1"></a><span class="co">#&gt; [1] 90</span></span></code></pre></div>
+<p>Your first instinct may be to perform a log-transformation on <code>balance</code> since the histogram shows a severe right-skew, however, we cannot perform a log-transformation, since there are quite a lot of observations that have a <code>balance</code> of zero.</p>
+<p>For this case study, we will not adjust <code>balance</code> – we will take it as is. If you are interested, you can take a transformation like square-root to reduce the right-skew of the <code>balance</code> target variable and repeat the whole case study.</p>
+<p>Next, we will turn to the relationship of each numeric predictor and the target variable by performing bivariate exploration. We create a correlation matrix on the numeric variables.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="linear-models.html#cb29-1" tabindex="-1"></a><span class="co"># CHUNK 3</span></span>
+<span id="cb29-2"><a href="linear-models.html#cb29-2" tabindex="-1"></a><span class="co"># Calculate the correlation matrix for numeric variables</span></span>
+<span id="cb29-3"><a href="linear-models.html#cb29-3" tabindex="-1"></a><span class="co"># The numeric predictors are in the first 6 columns</span></span>
+<span id="cb29-4"><a href="linear-models.html#cb29-4" tabindex="-1"></a>cor.matrix <span class="ot">&lt;-</span> <span class="fu">cor</span>(Credit[, <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">11</span>)])</span>
+<span id="cb29-5"><a href="linear-models.html#cb29-5" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;Correlation Matrix&quot;</span>)</span>
+<span id="cb29-6"><a href="linear-models.html#cb29-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Correlation Matrix&quot;</span></span>
+<span id="cb29-7"><a href="linear-models.html#cb29-7" tabindex="-1"></a><span class="fu">round</span>(cor.matrix, <span class="at">digits =</span> <span class="dv">4</span>)</span>
+<span id="cb29-8"><a href="linear-models.html#cb29-8" tabindex="-1"></a><span class="co">#&gt;            Income   Limit  Rating   Cards    Age</span></span>
+<span id="cb29-9"><a href="linear-models.html#cb29-9" tabindex="-1"></a><span class="co">#&gt; Income     1.0000  0.7921  0.7914 -0.0183 0.1753</span></span>
+<span id="cb29-10"><a href="linear-models.html#cb29-10" tabindex="-1"></a><span class="co">#&gt; Limit      0.7921  1.0000  0.9969  0.0102 0.1009</span></span>
+<span id="cb29-11"><a href="linear-models.html#cb29-11" tabindex="-1"></a><span class="co">#&gt; Rating     0.7914  0.9969  1.0000  0.0532 0.1032</span></span>
+<span id="cb29-12"><a href="linear-models.html#cb29-12" tabindex="-1"></a><span class="co">#&gt; Cards     -0.0183  0.0102  0.0532  1.0000 0.0429</span></span>
+<span id="cb29-13"><a href="linear-models.html#cb29-13" tabindex="-1"></a><span class="co">#&gt; Age        0.1753  0.1009  0.1032  0.0429 1.0000</span></span>
+<span id="cb29-14"><a href="linear-models.html#cb29-14" tabindex="-1"></a><span class="co">#&gt; Education -0.0277 -0.0235 -0.0301 -0.0511 0.0036</span></span>
+<span id="cb29-15"><a href="linear-models.html#cb29-15" tabindex="-1"></a><span class="co">#&gt; Balance    0.4637  0.8617  0.8636  0.0865 0.0018</span></span>
+<span id="cb29-16"><a href="linear-models.html#cb29-16" tabindex="-1"></a><span class="co">#&gt;           Education Balance</span></span>
+<span id="cb29-17"><a href="linear-models.html#cb29-17" tabindex="-1"></a><span class="co">#&gt; Income      -0.0277  0.4637</span></span>
+<span id="cb29-18"><a href="linear-models.html#cb29-18" tabindex="-1"></a><span class="co">#&gt; Limit       -0.0235  0.8617</span></span>
+<span id="cb29-19"><a href="linear-models.html#cb29-19" tabindex="-1"></a><span class="co">#&gt; Rating      -0.0301  0.8636</span></span>
+<span id="cb29-20"><a href="linear-models.html#cb29-20" tabindex="-1"></a><span class="co">#&gt; Cards       -0.0511  0.0865</span></span>
+<span id="cb29-21"><a href="linear-models.html#cb29-21" tabindex="-1"></a><span class="co">#&gt; Age          0.0036  0.0018</span></span>
+<span id="cb29-22"><a href="linear-models.html#cb29-22" tabindex="-1"></a><span class="co">#&gt; Education    1.0000 -0.0081</span></span>
+<span id="cb29-23"><a href="linear-models.html#cb29-23" tabindex="-1"></a><span class="co">#&gt; Balance     -0.0081  1.0000</span></span></code></pre></div>
+<p><strong>What can we tell from the correlations between the target and predictors?</strong></p>
+<p>Based on the correlation matrix, we can see that the variables <code>Limit</code>, and <code>Rating</code> have a strong linear positive relationship with <code>Balance</code> since those predictors have a large correlation in absolute value that is close to 1, and <code>Income</code> is moderately related to <code>Balance</code>.</p>
+<p>At this point, we can conjecture that <code>Income</code>, <code>Rating</code> and <code>Limit</code> are important predictors of <code>Balance</code>.</p>
+<p><strong>What about the correlations between the predictors?</strong></p>
+<p>Some correlations between predictors, such as <code>Limit</code> and <code>Rating</code> which is almost 1 <span class="math inline">\(\Rightarrow\)</span> <code>Limit</code> and <code>Rating</code> are almost perfectly linearly related.</p>
+<p>We can confirm this by making a scatterplot for these two variables, which is done in the following code chunk:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="linear-models.html#cb30-1" tabindex="-1"></a><span class="co"># CHUNK 4</span></span>
+<span id="cb30-2"><a href="linear-models.html#cb30-2" tabindex="-1"></a><span class="fu">ggplot</span>(Credit, <span class="fu">aes</span>(<span class="at">x =</span> Limit, <span class="at">y =</span> Rating)) <span class="sc">+</span></span>
+<span id="cb30-3"><a href="linear-models.html#cb30-3" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-34-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>Since the scatterplot almost perfectly follows the 45-degree line. If we know the value of one variable, we know the value of the other variable almost exactly. The other variable does not contribute that much extra information. Therefore, it is reasonable to keep only one of the variables and we can remove the other variables to avoid <strong>collinearity</strong>, or duplication of information.</p>
+<p>If you go back to correlation matrix, <code>Rating</code> has a slightly higher correlation with <code>Balance</code>, so we remove the <code>Limit</code> variable from the dataset:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="linear-models.html#cb31-1" tabindex="-1"></a><span class="co"># Delete Limit</span></span>
+<span id="cb31-2"><a href="linear-models.html#cb31-2" tabindex="-1"></a>Credit<span class="sc">$</span>Limit <span class="ot">&lt;-</span> <span class="cn">NULL</span></span></code></pre></div>
+<p>Correlations are only a summary of the linear relationship between the target variable and each of the numeric predictors.</p>
+<p>We can use scatterplots to visualize the relationships. If the relationships are more complex, and far from linear, the scatterplots can also help review that much more effectively than the correlation matrix.</p>
+<p>In the following code chunk, we use a <code>for-loop</code> to make a scatterplot for <code>Balance</code> against each of the numeric predictors:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="linear-models.html#cb32-1" tabindex="-1"></a><span class="co"># CHUNK 5</span></span>
+<span id="cb32-2"><a href="linear-models.html#cb32-2" tabindex="-1"></a><span class="co"># first save the names of the numeric predictors as a vector</span></span>
+<span id="cb32-3"><a href="linear-models.html#cb32-3" tabindex="-1"></a>vars.numeric <span class="ot">&lt;-</span> <span class="fu">colnames</span>(Credit[, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>])</span>
+<span id="cb32-4"><a href="linear-models.html#cb32-4" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> vars.numeric) {</span>
+<span id="cb32-5"><a href="linear-models.html#cb32-5" tabindex="-1"></a>  plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(Credit, <span class="fu">aes</span>(<span class="at">x =</span> Credit[, i], <span class="at">y =</span> Balance)) <span class="sc">+</span></span>
+<span id="cb32-6"><a href="linear-models.html#cb32-6" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb32-7"><a href="linear-models.html#cb32-7" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb32-8"><a href="linear-models.html#cb32-8" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> i)</span>
+<span id="cb32-9"><a href="linear-models.html#cb32-9" tabindex="-1"></a>  <span class="fu">print</span>(plot)</span>
+<span id="cb32-10"><a href="linear-models.html#cb32-10" tabindex="-1"></a>}</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-36-1.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-36-2.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-36-3.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-36-4.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-36-5.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>From these scatterplots, you can have a sense of which predictors have a strong effect on <code>Balance</code>:</p>
+<ul>
+<li><code>Income</code> is strong; slight upward trend.</li>
+<li><code>Rating</code> is very strong; strong upward trend.</li>
+<li>The other three do not seem that strong; almost flat. That means that balance doesn’t respond much to these three predictors.</li>
+</ul>
+<p>These graphs suggest that only <code>Income</code> and <code>Rating</code> seem to be important predictors of <code>Balance</code>, which is consistent with what we saw in the correlation matrix.</p>
+<hr />
+</div>
+</div>
+<div id="task-3-explore-the-factor-variables" class="section level3 unnumbered hasAnchor">
+<h3>TASK 3: Explore the Factor Variables<a href="linear-models.html#task-3-explore-the-factor-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="task-statement-4" class="section level4 unnumbered hasAnchor">
+<h4>Task Statement<a href="linear-models.html#task-statement-4" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Identify a <strong>factor</strong> variable that is likely to predict the target. For this factor variable, perform the following:</p>
+<ul>
+<li>Show key <strong>descriptive statistics</strong>.</li>
+<li>Create <strong>visual representations</strong> (e.g., graphs, charts).</li>
+<li>Explain why you selected this variable and how the variable relates to the target variable.</li>
+</ul>
+<p>In the following code chunk, we produce the summary statistics in relation to the target variable for each factor level of the categorical variables. These means and medians will tell us which factor variables are likely to have predictive power:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="linear-models.html#cb33-1" tabindex="-1"></a><span class="co"># CHUNK 6</span></span>
+<span id="cb33-2"><a href="linear-models.html#cb33-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb33-3"><a href="linear-models.html#cb33-3" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="linear-models.html#cb33-4" tabindex="-1"></a><span class="co"># Save the names of the categorical predictors as a vector</span></span>
+<span id="cb33-5"><a href="linear-models.html#cb33-5" tabindex="-1"></a>vars.categorical <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Gender&quot;</span>, <span class="st">&quot;Student&quot;</span>, <span class="st">&quot;Married&quot;</span>, <span class="st">&quot;Ethnicity&quot;</span>)</span>
+<span id="cb33-6"><a href="linear-models.html#cb33-6" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> vars.categorical) {</span>
+<span id="cb33-7"><a href="linear-models.html#cb33-7" tabindex="-1"></a>  x <span class="ot">&lt;-</span> Credit <span class="sc">%&gt;%</span></span>
+<span id="cb33-8"><a href="linear-models.html#cb33-8" tabindex="-1"></a>    <span class="fu">group_by_</span>(i) <span class="sc">%&gt;%</span></span>
+<span id="cb33-9"><a href="linear-models.html#cb33-9" tabindex="-1"></a>    <span class="fu">summarize</span>(</span>
+<span id="cb33-10"><a href="linear-models.html#cb33-10" tabindex="-1"></a>      <span class="at">mean =</span> <span class="fu">mean</span>(Balance),</span>
+<span id="cb33-11"><a href="linear-models.html#cb33-11" tabindex="-1"></a>      <span class="at">median =</span> <span class="fu">median</span>(Balance),</span>
+<span id="cb33-12"><a href="linear-models.html#cb33-12" tabindex="-1"></a>      <span class="at">n =</span> <span class="fu">n</span>()</span>
+<span id="cb33-13"><a href="linear-models.html#cb33-13" tabindex="-1"></a>      )</span>
+<span id="cb33-14"><a href="linear-models.html#cb33-14" tabindex="-1"></a>  <span class="fu">print</span>(x)</span>
+<span id="cb33-15"><a href="linear-models.html#cb33-15" tabindex="-1"></a>}</span>
+<span id="cb33-16"><a href="linear-models.html#cb33-16" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 4</span></span>
+<span id="cb33-17"><a href="linear-models.html#cb33-17" tabindex="-1"></a><span class="co">#&gt;   Gender    mean median     n</span></span>
+<span id="cb33-18"><a href="linear-models.html#cb33-18" tabindex="-1"></a><span class="co">#&gt;   &lt;fct&gt;    &lt;dbl&gt;  &lt;int&gt; &lt;int&gt;</span></span>
+<span id="cb33-19"><a href="linear-models.html#cb33-19" tabindex="-1"></a><span class="co">#&gt; 1 &quot; Male&quot;   510.    463   193</span></span>
+<span id="cb33-20"><a href="linear-models.html#cb33-20" tabindex="-1"></a><span class="co">#&gt; 2 &quot;Female&quot;  530.    456   207</span></span>
+<span id="cb33-21"><a href="linear-models.html#cb33-21" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 4</span></span>
+<span id="cb33-22"><a href="linear-models.html#cb33-22" tabindex="-1"></a><span class="co">#&gt;   Student  mean median     n</span></span>
+<span id="cb33-23"><a href="linear-models.html#cb33-23" tabindex="-1"></a><span class="co">#&gt;   &lt;fct&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;</span></span>
+<span id="cb33-24"><a href="linear-models.html#cb33-24" tabindex="-1"></a><span class="co">#&gt; 1 No       480.    424   360</span></span>
+<span id="cb33-25"><a href="linear-models.html#cb33-25" tabindex="-1"></a><span class="co">#&gt; 2 Yes      877.    953    40</span></span>
+<span id="cb33-26"><a href="linear-models.html#cb33-26" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 4</span></span>
+<span id="cb33-27"><a href="linear-models.html#cb33-27" tabindex="-1"></a><span class="co">#&gt;   Married  mean median     n</span></span>
+<span id="cb33-28"><a href="linear-models.html#cb33-28" tabindex="-1"></a><span class="co">#&gt;   &lt;fct&gt;   &lt;dbl&gt;  &lt;int&gt; &lt;int&gt;</span></span>
+<span id="cb33-29"><a href="linear-models.html#cb33-29" tabindex="-1"></a><span class="co">#&gt; 1 No       523.    467   155</span></span>
+<span id="cb33-30"><a href="linear-models.html#cb33-30" tabindex="-1"></a><span class="co">#&gt; 2 Yes      518.    454   245</span></span>
+<span id="cb33-31"><a href="linear-models.html#cb33-31" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 4</span></span>
+<span id="cb33-32"><a href="linear-models.html#cb33-32" tabindex="-1"></a><span class="co">#&gt;   Ethnicity         mean median     n</span></span>
+<span id="cb33-33"><a href="linear-models.html#cb33-33" tabindex="-1"></a><span class="co">#&gt;   &lt;fct&gt;            &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;</span></span>
+<span id="cb33-34"><a href="linear-models.html#cb33-34" tabindex="-1"></a><span class="co">#&gt; 1 African American  531     480    99</span></span>
+<span id="cb33-35"><a href="linear-models.html#cb33-35" tabindex="-1"></a><span class="co">#&gt; 2 Asian             512.    414   102</span></span>
+<span id="cb33-36"><a href="linear-models.html#cb33-36" tabindex="-1"></a><span class="co">#&gt; 3 Caucasian         518.    465   199</span></span></code></pre></div>
+<p>From the summary output, you can see the mean and median for <code>Student</code> is much higher for those that are students than for those who are not students. The characteristic of being a student says a lot about the behavior of the target variable <code>Balance</code>. This demonstrates the predictive power of <code>Student</code> as a predictor.</p>
+<p>For the other three factor variables, <code>Gender</code>, <code>Married</code> and <code>Ethnicity</code>, the mean and median are relatively close across factor levels. That means the information contained in these variablesis not very effective for understanding or predicting the target variable <code>Balance</code>.</p>
+<p>We can reinforce our observations by constructing boxplots for <code>Balance</code> split by the factor variables, which is performed in the next code chunk:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="linear-models.html#cb34-1" tabindex="-1"></a><span class="co"># CHUNK 7</span></span>
+<span id="cb34-2"><a href="linear-models.html#cb34-2" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> vars.categorical) {</span>
+<span id="cb34-3"><a href="linear-models.html#cb34-3" tabindex="-1"></a>  plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(Credit, <span class="fu">aes</span>(<span class="at">x =</span> Credit[, i], <span class="at">y =</span> Balance)) <span class="sc">+</span></span>
+<span id="cb34-4"><a href="linear-models.html#cb34-4" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb34-5"><a href="linear-models.html#cb34-5" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> i)</span>
+<span id="cb34-6"><a href="linear-models.html#cb34-6" tabindex="-1"></a>  <span class="fu">print</span>(plot)</span>
+<span id="cb34-7"><a href="linear-models.html#cb34-7" tabindex="-1"></a>}</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-38-1.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-38-2.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-38-3.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-38-4.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>From the boxplots, you can see that for <code>Student</code>, the boxplot is situated much higher for those observations that are students than for those who are non-students.</p>
+<p>For the other factor variables, the boxes have very similar levels and very close medians. These variables cannot differentiate high and low values of balance effectively.</p>
+<p>So out of the four factor variables, only <code>Student</code> seems to be a significant predictor for <code>Balance</code>.</p>
+<hr />
+</div>
+</div>
+<div id="task-4-consider-two-graphs" class="section level3 unnumbered hasAnchor">
+<h3>TASK 4: Consider Two Graphs<a href="linear-models.html#task-4-consider-two-graphs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="task-statement-5" class="section level4 unnumbered hasAnchor">
+<h4>Task Statement<a href="linear-models.html#task-statement-5" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Your assistant has built the following two plots and asked for your comments:</p>
+<ol style="list-style-type: decimal">
+<li>A boxplot of <strong>Age</strong> by <strong>Student</strong>.</li>
+<li>A scatterplot of <strong>Balance</strong> against <strong>Income</strong> colored by <strong>Student</strong>.
+<ul>
+<li>Run the code to make them.</li>
+<li>Include them in your response.</li>
+<li>State your <strong>observations</strong> and discuss the <strong>impact</strong>, if any, of each plot on your later modeling.</li>
+</ul></li>
+</ol>
+<p>In the following code chunk, we create a boxplot of <code>Student</code> against <code>Age</code>:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="linear-models.html#cb35-1" tabindex="-1"></a><span class="co"># CHUNK 8</span></span>
+<span id="cb35-2"><a href="linear-models.html#cb35-2" tabindex="-1"></a><span class="fu">ggplot</span>(Credit, <span class="fu">aes</span>(<span class="at">x =</span> Student, <span class="at">y =</span> Age)) <span class="sc">+</span></span>
+<span id="cb35-3"><a href="linear-models.html#cb35-3" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-39-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>From the boxplot, we can see that <code>Age</code> <u>does not</u> seem to be an important predictor of <code>Balance</code> since the boxplots do not show much information being gained. This was also confirmed in our correlation matrix.</p>
+<p>If we use both <code>Age</code> and <code>Student</code> variables at the same time, then our model may have difficulty separating the individual effects of the two variables on <code>Balance</code>.</p>
+<p>In the following code chunk, we make a scatterplot of <code>Balance</code> against <code>Income</code> colored by <code>Student</code>:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="linear-models.html#cb36-1" tabindex="-1"></a><span class="fu">ggplot</span>(Credit, <span class="fu">aes</span>(<span class="at">x =</span> Income, <span class="at">y =</span> Balance, <span class="at">color =</span> Student)) <span class="sc">+</span></span>
+<span id="cb36-2"><a href="linear-models.html#cb36-2" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb36-3"><a href="linear-models.html#cb36-3" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-40-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>We can see that the two slopes for the different factor levels of <code>Student</code> are quite different from each other. This graph suggests that <code>Income</code> has a different effect on <code>Balance</code> for students and non-students.</p>
+<p>From what we have previously learned, there may be an <strong>interaction</strong> between <code>Income</code> and <code>Student</code> when they serve as predictors for <code>Balance</code>.</p>
+<p>In the later part of this case study, we will consider the interaction between <code>Income</code> and <code>Student</code> into account when we construct linear models.</p>
+<hr />
+</div>
+</div>
+<div id="task-5-explore-the-effect-of-releveling-factor-variables" class="section level3 unnumbered hasAnchor">
+<h3>TASK 5: Explore the Effect of Releveling Factor Variables<a href="linear-models.html#task-5-explore-the-effect-of-releveling-factor-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="task-statement-6" class="section level4 unnumbered hasAnchor">
+<h4>Task Statement<a href="linear-models.html#task-statement-6" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>Split the data into training and test sets.</li>
+<li>Fit a multiple linear regression model for <strong>Balance</strong> on all variables (except <strong>Limit</strong>) on the training set. Be sure to take note of the implications in Task 4. Interpret the <strong>coefficient estimates</strong> for <strong>Married</strong> and for the <strong>Asian</strong> level of <strong>Ethnicity</strong>.</li>
+<li><strong>Relevel</strong> the factor variables so that the most frequent level becomes the baseline level and refit the multiple linear regression model. Interpret the coefficient estimates for <strong>Married</strong> and for the <strong>Asian</strong> level of <strong>Ethnicity</strong> again.</li>
+</ul>
+<div id="overall-objective" class="section level5 unnumbered hasAnchor">
+<h5>Overall Objective<a href="linear-models.html#overall-objective" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>To understand how <strong>categorical predictors</strong> are handled by the <code>lm()</code> function.</p>
+<p>We’ll start this task by performing the training/test set split and comparing the mean of the target variable <code>Balance</code> in each of the data sets:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="linear-models.html#cb37-1" tabindex="-1"></a><span class="co"># CHUNK 9</span></span>
+<span id="cb37-2"><a href="linear-models.html#cb37-2" tabindex="-1"></a><span class="co"># Load packages</span></span>
+<span id="cb37-3"><a href="linear-models.html#cb37-3" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb37-4"><a href="linear-models.html#cb37-4" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="linear-models.html#cb37-5" tabindex="-1"></a><span class="co"># Set a random seed</span></span>
+<span id="cb37-6"><a href="linear-models.html#cb37-6" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">8964</span>)</span>
+<span id="cb37-7"><a href="linear-models.html#cb37-7" tabindex="-1"></a></span>
+<span id="cb37-8"><a href="linear-models.html#cb37-8" tabindex="-1"></a><span class="co"># Split the data into training and test sets</span></span>
+<span id="cb37-9"><a href="linear-models.html#cb37-9" tabindex="-1"></a>partition <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(Credit<span class="sc">$</span>Balance, <span class="at">p =</span> <span class="fl">0.75</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb37-10"><a href="linear-models.html#cb37-10" tabindex="-1"></a>data.train <span class="ot">&lt;-</span> Credit[partition, ]</span>
+<span id="cb37-11"><a href="linear-models.html#cb37-11" tabindex="-1"></a>data.test <span class="ot">&lt;-</span> Credit[<span class="sc">-</span>partition, ]</span>
+<span id="cb37-12"><a href="linear-models.html#cb37-12" tabindex="-1"></a></span>
+<span id="cb37-13"><a href="linear-models.html#cb37-13" tabindex="-1"></a><span class="co"># Compare the distribution of the target variable in each set</span></span>
+<span id="cb37-14"><a href="linear-models.html#cb37-14" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;TRAIN&quot;</span>)</span>
+<span id="cb37-15"><a href="linear-models.html#cb37-15" tabindex="-1"></a><span class="co">#&gt; [1] &quot;TRAIN&quot;</span></span>
+<span id="cb37-16"><a href="linear-models.html#cb37-16" tabindex="-1"></a><span class="fu">mean</span>(data.train<span class="sc">$</span>Balance)</span>
+<span id="cb37-17"><a href="linear-models.html#cb37-17" tabindex="-1"></a><span class="co">#&gt; [1] 520.4</span></span>
+<span id="cb37-18"><a href="linear-models.html#cb37-18" tabindex="-1"></a></span>
+<span id="cb37-19"><a href="linear-models.html#cb37-19" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;TEST&quot;</span>)</span>
+<span id="cb37-20"><a href="linear-models.html#cb37-20" tabindex="-1"></a><span class="co">#&gt; [1] &quot;TEST&quot;</span></span>
+<span id="cb37-21"><a href="linear-models.html#cb37-21" tabindex="-1"></a><span class="fu">mean</span>(data.test<span class="sc">$</span>Balance)</span>
+<span id="cb37-22"><a href="linear-models.html#cb37-22" tabindex="-1"></a><span class="co">#&gt; [1] 518.7</span></span></code></pre></div>
+<p>Next, we fit a multiple linear regression model for <strong>Balance</strong> on all variables (except <strong>Limit</strong>) on the training set and take note of the implications in Task 4. We then Interpret the <strong>coefficient estimates</strong> for <strong>Married</strong> and for the <strong>Asian</strong> level of <strong>Ethnicity</strong>.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="linear-models.html#cb38-1" tabindex="-1"></a><span class="co"># CHUNK 10</span></span>
+<span id="cb38-2"><a href="linear-models.html#cb38-2" tabindex="-1"></a>model.full <span class="ot">&lt;-</span> <span class="fu">lm</span>(Balance <span class="sc">~</span> . <span class="sc">+</span> Income<span class="sc">:</span>Student, <span class="at">data =</span> data.train)</span>
+<span id="cb38-3"><a href="linear-models.html#cb38-3" tabindex="-1"></a><span class="fu">summary</span>(model.full)</span>
+<span id="cb38-4"><a href="linear-models.html#cb38-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb38-5"><a href="linear-models.html#cb38-5" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb38-6"><a href="linear-models.html#cb38-6" tabindex="-1"></a><span class="co">#&gt; lm(formula = Balance ~ . + Income:Student, data = data.train)</span></span>
+<span id="cb38-7"><a href="linear-models.html#cb38-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb38-8"><a href="linear-models.html#cb38-8" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb38-9"><a href="linear-models.html#cb38-9" tabindex="-1"></a><span class="co">#&gt;    Min     1Q Median     3Q    Max </span></span>
+<span id="cb38-10"><a href="linear-models.html#cb38-10" tabindex="-1"></a><span class="co">#&gt; -189.2  -76.5  -15.6   66.7  296.2 </span></span>
+<span id="cb38-11"><a href="linear-models.html#cb38-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb38-12"><a href="linear-models.html#cb38-12" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb38-13"><a href="linear-models.html#cb38-13" tabindex="-1"></a><span class="co">#&gt;                     Estimate Std. Error t value</span></span>
+<span id="cb38-14"><a href="linear-models.html#cb38-14" tabindex="-1"></a><span class="co">#&gt; (Intercept)        -552.3435    40.3454  -13.69</span></span>
+<span id="cb38-15"><a href="linear-models.html#cb38-15" tabindex="-1"></a><span class="co">#&gt; Income               -7.9386     0.2946  -26.94</span></span>
+<span id="cb38-16"><a href="linear-models.html#cb38-16" tabindex="-1"></a><span class="co">#&gt; Rating                4.0125     0.0642   62.54</span></span>
+<span id="cb38-17"><a href="linear-models.html#cb38-17" tabindex="-1"></a><span class="co">#&gt; Cards                 2.8977     4.6917    0.62</span></span>
+<span id="cb38-18"><a href="linear-models.html#cb38-18" tabindex="-1"></a><span class="co">#&gt; Age                  -0.7878     0.3599   -2.19</span></span>
+<span id="cb38-19"><a href="linear-models.html#cb38-19" tabindex="-1"></a><span class="co">#&gt; Education             0.8892     1.9204    0.46</span></span>
+<span id="cb38-20"><a href="linear-models.html#cb38-20" tabindex="-1"></a><span class="co">#&gt; GenderFemale        -18.3703    12.0087   -1.53</span></span>
+<span id="cb38-21"><a href="linear-models.html#cb38-21" tabindex="-1"></a><span class="co">#&gt; StudentYes          395.6774    30.7230   12.88</span></span>
+<span id="cb38-22"><a href="linear-models.html#cb38-22" tabindex="-1"></a><span class="co">#&gt; MarriedYes          -20.4647    12.3974   -1.65</span></span>
+<span id="cb38-23"><a href="linear-models.html#cb38-23" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian        6.5327    17.1379    0.38</span></span>
+<span id="cb38-24"><a href="linear-models.html#cb38-24" tabindex="-1"></a><span class="co">#&gt; EthnicityCaucasian   11.9539    14.8244    0.81</span></span>
+<span id="cb38-25"><a href="linear-models.html#cb38-25" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes     0.5010     0.5003    1.00</span></span>
+<span id="cb38-26"><a href="linear-models.html#cb38-26" tabindex="-1"></a><span class="co">#&gt;                    Pr(&gt;|t|)    </span></span>
+<span id="cb38-27"><a href="linear-models.html#cb38-27" tabindex="-1"></a><span class="co">#&gt; (Intercept)          &lt;2e-16 ***</span></span>
+<span id="cb38-28"><a href="linear-models.html#cb38-28" tabindex="-1"></a><span class="co">#&gt; Income               &lt;2e-16 ***</span></span>
+<span id="cb38-29"><a href="linear-models.html#cb38-29" tabindex="-1"></a><span class="co">#&gt; Rating               &lt;2e-16 ***</span></span>
+<span id="cb38-30"><a href="linear-models.html#cb38-30" tabindex="-1"></a><span class="co">#&gt; Cards                 0.537    </span></span>
+<span id="cb38-31"><a href="linear-models.html#cb38-31" tabindex="-1"></a><span class="co">#&gt; Age                   0.029 *  </span></span>
+<span id="cb38-32"><a href="linear-models.html#cb38-32" tabindex="-1"></a><span class="co">#&gt; Education             0.644    </span></span>
+<span id="cb38-33"><a href="linear-models.html#cb38-33" tabindex="-1"></a><span class="co">#&gt; GenderFemale          0.127    </span></span>
+<span id="cb38-34"><a href="linear-models.html#cb38-34" tabindex="-1"></a><span class="co">#&gt; StudentYes           &lt;2e-16 ***</span></span>
+<span id="cb38-35"><a href="linear-models.html#cb38-35" tabindex="-1"></a><span class="co">#&gt; MarriedYes            0.100 .  </span></span>
+<span id="cb38-36"><a href="linear-models.html#cb38-36" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian        0.703    </span></span>
+<span id="cb38-37"><a href="linear-models.html#cb38-37" tabindex="-1"></a><span class="co">#&gt; EthnicityCaucasian    0.421    </span></span>
+<span id="cb38-38"><a href="linear-models.html#cb38-38" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes     0.317    </span></span>
+<span id="cb38-39"><a href="linear-models.html#cb38-39" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb38-40"><a href="linear-models.html#cb38-40" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  </span></span>
+<span id="cb38-41"><a href="linear-models.html#cb38-41" tabindex="-1"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb38-42"><a href="linear-models.html#cb38-42" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb38-43"><a href="linear-models.html#cb38-43" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 103 on 289 degrees of freedom</span></span>
+<span id="cb38-44"><a href="linear-models.html#cb38-44" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.952,  Adjusted R-squared:  0.95 </span></span>
+<span id="cb38-45"><a href="linear-models.html#cb38-45" tabindex="-1"></a><span class="co">#&gt; F-statistic:  521 on 11 and 289 DF,  p-value: &lt;2e-16</span></span></code></pre></div>
+<p>Based on the summary out, the <code>Income</code>, <code>Rating</code>, <code>Age</code> and/or <code>Student</code> variables are statistically signifcant. The Multiple R-Squared for <code>model.full</code> is 0.952 or 95.2% which means the goodness-of-fit is fairly high.</p>
+<p>By default, R will use alphabetical ordering of factor levels to determine the baseline level for each factor variable.</p>
+<p>Based on the coefficients of the factor variables, we can see that the <code>Balance</code> is, on average, 20.46469 lower for married observations than the balance for unmarried observations.</p>
+<p>We can also say that the <code>Balance</code> for Asian is higher than the <code>Balance</code> of African (the baseline level), by an average of 6.53269, all else equal.</p>
+<p><strong>For factor variables, the comparisons of coefficients are always with respect to the baseline level.</strong></p>
+<p>The following code chunk relevels the factor variables by making the most common factor level the baseline level:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="linear-models.html#cb39-1" tabindex="-1"></a><span class="co"># CHUNK 11</span></span>
+<span id="cb39-2"><a href="linear-models.html#cb39-2" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> vars.categorical){</span>
+<span id="cb39-3"><a href="linear-models.html#cb39-3" tabindex="-1"></a>  <span class="co"># Use the table() function to calculate the frequencies for each factor</span></span>
+<span id="cb39-4"><a href="linear-models.html#cb39-4" tabindex="-1"></a>  table <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">table</span>(Credit[, i]))</span>
+<span id="cb39-5"><a href="linear-models.html#cb39-5" tabindex="-1"></a>  <span class="co"># Determine the level with the highest frequency</span></span>
+<span id="cb39-6"><a href="linear-models.html#cb39-6" tabindex="-1"></a>  max <span class="ot">&lt;-</span> <span class="fu">which.max</span>(table[, <span class="dv">2</span>])</span>
+<span id="cb39-7"><a href="linear-models.html#cb39-7" tabindex="-1"></a>  <span class="co"># Save the name of the level with the highest frequency</span></span>
+<span id="cb39-8"><a href="linear-models.html#cb39-8" tabindex="-1"></a>  level.name <span class="ot">&lt;-</span> <span class="fu">as.character</span>(table[max, <span class="dv">1</span>])</span>
+<span id="cb39-9"><a href="linear-models.html#cb39-9" tabindex="-1"></a>  <span class="co"># Set the baseline level to the most populous level</span></span>
+<span id="cb39-10"><a href="linear-models.html#cb39-10" tabindex="-1"></a>  Credit[, i] <span class="ot">&lt;-</span> <span class="fu">relevel</span>(Credit[, i], <span class="at">ref =</span> level.name)</span>
+<span id="cb39-11"><a href="linear-models.html#cb39-11" tabindex="-1"></a>}</span>
+<span id="cb39-12"><a href="linear-models.html#cb39-12" tabindex="-1"></a></span>
+<span id="cb39-13"><a href="linear-models.html#cb39-13" tabindex="-1"></a><span class="fu">summary</span>(Credit[, vars.categorical])</span>
+<span id="cb39-14"><a href="linear-models.html#cb39-14" tabindex="-1"></a><span class="co">#&gt;     Gender    Student   Married  </span></span>
+<span id="cb39-15"><a href="linear-models.html#cb39-15" tabindex="-1"></a><span class="co">#&gt;  Female:207   No :360   Yes:245  </span></span>
+<span id="cb39-16"><a href="linear-models.html#cb39-16" tabindex="-1"></a><span class="co">#&gt;   Male :193   Yes: 40   No :155  </span></span>
+<span id="cb39-17"><a href="linear-models.html#cb39-17" tabindex="-1"></a><span class="co">#&gt;                                  </span></span>
+<span id="cb39-18"><a href="linear-models.html#cb39-18" tabindex="-1"></a><span class="co">#&gt;             Ethnicity  </span></span>
+<span id="cb39-19"><a href="linear-models.html#cb39-19" tabindex="-1"></a><span class="co">#&gt;  Caucasian       :199  </span></span>
+<span id="cb39-20"><a href="linear-models.html#cb39-20" tabindex="-1"></a><span class="co">#&gt;  African American: 99  </span></span>
+<span id="cb39-21"><a href="linear-models.html#cb39-21" tabindex="-1"></a><span class="co">#&gt;  Asian           :102</span></span></code></pre></div>
+<p>When the summary function is called, the baseline level is always printed first.</p>
+<p>We then refit the linear model after doing the releveling and observe the differences in summary output:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="linear-models.html#cb40-1" tabindex="-1"></a><span class="co"># CHUNK 12</span></span>
+<span id="cb40-2"><a href="linear-models.html#cb40-2" tabindex="-1"></a><span class="co"># To make sure factors in the training set are releveled</span></span>
+<span id="cb40-3"><a href="linear-models.html#cb40-3" tabindex="-1"></a>data.train <span class="ot">&lt;-</span> Credit[partition, ]</span>
+<span id="cb40-4"><a href="linear-models.html#cb40-4" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="linear-models.html#cb40-5" tabindex="-1"></a>model.full <span class="ot">&lt;-</span> <span class="fu">lm</span>(Balance <span class="sc">~</span> . <span class="sc">+</span> Income<span class="sc">:</span>Student, <span class="at">data =</span> data.train)</span>
+<span id="cb40-6"><a href="linear-models.html#cb40-6" tabindex="-1"></a><span class="fu">summary</span>(model.full)</span>
+<span id="cb40-7"><a href="linear-models.html#cb40-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb40-8"><a href="linear-models.html#cb40-8" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb40-9"><a href="linear-models.html#cb40-9" tabindex="-1"></a><span class="co">#&gt; lm(formula = Balance ~ . + Income:Student, data = data.train)</span></span>
+<span id="cb40-10"><a href="linear-models.html#cb40-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb40-11"><a href="linear-models.html#cb40-11" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb40-12"><a href="linear-models.html#cb40-12" tabindex="-1"></a><span class="co">#&gt;    Min     1Q Median     3Q    Max </span></span>
+<span id="cb40-13"><a href="linear-models.html#cb40-13" tabindex="-1"></a><span class="co">#&gt; -189.2  -76.5  -15.6   66.7  296.2 </span></span>
+<span id="cb40-14"><a href="linear-models.html#cb40-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb40-15"><a href="linear-models.html#cb40-15" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb40-16"><a href="linear-models.html#cb40-16" tabindex="-1"></a><span class="co">#&gt;                            Estimate Std. Error t value</span></span>
+<span id="cb40-17"><a href="linear-models.html#cb40-17" tabindex="-1"></a><span class="co">#&gt; (Intercept)               -579.2247    40.0860  -14.45</span></span>
+<span id="cb40-18"><a href="linear-models.html#cb40-18" tabindex="-1"></a><span class="co">#&gt; Income                      -7.9386     0.2946  -26.94</span></span>
+<span id="cb40-19"><a href="linear-models.html#cb40-19" tabindex="-1"></a><span class="co">#&gt; Rating                       4.0125     0.0642   62.54</span></span>
+<span id="cb40-20"><a href="linear-models.html#cb40-20" tabindex="-1"></a><span class="co">#&gt; Cards                        2.8977     4.6917    0.62</span></span>
+<span id="cb40-21"><a href="linear-models.html#cb40-21" tabindex="-1"></a><span class="co">#&gt; Age                         -0.7878     0.3599   -2.19</span></span>
+<span id="cb40-22"><a href="linear-models.html#cb40-22" tabindex="-1"></a><span class="co">#&gt; Education                    0.8892     1.9204    0.46</span></span>
+<span id="cb40-23"><a href="linear-models.html#cb40-23" tabindex="-1"></a><span class="co">#&gt; Gender Male                 18.3703    12.0087    1.53</span></span>
+<span id="cb40-24"><a href="linear-models.html#cb40-24" tabindex="-1"></a><span class="co">#&gt; StudentYes                 395.6774    30.7230   12.88</span></span>
+<span id="cb40-25"><a href="linear-models.html#cb40-25" tabindex="-1"></a><span class="co">#&gt; MarriedNo                   20.4647    12.3974    1.65</span></span>
+<span id="cb40-26"><a href="linear-models.html#cb40-26" tabindex="-1"></a><span class="co">#&gt; EthnicityAfrican American  -11.9539    14.8244   -0.81</span></span>
+<span id="cb40-27"><a href="linear-models.html#cb40-27" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian              -5.4212    14.6852   -0.37</span></span>
+<span id="cb40-28"><a href="linear-models.html#cb40-28" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes            0.5010     0.5003    1.00</span></span>
+<span id="cb40-29"><a href="linear-models.html#cb40-29" tabindex="-1"></a><span class="co">#&gt;                           Pr(&gt;|t|)    </span></span>
+<span id="cb40-30"><a href="linear-models.html#cb40-30" tabindex="-1"></a><span class="co">#&gt; (Intercept)                 &lt;2e-16 ***</span></span>
+<span id="cb40-31"><a href="linear-models.html#cb40-31" tabindex="-1"></a><span class="co">#&gt; Income                      &lt;2e-16 ***</span></span>
+<span id="cb40-32"><a href="linear-models.html#cb40-32" tabindex="-1"></a><span class="co">#&gt; Rating                      &lt;2e-16 ***</span></span>
+<span id="cb40-33"><a href="linear-models.html#cb40-33" tabindex="-1"></a><span class="co">#&gt; Cards                        0.537    </span></span>
+<span id="cb40-34"><a href="linear-models.html#cb40-34" tabindex="-1"></a><span class="co">#&gt; Age                          0.029 *  </span></span>
+<span id="cb40-35"><a href="linear-models.html#cb40-35" tabindex="-1"></a><span class="co">#&gt; Education                    0.644    </span></span>
+<span id="cb40-36"><a href="linear-models.html#cb40-36" tabindex="-1"></a><span class="co">#&gt; Gender Male                  0.127    </span></span>
+<span id="cb40-37"><a href="linear-models.html#cb40-37" tabindex="-1"></a><span class="co">#&gt; StudentYes                  &lt;2e-16 ***</span></span>
+<span id="cb40-38"><a href="linear-models.html#cb40-38" tabindex="-1"></a><span class="co">#&gt; MarriedNo                    0.100 .  </span></span>
+<span id="cb40-39"><a href="linear-models.html#cb40-39" tabindex="-1"></a><span class="co">#&gt; EthnicityAfrican American    0.421    </span></span>
+<span id="cb40-40"><a href="linear-models.html#cb40-40" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian               0.712    </span></span>
+<span id="cb40-41"><a href="linear-models.html#cb40-41" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes            0.317    </span></span>
+<span id="cb40-42"><a href="linear-models.html#cb40-42" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb40-43"><a href="linear-models.html#cb40-43" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  </span></span>
+<span id="cb40-44"><a href="linear-models.html#cb40-44" tabindex="-1"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb40-45"><a href="linear-models.html#cb40-45" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb40-46"><a href="linear-models.html#cb40-46" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 103 on 289 degrees of freedom</span></span>
+<span id="cb40-47"><a href="linear-models.html#cb40-47" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.952,  Adjusted R-squared:  0.95 </span></span>
+<span id="cb40-48"><a href="linear-models.html#cb40-48" tabindex="-1"></a><span class="co">#&gt; F-statistic:  521 on 11 and 289 DF,  p-value: &lt;2e-16</span></span></code></pre></div>
+<p>We can see in the new summary output, the coefficients for <code>Married</code> and <code>Ethnicity</code> have flipped as there is a new baseline level of these factor variables.</p>
+<hr />
+</div>
+</div>
+</div>
+<div id="task-6-binarize-factor-variables-manually" class="section level3 unnumbered hasAnchor">
+<h3>TASK 6: Binarize Factor Variables Manually<a href="linear-models.html#task-6-binarize-factor-variables-manually" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="task-statement-7" class="section level4 unnumbered hasAnchor">
+<h4>Task Statement<a href="linear-models.html#task-statement-7" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>Describe the <strong>advantages and disadvantages</strong> of <strong>manually binarizing</strong> the factor variables before performing feature selection.</li>
+<li>Regardless, <strong>binarize the factor variables manually</strong> and refit the multiple linear regression model in Task 5.</li>
+</ul>
+</div>
+<div id="advantage-to-avoid-all-or-nothing" class="section level4 unnumbered hasAnchor">
+<h4>Advantage: To avoid “all or nothing”<a href="linear-models.html#advantage-to-avoid-all-or-nothing" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Many feature selection functions treat factor variables as a <strong>single feature</strong> and either:
+- Retain the variable with <strong>all of its levels</strong>
+- Remove the variable <strong>completely</strong></p>
+<p>Binarization allows the ability to <strong>drop individual factor levels</strong> if not significant with respect to the baseline.</p>
+</div>
+<div id="disadvantages" class="section level4 unnumbered hasAnchor">
+<h4>Disadvantages<a href="linear-models.html#disadvantages" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ol style="list-style-type: decimal">
+<li>Each factor level is considered a <strong>separate feature</strong> to add/drop, which can make <strong>stepwise selection</strong> take considerably longer to complete.</li>
+<li>(Less important; see Dec 2019 Task 8) It’s possible to have <strong>nonsensical results</strong> when only a <strong>handful of levels</strong> of a categorical predictor are selected.</li>
+</ol>
+<p>In the following code chunk, we start the binarization process by generating the dummary variables for the four factor variables in the data.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="linear-models.html#cb41-1" tabindex="-1"></a><span class="co"># CHUNK 13</span></span>
+<span id="cb41-2"><a href="linear-models.html#cb41-2" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb41-3"><a href="linear-models.html#cb41-3" tabindex="-1"></a>binarizer <span class="ot">&lt;-</span> <span class="fu">dummyVars</span>(<span class="fu">paste</span>(<span class="st">&quot;~&quot;</span>, <span class="fu">paste</span>(vars.categorical, <span class="at">collapse =</span> <span class="st">&quot;+&quot;</span>)),</span>
+<span id="cb41-4"><a href="linear-models.html#cb41-4" tabindex="-1"></a>                       <span class="at">data =</span> Credit, <span class="at">fullRank =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb41-5"><a href="linear-models.html#cb41-5" tabindex="-1"></a><span class="co"># OR type out the categorical predictors one by one</span></span>
+<span id="cb41-6"><a href="linear-models.html#cb41-6" tabindex="-1"></a><span class="co">#binarizer &lt;- dummyVars(~ Gender + Student + Married + Ethnicity,</span></span>
+<span id="cb41-7"><a href="linear-models.html#cb41-7" tabindex="-1"></a><span class="co">#                       data = Credit, fullRank = TRUE)</span></span>
+<span id="cb41-8"><a href="linear-models.html#cb41-8" tabindex="-1"></a>binarized_vars <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">predict</span>(binarizer, <span class="at">newdata =</span> Credit))</span>
+<span id="cb41-9"><a href="linear-models.html#cb41-9" tabindex="-1"></a><span class="fu">head</span>(binarized_vars)</span>
+<span id="cb41-10"><a href="linear-models.html#cb41-10" tabindex="-1"></a><span class="co">#&gt;   Gender..Male Student.Yes Married.No</span></span>
+<span id="cb41-11"><a href="linear-models.html#cb41-11" tabindex="-1"></a><span class="co">#&gt; 1            1           0          0</span></span>
+<span id="cb41-12"><a href="linear-models.html#cb41-12" tabindex="-1"></a><span class="co">#&gt; 2            0           1          0</span></span>
+<span id="cb41-13"><a href="linear-models.html#cb41-13" tabindex="-1"></a><span class="co">#&gt; 3            1           0          1</span></span>
+<span id="cb41-14"><a href="linear-models.html#cb41-14" tabindex="-1"></a><span class="co">#&gt; 4            0           0          1</span></span>
+<span id="cb41-15"><a href="linear-models.html#cb41-15" tabindex="-1"></a><span class="co">#&gt; 5            1           0          0</span></span>
+<span id="cb41-16"><a href="linear-models.html#cb41-16" tabindex="-1"></a><span class="co">#&gt; 6            1           0          1</span></span>
+<span id="cb41-17"><a href="linear-models.html#cb41-17" tabindex="-1"></a><span class="co">#&gt;   Ethnicity.African.American Ethnicity.Asian</span></span>
+<span id="cb41-18"><a href="linear-models.html#cb41-18" tabindex="-1"></a><span class="co">#&gt; 1                          0               0</span></span>
+<span id="cb41-19"><a href="linear-models.html#cb41-19" tabindex="-1"></a><span class="co">#&gt; 2                          0               1</span></span>
+<span id="cb41-20"><a href="linear-models.html#cb41-20" tabindex="-1"></a><span class="co">#&gt; 3                          0               1</span></span>
+<span id="cb41-21"><a href="linear-models.html#cb41-21" tabindex="-1"></a><span class="co">#&gt; 4                          0               1</span></span>
+<span id="cb41-22"><a href="linear-models.html#cb41-22" tabindex="-1"></a><span class="co">#&gt; 5                          0               0</span></span>
+<span id="cb41-23"><a href="linear-models.html#cb41-23" tabindex="-1"></a><span class="co">#&gt; 6                          0               0</span></span></code></pre></div>
+<p>Then we attach the binarized variables to the dataset and set the original variables to <code>NULL</code> to remove them, and create training/test sets on the new dataset:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="linear-models.html#cb42-1" tabindex="-1"></a><span class="co"># CHUNK 14</span></span>
+<span id="cb42-2"><a href="linear-models.html#cb42-2" tabindex="-1"></a>Credit.bin <span class="ot">&lt;-</span> <span class="fu">cbind</span>(Credit, binarized_vars)</span>
+<span id="cb42-3"><a href="linear-models.html#cb42-3" tabindex="-1"></a><span class="fu">head</span>(Credit.bin)</span>
+<span id="cb42-4"><a href="linear-models.html#cb42-4" tabindex="-1"></a><span class="co">#&gt;   Income Rating Cards Age Education Gender Student</span></span>
+<span id="cb42-5"><a href="linear-models.html#cb42-5" tabindex="-1"></a><span class="co">#&gt; 1  14.89    283     2  34        11   Male      No</span></span>
+<span id="cb42-6"><a href="linear-models.html#cb42-6" tabindex="-1"></a><span class="co">#&gt; 2 106.03    483     3  82        15 Female     Yes</span></span>
+<span id="cb42-7"><a href="linear-models.html#cb42-7" tabindex="-1"></a><span class="co">#&gt; 3 104.59    514     4  71        11   Male      No</span></span>
+<span id="cb42-8"><a href="linear-models.html#cb42-8" tabindex="-1"></a><span class="co">#&gt; 4 148.92    681     3  36        11 Female      No</span></span>
+<span id="cb42-9"><a href="linear-models.html#cb42-9" tabindex="-1"></a><span class="co">#&gt; 5  55.88    357     2  68        16   Male      No</span></span>
+<span id="cb42-10"><a href="linear-models.html#cb42-10" tabindex="-1"></a><span class="co">#&gt; 6  80.18    569     4  77        10   Male      No</span></span>
+<span id="cb42-11"><a href="linear-models.html#cb42-11" tabindex="-1"></a><span class="co">#&gt;   Married Ethnicity Balance Gender..Male Student.Yes</span></span>
+<span id="cb42-12"><a href="linear-models.html#cb42-12" tabindex="-1"></a><span class="co">#&gt; 1     Yes Caucasian     333            1           0</span></span>
+<span id="cb42-13"><a href="linear-models.html#cb42-13" tabindex="-1"></a><span class="co">#&gt; 2     Yes     Asian     903            0           1</span></span>
+<span id="cb42-14"><a href="linear-models.html#cb42-14" tabindex="-1"></a><span class="co">#&gt; 3      No     Asian     580            1           0</span></span>
+<span id="cb42-15"><a href="linear-models.html#cb42-15" tabindex="-1"></a><span class="co">#&gt; 4      No     Asian     964            0           0</span></span>
+<span id="cb42-16"><a href="linear-models.html#cb42-16" tabindex="-1"></a><span class="co">#&gt; 5     Yes Caucasian     331            1           0</span></span>
+<span id="cb42-17"><a href="linear-models.html#cb42-17" tabindex="-1"></a><span class="co">#&gt; 6      No Caucasian    1151            1           0</span></span>
+<span id="cb42-18"><a href="linear-models.html#cb42-18" tabindex="-1"></a><span class="co">#&gt;   Married.No Ethnicity.African.American</span></span>
+<span id="cb42-19"><a href="linear-models.html#cb42-19" tabindex="-1"></a><span class="co">#&gt; 1          0                          0</span></span>
+<span id="cb42-20"><a href="linear-models.html#cb42-20" tabindex="-1"></a><span class="co">#&gt; 2          0                          0</span></span>
+<span id="cb42-21"><a href="linear-models.html#cb42-21" tabindex="-1"></a><span class="co">#&gt; 3          1                          0</span></span>
+<span id="cb42-22"><a href="linear-models.html#cb42-22" tabindex="-1"></a><span class="co">#&gt; 4          1                          0</span></span>
+<span id="cb42-23"><a href="linear-models.html#cb42-23" tabindex="-1"></a><span class="co">#&gt; 5          0                          0</span></span>
+<span id="cb42-24"><a href="linear-models.html#cb42-24" tabindex="-1"></a><span class="co">#&gt; 6          1                          0</span></span>
+<span id="cb42-25"><a href="linear-models.html#cb42-25" tabindex="-1"></a><span class="co">#&gt;   Ethnicity.Asian</span></span>
+<span id="cb42-26"><a href="linear-models.html#cb42-26" tabindex="-1"></a><span class="co">#&gt; 1               0</span></span>
+<span id="cb42-27"><a href="linear-models.html#cb42-27" tabindex="-1"></a><span class="co">#&gt; 2               1</span></span>
+<span id="cb42-28"><a href="linear-models.html#cb42-28" tabindex="-1"></a><span class="co">#&gt; 3               1</span></span>
+<span id="cb42-29"><a href="linear-models.html#cb42-29" tabindex="-1"></a><span class="co">#&gt; 4               1</span></span>
+<span id="cb42-30"><a href="linear-models.html#cb42-30" tabindex="-1"></a><span class="co">#&gt; 5               0</span></span>
+<span id="cb42-31"><a href="linear-models.html#cb42-31" tabindex="-1"></a><span class="co">#&gt; 6               0</span></span>
+<span id="cb42-32"><a href="linear-models.html#cb42-32" tabindex="-1"></a></span>
+<span id="cb42-33"><a href="linear-models.html#cb42-33" tabindex="-1"></a>Credit.bin<span class="sc">$</span>Gender <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb42-34"><a href="linear-models.html#cb42-34" tabindex="-1"></a>Credit.bin<span class="sc">$</span>Student <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb42-35"><a href="linear-models.html#cb42-35" tabindex="-1"></a>Credit.bin<span class="sc">$</span>Married <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb42-36"><a href="linear-models.html#cb42-36" tabindex="-1"></a>Credit.bin<span class="sc">$</span>Ethnicity <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb42-37"><a href="linear-models.html#cb42-37" tabindex="-1"></a><span class="fu">head</span>(Credit.bin)</span>
+<span id="cb42-38"><a href="linear-models.html#cb42-38" tabindex="-1"></a><span class="co">#&gt;   Income Rating Cards Age Education Balance</span></span>
+<span id="cb42-39"><a href="linear-models.html#cb42-39" tabindex="-1"></a><span class="co">#&gt; 1  14.89    283     2  34        11     333</span></span>
+<span id="cb42-40"><a href="linear-models.html#cb42-40" tabindex="-1"></a><span class="co">#&gt; 2 106.03    483     3  82        15     903</span></span>
+<span id="cb42-41"><a href="linear-models.html#cb42-41" tabindex="-1"></a><span class="co">#&gt; 3 104.59    514     4  71        11     580</span></span>
+<span id="cb42-42"><a href="linear-models.html#cb42-42" tabindex="-1"></a><span class="co">#&gt; 4 148.92    681     3  36        11     964</span></span>
+<span id="cb42-43"><a href="linear-models.html#cb42-43" tabindex="-1"></a><span class="co">#&gt; 5  55.88    357     2  68        16     331</span></span>
+<span id="cb42-44"><a href="linear-models.html#cb42-44" tabindex="-1"></a><span class="co">#&gt; 6  80.18    569     4  77        10    1151</span></span>
+<span id="cb42-45"><a href="linear-models.html#cb42-45" tabindex="-1"></a><span class="co">#&gt;   Gender..Male Student.Yes Married.No</span></span>
+<span id="cb42-46"><a href="linear-models.html#cb42-46" tabindex="-1"></a><span class="co">#&gt; 1            1           0          0</span></span>
+<span id="cb42-47"><a href="linear-models.html#cb42-47" tabindex="-1"></a><span class="co">#&gt; 2            0           1          0</span></span>
+<span id="cb42-48"><a href="linear-models.html#cb42-48" tabindex="-1"></a><span class="co">#&gt; 3            1           0          1</span></span>
+<span id="cb42-49"><a href="linear-models.html#cb42-49" tabindex="-1"></a><span class="co">#&gt; 4            0           0          1</span></span>
+<span id="cb42-50"><a href="linear-models.html#cb42-50" tabindex="-1"></a><span class="co">#&gt; 5            1           0          0</span></span>
+<span id="cb42-51"><a href="linear-models.html#cb42-51" tabindex="-1"></a><span class="co">#&gt; 6            1           0          1</span></span>
+<span id="cb42-52"><a href="linear-models.html#cb42-52" tabindex="-1"></a><span class="co">#&gt;   Ethnicity.African.American Ethnicity.Asian</span></span>
+<span id="cb42-53"><a href="linear-models.html#cb42-53" tabindex="-1"></a><span class="co">#&gt; 1                          0               0</span></span>
+<span id="cb42-54"><a href="linear-models.html#cb42-54" tabindex="-1"></a><span class="co">#&gt; 2                          0               1</span></span>
+<span id="cb42-55"><a href="linear-models.html#cb42-55" tabindex="-1"></a><span class="co">#&gt; 3                          0               1</span></span>
+<span id="cb42-56"><a href="linear-models.html#cb42-56" tabindex="-1"></a><span class="co">#&gt; 4                          0               1</span></span>
+<span id="cb42-57"><a href="linear-models.html#cb42-57" tabindex="-1"></a><span class="co">#&gt; 5                          0               0</span></span>
+<span id="cb42-58"><a href="linear-models.html#cb42-58" tabindex="-1"></a><span class="co">#&gt; 6                          0               0</span></span>
+<span id="cb42-59"><a href="linear-models.html#cb42-59" tabindex="-1"></a></span>
+<span id="cb42-60"><a href="linear-models.html#cb42-60" tabindex="-1"></a>data.train.bin <span class="ot">&lt;-</span> Credit.bin[partition, ]</span>
+<span id="cb42-61"><a href="linear-models.html#cb42-61" tabindex="-1"></a>data.test.bin <span class="ot">&lt;-</span> Credit.bin[<span class="sc">-</span>partition, ]</span></code></pre></div>
+<p>We then fit a model on the binzared dataset and print a model summary:</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="linear-models.html#cb43-1" tabindex="-1"></a><span class="co"># CHUNK 15</span></span>
+<span id="cb43-2"><a href="linear-models.html#cb43-2" tabindex="-1"></a><span class="co"># The interaction term is now Income:Student.Yes, not Income:Student</span></span>
+<span id="cb43-3"><a href="linear-models.html#cb43-3" tabindex="-1"></a>model.full.bin <span class="ot">&lt;-</span> <span class="fu">lm</span>(Balance <span class="sc">~</span> . <span class="sc">+</span> Income<span class="sc">:</span>Student.Yes, <span class="at">data =</span> data.train.bin)</span>
+<span id="cb43-4"><a href="linear-models.html#cb43-4" tabindex="-1"></a><span class="fu">summary</span>(model.full.bin)</span>
+<span id="cb43-5"><a href="linear-models.html#cb43-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb43-6"><a href="linear-models.html#cb43-6" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb43-7"><a href="linear-models.html#cb43-7" tabindex="-1"></a><span class="co">#&gt; lm(formula = Balance ~ . + Income:Student.Yes, data = data.train.bin)</span></span>
+<span id="cb43-8"><a href="linear-models.html#cb43-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb43-9"><a href="linear-models.html#cb43-9" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb43-10"><a href="linear-models.html#cb43-10" tabindex="-1"></a><span class="co">#&gt;    Min     1Q Median     3Q    Max </span></span>
+<span id="cb43-11"><a href="linear-models.html#cb43-11" tabindex="-1"></a><span class="co">#&gt; -189.2  -76.5  -15.6   66.7  296.2 </span></span>
+<span id="cb43-12"><a href="linear-models.html#cb43-12" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb43-13"><a href="linear-models.html#cb43-13" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb43-14"><a href="linear-models.html#cb43-14" tabindex="-1"></a><span class="co">#&gt;                             Estimate Std. Error</span></span>
+<span id="cb43-15"><a href="linear-models.html#cb43-15" tabindex="-1"></a><span class="co">#&gt; (Intercept)                -579.2247    40.0860</span></span>
+<span id="cb43-16"><a href="linear-models.html#cb43-16" tabindex="-1"></a><span class="co">#&gt; Income                       -7.9386     0.2946</span></span>
+<span id="cb43-17"><a href="linear-models.html#cb43-17" tabindex="-1"></a><span class="co">#&gt; Rating                        4.0125     0.0642</span></span>
+<span id="cb43-18"><a href="linear-models.html#cb43-18" tabindex="-1"></a><span class="co">#&gt; Cards                         2.8977     4.6917</span></span>
+<span id="cb43-19"><a href="linear-models.html#cb43-19" tabindex="-1"></a><span class="co">#&gt; Age                          -0.7878     0.3599</span></span>
+<span id="cb43-20"><a href="linear-models.html#cb43-20" tabindex="-1"></a><span class="co">#&gt; Education                     0.8892     1.9204</span></span>
+<span id="cb43-21"><a href="linear-models.html#cb43-21" tabindex="-1"></a><span class="co">#&gt; Gender..Male                 18.3703    12.0087</span></span>
+<span id="cb43-22"><a href="linear-models.html#cb43-22" tabindex="-1"></a><span class="co">#&gt; Student.Yes                 395.6774    30.7230</span></span>
+<span id="cb43-23"><a href="linear-models.html#cb43-23" tabindex="-1"></a><span class="co">#&gt; Married.No                   20.4647    12.3974</span></span>
+<span id="cb43-24"><a href="linear-models.html#cb43-24" tabindex="-1"></a><span class="co">#&gt; Ethnicity.African.American  -11.9539    14.8244</span></span>
+<span id="cb43-25"><a href="linear-models.html#cb43-25" tabindex="-1"></a><span class="co">#&gt; Ethnicity.Asian              -5.4212    14.6852</span></span>
+<span id="cb43-26"><a href="linear-models.html#cb43-26" tabindex="-1"></a><span class="co">#&gt; Income:Student.Yes            0.5010     0.5003</span></span>
+<span id="cb43-27"><a href="linear-models.html#cb43-27" tabindex="-1"></a><span class="co">#&gt;                            t value Pr(&gt;|t|)    </span></span>
+<span id="cb43-28"><a href="linear-models.html#cb43-28" tabindex="-1"></a><span class="co">#&gt; (Intercept)                 -14.45   &lt;2e-16 ***</span></span>
+<span id="cb43-29"><a href="linear-models.html#cb43-29" tabindex="-1"></a><span class="co">#&gt; Income                      -26.94   &lt;2e-16 ***</span></span>
+<span id="cb43-30"><a href="linear-models.html#cb43-30" tabindex="-1"></a><span class="co">#&gt; Rating                       62.54   &lt;2e-16 ***</span></span>
+<span id="cb43-31"><a href="linear-models.html#cb43-31" tabindex="-1"></a><span class="co">#&gt; Cards                         0.62    0.537    </span></span>
+<span id="cb43-32"><a href="linear-models.html#cb43-32" tabindex="-1"></a><span class="co">#&gt; Age                          -2.19    0.029 *  </span></span>
+<span id="cb43-33"><a href="linear-models.html#cb43-33" tabindex="-1"></a><span class="co">#&gt; Education                     0.46    0.644    </span></span>
+<span id="cb43-34"><a href="linear-models.html#cb43-34" tabindex="-1"></a><span class="co">#&gt; Gender..Male                  1.53    0.127    </span></span>
+<span id="cb43-35"><a href="linear-models.html#cb43-35" tabindex="-1"></a><span class="co">#&gt; Student.Yes                  12.88   &lt;2e-16 ***</span></span>
+<span id="cb43-36"><a href="linear-models.html#cb43-36" tabindex="-1"></a><span class="co">#&gt; Married.No                    1.65    0.100 .  </span></span>
+<span id="cb43-37"><a href="linear-models.html#cb43-37" tabindex="-1"></a><span class="co">#&gt; Ethnicity.African.American   -0.81    0.421    </span></span>
+<span id="cb43-38"><a href="linear-models.html#cb43-38" tabindex="-1"></a><span class="co">#&gt; Ethnicity.Asian              -0.37    0.712    </span></span>
+<span id="cb43-39"><a href="linear-models.html#cb43-39" tabindex="-1"></a><span class="co">#&gt; Income:Student.Yes            1.00    0.317    </span></span>
+<span id="cb43-40"><a href="linear-models.html#cb43-40" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb43-41"><a href="linear-models.html#cb43-41" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  </span></span>
+<span id="cb43-42"><a href="linear-models.html#cb43-42" tabindex="-1"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb43-43"><a href="linear-models.html#cb43-43" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb43-44"><a href="linear-models.html#cb43-44" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 103 on 289 degrees of freedom</span></span>
+<span id="cb43-45"><a href="linear-models.html#cb43-45" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.952,  Adjusted R-squared:  0.95 </span></span>
+<span id="cb43-46"><a href="linear-models.html#cb43-46" tabindex="-1"></a><span class="co">#&gt; F-statistic:  521 on 11 and 289 DF,  p-value: &lt;2e-16</span></span></code></pre></div>
+<p>We see a similar summary output for the model as we did before.</p>
+<hr />
+</div>
 </div>
 <div id="model-construction-and-feature-selection" class="section level3 hasAnchor" number="3.4.2">
 <h3><span class="header-section-number">3.4.2</span> Model Construction and Feature Selection<a href="linear-models.html#model-construction-and-feature-selection" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 </div>
+<div id="task-7-select-features-using-stepwise-selection" class="section level3 unnumbered hasAnchor">
+<h3>TASK 7: Select Features using Stepwise Selection<a href="linear-models.html#task-7-select-features-using-stepwise-selection" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="task-statement-8" class="section level4 unnumbered hasAnchor">
+<h4>Task Statement<a href="linear-models.html#task-statement-8" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><strong>Motivation</strong>: Some features in the full model may lack predictive power and result in overfitting.</p>
+<ul>
+<li><p>Perform <strong>stepwise selection</strong> using the <code>stepAIC()</code> function to determine which features should be retained.</p>
+<ul>
+<li>Two decisions to make:
+<ol style="list-style-type: decimal">
+<li><strong>Forward</strong> (<code>direction = "forward"</code>) vs. <strong>backward</strong> (<code>direction = "backward"</code>) (default)</li>
+<li><strong>AIC</strong> (<code>k = 2</code>) (default) vs. <strong>BIC</strong> (<code>k = log(nrow(data.train.bin))</code>)</li>
+</ol></li>
+</ul></li>
+<li><p>Employ <strong>forward selection</strong> using <strong>BIC</strong>.</p></li>
+<li><p>Run the <code>summary</code> function on the linear model selected by this process. Provide the summary output and <strong>list the variables selected</strong>.</p></li>
+</ul>
+<p>We load the <code>MASS</code> package to perform stepwise AIC. The default for stepAIC() is to use “backward” selection and “AIC” as the criteria (e.g., <span class="math inline">\(k=2\)</span>).</p>
+<p>Alternatively, we can specify <code>direction="forward"</code> and <code>k=log(nrow(data.train.bin))</code> for BIC.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="linear-models.html#cb44-1" tabindex="-1"></a><span class="co"># CHUNK 16</span></span>
+<span id="cb44-2"><a href="linear-models.html#cb44-2" tabindex="-1"></a><span class="co"># Uncomment this line the first time you use MASS</span></span>
+<span id="cb44-3"><a href="linear-models.html#cb44-3" tabindex="-1"></a><span class="co">#install.packages(&quot;MASS&quot;)</span></span>
+<span id="cb44-4"><a href="linear-models.html#cb44-4" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="linear-models.html#cb44-5" tabindex="-1"></a><span class="co"># Load packages</span></span>
+<span id="cb44-6"><a href="linear-models.html#cb44-6" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb44-7"><a href="linear-models.html#cb44-7" tabindex="-1"></a></span>
+<span id="cb44-8"><a href="linear-models.html#cb44-8" tabindex="-1"></a><span class="co"># Perform backward stepwise selection using the stepAIC() function</span></span>
+<span id="cb44-9"><a href="linear-models.html#cb44-9" tabindex="-1"></a>model.backward.AIC <span class="ot">&lt;-</span> <span class="fu">stepAIC</span>(model.full.bin)</span>
+<span id="cb44-10"><a href="linear-models.html#cb44-10" tabindex="-1"></a><span class="co">#&gt; Start:  AIC=2802</span></span>
+<span id="cb44-11"><a href="linear-models.html#cb44-11" tabindex="-1"></a><span class="co">#&gt; Balance ~ Income + Rating + Cards + Age + Education + Gender..Male + </span></span>
+<span id="cb44-12"><a href="linear-models.html#cb44-12" tabindex="-1"></a><span class="co">#&gt;     Student.Yes + Married.No + Ethnicity.African.American + Ethnicity.Asian + </span></span>
+<span id="cb44-13"><a href="linear-models.html#cb44-13" tabindex="-1"></a><span class="co">#&gt;     Income:Student.Yes</span></span>
+<span id="cb44-14"><a href="linear-models.html#cb44-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb44-15"><a href="linear-models.html#cb44-15" tabindex="-1"></a><span class="co">#&gt;                              Df Sum of Sq      RSS</span></span>
+<span id="cb44-16"><a href="linear-models.html#cb44-16" tabindex="-1"></a><span class="co">#&gt; - Ethnicity.Asian             1      1448  3071419</span></span>
+<span id="cb44-17"><a href="linear-models.html#cb44-17" tabindex="-1"></a><span class="co">#&gt; - Education                   1      2278  3072249</span></span>
+<span id="cb44-18"><a href="linear-models.html#cb44-18" tabindex="-1"></a><span class="co">#&gt; - Cards                       1      4052  3074024</span></span>
+<span id="cb44-19"><a href="linear-models.html#cb44-19" tabindex="-1"></a><span class="co">#&gt; - Ethnicity.African.American  1      6907  3076879</span></span>
+<span id="cb44-20"><a href="linear-models.html#cb44-20" tabindex="-1"></a><span class="co">#&gt; - Income:Student.Yes          1     10654  3080626</span></span>
+<span id="cb44-21"><a href="linear-models.html#cb44-21" tabindex="-1"></a><span class="co">#&gt; &lt;none&gt;                                     3069972</span></span>
+<span id="cb44-22"><a href="linear-models.html#cb44-22" tabindex="-1"></a><span class="co">#&gt; - Gender..Male                1     24859  3094830</span></span>
+<span id="cb44-23"><a href="linear-models.html#cb44-23" tabindex="-1"></a><span class="co">#&gt; - Married.No                  1     28946  3098918</span></span>
+<span id="cb44-24"><a href="linear-models.html#cb44-24" tabindex="-1"></a><span class="co">#&gt; - Age                         1     50885  3120857</span></span>
+<span id="cb44-25"><a href="linear-models.html#cb44-25" tabindex="-1"></a><span class="co">#&gt; - Rating                      1  41548705 44618677</span></span>
+<span id="cb44-26"><a href="linear-models.html#cb44-26" tabindex="-1"></a><span class="co">#&gt;                               AIC</span></span>
+<span id="cb44-27"><a href="linear-models.html#cb44-27" tabindex="-1"></a><span class="co">#&gt; - Ethnicity.Asian            2800</span></span>
+<span id="cb44-28"><a href="linear-models.html#cb44-28" tabindex="-1"></a><span class="co">#&gt; - Education                  2800</span></span>
+<span id="cb44-29"><a href="linear-models.html#cb44-29" tabindex="-1"></a><span class="co">#&gt; - Cards                      2801</span></span>
+<span id="cb44-30"><a href="linear-models.html#cb44-30" tabindex="-1"></a><span class="co">#&gt; - Ethnicity.African.American 2801</span></span>
+<span id="cb44-31"><a href="linear-models.html#cb44-31" tabindex="-1"></a><span class="co">#&gt; - Income:Student.Yes         2801</span></span>
+<span id="cb44-32"><a href="linear-models.html#cb44-32" tabindex="-1"></a><span class="co">#&gt; &lt;none&gt;                       2802</span></span>
+<span id="cb44-33"><a href="linear-models.html#cb44-33" tabindex="-1"></a><span class="co">#&gt; - Gender..Male               2803</span></span>
+<span id="cb44-34"><a href="linear-models.html#cb44-34" tabindex="-1"></a><span class="co">#&gt; - Married.No                 2803</span></span>
+<span id="cb44-35"><a href="linear-models.html#cb44-35" tabindex="-1"></a><span class="co">#&gt; - Age                        2805</span></span>
+<span id="cb44-36"><a href="linear-models.html#cb44-36" tabindex="-1"></a><span class="co">#&gt; - Rating                     3606</span></span>
+<span id="cb44-37"><a href="linear-models.html#cb44-37" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb44-38"><a href="linear-models.html#cb44-38" tabindex="-1"></a><span class="co">#&gt; Step:  AIC=2800</span></span>
+<span id="cb44-39"><a href="linear-models.html#cb44-39" tabindex="-1"></a><span class="co">#&gt; Balance ~ Income + Rating + Cards + Age + Education + Gender..Male + </span></span>
+<span id="cb44-40"><a href="linear-models.html#cb44-40" tabindex="-1"></a><span class="co">#&gt;     Student.Yes + Married.No + Ethnicity.African.American + Income:Student.Yes</span></span>
+<span id="cb44-41"><a href="linear-models.html#cb44-41" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb44-42"><a href="linear-models.html#cb44-42" tabindex="-1"></a><span class="co">#&gt;                              Df Sum of Sq      RSS</span></span>
+<span id="cb44-43"><a href="linear-models.html#cb44-43" tabindex="-1"></a><span class="co">#&gt; - Education                   1      2255  3073675</span></span>
+<span id="cb44-44"><a href="linear-models.html#cb44-44" tabindex="-1"></a><span class="co">#&gt; - Cards                       1      3911  3075331</span></span>
+<span id="cb44-45"><a href="linear-models.html#cb44-45" tabindex="-1"></a><span class="co">#&gt; - Ethnicity.African.American  1      5595  3077014</span></span>
+<span id="cb44-46"><a href="linear-models.html#cb44-46" tabindex="-1"></a><span class="co">#&gt; - Income:Student.Yes          1     10176  3081595</span></span>
+<span id="cb44-47"><a href="linear-models.html#cb44-47" tabindex="-1"></a><span class="co">#&gt; &lt;none&gt;                                     3071419</span></span>
+<span id="cb44-48"><a href="linear-models.html#cb44-48" tabindex="-1"></a><span class="co">#&gt; - Gender..Male                1     25165  3096584</span></span>
+<span id="cb44-49"><a href="linear-models.html#cb44-49" tabindex="-1"></a><span class="co">#&gt; - Married.No                  1     29351  3100771</span></span>
+<span id="cb44-50"><a href="linear-models.html#cb44-50" tabindex="-1"></a><span class="co">#&gt; - Age                         1     51462  3122881</span></span>
+<span id="cb44-51"><a href="linear-models.html#cb44-51" tabindex="-1"></a><span class="co">#&gt; - Rating                      1  41550276 44621695</span></span>
+<span id="cb44-52"><a href="linear-models.html#cb44-52" tabindex="-1"></a><span class="co">#&gt;                               AIC</span></span>
+<span id="cb44-53"><a href="linear-models.html#cb44-53" tabindex="-1"></a><span class="co">#&gt; - Education                  2799</span></span>
+<span id="cb44-54"><a href="linear-models.html#cb44-54" tabindex="-1"></a><span class="co">#&gt; - Cards                      2799</span></span>
+<span id="cb44-55"><a href="linear-models.html#cb44-55" tabindex="-1"></a><span class="co">#&gt; - Ethnicity.African.American 2799</span></span>
+<span id="cb44-56"><a href="linear-models.html#cb44-56" tabindex="-1"></a><span class="co">#&gt; - Income:Student.Yes         2799</span></span>
+<span id="cb44-57"><a href="linear-models.html#cb44-57" tabindex="-1"></a><span class="co">#&gt; &lt;none&gt;                       2800</span></span>
+<span id="cb44-58"><a href="linear-models.html#cb44-58" tabindex="-1"></a><span class="co">#&gt; - Gender..Male               2801</span></span>
+<span id="cb44-59"><a href="linear-models.html#cb44-59" tabindex="-1"></a><span class="co">#&gt; - Married.No                 2801</span></span>
+<span id="cb44-60"><a href="linear-models.html#cb44-60" tabindex="-1"></a><span class="co">#&gt; - Age                        2803</span></span>
+<span id="cb44-61"><a href="linear-models.html#cb44-61" tabindex="-1"></a><span class="co">#&gt; - Rating                     3604</span></span>
+<span id="cb44-62"><a href="linear-models.html#cb44-62" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb44-63"><a href="linear-models.html#cb44-63" tabindex="-1"></a><span class="co">#&gt; Step:  AIC=2799</span></span>
+<span id="cb44-64"><a href="linear-models.html#cb44-64" tabindex="-1"></a><span class="co">#&gt; Balance ~ Income + Rating + Cards + Age + Gender..Male + Student.Yes + </span></span>
+<span id="cb44-65"><a href="linear-models.html#cb44-65" tabindex="-1"></a><span class="co">#&gt;     Married.No + Ethnicity.African.American + Income:Student.Yes</span></span>
+<span id="cb44-66"><a href="linear-models.html#cb44-66" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb44-67"><a href="linear-models.html#cb44-67" tabindex="-1"></a><span class="co">#&gt;                              Df Sum of Sq      RSS</span></span>
+<span id="cb44-68"><a href="linear-models.html#cb44-68" tabindex="-1"></a><span class="co">#&gt; - Cards                       1      3865  3077540</span></span>
+<span id="cb44-69"><a href="linear-models.html#cb44-69" tabindex="-1"></a><span class="co">#&gt; - Ethnicity.African.American  1      5586  3079261</span></span>
+<span id="cb44-70"><a href="linear-models.html#cb44-70" tabindex="-1"></a><span class="co">#&gt; - Income:Student.Yes          1     10214  3083888</span></span>
+<span id="cb44-71"><a href="linear-models.html#cb44-71" tabindex="-1"></a><span class="co">#&gt; &lt;none&gt;                                     3073675</span></span>
+<span id="cb44-72"><a href="linear-models.html#cb44-72" tabindex="-1"></a><span class="co">#&gt; - Gender..Male                1     25155  3098830</span></span>
+<span id="cb44-73"><a href="linear-models.html#cb44-73" tabindex="-1"></a><span class="co">#&gt; - Married.No                  1     28499  3102174</span></span>
+<span id="cb44-74"><a href="linear-models.html#cb44-74" tabindex="-1"></a><span class="co">#&gt; - Age                         1     51652  3125327</span></span>
+<span id="cb44-75"><a href="linear-models.html#cb44-75" tabindex="-1"></a><span class="co">#&gt; - Rating                      1  41550265 44623939</span></span>
+<span id="cb44-76"><a href="linear-models.html#cb44-76" tabindex="-1"></a><span class="co">#&gt;                               AIC</span></span>
+<span id="cb44-77"><a href="linear-models.html#cb44-77" tabindex="-1"></a><span class="co">#&gt; - Cards                      2797</span></span>
+<span id="cb44-78"><a href="linear-models.html#cb44-78" tabindex="-1"></a><span class="co">#&gt; - Ethnicity.African.American 2797</span></span>
+<span id="cb44-79"><a href="linear-models.html#cb44-79" tabindex="-1"></a><span class="co">#&gt; - Income:Student.Yes         2798</span></span>
+<span id="cb44-80"><a href="linear-models.html#cb44-80" tabindex="-1"></a><span class="co">#&gt; &lt;none&gt;                       2799</span></span>
+<span id="cb44-81"><a href="linear-models.html#cb44-81" tabindex="-1"></a><span class="co">#&gt; - Gender..Male               2799</span></span>
+<span id="cb44-82"><a href="linear-models.html#cb44-82" tabindex="-1"></a><span class="co">#&gt; - Married.No                 2799</span></span>
+<span id="cb44-83"><a href="linear-models.html#cb44-83" tabindex="-1"></a><span class="co">#&gt; - Age                        2802</span></span>
+<span id="cb44-84"><a href="linear-models.html#cb44-84" tabindex="-1"></a><span class="co">#&gt; - Rating                     3602</span></span>
+<span id="cb44-85"><a href="linear-models.html#cb44-85" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb44-86"><a href="linear-models.html#cb44-86" tabindex="-1"></a><span class="co">#&gt; Step:  AIC=2797</span></span>
+<span id="cb44-87"><a href="linear-models.html#cb44-87" tabindex="-1"></a><span class="co">#&gt; Balance ~ Income + Rating + Age + Gender..Male + Student.Yes + </span></span>
+<span id="cb44-88"><a href="linear-models.html#cb44-88" tabindex="-1"></a><span class="co">#&gt;     Married.No + Ethnicity.African.American + Income:Student.Yes</span></span>
+<span id="cb44-89"><a href="linear-models.html#cb44-89" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb44-90"><a href="linear-models.html#cb44-90" tabindex="-1"></a><span class="co">#&gt;                              Df Sum of Sq      RSS</span></span>
+<span id="cb44-91"><a href="linear-models.html#cb44-91" tabindex="-1"></a><span class="co">#&gt; - Ethnicity.African.American  1      5579  3083119</span></span>
+<span id="cb44-92"><a href="linear-models.html#cb44-92" tabindex="-1"></a><span class="co">#&gt; - Income:Student.Yes          1     10767  3088307</span></span>
+<span id="cb44-93"><a href="linear-models.html#cb44-93" tabindex="-1"></a><span class="co">#&gt; &lt;none&gt;                                     3077540</span></span>
+<span id="cb44-94"><a href="linear-models.html#cb44-94" tabindex="-1"></a><span class="co">#&gt; - Gender..Male                1     23659  3101198</span></span>
+<span id="cb44-95"><a href="linear-models.html#cb44-95" tabindex="-1"></a><span class="co">#&gt; - Married.No                  1     27917  3105457</span></span>
+<span id="cb44-96"><a href="linear-models.html#cb44-96" tabindex="-1"></a><span class="co">#&gt; - Age                         1     49660  3127200</span></span>
+<span id="cb44-97"><a href="linear-models.html#cb44-97" tabindex="-1"></a><span class="co">#&gt; - Rating                      1  42161655 45239195</span></span>
+<span id="cb44-98"><a href="linear-models.html#cb44-98" tabindex="-1"></a><span class="co">#&gt;                               AIC</span></span>
+<span id="cb44-99"><a href="linear-models.html#cb44-99" tabindex="-1"></a><span class="co">#&gt; - Ethnicity.African.American 2796</span></span>
+<span id="cb44-100"><a href="linear-models.html#cb44-100" tabindex="-1"></a><span class="co">#&gt; - Income:Student.Yes         2796</span></span>
+<span id="cb44-101"><a href="linear-models.html#cb44-101" tabindex="-1"></a><span class="co">#&gt; &lt;none&gt;                       2797</span></span>
+<span id="cb44-102"><a href="linear-models.html#cb44-102" tabindex="-1"></a><span class="co">#&gt; - Gender..Male               2797</span></span>
+<span id="cb44-103"><a href="linear-models.html#cb44-103" tabindex="-1"></a><span class="co">#&gt; - Married.No                 2798</span></span>
+<span id="cb44-104"><a href="linear-models.html#cb44-104" tabindex="-1"></a><span class="co">#&gt; - Age                        2800</span></span>
+<span id="cb44-105"><a href="linear-models.html#cb44-105" tabindex="-1"></a><span class="co">#&gt; - Rating                     3604</span></span>
+<span id="cb44-106"><a href="linear-models.html#cb44-106" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb44-107"><a href="linear-models.html#cb44-107" tabindex="-1"></a><span class="co">#&gt; Step:  AIC=2796</span></span>
+<span id="cb44-108"><a href="linear-models.html#cb44-108" tabindex="-1"></a><span class="co">#&gt; Balance ~ Income + Rating + Age + Gender..Male + Student.Yes + </span></span>
+<span id="cb44-109"><a href="linear-models.html#cb44-109" tabindex="-1"></a><span class="co">#&gt;     Married.No + Income:Student.Yes</span></span>
+<span id="cb44-110"><a href="linear-models.html#cb44-110" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb44-111"><a href="linear-models.html#cb44-111" tabindex="-1"></a><span class="co">#&gt;                      Df Sum of Sq      RSS  AIC</span></span>
+<span id="cb44-112"><a href="linear-models.html#cb44-112" tabindex="-1"></a><span class="co">#&gt; - Income:Student.Yes  1      9873  3092992 2794</span></span>
+<span id="cb44-113"><a href="linear-models.html#cb44-113" tabindex="-1"></a><span class="co">#&gt; &lt;none&gt;                             3083119 2796</span></span>
+<span id="cb44-114"><a href="linear-models.html#cb44-114" tabindex="-1"></a><span class="co">#&gt; - Gender..Male        1     23435  3106554 2796</span></span>
+<span id="cb44-115"><a href="linear-models.html#cb44-115" tabindex="-1"></a><span class="co">#&gt; - Married.No          1     24716  3107835 2796</span></span>
+<span id="cb44-116"><a href="linear-models.html#cb44-116" tabindex="-1"></a><span class="co">#&gt; - Age                 1     50672  3133791 2798</span></span>
+<span id="cb44-117"><a href="linear-models.html#cb44-117" tabindex="-1"></a><span class="co">#&gt; - Rating              1  42165674 45248793 3602</span></span>
+<span id="cb44-118"><a href="linear-models.html#cb44-118" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb44-119"><a href="linear-models.html#cb44-119" tabindex="-1"></a><span class="co">#&gt; Step:  AIC=2794</span></span>
+<span id="cb44-120"><a href="linear-models.html#cb44-120" tabindex="-1"></a><span class="co">#&gt; Balance ~ Income + Rating + Age + Gender..Male + Student.Yes + </span></span>
+<span id="cb44-121"><a href="linear-models.html#cb44-121" tabindex="-1"></a><span class="co">#&gt;     Married.No</span></span>
+<span id="cb44-122"><a href="linear-models.html#cb44-122" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb44-123"><a href="linear-models.html#cb44-123" tabindex="-1"></a><span class="co">#&gt;                Df Sum of Sq      RSS  AIC</span></span>
+<span id="cb44-124"><a href="linear-models.html#cb44-124" tabindex="-1"></a><span class="co">#&gt; &lt;none&gt;                       3092992 2794</span></span>
+<span id="cb44-125"><a href="linear-models.html#cb44-125" tabindex="-1"></a><span class="co">#&gt; - Gender..Male  1     22314  3115306 2795</span></span>
+<span id="cb44-126"><a href="linear-models.html#cb44-126" tabindex="-1"></a><span class="co">#&gt; - Married.No    1     25027  3118019 2795</span></span>
+<span id="cb44-127"><a href="linear-models.html#cb44-127" tabindex="-1"></a><span class="co">#&gt; - Age           1     49133  3142125 2797</span></span>
+<span id="cb44-128"><a href="linear-models.html#cb44-128" tabindex="-1"></a><span class="co">#&gt; - Student.Yes   1   4931600  8024592 3079</span></span>
+<span id="cb44-129"><a href="linear-models.html#cb44-129" tabindex="-1"></a><span class="co">#&gt; - Income        1   8357794 11450786 3186</span></span>
+<span id="cb44-130"><a href="linear-models.html#cb44-130" tabindex="-1"></a><span class="co">#&gt; - Rating        1  42247226 45340218 3601</span></span>
+<span id="cb44-131"><a href="linear-models.html#cb44-131" tabindex="-1"></a></span>
+<span id="cb44-132"><a href="linear-models.html#cb44-132" tabindex="-1"></a><span class="co"># Print a summary of the stepwise selection</span></span>
+<span id="cb44-133"><a href="linear-models.html#cb44-133" tabindex="-1"></a><span class="fu">summary</span>(model.backward.AIC)</span>
+<span id="cb44-134"><a href="linear-models.html#cb44-134" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb44-135"><a href="linear-models.html#cb44-135" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb44-136"><a href="linear-models.html#cb44-136" tabindex="-1"></a><span class="co">#&gt; lm(formula = Balance ~ Income + Rating + Age + Gender..Male + </span></span>
+<span id="cb44-137"><a href="linear-models.html#cb44-137" tabindex="-1"></a><span class="co">#&gt;     Student.Yes + Married.No, data = data.train.bin)</span></span>
+<span id="cb44-138"><a href="linear-models.html#cb44-138" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb44-139"><a href="linear-models.html#cb44-139" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb44-140"><a href="linear-models.html#cb44-140" tabindex="-1"></a><span class="co">#&gt;    Min     1Q Median     3Q    Max </span></span>
+<span id="cb44-141"><a href="linear-models.html#cb44-141" tabindex="-1"></a><span class="co">#&gt; -195.2  -76.5  -14.0   65.3  285.3 </span></span>
+<span id="cb44-142"><a href="linear-models.html#cb44-142" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb44-143"><a href="linear-models.html#cb44-143" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb44-144"><a href="linear-models.html#cb44-144" tabindex="-1"></a><span class="co">#&gt;               Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb44-145"><a href="linear-models.html#cb44-145" tabindex="-1"></a><span class="co">#&gt; (Intercept)  -565.2227    26.7378  -21.14   &lt;2e-16 ***</span></span>
+<span id="cb44-146"><a href="linear-models.html#cb44-146" tabindex="-1"></a><span class="co">#&gt; Income         -7.8767     0.2795  -28.19   &lt;2e-16 ***</span></span>
+<span id="cb44-147"><a href="linear-models.html#cb44-147" tabindex="-1"></a><span class="co">#&gt; Rating          4.0118     0.0633   63.37   &lt;2e-16 ***</span></span>
+<span id="cb44-148"><a href="linear-models.html#cb44-148" tabindex="-1"></a><span class="co">#&gt; Age            -0.7702     0.3564   -2.16    0.031 *  </span></span>
+<span id="cb44-149"><a href="linear-models.html#cb44-149" tabindex="-1"></a><span class="co">#&gt; Gender..Male   17.3210    11.8933    1.46    0.146    </span></span>
+<span id="cb44-150"><a href="linear-models.html#cb44-150" tabindex="-1"></a><span class="co">#&gt; Student.Yes   418.8703    19.3465   21.65   &lt;2e-16 ***</span></span>
+<span id="cb44-151"><a href="linear-models.html#cb44-151" tabindex="-1"></a><span class="co">#&gt; Married.No     18.7377    12.1486    1.54    0.124    </span></span>
+<span id="cb44-152"><a href="linear-models.html#cb44-152" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb44-153"><a href="linear-models.html#cb44-153" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  </span></span>
+<span id="cb44-154"><a href="linear-models.html#cb44-154" tabindex="-1"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb44-155"><a href="linear-models.html#cb44-155" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb44-156"><a href="linear-models.html#cb44-156" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 103 on 294 degrees of freedom</span></span>
+<span id="cb44-157"><a href="linear-models.html#cb44-157" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.952,  Adjusted R-squared:  0.951 </span></span>
+<span id="cb44-158"><a href="linear-models.html#cb44-158" tabindex="-1"></a><span class="co">#&gt; F-statistic:  965 on 6 and 294 DF,  p-value: &lt;2e-16</span></span></code></pre></div>
+<p>If we look at using the <code>stepAIC()</code> function on a non-binarized dataset, at just the first iteration, we can see that the stepwise selection would drop the entire <code>Ethnicity</code> factor variable, rather than just some factor levels of it:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="linear-models.html#cb45-1" tabindex="-1"></a><span class="co"># CHUNK 17</span></span>
+<span id="cb45-2"><a href="linear-models.html#cb45-2" tabindex="-1"></a>model.no.binarize <span class="ot">&lt;-</span> <span class="fu">stepAIC</span>(model.full, <span class="at">steps =</span> <span class="dv">1</span>)</span>
+<span id="cb45-3"><a href="linear-models.html#cb45-3" tabindex="-1"></a><span class="co">#&gt; Start:  AIC=2802</span></span>
+<span id="cb45-4"><a href="linear-models.html#cb45-4" tabindex="-1"></a><span class="co">#&gt; Balance ~ Income + Rating + Cards + Age + Education + Gender + </span></span>
+<span id="cb45-5"><a href="linear-models.html#cb45-5" tabindex="-1"></a><span class="co">#&gt;     Student + Married + Ethnicity + Income:Student</span></span>
+<span id="cb45-6"><a href="linear-models.html#cb45-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb45-7"><a href="linear-models.html#cb45-7" tabindex="-1"></a><span class="co">#&gt;                  Df Sum of Sq      RSS  AIC</span></span>
+<span id="cb45-8"><a href="linear-models.html#cb45-8" tabindex="-1"></a><span class="co">#&gt; - Ethnicity       2      7042  3077014 2799</span></span>
+<span id="cb45-9"><a href="linear-models.html#cb45-9" tabindex="-1"></a><span class="co">#&gt; - Education       1      2278  3072249 2800</span></span>
+<span id="cb45-10"><a href="linear-models.html#cb45-10" tabindex="-1"></a><span class="co">#&gt; - Cards           1      4052  3074024 2801</span></span>
+<span id="cb45-11"><a href="linear-models.html#cb45-11" tabindex="-1"></a><span class="co">#&gt; - Income:Student  1     10654  3080626 2801</span></span>
+<span id="cb45-12"><a href="linear-models.html#cb45-12" tabindex="-1"></a><span class="co">#&gt; &lt;none&gt;                         3069972 2802</span></span>
+<span id="cb45-13"><a href="linear-models.html#cb45-13" tabindex="-1"></a><span class="co">#&gt; - Gender          1     24859  3094830 2803</span></span>
+<span id="cb45-14"><a href="linear-models.html#cb45-14" tabindex="-1"></a><span class="co">#&gt; - Married         1     28946  3098918 2803</span></span>
+<span id="cb45-15"><a href="linear-models.html#cb45-15" tabindex="-1"></a><span class="co">#&gt; - Age             1     50885  3120857 2805</span></span>
+<span id="cb45-16"><a href="linear-models.html#cb45-16" tabindex="-1"></a><span class="co">#&gt; - Rating          1  41548705 44618677 3606</span></span>
+<span id="cb45-17"><a href="linear-models.html#cb45-17" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb45-18"><a href="linear-models.html#cb45-18" tabindex="-1"></a><span class="co">#&gt; Step:  AIC=2799</span></span>
+<span id="cb45-19"><a href="linear-models.html#cb45-19" tabindex="-1"></a><span class="co">#&gt; Balance ~ Income + Rating + Cards + Age + Education + Gender + </span></span>
+<span id="cb45-20"><a href="linear-models.html#cb45-20" tabindex="-1"></a><span class="co">#&gt;     Student + Married + Income:Student</span></span></code></pre></div>
+<p>In the next code chunk, we will perform “forward” stepwise selection on the BIC. In this approach, we need to specify the <code>direction</code> parameter as “foward”, and define the penalty argument <code>k</code> as the log(size of training dataset), and the <code>scope</code> argument with the most complex and least complex forms of the model:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="linear-models.html#cb46-1" tabindex="-1"></a><span class="co"># CHUNK 18</span></span>
+<span id="cb46-2"><a href="linear-models.html#cb46-2" tabindex="-1"></a><span class="co"># first fit the null model (i.e., model with no predictors)</span></span>
+<span id="cb46-3"><a href="linear-models.html#cb46-3" tabindex="-1"></a>model.null <span class="ot">&lt;-</span> <span class="fu">lm</span>(Balance <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> data.train.bin)</span>
+<span id="cb46-4"><a href="linear-models.html#cb46-4" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="linear-models.html#cb46-5" tabindex="-1"></a>model.forward.BIC <span class="ot">&lt;-</span> <span class="fu">stepAIC</span>(model.null,</span>
+<span id="cb46-6"><a href="linear-models.html#cb46-6" tabindex="-1"></a>                             <span class="at">direction =</span> <span class="st">&quot;forward&quot;</span>,</span>
+<span id="cb46-7"><a href="linear-models.html#cb46-7" tabindex="-1"></a>                             <span class="at">scope =</span> <span class="fu">list</span>(<span class="at">upper =</span> model.full.bin,</span>
+<span id="cb46-8"><a href="linear-models.html#cb46-8" tabindex="-1"></a>                                          <span class="at">lower =</span> model.null),</span>
+<span id="cb46-9"><a href="linear-models.html#cb46-9" tabindex="-1"></a>                             <span class="at">k =</span> <span class="fu">log</span>(<span class="fu">nrow</span>(data.train.bin)))</span>
+<span id="cb46-10"><a href="linear-models.html#cb46-10" tabindex="-1"></a><span class="co">#&gt; Start:  AIC=3698</span></span>
+<span id="cb46-11"><a href="linear-models.html#cb46-11" tabindex="-1"></a><span class="co">#&gt; Balance ~ 1</span></span>
+<span id="cb46-12"><a href="linear-models.html#cb46-12" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb46-13"><a href="linear-models.html#cb46-13" tabindex="-1"></a><span class="co">#&gt;                              Df Sum of Sq      RSS</span></span>
+<span id="cb46-14"><a href="linear-models.html#cb46-14" tabindex="-1"></a><span class="co">#&gt; + Rating                      1  47082983 16908423</span></span>
+<span id="cb46-15"><a href="linear-models.html#cb46-15" tabindex="-1"></a><span class="co">#&gt; + Income                      1  12910007 51081399</span></span>
+<span id="cb46-16"><a href="linear-models.html#cb46-16" tabindex="-1"></a><span class="co">#&gt; + Student.Yes                 1   5425335 58566071</span></span>
+<span id="cb46-17"><a href="linear-models.html#cb46-17" tabindex="-1"></a><span class="co">#&gt; &lt;none&gt;                                    63991406</span></span>
+<span id="cb46-18"><a href="linear-models.html#cb46-18" tabindex="-1"></a><span class="co">#&gt; + Cards                       1    163291 63828115</span></span>
+<span id="cb46-19"><a href="linear-models.html#cb46-19" tabindex="-1"></a><span class="co">#&gt; + Gender..Male                1    127201 63864205</span></span>
+<span id="cb46-20"><a href="linear-models.html#cb46-20" tabindex="-1"></a><span class="co">#&gt; + Age                         1     79880 63911526</span></span>
+<span id="cb46-21"><a href="linear-models.html#cb46-21" tabindex="-1"></a><span class="co">#&gt; + Education                   1     13121 63978284</span></span>
+<span id="cb46-22"><a href="linear-models.html#cb46-22" tabindex="-1"></a><span class="co">#&gt; + Married.No                  1     10920 63980486</span></span>
+<span id="cb46-23"><a href="linear-models.html#cb46-23" tabindex="-1"></a><span class="co">#&gt; + Ethnicity.Asian             1      3049 63988357</span></span>
+<span id="cb46-24"><a href="linear-models.html#cb46-24" tabindex="-1"></a><span class="co">#&gt; + Ethnicity.African.American  1         0 63991406</span></span>
+<span id="cb46-25"><a href="linear-models.html#cb46-25" tabindex="-1"></a><span class="co">#&gt;                               AIC</span></span>
+<span id="cb46-26"><a href="linear-models.html#cb46-26" tabindex="-1"></a><span class="co">#&gt; + Rating                     3303</span></span>
+<span id="cb46-27"><a href="linear-models.html#cb46-27" tabindex="-1"></a><span class="co">#&gt; + Income                     3636</span></span>
+<span id="cb46-28"><a href="linear-models.html#cb46-28" tabindex="-1"></a><span class="co">#&gt; + Student.Yes                3677</span></span>
+<span id="cb46-29"><a href="linear-models.html#cb46-29" tabindex="-1"></a><span class="co">#&gt; &lt;none&gt;                       3698</span></span>
+<span id="cb46-30"><a href="linear-models.html#cb46-30" tabindex="-1"></a><span class="co">#&gt; + Cards                      3703</span></span>
+<span id="cb46-31"><a href="linear-models.html#cb46-31" tabindex="-1"></a><span class="co">#&gt; + Gender..Male               3703</span></span>
+<span id="cb46-32"><a href="linear-models.html#cb46-32" tabindex="-1"></a><span class="co">#&gt; + Age                        3703</span></span>
+<span id="cb46-33"><a href="linear-models.html#cb46-33" tabindex="-1"></a><span class="co">#&gt; + Education                  3704</span></span>
+<span id="cb46-34"><a href="linear-models.html#cb46-34" tabindex="-1"></a><span class="co">#&gt; + Married.No                 3704</span></span>
+<span id="cb46-35"><a href="linear-models.html#cb46-35" tabindex="-1"></a><span class="co">#&gt; + Ethnicity.Asian            3704</span></span>
+<span id="cb46-36"><a href="linear-models.html#cb46-36" tabindex="-1"></a><span class="co">#&gt; + Ethnicity.African.American 3704</span></span>
+<span id="cb46-37"><a href="linear-models.html#cb46-37" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb46-38"><a href="linear-models.html#cb46-38" tabindex="-1"></a><span class="co">#&gt; Step:  AIC=3303</span></span>
+<span id="cb46-39"><a href="linear-models.html#cb46-39" tabindex="-1"></a><span class="co">#&gt; Balance ~ Rating</span></span>
+<span id="cb46-40"><a href="linear-models.html#cb46-40" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb46-41"><a href="linear-models.html#cb46-41" tabindex="-1"></a><span class="co">#&gt;                              Df Sum of Sq      RSS</span></span>
+<span id="cb46-42"><a href="linear-models.html#cb46-42" tabindex="-1"></a><span class="co">#&gt; + Income                      1   8650956  8257467</span></span>
+<span id="cb46-43"><a href="linear-models.html#cb46-43" tabindex="-1"></a><span class="co">#&gt; + Student.Yes                 1   4817765 12090659</span></span>
+<span id="cb46-44"><a href="linear-models.html#cb46-44" tabindex="-1"></a><span class="co">#&gt; + Age                         1    707560 16200863</span></span>
+<span id="cb46-45"><a href="linear-models.html#cb46-45" tabindex="-1"></a><span class="co">#&gt; &lt;none&gt;                                    16908423</span></span>
+<span id="cb46-46"><a href="linear-models.html#cb46-46" tabindex="-1"></a><span class="co">#&gt; + Married.No                  1    174547 16733876</span></span>
+<span id="cb46-47"><a href="linear-models.html#cb46-47" tabindex="-1"></a><span class="co">#&gt; + Education                   1     71402 16837022</span></span>
+<span id="cb46-48"><a href="linear-models.html#cb46-48" tabindex="-1"></a><span class="co">#&gt; + Ethnicity.Asian             1     49620 16858804</span></span>
+<span id="cb46-49"><a href="linear-models.html#cb46-49" tabindex="-1"></a><span class="co">#&gt; + Gender..Male                1     31887 16876536</span></span>
+<span id="cb46-50"><a href="linear-models.html#cb46-50" tabindex="-1"></a><span class="co">#&gt; + Cards                       1     30049 16878374</span></span>
+<span id="cb46-51"><a href="linear-models.html#cb46-51" tabindex="-1"></a><span class="co">#&gt; + Ethnicity.African.American  1      4304 16904120</span></span>
+<span id="cb46-52"><a href="linear-models.html#cb46-52" tabindex="-1"></a><span class="co">#&gt;                               AIC</span></span>
+<span id="cb46-53"><a href="linear-models.html#cb46-53" tabindex="-1"></a><span class="co">#&gt; + Income                     3093</span></span>
+<span id="cb46-54"><a href="linear-models.html#cb46-54" tabindex="-1"></a><span class="co">#&gt; + Student.Yes                3208</span></span>
+<span id="cb46-55"><a href="linear-models.html#cb46-55" tabindex="-1"></a><span class="co">#&gt; + Age                        3296</span></span>
+<span id="cb46-56"><a href="linear-models.html#cb46-56" tabindex="-1"></a><span class="co">#&gt; &lt;none&gt;                       3303</span></span>
+<span id="cb46-57"><a href="linear-models.html#cb46-57" tabindex="-1"></a><span class="co">#&gt; + Married.No                 3306</span></span>
+<span id="cb46-58"><a href="linear-models.html#cb46-58" tabindex="-1"></a><span class="co">#&gt; + Education                  3308</span></span>
+<span id="cb46-59"><a href="linear-models.html#cb46-59" tabindex="-1"></a><span class="co">#&gt; + Ethnicity.Asian            3308</span></span>
+<span id="cb46-60"><a href="linear-models.html#cb46-60" tabindex="-1"></a><span class="co">#&gt; + Gender..Male               3308</span></span>
+<span id="cb46-61"><a href="linear-models.html#cb46-61" tabindex="-1"></a><span class="co">#&gt; + Cards                      3308</span></span>
+<span id="cb46-62"><a href="linear-models.html#cb46-62" tabindex="-1"></a><span class="co">#&gt; + Ethnicity.African.American 3309</span></span>
+<span id="cb46-63"><a href="linear-models.html#cb46-63" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb46-64"><a href="linear-models.html#cb46-64" tabindex="-1"></a><span class="co">#&gt; Step:  AIC=3093</span></span>
+<span id="cb46-65"><a href="linear-models.html#cb46-65" tabindex="-1"></a><span class="co">#&gt; Balance ~ Rating + Income</span></span>
+<span id="cb46-66"><a href="linear-models.html#cb46-66" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb46-67"><a href="linear-models.html#cb46-67" tabindex="-1"></a><span class="co">#&gt;                              Df Sum of Sq     RSS  AIC</span></span>
+<span id="cb46-68"><a href="linear-models.html#cb46-68" tabindex="-1"></a><span class="co">#&gt; + Student.Yes                 1   5069114 3188353 2812</span></span>
+<span id="cb46-69"><a href="linear-models.html#cb46-69" tabindex="-1"></a><span class="co">#&gt; &lt;none&gt;                                    8257467 3093</span></span>
+<span id="cb46-70"><a href="linear-models.html#cb46-70" tabindex="-1"></a><span class="co">#&gt; + Married.No                  1    127904 8129563 3094</span></span>
+<span id="cb46-71"><a href="linear-models.html#cb46-71" tabindex="-1"></a><span class="co">#&gt; + Age                         1     95208 8162259 3095</span></span>
+<span id="cb46-72"><a href="linear-models.html#cb46-72" tabindex="-1"></a><span class="co">#&gt; + Education                   1     44496 8212971 3097</span></span>
+<span id="cb46-73"><a href="linear-models.html#cb46-73" tabindex="-1"></a><span class="co">#&gt; + Ethnicity.Asian             1     40115 8217352 3097</span></span>
+<span id="cb46-74"><a href="linear-models.html#cb46-74" tabindex="-1"></a><span class="co">#&gt; + Cards                       1     22019 8235448 3098</span></span>
+<span id="cb46-75"><a href="linear-models.html#cb46-75" tabindex="-1"></a><span class="co">#&gt; + Ethnicity.African.American  1      9464 8248003 3099</span></span>
+<span id="cb46-76"><a href="linear-models.html#cb46-76" tabindex="-1"></a><span class="co">#&gt; + Gender..Male                1       244 8257223 3099</span></span>
+<span id="cb46-77"><a href="linear-models.html#cb46-77" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb46-78"><a href="linear-models.html#cb46-78" tabindex="-1"></a><span class="co">#&gt; Step:  AIC=2812</span></span>
+<span id="cb46-79"><a href="linear-models.html#cb46-79" tabindex="-1"></a><span class="co">#&gt; Balance ~ Rating + Income + Student.Yes</span></span>
+<span id="cb46-80"><a href="linear-models.html#cb46-80" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb46-81"><a href="linear-models.html#cb46-81" tabindex="-1"></a><span class="co">#&gt;                              Df Sum of Sq     RSS  AIC</span></span>
+<span id="cb46-82"><a href="linear-models.html#cb46-82" tabindex="-1"></a><span class="co">#&gt; &lt;none&gt;                                    3188353 2812</span></span>
+<span id="cb46-83"><a href="linear-models.html#cb46-83" tabindex="-1"></a><span class="co">#&gt; + Age                         1     46257 3142096 2814</span></span>
+<span id="cb46-84"><a href="linear-models.html#cb46-84" tabindex="-1"></a><span class="co">#&gt; + Gender..Male                1     24128 3164225 2816</span></span>
+<span id="cb46-85"><a href="linear-models.html#cb46-85" tabindex="-1"></a><span class="co">#&gt; + Married.No                  1     23759 3164595 2816</span></span>
+<span id="cb46-86"><a href="linear-models.html#cb46-86" tabindex="-1"></a><span class="co">#&gt; + Income:Student.Yes          1      7569 3180784 2817</span></span>
+<span id="cb46-87"><a href="linear-models.html#cb46-87" tabindex="-1"></a><span class="co">#&gt; + Ethnicity.African.American  1      2346 3186007 2818</span></span>
+<span id="cb46-88"><a href="linear-models.html#cb46-88" tabindex="-1"></a><span class="co">#&gt; + Education                   1      1600 3186753 2818</span></span>
+<span id="cb46-89"><a href="linear-models.html#cb46-89" tabindex="-1"></a><span class="co">#&gt; + Cards                       1       865 3187488 2818</span></span>
+<span id="cb46-90"><a href="linear-models.html#cb46-90" tabindex="-1"></a><span class="co">#&gt; + Ethnicity.Asian             1       747 3187606 2818</span></span>
+<span id="cb46-91"><a href="linear-models.html#cb46-91" tabindex="-1"></a></span>
+<span id="cb46-92"><a href="linear-models.html#cb46-92" tabindex="-1"></a><span class="fu">summary</span>(model.forward.BIC)</span>
+<span id="cb46-93"><a href="linear-models.html#cb46-93" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb46-94"><a href="linear-models.html#cb46-94" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb46-95"><a href="linear-models.html#cb46-95" tabindex="-1"></a><span class="co">#&gt; lm(formula = Balance ~ Rating + Income + Student.Yes, data = data.train.bin)</span></span>
+<span id="cb46-96"><a href="linear-models.html#cb46-96" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb46-97"><a href="linear-models.html#cb46-97" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb46-98"><a href="linear-models.html#cb46-98" tabindex="-1"></a><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
+<span id="cb46-99"><a href="linear-models.html#cb46-99" tabindex="-1"></a><span class="co">#&gt; -220.29  -78.12   -7.47   63.27  299.90 </span></span>
+<span id="cb46-100"><a href="linear-models.html#cb46-100" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb46-101"><a href="linear-models.html#cb46-101" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb46-102"><a href="linear-models.html#cb46-102" tabindex="-1"></a><span class="co">#&gt;              Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb46-103"><a href="linear-models.html#cb46-103" tabindex="-1"></a><span class="co">#&gt; (Intercept) -589.1664    16.1101   -36.6   &lt;2e-16 ***</span></span>
+<span id="cb46-104"><a href="linear-models.html#cb46-104" tabindex="-1"></a><span class="co">#&gt; Rating         4.0163     0.0635    63.2   &lt;2e-16 ***</span></span>
+<span id="cb46-105"><a href="linear-models.html#cb46-105" tabindex="-1"></a><span class="co">#&gt; Income        -7.9741     0.2769   -28.8   &lt;2e-16 ***</span></span>
+<span id="cb46-106"><a href="linear-models.html#cb46-106" tabindex="-1"></a><span class="co">#&gt; Student.Yes  421.1734    19.3821    21.7   &lt;2e-16 ***</span></span>
+<span id="cb46-107"><a href="linear-models.html#cb46-107" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb46-108"><a href="linear-models.html#cb46-108" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  </span></span>
+<span id="cb46-109"><a href="linear-models.html#cb46-109" tabindex="-1"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb46-110"><a href="linear-models.html#cb46-110" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb46-111"><a href="linear-models.html#cb46-111" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 104 on 297 degrees of freedom</span></span>
+<span id="cb46-112"><a href="linear-models.html#cb46-112" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.95,   Adjusted R-squared:  0.95 </span></span>
+<span id="cb46-113"><a href="linear-models.html#cb46-113" tabindex="-1"></a><span class="co">#&gt; F-statistic: 1.89e+03 on 3 and 297 DF,  p-value: &lt;2e-16</span></span></code></pre></div>
+<p>Based on forward selection and BIC, the final model will only have three predictor terms, <code>Rating</code>, <code>Income</code> and <code>Student.Yes</code>.</p>
+<p>If you do stepwise selection with BIC, your final model will tend to be simpler.</p>
+<hr />
+</div>
+</div>
 <div id="model-validation" class="section level3 hasAnchor" number="3.4.3">
 <h3><span class="header-section-number">3.4.3</span> Model Validation<a href="linear-models.html#model-validation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 </div>
+<div id="task-8-select-and-validate-the-recommended-model" class="section level3 unnumbered hasAnchor">
+<h3>TASK 8: Select and Validate the Recommended Model<a href="linear-models.html#task-8-select-and-validate-the-recommended-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="task-statement-9" class="section level4 unnumbered hasAnchor">
+<h4>Task Statement<a href="linear-models.html#task-statement-9" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>Evaluate the <strong>RMSE</strong> of the models in the preceding subsection against the <strong>test set</strong>.</li>
+<li>Make a <strong>recommendation</strong> as to which model should be used.</li>
+<li>Generate and interpret <strong>diagnostic plots</strong> for the recommended model to check the model assumptions.</li>
+</ul>
+<p>Here we will evaluate the RMSE of the models in the preceding subsection against the test set using the <code>RMSE()</code> function in the <code>caret</code> package. The <code>RMSE()</code> function takes a vector of target values for the first parameter, and a vector of predicted fitted-values as the second parameter. We specify the <code>newdata=data.test.bin</code> to calculate the prediction performance on the test data.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="linear-models.html#cb47-1" tabindex="-1"></a><span class="co"># CHUNK 19</span></span>
+<span id="cb47-2"><a href="linear-models.html#cb47-2" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb47-3"><a href="linear-models.html#cb47-3" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="linear-models.html#cb47-4" tabindex="-1"></a><span class="fu">RMSE</span>(data.test<span class="sc">$</span>Balance, <span class="fu">predict</span>(model.null, <span class="at">newdata =</span> data.test.bin))</span>
+<span id="cb47-5"><a href="linear-models.html#cb47-5" tabindex="-1"></a><span class="co">#&gt; [1] 453.4</span></span>
+<span id="cb47-6"><a href="linear-models.html#cb47-6" tabindex="-1"></a><span class="fu">RMSE</span>(data.test<span class="sc">$</span>Balance, <span class="fu">predict</span>(model.full.bin, <span class="at">newdata =</span> data.test.bin))</span>
+<span id="cb47-7"><a href="linear-models.html#cb47-7" tabindex="-1"></a><span class="co">#&gt; [1] 105.1</span></span>
+<span id="cb47-8"><a href="linear-models.html#cb47-8" tabindex="-1"></a><span class="fu">RMSE</span>(data.test<span class="sc">$</span>Balance, <span class="fu">predict</span>(model.backward.AIC, <span class="at">newdata =</span> data.test.bin))</span>
+<span id="cb47-9"><a href="linear-models.html#cb47-9" tabindex="-1"></a><span class="co">#&gt; [1] 104.2</span></span>
+<span id="cb47-10"><a href="linear-models.html#cb47-10" tabindex="-1"></a><span class="fu">RMSE</span>(data.test<span class="sc">$</span>Balance, <span class="fu">predict</span>(model.forward.BIC, <span class="at">newdata =</span> data.test.bin))</span>
+<span id="cb47-11"><a href="linear-models.html#cb47-11" tabindex="-1"></a><span class="co">#&gt; [1] 102.7</span></span></code></pre></div>
+<p>Based on the output, the fourth model <code>model.forward.BIC</code> achieves the lowest RMSE and therefore has the greatest prediction performance on the test data.</p>
+<p>We plot the model below:</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="linear-models.html#cb48-1" tabindex="-1"></a><span class="co"># CHUNK 20</span></span>
+<span id="cb48-2"><a href="linear-models.html#cb48-2" tabindex="-1"></a><span class="fu">plot</span>(model.forward.BIC)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-52-1.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-52-2.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-52-3.png" width="100%" style="display: block; margin: auto;" /><img src="figures/unnamed-chunk-52-4.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>The first plot is the <strong>Residuals vs. Fitted Values</strong> on the training set. If the model has captured the signal effectively, then the residuals should behave randomly and there should be no systematic patterns in the plot. But that is not the case here, you can see a clear U-shape in the plot. That means there may be non-linear relationships not captured by the linear model. To remedy the problem, we may try to add non-linear terms (polynomial terms) or interaction terms to the model equation.</p>
+<p>The <strong>Q-Q Plot</strong> plots the standardized empirical residuals against the theoretical quantiles. This plot is intended to check the normality of the standard errors. If the points lie on the 45-degree line, the normality assumption should be fine. In this plot, the points lie quite closely in the middle part, but not in the two extreme tails. The points above the 45-degree line in the right tail suggest a heavy tail or right-skew.</p>
+<p>Overall, the predictive performance of the model is good, however the diagnostic plots suggest some room for improvement.</p>
+</div>
+</div>
 <div id="regularization-2" class="section level3 hasAnchor" number="3.4.4">
 <h3><span class="header-section-number">3.4.4</span> Regularization<a href="linear-models.html#regularization-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="task-9-effect-of-regularization" class="section level3 unnumbered hasAnchor">
+<h3>TASK 9: Effect of Regularization<a href="linear-models.html#task-9-effect-of-regularization" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="task-statement-10" class="section level4 unnumbered hasAnchor">
+<h4>Task Statement<a href="linear-models.html#task-statement-10" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>Explain whether using <code>alpha = 0</code> is appropriate for this case study.</li>
+<li>Regardless of your conclusion, use elastic net with <code>alpha = 0.5</code> to fit a regularized regression model with the following values of <code>lambda</code>: 0, 10, 100, 500, 1000.</li>
+<li>State your <strong>observations</strong>.</li>
+</ul>
+</div>
+<div id="notes" class="section level4 unnumbered hasAnchor">
+<h4>Notes<a href="linear-models.html#notes" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>Remember <code>alpha = 0</code> corresponds to <strong>ridge regression</strong> (no features dropped).</li>
+<li><strong>Goal</strong>: To identify key factors affecting <strong>Balance</strong>.</li>
+</ul>
+<p>To perform regularization, we will use the <code>glmnet</code> package. The <code>glmnet</code> function takes a model matrix (design matrix) as the <code>x</code> parameter and a vector of target variable values as the <code>y</code> parameter. In addition, you must specify the <code>family</code> distribution of the target variable, and provide candidates for the <code>lambda</code> and <code>alpha</code> hyperparameters.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="linear-models.html#cb49-1" tabindex="-1"></a><span class="co"># CHUNK 21</span></span>
+<span id="cb49-2"><a href="linear-models.html#cb49-2" tabindex="-1"></a>X.train <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(Balance <span class="sc">~</span> . <span class="sc">+</span> Income<span class="sc">:</span>Student, <span class="at">data =</span> data.train)</span>
+<span id="cb49-3"><a href="linear-models.html#cb49-3" tabindex="-1"></a><span class="fu">head</span>(X.train)  <span class="co"># print out a few rows of the design matrix</span></span>
+<span id="cb49-4"><a href="linear-models.html#cb49-4" tabindex="-1"></a><span class="co">#&gt;   (Intercept) Income Rating Cards Age Education</span></span>
+<span id="cb49-5"><a href="linear-models.html#cb49-5" tabindex="-1"></a><span class="co">#&gt; 1           1  14.89    283     2  34        11</span></span>
+<span id="cb49-6"><a href="linear-models.html#cb49-6" tabindex="-1"></a><span class="co">#&gt; 2           1 106.03    483     3  82        15</span></span>
+<span id="cb49-7"><a href="linear-models.html#cb49-7" tabindex="-1"></a><span class="co">#&gt; 3           1 104.59    514     4  71        11</span></span>
+<span id="cb49-8"><a href="linear-models.html#cb49-8" tabindex="-1"></a><span class="co">#&gt; 6           1  80.18    569     4  77        10</span></span>
+<span id="cb49-9"><a href="linear-models.html#cb49-9" tabindex="-1"></a><span class="co">#&gt; 8           1  71.41    512     2  87         9</span></span>
+<span id="cb49-10"><a href="linear-models.html#cb49-10" tabindex="-1"></a><span class="co">#&gt; 9           1  15.12    266     5  66        13</span></span>
+<span id="cb49-11"><a href="linear-models.html#cb49-11" tabindex="-1"></a><span class="co">#&gt;   Gender Male StudentYes MarriedNo</span></span>
+<span id="cb49-12"><a href="linear-models.html#cb49-12" tabindex="-1"></a><span class="co">#&gt; 1           1          0         0</span></span>
+<span id="cb49-13"><a href="linear-models.html#cb49-13" tabindex="-1"></a><span class="co">#&gt; 2           0          1         0</span></span>
+<span id="cb49-14"><a href="linear-models.html#cb49-14" tabindex="-1"></a><span class="co">#&gt; 3           1          0         1</span></span>
+<span id="cb49-15"><a href="linear-models.html#cb49-15" tabindex="-1"></a><span class="co">#&gt; 6           1          0         1</span></span>
+<span id="cb49-16"><a href="linear-models.html#cb49-16" tabindex="-1"></a><span class="co">#&gt; 8           1          0         1</span></span>
+<span id="cb49-17"><a href="linear-models.html#cb49-17" tabindex="-1"></a><span class="co">#&gt; 9           0          0         1</span></span>
+<span id="cb49-18"><a href="linear-models.html#cb49-18" tabindex="-1"></a><span class="co">#&gt;   EthnicityAfrican American EthnicityAsian</span></span>
+<span id="cb49-19"><a href="linear-models.html#cb49-19" tabindex="-1"></a><span class="co">#&gt; 1                         0              0</span></span>
+<span id="cb49-20"><a href="linear-models.html#cb49-20" tabindex="-1"></a><span class="co">#&gt; 2                         0              1</span></span>
+<span id="cb49-21"><a href="linear-models.html#cb49-21" tabindex="-1"></a><span class="co">#&gt; 3                         0              1</span></span>
+<span id="cb49-22"><a href="linear-models.html#cb49-22" tabindex="-1"></a><span class="co">#&gt; 6                         0              0</span></span>
+<span id="cb49-23"><a href="linear-models.html#cb49-23" tabindex="-1"></a><span class="co">#&gt; 8                         0              1</span></span>
+<span id="cb49-24"><a href="linear-models.html#cb49-24" tabindex="-1"></a><span class="co">#&gt; 9                         0              0</span></span>
+<span id="cb49-25"><a href="linear-models.html#cb49-25" tabindex="-1"></a><span class="co">#&gt;   Income:StudentYes</span></span>
+<span id="cb49-26"><a href="linear-models.html#cb49-26" tabindex="-1"></a><span class="co">#&gt; 1                 0</span></span>
+<span id="cb49-27"><a href="linear-models.html#cb49-27" tabindex="-1"></a><span class="co">#&gt; 2               106</span></span>
+<span id="cb49-28"><a href="linear-models.html#cb49-28" tabindex="-1"></a><span class="co">#&gt; 3                 0</span></span>
+<span id="cb49-29"><a href="linear-models.html#cb49-29" tabindex="-1"></a><span class="co">#&gt; 6                 0</span></span>
+<span id="cb49-30"><a href="linear-models.html#cb49-30" tabindex="-1"></a><span class="co">#&gt; 8                 0</span></span>
+<span id="cb49-31"><a href="linear-models.html#cb49-31" tabindex="-1"></a><span class="co">#&gt; 9                 0</span></span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="linear-models.html#cb50-1" tabindex="-1"></a><span class="co"># CHUNK 22</span></span>
+<span id="cb50-2"><a href="linear-models.html#cb50-2" tabindex="-1"></a><span class="co">#install.packages(&quot;glmnet&quot;)  # uncomment this line the first time you use glmnet</span></span>
+<span id="cb50-3"><a href="linear-models.html#cb50-3" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
+<span id="cb50-4"><a href="linear-models.html#cb50-4" tabindex="-1"></a></span>
+<span id="cb50-5"><a href="linear-models.html#cb50-5" tabindex="-1"></a>m.lambda <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X.train,</span>
+<span id="cb50-6"><a href="linear-models.html#cb50-6" tabindex="-1"></a>                   <span class="at">y =</span> data.train<span class="sc">$</span>Balance,</span>
+<span id="cb50-7"><a href="linear-models.html#cb50-7" tabindex="-1"></a>                   <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb50-8"><a href="linear-models.html#cb50-8" tabindex="-1"></a>                   <span class="at">lambda =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">500</span>, <span class="dv">1000</span>),</span>
+<span id="cb50-9"><a href="linear-models.html#cb50-9" tabindex="-1"></a>                   <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
+<span id="cb50-10"><a href="linear-models.html#cb50-10" tabindex="-1"></a></span>
+<span id="cb50-11"><a href="linear-models.html#cb50-11" tabindex="-1"></a><span class="co"># first way to extract coefficient estimates</span></span>
+<span id="cb50-12"><a href="linear-models.html#cb50-12" tabindex="-1"></a>m.lambda<span class="sc">$</span>a0</span>
+<span id="cb50-13"><a href="linear-models.html#cb50-13" tabindex="-1"></a><span class="co">#&gt;     s0     s1     s2     s3     s4 </span></span>
+<span id="cb50-14"><a href="linear-models.html#cb50-14" tabindex="-1"></a><span class="co">#&gt;  520.4  301.3 -225.0 -506.0 -579.2</span></span>
+<span id="cb50-15"><a href="linear-models.html#cb50-15" tabindex="-1"></a>m.lambda<span class="sc">$</span>beta</span>
+<span id="cb50-16"><a href="linear-models.html#cb50-16" tabindex="-1"></a><span class="co">#&gt; 12 x 5 sparse Matrix of class &quot;dgCMatrix&quot;</span></span>
+<span id="cb50-17"><a href="linear-models.html#cb50-17" tabindex="-1"></a><span class="co">#&gt;                           s0     s1      s2        s3</span></span>
+<span id="cb50-18"><a href="linear-models.html#cb50-18" tabindex="-1"></a><span class="co">#&gt; (Intercept)                . .        .       .      </span></span>
+<span id="cb50-19"><a href="linear-models.html#cb50-19" tabindex="-1"></a><span class="co">#&gt; Income                     . .        .      -6.63361</span></span>
+<span id="cb50-20"><a href="linear-models.html#cb50-20" tabindex="-1"></a><span class="co">#&gt; Rating                     . 0.6183   2.034   3.71043</span></span>
+<span id="cb50-21"><a href="linear-models.html#cb50-21" tabindex="-1"></a><span class="co">#&gt; Cards                      . .        .       0.51434</span></span>
+<span id="cb50-22"><a href="linear-models.html#cb50-22" tabindex="-1"></a><span class="co">#&gt; Age                        . .        .      -0.70551</span></span>
+<span id="cb50-23"><a href="linear-models.html#cb50-23" tabindex="-1"></a><span class="co">#&gt; Education                  . .        .       .      </span></span>
+<span id="cb50-24"><a href="linear-models.html#cb50-24" tabindex="-1"></a><span class="co">#&gt; Gender Male                . .        .       3.08510</span></span>
+<span id="cb50-25"><a href="linear-models.html#cb50-25" tabindex="-1"></a><span class="co">#&gt; StudentYes                 . .      228.763 396.62015</span></span>
+<span id="cb50-26"><a href="linear-models.html#cb50-26" tabindex="-1"></a><span class="co">#&gt; MarriedNo                  . .        .       9.36968</span></span>
+<span id="cb50-27"><a href="linear-models.html#cb50-27" tabindex="-1"></a><span class="co">#&gt; EthnicityAfrican American  . .        .       .      </span></span>
+<span id="cb50-28"><a href="linear-models.html#cb50-28" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian             . .        .       .      </span></span>
+<span id="cb50-29"><a href="linear-models.html#cb50-29" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes          . .        .       0.01473</span></span>
+<span id="cb50-30"><a href="linear-models.html#cb50-30" tabindex="-1"></a><span class="co">#&gt;                                 s4</span></span>
+<span id="cb50-31"><a href="linear-models.html#cb50-31" tabindex="-1"></a><span class="co">#&gt; (Intercept)                 .     </span></span>
+<span id="cb50-32"><a href="linear-models.html#cb50-32" tabindex="-1"></a><span class="co">#&gt; Income                     -7.9321</span></span>
+<span id="cb50-33"><a href="linear-models.html#cb50-33" tabindex="-1"></a><span class="co">#&gt; Rating                      4.0115</span></span>
+<span id="cb50-34"><a href="linear-models.html#cb50-34" tabindex="-1"></a><span class="co">#&gt; Cards                       2.9162</span></span>
+<span id="cb50-35"><a href="linear-models.html#cb50-35" tabindex="-1"></a><span class="co">#&gt; Age                        -0.7885</span></span>
+<span id="cb50-36"><a href="linear-models.html#cb50-36" tabindex="-1"></a><span class="co">#&gt; Education                   0.8875</span></span>
+<span id="cb50-37"><a href="linear-models.html#cb50-37" tabindex="-1"></a><span class="co">#&gt; Gender Male                18.3671</span></span>
+<span id="cb50-38"><a href="linear-models.html#cb50-38" tabindex="-1"></a><span class="co">#&gt; StudentYes                396.2181</span></span>
+<span id="cb50-39"><a href="linear-models.html#cb50-39" tabindex="-1"></a><span class="co">#&gt; MarriedNo                  20.4647</span></span>
+<span id="cb50-40"><a href="linear-models.html#cb50-40" tabindex="-1"></a><span class="co">#&gt; EthnicityAfrican American -11.9281</span></span>
+<span id="cb50-41"><a href="linear-models.html#cb50-41" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian             -5.3983</span></span>
+<span id="cb50-42"><a href="linear-models.html#cb50-42" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes           0.4929</span></span>
+<span id="cb50-43"><a href="linear-models.html#cb50-43" tabindex="-1"></a></span>
+<span id="cb50-44"><a href="linear-models.html#cb50-44" tabindex="-1"></a><span class="co"># second way</span></span>
+<span id="cb50-45"><a href="linear-models.html#cb50-45" tabindex="-1"></a><span class="fu">coef</span>(m.lambda)</span>
+<span id="cb50-46"><a href="linear-models.html#cb50-46" tabindex="-1"></a><span class="co">#&gt; 13 x 5 sparse Matrix of class &quot;dgCMatrix&quot;</span></span>
+<span id="cb50-47"><a href="linear-models.html#cb50-47" tabindex="-1"></a><span class="co">#&gt;                              s0       s1       s2</span></span>
+<span id="cb50-48"><a href="linear-models.html#cb50-48" tabindex="-1"></a><span class="co">#&gt; (Intercept)               520.4 301.2973 -224.967</span></span>
+<span id="cb50-49"><a href="linear-models.html#cb50-49" tabindex="-1"></a><span class="co">#&gt; (Intercept)                 .     .         .    </span></span>
+<span id="cb50-50"><a href="linear-models.html#cb50-50" tabindex="-1"></a><span class="co">#&gt; Income                      .     .         .    </span></span>
+<span id="cb50-51"><a href="linear-models.html#cb50-51" tabindex="-1"></a><span class="co">#&gt; Rating                      .     0.6183    2.034</span></span>
+<span id="cb50-52"><a href="linear-models.html#cb50-52" tabindex="-1"></a><span class="co">#&gt; Cards                       .     .         .    </span></span>
+<span id="cb50-53"><a href="linear-models.html#cb50-53" tabindex="-1"></a><span class="co">#&gt; Age                         .     .         .    </span></span>
+<span id="cb50-54"><a href="linear-models.html#cb50-54" tabindex="-1"></a><span class="co">#&gt; Education                   .     .         .    </span></span>
+<span id="cb50-55"><a href="linear-models.html#cb50-55" tabindex="-1"></a><span class="co">#&gt; Gender Male                 .     .         .    </span></span>
+<span id="cb50-56"><a href="linear-models.html#cb50-56" tabindex="-1"></a><span class="co">#&gt; StudentYes                  .     .       228.763</span></span>
+<span id="cb50-57"><a href="linear-models.html#cb50-57" tabindex="-1"></a><span class="co">#&gt; MarriedNo                   .     .         .    </span></span>
+<span id="cb50-58"><a href="linear-models.html#cb50-58" tabindex="-1"></a><span class="co">#&gt; EthnicityAfrican American   .     .         .    </span></span>
+<span id="cb50-59"><a href="linear-models.html#cb50-59" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian              .     .         .    </span></span>
+<span id="cb50-60"><a href="linear-models.html#cb50-60" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes           .     .         .    </span></span>
+<span id="cb50-61"><a href="linear-models.html#cb50-61" tabindex="-1"></a><span class="co">#&gt;                                   s3        s4</span></span>
+<span id="cb50-62"><a href="linear-models.html#cb50-62" tabindex="-1"></a><span class="co">#&gt; (Intercept)               -506.01795 -579.1925</span></span>
+<span id="cb50-63"><a href="linear-models.html#cb50-63" tabindex="-1"></a><span class="co">#&gt; (Intercept)                  .          .     </span></span>
+<span id="cb50-64"><a href="linear-models.html#cb50-64" tabindex="-1"></a><span class="co">#&gt; Income                      -6.63361   -7.9321</span></span>
+<span id="cb50-65"><a href="linear-models.html#cb50-65" tabindex="-1"></a><span class="co">#&gt; Rating                       3.71043    4.0115</span></span>
+<span id="cb50-66"><a href="linear-models.html#cb50-66" tabindex="-1"></a><span class="co">#&gt; Cards                        0.51434    2.9162</span></span>
+<span id="cb50-67"><a href="linear-models.html#cb50-67" tabindex="-1"></a><span class="co">#&gt; Age                         -0.70551   -0.7885</span></span>
+<span id="cb50-68"><a href="linear-models.html#cb50-68" tabindex="-1"></a><span class="co">#&gt; Education                    .          0.8875</span></span>
+<span id="cb50-69"><a href="linear-models.html#cb50-69" tabindex="-1"></a><span class="co">#&gt; Gender Male                  3.08510   18.3671</span></span>
+<span id="cb50-70"><a href="linear-models.html#cb50-70" tabindex="-1"></a><span class="co">#&gt; StudentYes                 396.62015  396.2181</span></span>
+<span id="cb50-71"><a href="linear-models.html#cb50-71" tabindex="-1"></a><span class="co">#&gt; MarriedNo                    9.36968   20.4647</span></span>
+<span id="cb50-72"><a href="linear-models.html#cb50-72" tabindex="-1"></a><span class="co">#&gt; EthnicityAfrican American    .        -11.9281</span></span>
+<span id="cb50-73"><a href="linear-models.html#cb50-73" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian               .         -5.3983</span></span>
+<span id="cb50-74"><a href="linear-models.html#cb50-74" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes            0.01473    0.4929</span></span>
+<span id="cb50-75"><a href="linear-models.html#cb50-75" tabindex="-1"></a></span>
+<span id="cb50-76"><a href="linear-models.html#cb50-76" tabindex="-1"></a><span class="fu">mean</span>(data.train<span class="sc">$</span>Balance)</span>
+<span id="cb50-77"><a href="linear-models.html#cb50-77" tabindex="-1"></a><span class="co">#&gt; [1] 520.4</span></span></code></pre></div>
+<p>Next we’ll construct a ridge model, an elastic net model, and a lasso model:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="linear-models.html#cb51-1" tabindex="-1"></a><span class="co"># CHUNK 23</span></span>
+<span id="cb51-2"><a href="linear-models.html#cb51-2" tabindex="-1"></a>m.ridge <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X.train,</span>
+<span id="cb51-3"><a href="linear-models.html#cb51-3" tabindex="-1"></a>                  <span class="at">y =</span> data.train<span class="sc">$</span>Balance,</span>
+<span id="cb51-4"><a href="linear-models.html#cb51-4" tabindex="-1"></a>                  <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb51-5"><a href="linear-models.html#cb51-5" tabindex="-1"></a>                  <span class="at">lambda =</span> <span class="dv">10</span>,</span>
+<span id="cb51-6"><a href="linear-models.html#cb51-6" tabindex="-1"></a>                  <span class="at">alpha =</span> <span class="dv">0</span>)</span>
+<span id="cb51-7"><a href="linear-models.html#cb51-7" tabindex="-1"></a><span class="fu">coef</span>(m.ridge)</span>
+<span id="cb51-8"><a href="linear-models.html#cb51-8" tabindex="-1"></a><span class="co">#&gt; 13 x 1 sparse Matrix of class &quot;dgCMatrix&quot;</span></span>
+<span id="cb51-9"><a href="linear-models.html#cb51-9" tabindex="-1"></a><span class="co">#&gt;                                  s0</span></span>
+<span id="cb51-10"><a href="linear-models.html#cb51-10" tabindex="-1"></a><span class="co">#&gt; (Intercept)               -523.1426</span></span>
+<span id="cb51-11"><a href="linear-models.html#cb51-11" tabindex="-1"></a><span class="co">#&gt; (Intercept)                  .     </span></span>
+<span id="cb51-12"><a href="linear-models.html#cb51-12" tabindex="-1"></a><span class="co">#&gt; Income                      -6.7528</span></span>
+<span id="cb51-13"><a href="linear-models.html#cb51-13" tabindex="-1"></a><span class="co">#&gt; Rating                       3.7207</span></span>
+<span id="cb51-14"><a href="linear-models.html#cb51-14" tabindex="-1"></a><span class="co">#&gt; Cards                        5.1458</span></span>
+<span id="cb51-15"><a href="linear-models.html#cb51-15" tabindex="-1"></a><span class="co">#&gt; Age                         -0.9952</span></span>
+<span id="cb51-16"><a href="linear-models.html#cb51-16" tabindex="-1"></a><span class="co">#&gt; Education                    0.9866</span></span>
+<span id="cb51-17"><a href="linear-models.html#cb51-17" tabindex="-1"></a><span class="co">#&gt; Gender Male                 14.7247</span></span>
+<span id="cb51-18"><a href="linear-models.html#cb51-18" tabindex="-1"></a><span class="co">#&gt; StudentYes                 390.5753</span></span>
+<span id="cb51-19"><a href="linear-models.html#cb51-19" tabindex="-1"></a><span class="co">#&gt; MarriedNo                   20.1062</span></span>
+<span id="cb51-20"><a href="linear-models.html#cb51-20" tabindex="-1"></a><span class="co">#&gt; EthnicityAfrican American  -10.0939</span></span>
+<span id="cb51-21"><a href="linear-models.html#cb51-21" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian              -4.4601</span></span>
+<span id="cb51-22"><a href="linear-models.html#cb51-22" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes            0.4123</span></span>
+<span id="cb51-23"><a href="linear-models.html#cb51-23" tabindex="-1"></a></span>
+<span id="cb51-24"><a href="linear-models.html#cb51-24" tabindex="-1"></a>m.elastic.net <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X.train,</span>
+<span id="cb51-25"><a href="linear-models.html#cb51-25" tabindex="-1"></a>                        <span class="at">y =</span> data.train<span class="sc">$</span>Balance,</span>
+<span id="cb51-26"><a href="linear-models.html#cb51-26" tabindex="-1"></a>                        <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb51-27"><a href="linear-models.html#cb51-27" tabindex="-1"></a>                        <span class="at">lambda =</span> <span class="dv">10</span>,</span>
+<span id="cb51-28"><a href="linear-models.html#cb51-28" tabindex="-1"></a>                        <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
+<span id="cb51-29"><a href="linear-models.html#cb51-29" tabindex="-1"></a><span class="fu">coef</span>(m.elastic.net)</span>
+<span id="cb51-30"><a href="linear-models.html#cb51-30" tabindex="-1"></a><span class="co">#&gt; 13 x 1 sparse Matrix of class &quot;dgCMatrix&quot;</span></span>
+<span id="cb51-31"><a href="linear-models.html#cb51-31" tabindex="-1"></a><span class="co">#&gt;                                   s0</span></span>
+<span id="cb51-32"><a href="linear-models.html#cb51-32" tabindex="-1"></a><span class="co">#&gt; (Intercept)               -506.12459</span></span>
+<span id="cb51-33"><a href="linear-models.html#cb51-33" tabindex="-1"></a><span class="co">#&gt; (Intercept)                  .      </span></span>
+<span id="cb51-34"><a href="linear-models.html#cb51-34" tabindex="-1"></a><span class="co">#&gt; Income                      -6.63607</span></span>
+<span id="cb51-35"><a href="linear-models.html#cb51-35" tabindex="-1"></a><span class="co">#&gt; Rating                       3.71092</span></span>
+<span id="cb51-36"><a href="linear-models.html#cb51-36" tabindex="-1"></a><span class="co">#&gt; Cards                        0.51137</span></span>
+<span id="cb51-37"><a href="linear-models.html#cb51-37" tabindex="-1"></a><span class="co">#&gt; Age                         -0.70476</span></span>
+<span id="cb51-38"><a href="linear-models.html#cb51-38" tabindex="-1"></a><span class="co">#&gt; Education                    .      </span></span>
+<span id="cb51-39"><a href="linear-models.html#cb51-39" tabindex="-1"></a><span class="co">#&gt; Gender Male                  3.09012</span></span>
+<span id="cb51-40"><a href="linear-models.html#cb51-40" tabindex="-1"></a><span class="co">#&gt; StudentYes                 396.73966</span></span>
+<span id="cb51-41"><a href="linear-models.html#cb51-41" tabindex="-1"></a><span class="co">#&gt; MarriedNo                    9.36636</span></span>
+<span id="cb51-42"><a href="linear-models.html#cb51-42" tabindex="-1"></a><span class="co">#&gt; EthnicityAfrican American    .      </span></span>
+<span id="cb51-43"><a href="linear-models.html#cb51-43" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian               .      </span></span>
+<span id="cb51-44"><a href="linear-models.html#cb51-44" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes            0.01376</span></span>
+<span id="cb51-45"><a href="linear-models.html#cb51-45" tabindex="-1"></a></span>
+<span id="cb51-46"><a href="linear-models.html#cb51-46" tabindex="-1"></a>m.lasso <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X.train,</span>
+<span id="cb51-47"><a href="linear-models.html#cb51-47" tabindex="-1"></a>                  <span class="at">y =</span> data.train<span class="sc">$</span>Balance,</span>
+<span id="cb51-48"><a href="linear-models.html#cb51-48" tabindex="-1"></a>                  <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb51-49"><a href="linear-models.html#cb51-49" tabindex="-1"></a>                  <span class="at">lambda =</span> <span class="dv">10</span>,</span>
+<span id="cb51-50"><a href="linear-models.html#cb51-50" tabindex="-1"></a>                  <span class="at">alpha =</span> <span class="dv">1</span>)</span>
+<span id="cb51-51"><a href="linear-models.html#cb51-51" tabindex="-1"></a><span class="fu">coef</span>(m.lasso)</span>
+<span id="cb51-52"><a href="linear-models.html#cb51-52" tabindex="-1"></a><span class="co">#&gt; 13 x 1 sparse Matrix of class &quot;dgCMatrix&quot;</span></span>
+<span id="cb51-53"><a href="linear-models.html#cb51-53" tabindex="-1"></a><span class="co">#&gt;                                  s0</span></span>
+<span id="cb51-54"><a href="linear-models.html#cb51-54" tabindex="-1"></a><span class="co">#&gt; (Intercept)               -512.8489</span></span>
+<span id="cb51-55"><a href="linear-models.html#cb51-55" tabindex="-1"></a><span class="co">#&gt; (Intercept)                  .     </span></span>
+<span id="cb51-56"><a href="linear-models.html#cb51-56" tabindex="-1"></a><span class="co">#&gt; Income                      -6.5545</span></span>
+<span id="cb51-57"><a href="linear-models.html#cb51-57" tabindex="-1"></a><span class="co">#&gt; Rating                       3.6995</span></span>
+<span id="cb51-58"><a href="linear-models.html#cb51-58" tabindex="-1"></a><span class="co">#&gt; Cards                        .     </span></span>
+<span id="cb51-59"><a href="linear-models.html#cb51-59" tabindex="-1"></a><span class="co">#&gt; Age                         -0.4336</span></span>
+<span id="cb51-60"><a href="linear-models.html#cb51-60" tabindex="-1"></a><span class="co">#&gt; Education                    .     </span></span>
+<span id="cb51-61"><a href="linear-models.html#cb51-61" tabindex="-1"></a><span class="co">#&gt; Gender Male                  .     </span></span>
+<span id="cb51-62"><a href="linear-models.html#cb51-62" tabindex="-1"></a><span class="co">#&gt; StudentYes                 386.5700</span></span>
+<span id="cb51-63"><a href="linear-models.html#cb51-63" tabindex="-1"></a><span class="co">#&gt; MarriedNo                    .     </span></span>
+<span id="cb51-64"><a href="linear-models.html#cb51-64" tabindex="-1"></a><span class="co">#&gt; EthnicityAfrican American    .     </span></span>
+<span id="cb51-65"><a href="linear-models.html#cb51-65" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian               .     </span></span>
+<span id="cb51-66"><a href="linear-models.html#cb51-66" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes            .</span></span></code></pre></div>
+<hr />
+</div>
+</div>
+<div id="task-10-perform-feature-selection-with-regularization" class="section level3 unnumbered hasAnchor">
+<h3>TASK 10: Perform Feature Selection with Regularization<a href="linear-models.html#task-10-perform-feature-selection-with-regularization" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="task-statement-11" class="section level4 unnumbered hasAnchor">
+<h4>Task Statement<a href="linear-models.html#task-statement-11" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>Use <strong>cross-validation</strong> to set the value of <code>lambda</code> for fitting the regularized model (<code>alpha = 0.5</code>) in Task 9.
+<ul>
+<li><strong>List</strong> the features used in the resulting model.</li>
+<li><strong>Calculate</strong> the RMSE on the test set.</li>
+<li><strong>Recommend</strong> which model should be used and <strong>justify</strong> your choice.</li>
+</ul></li>
+<li>Suggest <strong>another method</strong> to set the value of <code>lambda</code>.</li>
+</ul>
+<p>We use cross-validation using the <code>cv.glmnet()</code> function to systematically determine the appropriate or optimal value of the <code>lambda</code> hyperparameter:</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="linear-models.html#cb52-1" tabindex="-1"></a><span class="co"># CHUNK 24</span></span>
+<span id="cb52-2"><a href="linear-models.html#cb52-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1111</span>)</span>
+<span id="cb52-3"><a href="linear-models.html#cb52-3" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="linear-models.html#cb52-4" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(<span class="at">x =</span> X.train,</span>
+<span id="cb52-5"><a href="linear-models.html#cb52-5" tabindex="-1"></a>               <span class="at">y =</span> data.train<span class="sc">$</span>Balance,</span>
+<span id="cb52-6"><a href="linear-models.html#cb52-6" tabindex="-1"></a>               <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb52-7"><a href="linear-models.html#cb52-7" tabindex="-1"></a>               <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
+<span id="cb52-8"><a href="linear-models.html#cb52-8" tabindex="-1"></a><span class="fu">plot</span>(m)</span>
+<span id="cb52-9"><a href="linear-models.html#cb52-9" tabindex="-1"></a></span>
+<span id="cb52-10"><a href="linear-models.html#cb52-10" tabindex="-1"></a>m<span class="sc">$</span>lambda.min</span>
+<span id="cb52-11"><a href="linear-models.html#cb52-11" tabindex="-1"></a><span class="co">#&gt; [1] 0.8886</span></span>
+<span id="cb52-12"><a href="linear-models.html#cb52-12" tabindex="-1"></a>m<span class="sc">$</span>lambda<span class="fl">.1</span>se</span>
+<span id="cb52-13"><a href="linear-models.html#cb52-13" tabindex="-1"></a><span class="co">#&gt; [1] 7.551</span></span></code></pre></div>
+<p><img src="figures/unnamed-chunk-56-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>We refit the regularized elastic-net (<code>alpha=0.5</code>) model using the optimal value of the <code>lambda</code> parameter that resulted in the lowest mean squared error (MSE). Using this model, we set up the design matrix for the test data, and make predictions on the test data. We then calculate the test RMSE to determine the prediction performance:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="linear-models.html#cb53-1" tabindex="-1"></a><span class="co"># CHUNK 25</span></span>
+<span id="cb53-2"><a href="linear-models.html#cb53-2" tabindex="-1"></a><span class="co"># Fit the regularized model using lambda.min</span></span>
+<span id="cb53-3"><a href="linear-models.html#cb53-3" tabindex="-1"></a>m.min <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X.train,</span>
+<span id="cb53-4"><a href="linear-models.html#cb53-4" tabindex="-1"></a>                <span class="at">y =</span> data.train<span class="sc">$</span>Balance,</span>
+<span id="cb53-5"><a href="linear-models.html#cb53-5" tabindex="-1"></a>                <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb53-6"><a href="linear-models.html#cb53-6" tabindex="-1"></a>                <span class="at">lambda =</span> m<span class="sc">$</span>lambda.min,</span>
+<span id="cb53-7"><a href="linear-models.html#cb53-7" tabindex="-1"></a>                <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
+<span id="cb53-8"><a href="linear-models.html#cb53-8" tabindex="-1"></a></span>
+<span id="cb53-9"><a href="linear-models.html#cb53-9" tabindex="-1"></a><span class="co"># List the coefficient estimates</span></span>
+<span id="cb53-10"><a href="linear-models.html#cb53-10" tabindex="-1"></a>m.min<span class="sc">$</span>beta</span>
+<span id="cb53-11"><a href="linear-models.html#cb53-11" tabindex="-1"></a><span class="co">#&gt; 12 x 1 sparse Matrix of class &quot;dgCMatrix&quot;</span></span>
+<span id="cb53-12"><a href="linear-models.html#cb53-12" tabindex="-1"></a><span class="co">#&gt;                                 s0</span></span>
+<span id="cb53-13"><a href="linear-models.html#cb53-13" tabindex="-1"></a><span class="co">#&gt; (Intercept)                 .     </span></span>
+<span id="cb53-14"><a href="linear-models.html#cb53-14" tabindex="-1"></a><span class="co">#&gt; Income                     -7.8132</span></span>
+<span id="cb53-15"><a href="linear-models.html#cb53-15" tabindex="-1"></a><span class="co">#&gt; Rating                      3.9840</span></span>
+<span id="cb53-16"><a href="linear-models.html#cb53-16" tabindex="-1"></a><span class="co">#&gt; Cards                       2.6915</span></span>
+<span id="cb53-17"><a href="linear-models.html#cb53-17" tabindex="-1"></a><span class="co">#&gt; Age                        -0.7829</span></span>
+<span id="cb53-18"><a href="linear-models.html#cb53-18" tabindex="-1"></a><span class="co">#&gt; Education                   0.7558</span></span>
+<span id="cb53-19"><a href="linear-models.html#cb53-19" tabindex="-1"></a><span class="co">#&gt; Gender Male                17.0049</span></span>
+<span id="cb53-20"><a href="linear-models.html#cb53-20" tabindex="-1"></a><span class="co">#&gt; StudentYes                396.3329</span></span>
+<span id="cb53-21"><a href="linear-models.html#cb53-21" tabindex="-1"></a><span class="co">#&gt; MarriedNo                  19.4182</span></span>
+<span id="cb53-22"><a href="linear-models.html#cb53-22" tabindex="-1"></a><span class="co">#&gt; EthnicityAfrican American  -9.9708</span></span>
+<span id="cb53-23"><a href="linear-models.html#cb53-23" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian             -3.6479</span></span>
+<span id="cb53-24"><a href="linear-models.html#cb53-24" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes           0.4458</span></span>
+<span id="cb53-25"><a href="linear-models.html#cb53-25" tabindex="-1"></a></span>
+<span id="cb53-26"><a href="linear-models.html#cb53-26" tabindex="-1"></a><span class="co"># Set up the design matrix for the test set</span></span>
+<span id="cb53-27"><a href="linear-models.html#cb53-27" tabindex="-1"></a>X.test <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(Balance <span class="sc">~</span> . <span class="sc">+</span> Income<span class="sc">:</span>Student, <span class="at">data =</span> data.test)</span>
+<span id="cb53-28"><a href="linear-models.html#cb53-28" tabindex="-1"></a></span>
+<span id="cb53-29"><a href="linear-models.html#cb53-29" tabindex="-1"></a><span class="co"># Make predictions on the test set and calculate test RMSE</span></span>
+<span id="cb53-30"><a href="linear-models.html#cb53-30" tabindex="-1"></a>m.min.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(m.min, <span class="at">newx =</span> X.test)</span>
+<span id="cb53-31"><a href="linear-models.html#cb53-31" tabindex="-1"></a><span class="fu">RMSE</span>(data.test<span class="sc">$</span>Balance, m.min.pred)</span>
+<span id="cb53-32"><a href="linear-models.html#cb53-32" tabindex="-1"></a><span class="co">#&gt; [1] 103.9</span></span></code></pre></div>
+<p>We again refit the model using <code>lambda.1se</code> as the lambda hyperparameter, make predictions again, and evaluate the RMSE:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="linear-models.html#cb54-1" tabindex="-1"></a><span class="co"># CHUNK 26</span></span>
+<span id="cb54-2"><a href="linear-models.html#cb54-2" tabindex="-1"></a><span class="co"># Fit the regularized model using lambda.1se</span></span>
+<span id="cb54-3"><a href="linear-models.html#cb54-3" tabindex="-1"></a>m<span class="fl">.1</span>se <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X.train,</span>
+<span id="cb54-4"><a href="linear-models.html#cb54-4" tabindex="-1"></a>                <span class="at">y =</span> data.train<span class="sc">$</span>Balance,</span>
+<span id="cb54-5"><a href="linear-models.html#cb54-5" tabindex="-1"></a>                <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb54-6"><a href="linear-models.html#cb54-6" tabindex="-1"></a>                <span class="at">lambda =</span> m<span class="sc">$</span>lambda<span class="fl">.1</span>se,</span>
+<span id="cb54-7"><a href="linear-models.html#cb54-7" tabindex="-1"></a>                <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
+<span id="cb54-8"><a href="linear-models.html#cb54-8" tabindex="-1"></a></span>
+<span id="cb54-9"><a href="linear-models.html#cb54-9" tabindex="-1"></a><span class="co"># List the coefficient estimates</span></span>
+<span id="cb54-10"><a href="linear-models.html#cb54-10" tabindex="-1"></a>m<span class="fl">.1</span>se<span class="sc">$</span>beta</span>
+<span id="cb54-11"><a href="linear-models.html#cb54-11" tabindex="-1"></a><span class="co">#&gt; 12 x 1 sparse Matrix of class &quot;dgCMatrix&quot;</span></span>
+<span id="cb54-12"><a href="linear-models.html#cb54-12" tabindex="-1"></a><span class="co">#&gt;                                 s0</span></span>
+<span id="cb54-13"><a href="linear-models.html#cb54-13" tabindex="-1"></a><span class="co">#&gt; (Intercept)                 .     </span></span>
+<span id="cb54-14"><a href="linear-models.html#cb54-14" tabindex="-1"></a><span class="co">#&gt; Income                     -6.9378</span></span>
+<span id="cb54-15"><a href="linear-models.html#cb54-15" tabindex="-1"></a><span class="co">#&gt; Rating                      3.7814</span></span>
+<span id="cb54-16"><a href="linear-models.html#cb54-16" tabindex="-1"></a><span class="co">#&gt; Cards                       1.1075</span></span>
+<span id="cb54-17"><a href="linear-models.html#cb54-17" tabindex="-1"></a><span class="co">#&gt; Age                        -0.7306</span></span>
+<span id="cb54-18"><a href="linear-models.html#cb54-18" tabindex="-1"></a><span class="co">#&gt; Education                   .     </span></span>
+<span id="cb54-19"><a href="linear-models.html#cb54-19" tabindex="-1"></a><span class="co">#&gt; Gender Male                 6.7717</span></span>
+<span id="cb54-20"><a href="linear-models.html#cb54-20" tabindex="-1"></a><span class="co">#&gt; StudentYes                397.5199</span></span>
+<span id="cb54-21"><a href="linear-models.html#cb54-21" tabindex="-1"></a><span class="co">#&gt; MarriedNo                  11.6768</span></span>
+<span id="cb54-22"><a href="linear-models.html#cb54-22" tabindex="-1"></a><span class="co">#&gt; EthnicityAfrican American   .     </span></span>
+<span id="cb54-23"><a href="linear-models.html#cb54-23" tabindex="-1"></a><span class="co">#&gt; EthnicityAsian              .     </span></span>
+<span id="cb54-24"><a href="linear-models.html#cb54-24" tabindex="-1"></a><span class="co">#&gt; Income:StudentYes           0.1148</span></span>
+<span id="cb54-25"><a href="linear-models.html#cb54-25" tabindex="-1"></a></span>
+<span id="cb54-26"><a href="linear-models.html#cb54-26" tabindex="-1"></a><span class="co"># Make predictions on the test set and calculate test RMSE</span></span>
+<span id="cb54-27"><a href="linear-models.html#cb54-27" tabindex="-1"></a>m<span class="fl">.1</span>se.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(m<span class="fl">.1</span>se, <span class="at">newx =</span> X.test)</span>
+<span id="cb54-28"><a href="linear-models.html#cb54-28" tabindex="-1"></a><span class="fu">RMSE</span>(data.test<span class="sc">$</span>Balance, m<span class="fl">.1</span>se.pred)</span>
+<span id="cb54-29"><a href="linear-models.html#cb54-29" tabindex="-1"></a><span class="co">#&gt; [1] 102.8</span></span></code></pre></div>
+</div>
 </div>
 </div>
 <div id="conceptual-review-questions-for-chapter-3" class="section level2 unnumbered hasAnchor">
